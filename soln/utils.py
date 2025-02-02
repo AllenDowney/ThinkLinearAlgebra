@@ -150,7 +150,7 @@ def plot_vectors(vectors, origin=None, start=0, end=None, labels=None, label_pos
     return plt.quiver(xs, ys, us, vs, **options)
 
 
-def plot_vector(v, origin=None, *args, **options):
+def plot_vector(v, origin=None, label=None, *args, **options):
     """Draw a single vector.
 
     Args:
@@ -162,42 +162,49 @@ def plot_vector(v, origin=None, *args, **options):
         origin = np.zeros_like(v)
     else:
         origin = np.asarray(origin)
-    return plot_vectors([v], [origin], *args, **options)
+    return plot_vectors([v], [origin], labels=[label], *args, **options)
 
 
-def label_vectors(vectors, origins, labels, label_pos):
+def label_vectors(vectors, origins, labels, label_positions=None, **options):
     """Label the vectors with a string at a given position.
 
     Args:
         vectors: list of vectors or array with one row per vector
         origins: list of vectors or array with one row per vector
         labels: list of string labels
-        label_pos: list of locations as integer clock positions
+        label_positions: list of locations as integer clock positions
     """
-    for vector, origin, label, pos in zip(vectors, origins, labels, label_pos):
-        label_vector(vector, origin, label, pos)
+    if label_positions is None:
+        label_positions = np.full_like(labels, 12)
+
+    for vector, origin, label, label_pos in zip(vectors, origins, labels, label_positions):
+        label_vector(vector, origin, label, label_pos, **options)
 
 
-def label_vector(vector, origin, label, pos, offset=4):
+def label_vector(vector, origin, label, label_pos=12, offset=0.1, **options):
     """Label a vector with a string at a given position.
 
     Args:
         vector: array-like
         origin: array-like
         label: string
-        pos: integer clock position
+        label_pos: integer clock position
         offset: offset of the label from the vector
     """
-    u = normalize(vector)
-    v = vector_perp(u)
+    v_mag = norm(vector)
+    v_hat = normalize(vector)
+    w_hat = vector_perp(v_hat)
 
-    pos %= 12
-    mag_u = np.array([4, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4])[pos] * norm(vector) / 4
-    offset_u = np.array([1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0])[pos] * offset
-    offset_v = np.array([0, -1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1])[pos] * offset
+    i = label_pos % 12
+    v = np.array([4, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4])[i] / 4 * vector
 
-    x, y = origin + u * (mag_u + offset_u) + v * offset_v
-    plt.text(x, y, label, fontsize=12, ha="center", va="center")
+    offset_v = np.array([1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0])[i] * offset * v_mag
+    offset_w = np.array([0, -1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1])[i] * offset * v_mag
+
+    x, y = origin + v + v_hat * offset_v + w_hat * offset_w
+
+    underride(options, ha="center", va="center")
+    plt.text(x, y, label, **options)
 
 
 def scatter(vectors, start=0, end=None, **options):
