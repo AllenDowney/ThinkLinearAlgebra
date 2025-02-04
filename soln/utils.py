@@ -6,7 +6,6 @@ License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
 
 """
 
-
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -16,8 +15,9 @@ from numpy.linalg import norm
 # Make the figures smaller to save some screen real estate.
 # The figures generated for the book have DPI 400, so scaling
 # them by a factor of 4 restores them to the size in the notebooks.
-plt.rcParams['figure.dpi'] = 75
-plt.rcParams['figure.figsize'] = [6, 3.5]
+plt.rcParams["figure.dpi"] = 75
+plt.rcParams["figure.figsize"] = [6, 3.5]
+
 
 def remove_spines():
     """Remove the spines of a plot but keep the ticks visible."""
@@ -26,8 +26,8 @@ def remove_spines():
         spine.set_visible(False)
 
     # Ensure ticks stay visible
-    ax.xaxis.set_ticks_position('bottom')
-    ax.yaxis.set_ticks_position('left')
+    ax.xaxis.set_ticks_position("bottom")
+    ax.yaxis.set_ticks_position("left")
 
 
 def value_counts(series, **options):
@@ -92,22 +92,27 @@ def polar_to_cartesian(r, theta):
     y = r * np.sin(theta)
     return x, y
 
+
 def cartesian_to_polar(x, y):
     """Convert Cartesian coordinates (x, y) to polar (r, theta)."""
     r = np.hypot(x, y)
     theta = np.arctan2(y, x)
     return r, theta
 
+
 def cartesian_to_complex(x, y):
     """Convert Cartesian coordinates (x, y) to complex plane representation."""
     return x + 1j * y
+
 
 def polar_to_complex(r, theta):
     """Convert polar coordinates (r, theta) to complex plane representation."""
     return r * np.exp(1j * theta)
 
 
-def plot_vectors(vectors, origin=None, start=0, end=None, labels=None, label_pos=None, **options):
+def plot_vectors(
+    vectors, origin=None, start=0, end=None, labels=None, label_pos=None, **options
+):
     """Plot a set of vectors.
 
     Args:
@@ -156,6 +161,7 @@ def plot_vector(v, origin=None, label=None, *args, **options):
     Args:
         v: array-like
         origin: array-like
+        label: string
         options: passed to plt.quiver
     """
     if origin is None:
@@ -177,7 +183,9 @@ def label_vectors(vectors, origins, labels, label_positions=None, **options):
     if label_positions is None:
         label_positions = np.full_like(labels, 12)
 
-    for vector, origin, label, label_pos in zip(vectors, origins, labels, label_positions):
+    for vector, origin, label, label_pos in zip(
+        vectors, origins, labels, label_positions
+    ):
         label_vector(vector, origin, label, label_pos, **options)
 
 
@@ -247,7 +255,7 @@ def cartesian_product(arrays):
         arrays (list of array-like): A sequence of 1D sequences.
 
     Returns:
-        numpy.ndarray: A 2D array of shape (n, len(arrays)), where `n` is the 
+        numpy.ndarray: A 2D array of shape (n, len(arrays)), where `n` is the
         total number of combinations, and `len(arrays)` is the number of input arrays.
     """
     # Ensure all inputs are NumPy arrays
@@ -270,23 +278,55 @@ def cartesian_product(arrays):
 
 def normalize(v):
     """Normalize a vector.
-    
-    Args:
-        v: NumPy array
-        
-    Returns: NumPy array  
-    """
-    return v / norm(v)
-
-
-def vector_perp(v):
-    """Compute the vector perpendicular to a given vector.
 
     Args:
         v: NumPy array
 
     Returns: NumPy array
     """
-    x, y = v
-    perp = np.array([-y, x])
-    return normalize(perp)
+    norm = np.linalg.norm(v)
+    return v / norm if norm > 0 else v
+
+
+def vector_perp(v):
+    """Compute a vector perpendicular to a given nD vector.
+
+    Args:
+        v: NumPy array (shape: (n,))
+
+    Returns:
+        NumPy array (a unit vector perpendicular to v)
+    """
+    v = np.asarray(v)
+    n = len(v)
+    if np.allclose(v, np.zeros(n)):
+        raise ValueError("Zero vector has no perpendicular vector.")
+
+    if n == 2:
+        # 2D case: Rotate by 90 degrees
+        return normalize(np.array([-v[1], v[0]]))
+
+    elif n == 3:
+        # 3D case: Find any perpendicular vector using cross product
+
+        # Pick an arbitrary non-parallel vector
+        if np.allclose(v[0:2], [0, 0]):
+            perp = np.array([1, 0, 0])  # Use X-axis if v is along Z
+        else:
+            perp = np.array([0, 0, 1])  # Otherwise, use Z-axis
+
+        return normalize(np.cross(v, perp))
+
+    else:
+        # nD case: Use vector projection to remove parallel component
+
+        # Generate a random vector and ensure it's not collinear
+        random_vec = np.random.randn(n)
+        while np.allclose(np.dot(v, random_vec), 0):
+            random_vec = np.random.randn(n)
+
+        # Compute perpendicular component using vector projection
+        projection = (np.dot(random_vec, v) / np.dot(v, v)) * v
+        perp = random_vec - projection
+
+        return normalize(perp)
