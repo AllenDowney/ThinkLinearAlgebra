@@ -25,28 +25,29 @@ def make_unknown(G, name, **kwargs):
     G.graph['unknowns'].append(symbol)
     return symbol
 
-
-def make_voltage_divider():
-    G = nx.DiGraph()
-    G.graph['constants'] = []
-    G.graph['unknowns'] = []
-    G.graph['fixed'] = ['in', 'gnd']
-    
-    G.add_edge('in', 'out', component='R', name='R1')
-    G.add_edge('out', 'gnd', component='R', name='R2')
-
+def add_symbols(G):
+    # add currents to edges
     for u, v, data in G.edges(data=True):
         name = data['name']
-        if data['component'] == 'R':
-            data['resistance'] = make_constant(G, name)
-            data['current'] = make_unknown(G, f"I_{name}")
+        data['resistance'] = make_constant(G, name)
+        data['current'] = make_unknown(G, f"I_{name}")
 
+    # Assign voltages to nodes
     for node, data in G.nodes(data=True):
         if node in G.graph['fixed']:
             data['voltage'] = make_constant(G, f"V_{node}")
         else:
             data['voltage'] = make_unknown(G, f"V_{node}")
 
+
+def make_voltage_divider():
+    G = make_graph()
+    G.graph['fixed'] = ['in', 'gnd']
+    
+    G.add_edge('in', 'out', component='R', name='R1')
+    G.add_edge('out', 'gnd', component='R', name='R2')
+
+    add_symbols(G)
     return G
 
 
@@ -103,7 +104,6 @@ def make_ohm_equations(G):
     ohm_eqs = []
     
     for u, v, data in G.edges(data=True):
-        print(u, v, data)
         if data['component'] == 'R':
             V_from = G.nodes[u]['voltage']
             V_to = G.nodes[v]['voltage']
