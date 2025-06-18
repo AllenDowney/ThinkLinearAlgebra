@@ -485,10 +485,23 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
         transform=ax.transData
     )
     
+    anchor_width = 0.1 * L_CA
+    anchor_height = 0.1 * L_CA
+
     for start in [A, B]:
         # Draw truss member
         line = mlines.Line2D([start[0], C[0]], [start[1], C[1]], **line_options)
         ax.add_artist(line)
+
+        # Draw upward-pointing triangle with tip at base point
+        if add_pin:
+            x, y = start
+            triangle = mpatches.Polygon([
+                [x - anchor_width / 2, y - anchor_height],
+                [x + anchor_width / 2, y - anchor_height],
+                [x, y]
+            ], closed=True, color='black')
+            ax.add_artist(triangle)
 
     if add_pin:
         # Draw a circle at C to represent a pin
@@ -497,16 +510,7 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
         pin = mpatches.Circle(C, pin_radius, **pin_options)
         ax.add_artist(pin)
 
-        # Draw upward-pointing triangle with tip at base point
-        anchor_width = 0.15 * L_CA
-        anchor_height = 0.15 * L_CA
-        x, y = C
-        triangle = mpatches.Polygon([
-            [x - anchor_width / 2, y - anchor_height],
-            [x + anchor_width / 2, y - anchor_height],
-            [x, y]
-        ], closed=True, color='black')
-        ax.add_artist(triangle)
+
 
     if add_labels:
         text_options = dict(fontsize=12, ha='center')
