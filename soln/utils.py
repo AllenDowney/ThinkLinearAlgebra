@@ -510,8 +510,6 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
         pin = mpatches.Circle(C, pin_radius, **pin_options)
         ax.add_artist(pin)
 
-
-
     if add_labels:
         text_options = dict(fontsize=12, ha='center')
         offset = 0.1 * L_CA
@@ -520,9 +518,12 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
         ax.text(C[0], C[1] + offset, 'C', **text_options)
 
     if add_vectors:
-        plot_vectors([r_CA, r_CB], [C, C], 
-                     labels=['$r_{CA}$', '$r_{CB}$'], 
+        if add_labels:
+            vector_options = dict(labels=['$r_{CA}$', '$r_{CB}$'], 
                      label_pos=[1, -1])
+        else:
+            vector_options = dict()
+        plot_vectors([r_CA, r_CB], [C, C], **vector_options)
 
     if u is not None:
         plot_vector(u, nodes[2], label='u', color='C1')
