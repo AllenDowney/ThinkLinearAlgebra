@@ -535,3 +535,45 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
         plot_rejection(u, r_CA)
         plot_rejection(u, r_CB)
 
+def gset(G, item=None, **kwargs):
+    """Set attributes on a node, edge, or the graph itself.
+
+    Args:
+        G: A NetworkX graph.
+        item: Node ID, edge tuple (u, v), or None for the graph itself.
+        **kwargs: Arbitrary key-value pairs to set as attributes.
+    """
+    if item is None:
+        container = G.graph
+    elif item in G.edges:
+        container = G.edges[item]
+    elif item in G.nodes:
+        container = G.nodes[item]
+    else:
+        raise ValueError(f"Item {item} not found in graph")
+
+    container.update(**kwargs)
+
+def gget(G, item=None, *keys):
+    """Get one or more attributes from a node, edge, or the graph itself.
+
+    Args:
+        G: A NetworkX graph.
+        item: Node ID, edge tuple (u, v), or None for the graph itself.
+        *keys: One or more attribute names.
+
+    Returns:
+        A single value if one key is provided, or a tuple of values if multiple.
+    """
+    if item is None:
+        container = G.graph
+    elif item in G.edges:
+        container = G.edges[item]
+    elif item in G.nodes:
+        container = G.nodes[item]
+    else:
+        raise ValueError(f"Item {item} not found in graph")
+
+    if len(keys) == 1:
+        return container[keys[0]]
+    return tuple(container[key] for key in keys)
