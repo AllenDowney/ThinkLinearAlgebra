@@ -13,6 +13,7 @@ from matplotlib import pyplot as plt
 
 
 from numpy.linalg import norm
+import sympy as sp
 
 # Make the figures smaller to save some screen real estate.
 # The figures generated for the book have DPI 400, so scaling
@@ -449,25 +450,37 @@ def scatter(vectors, start=0, end=None, **options):
     plt.scatter(xs, ys, **options)
 
 
+## Truss plotting functions
+
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
 
-def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True):
-    """Plot a truss diagram.
+
+
+def diagram_truss(nodes, subs=None, u=None, lim=1,
+                  add_pin=True, add_labels=True, add_vectors=False,
+                  **kwargs):
+    """Plot a simple truss with three nodes.
 
     Args:
         nodes: list of nodes
         u: vector as np.array
+        lim: float, the limit of the plot
         add_pin: bool, whether to add a pin at C and triangles at the anchors
         add_labels: bool, whether to add labels to the nodes
         add_vectors: bool, whether to add vectors to the truss members
     """
     # Get current axis
     ax = plt.gca()
+    ax.axis(kwargs.pop("axis", "off"))
+    ax.set(**kwargs)
     ax.set_aspect('equal')
+    ax.set_xlim(-lim, lim)
+    ax.set_ylim(-lim, lim/4)
     remove_spines()
     
     # Calculate the vectors from C to A and C to B
+    nodes = [sympy_to_numpy(node.transpose(), subs) for node in nodes]
     A, B, C = nodes
     r_CA = A - C
     r_CB = B - C
@@ -500,13 +513,13 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
                 [x - anchor_width / 2, y - anchor_height],
                 [x + anchor_width / 2, y - anchor_height],
                 [x, y]
-            ], closed=True, color='black')
+            ], closed=True, color='C0', alpha=0.8)
             ax.add_artist(triangle)
 
     if add_pin:
         # Draw a circle at C to represent a pin
         pin_radius = 0.05 * L_CA
-        pin_options = dict(facecolor='black', edgecolor='none')
+        pin_options = dict(facecolor='C0', edgecolor='none', alpha=0.8)
         pin = mpatches.Circle(C, pin_radius, **pin_options)
         ax.add_artist(pin)
 
@@ -520,12 +533,13 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
     if add_vectors:
         if add_labels:
             vector_options = dict(labels=['$r_{CA}$', '$r_{CB}$'], 
-                     label_pos=[1, -1])
+                                  label_pos=[1, -1])
         else:
             vector_options = dict()
         plot_vectors([r_CA, r_CB], [C, C], **vector_options)
 
     if u is not None:
+        u = sympy_to_numpy(u, subs)
         plot_vector(u, nodes[2], label='u', color='C1')
         u_CA = vector_projection(u, r_CA)
         u_CB = vector_projection(u, r_CB)
@@ -535,6 +549,34 @@ def diagram_truss(nodes, u=None, add_pin=True, add_labels=True, add_vectors=True
         plot_rejection(u, r_CA)
         plot_rejection(u, r_CB)
 
+
+def draw_truss(G, subs, label_nodes=True, **options):
+    """Draw a diagram of a truss represented by a NetworkX graph.
+
+    Args:
+        G: A NetworkX graph.
+        subs: A dictionary of substitutions.
+        label_nodes: bool, whether to label the nodes.
+        options: passed to nx.draw_networkx_edges.
+    """
+    pos = {}
+    for node in G.nodes:
+        p = gget(G, node, 'pos')
+        p = p.subs(subs).evalf()
+        pos[node] = [float(x) for x in p]
+
+    underride(options, edge_color='C0')
+    nx.draw_networkx_edges(G, pos, width=2, **options)
+    if label_nodes:
+        node_options = dict(node_size=1000, node_color='white', edgecolors='C0')
+        nx.draw_networkx_nodes(G, pos, **node_options)
+        nx.draw_networkx_labels(G, pos, font_size=11)
+
+    plt.gca().set_aspect('equal')
+    plt.axis('off')
+
+
+## NetworkX helper functions
 def gset(G, item=None, **kwargs):
     """Set attributes on a node, edge, or the graph itself.
 
@@ -577,3 +619,76 @@ def gget(G, item=None, *keys):
     if len(keys) == 1:
         return container[keys[0]]
     return tuple(container[key] for key in keys)
+
+
+## SymPy helper functions
+
+def sympy_to_numpy(expr, subs=None, evalf=True, dtype=float, squeeze=True):
+    """Convert a SymPy Matrix to a NumPy array.
+
+    Args:
+        expr: SymPy Matrix
+        subs: dictionary of substitutions
+        evalf: bool, whether to evaluate the expression
+        dtype: dtype of the NumPy array
+        squeeze: bool, whether to convert 1-row or 1-col matrices to 1D
+
+    Returns: NumPy array
+    """
+    if subs:
+        expr = expr.subs(subs)
+    if evalf:
+        expr = expr.evalf()
+
+    arr = np.array(expr, dtype=dtype)
+
+    # If the matrix represents a vector, return a 1D array
+    if squeeze:
+        if 1 in arr.shape:
+            return arr.ravel()
+
+    return arr
+
+
+
+def numpy_to_sympy(array):
+    """Convert a NumPy array to a SymPy expression.
+
+    Args:
+        array: NumPy array
+
+    Returns: SymPy expression
+    """ 
+    return sp.Matrix(array)
+
+
+def divide_block_matrix(K, factor):
+    """Divide a block matrix by a scalar factor.
+
+    Args:
+        K: block matrix
+        factor: scalar SymPy expression to factor out (e.g., k/4)
+
+    Returns:
+        A SymPy BlockMatrix object showing the divided matrix
+    """
+    rows, cols = K.blockshape
+    blocks = [[K.blocks[i, j] / factor for i in range(rows)] for j in range(cols)]
+    return sp.BlockMatrix(blocks)
+
+
+def factor_matrix(K, factor):
+    """Factor out a scalar factor from a matrix.
+
+    Args:
+        K: matrix
+        factor: scalar SymPy expression to factor out (e.g., k/4)
+
+    Returns:
+        A SymPy Expr object showing the factorized matrix
+    """
+    if isinstance(K, sp.BlockMatrix):
+        divided = divide_block_matrix(K, factor)
+    else:
+        divided = K / factor
+    return sp.MatMul(factor, divided, evaluate=False).simplify()
