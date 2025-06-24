@@ -10,9 +10,8 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-
-
 from numpy.linalg import norm
+import networkx as nx
 import sympy as sp
 
 # Make the figures smaller to save some screen real estate.
@@ -33,8 +32,9 @@ def normalize(v):
 
     Returns: NumPy array
     """
-    norm = np.linalg.norm(v)
-    return v / norm if norm > 0 else v
+    v = np.asarray(v, dtype=float)
+    n = np.linalg.norm(v)
+    return v / n if n > 0 else v
 
 def scalar_projection(a, b):
     """Compute the scalar projection of vector a onto vector b.
@@ -45,6 +45,8 @@ def scalar_projection(a, b):
 
     Returns: float
     """
+    a = np.asarray(a, dtype=float)
+    b = np.asarray(b, dtype=float)
     return np.dot(a, b) / norm(b)
 
 def vector_projection(a, b):
@@ -56,6 +58,8 @@ def vector_projection(a, b):
 
     Returns: NumPy array
     """
+    a = np.asarray(a, dtype=float)
+    b = np.asarray(b, dtype=float)
     return (np.dot(a, b) / np.dot(b, b)) * b
 
 def vector_rejection(a, b):
@@ -67,6 +71,8 @@ def vector_rejection(a, b):
 
     Returns: NumPy array
     """
+    a = np.asarray(a, dtype=float)
+    b = np.asarray(b, dtype=float)
     return a - vector_projection(a, b)
 
 def angle_between(a, b, degrees=True):
@@ -77,6 +83,8 @@ def angle_between(a, b, degrees=True):
         b: NumPy array
         degrees: bool, whether to return the angle in degrees
     """
+    a = np.asarray(a, dtype=float)
+    b = np.asarray(b, dtype=float)
     cos_theta = np.dot(a, b) / (norm(a) * norm(b))
     angle = np.arccos(np.clip(cos_theta, -1.0, 1.0))  # Clip to handle numerical errors
     return np.degrees(angle) if degrees else angle
@@ -91,6 +99,7 @@ def rotate_2d(v, angle, degrees=True):
 
     Returns: NumPy array
     """
+    v = np.asarray(v, dtype=float)
     if degrees:
         angle = np.radians(angle)
     rot_matrix = np.array([[np.cos(angle), -np.sin(angle)], 
@@ -106,7 +115,7 @@ def vector_perp(v):
     Returns:
         NumPy array (a unit vector perpendicular to v)
     """
-    v = np.asarray(v)
+    v = np.asarray(v, dtype=float)
     n = len(v)
     if np.allclose(v, np.zeros(n)):
         raise ValueError("Zero vector has no perpendicular vector.")
@@ -211,6 +220,7 @@ def polar_to_complex(r, theta):
     """
     return r * np.exp(1j * theta)
 
+
 def cartesian_product(arrays):
     """Compute the Cartesian product of a list of arrays.
 
@@ -239,10 +249,6 @@ def cartesian_product(arrays):
 
     # Reshape the array to have shape (n, len(arrays))
     return arr.reshape(-1, num_arrays)
-
-
-
-
 
 
 ## Visualization helper functions
@@ -550,7 +556,7 @@ def diagram_truss(nodes, subs=None, u=None, lim=1,
         plot_rejection(u, r_CB)
 
 
-def draw_truss(G, subs, label_nodes=True, **options):
+def draw_truss_graph(G, subs, label_nodes=True, **options):
     """Draw a diagram of a truss represented by a NetworkX graph.
 
     Args:
@@ -568,9 +574,14 @@ def draw_truss(G, subs, label_nodes=True, **options):
     underride(options, edge_color='C0')
     nx.draw_networkx_edges(G, pos, width=2, **options)
     if label_nodes:
-        node_options = dict(node_size=1000, node_color='white', edgecolors='C0')
+        node_options = dict(node_size=600, node_color='white', edgecolors='C0')
         nx.draw_networkx_nodes(G, pos, **node_options)
         nx.draw_networkx_labels(G, pos, font_size=11)
+
+    xs, ys = zip(*pos.values())
+    pad = 0.05 * max(max(xs) - min(xs), max(ys) - min(ys))
+    plt.xlim(min(xs) - pad, max(xs) + pad)
+    plt.ylim(min(ys) - pad, max(ys) + pad)
 
     plt.gca().set_aspect('equal')
     plt.axis('off')
@@ -673,7 +684,7 @@ def divide_block_matrix(K, factor):
         A SymPy BlockMatrix object showing the divided matrix
     """
     rows, cols = K.blockshape
-    blocks = [[K.blocks[i, j] / factor for i in range(rows)] for j in range(cols)]
+    blocks = [[K.blocks[i, j] / factor for j in range(cols)] for i in range(rows)]
     return sp.BlockMatrix(blocks)
 
 
