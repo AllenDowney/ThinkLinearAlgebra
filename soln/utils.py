@@ -586,6 +586,22 @@ def draw_truss_graph(G, subs, label_nodes=True, **options):
     plt.gca().set_aspect('equal')
     plt.axis('off')
 
+def plot_force_field(nodes, subs, F_field, U, lim, displacements, ticks):
+    diagram_truss(nodes, subs, add_pin=False, add_labels=False, axis='on')
+
+    options = dict(angles='xy', scale_units='xy', scale=3e-7)
+    plot_vectors(F_field.T, U.T, color='C0', alpha=0.9, **options)
+
+    plt.xlim(-lim, lim)
+    plt.ylim(-lim, lim)
+
+    plt.xticks(displacements, ticks)
+    plt.yticks(displacements, ticks)
+
+    plt.xlabel('x displacement in $\mu$m')
+    plt.ylabel('y displacement in $\mu$m')
+    plt.grid(True)
+
 
 ## NetworkX helper functions
 def gset(G, item=None, **kwargs):
