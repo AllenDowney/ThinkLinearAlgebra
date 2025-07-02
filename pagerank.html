@@ -1,0 +1,1224 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PageRank &#8212; Think Linear Algebra, 1st edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pagerank';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">1. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">2. Truss in the System</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkLinearAlgebra/tree/main" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/pagerank.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>PageRank</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-pages">Ranking pages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walk">Random Walk</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adjacency-matrix">Adjacency Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">Eigenvectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#putting-it-all-together">Putting it all together</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="pagerank">
+<h1>PageRank<a class="headerlink" href="#pagerank" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/DSIRP/blob/main/notebooks/pagerank.ipynb">Click here to run this notebook on Colab</a></p>
+<section id="ranking-pages">
+<h2>Ranking pages<a class="headerlink" href="#ranking-pages" title="Link to this heading">#</a></h2>
+<p>The goal of information retrieval is to find resources that are relevant and high quality.
+“Relevant” and “quality” can be hard to define, and they depend on what kind of resources you are searching.</p>
+<p>In the context of web search, relevance usually depends on the contents of a web page: if a web page contains the search terms, we assume that it is relevant to the search terms.</p>
+<p>Quality usually depends on the links between pages.
+If there are many links to a particular page, we think it is more likely to be high quality, especially if those links come from pages that are high quality themselves.</p>
+<p>One of the first algorithms to quantify quality in this way is PageRank, which was the core of Google’s original search engine.
+As someone who used earlier search engines, like Alta Vista, I can tell you first-hand what a big difference it made.</p>
+<p>PageRank is described in <a class="reference external" href="https://web.archive.org/web/20110818093436/http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf">“The PageRank citation ranking: Bringing order to the Web”</a> by  Page, Brin, Motwani, and Winograd.</p>
+<p>It is a surprisingly simple algorithm; it can be computed and updated efficiently; and it is highly effective at identifying good quality pages.
+So, let’s see how it works.</p>
+<p>As an example, I’ll use <code class="docutils literal notranslate"><span class="pre">random_k_out_graph</span></code> to generate a directed graph with <code class="docutils literal notranslate"><span class="pre">n</span></code> nodes where:</p>
+<ul class="simple">
+<li><p>Every node has the same number of out-links, <code class="docutils literal notranslate"><span class="pre">k</span></code>,</p></li>
+<li><p>The number of in-links varies moderately (controlled by the parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code>).</p></li>
+<li><p>Self-links and multiple links are allowed.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">random_k_out_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what the graph looks like. Multiple links appear as slightly thicker lines.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">draw_graph</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_circular</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+<span class="n">draw_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/72534cd8ec3caf127303cf354e26aee74b83ecb63202b4f224e87c47a251c973.png" src="_images/72534cd8ec3caf127303cf354e26aee74b83ecb63202b4f224e87c47a251c973.png" />
+</div>
+</div>
+<p>NetworkX provides an implementation of PageRank we can use to compute a metric of “importance” for each page.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ranks_pr</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">pagerank</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">ranks_pr</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: 0.018750000000000003,
+ 1: 0.1764240263138892,
+ 2: 0.026718750000000003,
+ 3: 0.018750000000000003,
+ 4: 0.018750000000000003,
+ 5: 0.018750000000000003,
+ 6: 0.36961229325316625,
+ 7: 0.3522449304329441}
+</pre></div>
+</div>
+</div>
+</div>
+<p>In general, nodes with more in-links get higher scores.</p>
+</section>
+<section id="random-walk">
+<h2>Random Walk<a class="headerlink" href="#random-walk" title="Link to this heading">#</a></h2>
+<p>One way to interpret PageRank is in terms of a random walk.
+Suppose you choose a node at random, then choose one of its out-links at random, and continue like that, making a note of each node you visit.</p>
+<p>If a node has a lot of in-links, you are likely to visit it more often.
+And if those in-links come from nodes with many in-links, even more so.</p>
+<p>However, there is one catch: if a node contains no out-links, or if a set of nodes form a loop with no out-links, the random walker could get trapped.</p>
+<p>To avoid that, we’ll modify the random walk so at every step there is some probability that the walker jumps to a random node rather than following a link.
+This probability is determined by a parameter, <code class="docutils literal notranslate"><span class="pre">alpha</span></code>, which is the probability of following a link, so <code class="docutils literal notranslate"><span class="pre">1-alpha</span></code> is the probability of making a random jump.</p>
+<p>The following function implements a random walk, with these random jumps, and uses a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> to keep track of the number of times it visits each node.</p>
+<p>It returns the <code class="docutils literal notranslate"><span class="pre">Counter</span></code> with the frequencies normalized to add up to one.
+If everything goes according to plan, these values should approximate the results from PageRank.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">flip</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">random_walk</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">flip</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">node</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
+        
+        <span class="n">counter</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">counter</span><span class="p">:</span>
+        <span class="n">counter</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/=</span> <span class="n">total</span>
+    <span class="k">return</span> <span class="n">counter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The default value of <code class="docutils literal notranslate"><span class="pre">alpha</span></code> is 0.85, which is the same as the default value for <code class="docutils literal notranslate"><span class="pre">nx.pagerank</span></code>.</p>
+<p>Here are the scores we get from the random walk.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ranks_rw</span> <span class="o">=</span> <span class="n">random_walk</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">ranks_rw</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({np.int64(6): 0.368,
+         np.int64(7): 0.356,
+         np.int64(1): 0.189,
+         np.int64(2): 0.031,
+         np.int64(5): 0.017,
+         np.int64(3): 0.015,
+         np.int64(0): 0.012,
+         np.int64(4): 0.012})
+</pre></div>
+</div>
+</div>
+</div>
+<p>To compare them to the results from PageRank, I’ll put them in a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">s1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ranks_pr</span><span class="p">)</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ranks_rw</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">PageRank</span><span class="o">=</span><span class="n">s1</span><span class="p">,</span> <span class="n">RandomWalk</span><span class="o">=</span><span class="n">s2</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;RandomWalk&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;PageRank&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">*</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PageRank</th>
+      <th>RandomWalk</th>
+      <th>Diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.875000</td>
+      <td>1.2</td>
+      <td>-0.675000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.642403</td>
+      <td>18.9</td>
+      <td>1.257597</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.671875</td>
+      <td>3.1</td>
+      <td>0.428125</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.875000</td>
+      <td>1.5</td>
+      <td>-0.375000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.875000</td>
+      <td>1.2</td>
+      <td>-0.675000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.875000</td>
+      <td>1.7</td>
+      <td>-0.175000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>36.961229</td>
+      <td>36.8</td>
+      <td>-0.161229</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>35.224493</td>
+      <td>35.6</td>
+      <td>0.375507</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The differences should be a few percentage points at most.</p>
+</section>
+<section id="adjacency-matrix">
+<h2>Adjacency Matrix<a class="headerlink" href="#adjacency-matrix" title="Link to this heading">#</a></h2>
+<p>The random walk implementation of PageRank is conceptually simple, but not very efficient to compute.
+An alternative is to use a matrix to represent the links from each node to every other node, and compute the eigenvectors of that matrix.</p>
+<p>In this section, I’ll demonstrate this computation and explain how it works.
+The code here is based on the <a class="reference external" href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/link_analysis/pagerank_alg.html">implementation of PageRank in NetworkX</a>.</p>
+<p>NetworkX provides a function that creates a NumPy array that represents the <a class="reference external" href="https://en.wikipedia.org/wiki/Adjacency_matrix">adjacency matrix</a> of the graph.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_array</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0., 0., 0., 0., 0., 0., 2., 0.],
+       [0., 0., 0., 0., 0., 0., 2., 0.],
+       [0., 0., 0., 0., 0., 0., 1., 1.],
+       [0., 1., 0., 0., 0., 0., 0., 1.],
+       [0., 0., 0., 0., 0., 0., 2., 0.],
+       [0., 0., 1., 0., 0., 0., 1., 0.],
+       [0., 0., 0., 0., 0., 0., 0., 2.],
+       [0., 1., 0., 0., 0., 0., 1., 0.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this matrix, the element in row <code class="docutils literal notranslate"><span class="pre">i</span></code>, column <code class="docutils literal notranslate"><span class="pre">j</span></code> indicates the number of edges from node <code class="docutils literal notranslate"><span class="pre">i</span></code> to node <code class="docutils literal notranslate"><span class="pre">j</span></code>.</p>
+<p>If we normalize each row so it adds up to one, each element of the result represents the probability of a transition from one node to another.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">A</span> <span class="o">/</span> <span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">P</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0. , 0. , 0. , 0. , 0. , 0. , 1. , 0. ],
+       [0. , 0. , 0. , 0. , 0. , 0. , 1. , 0. ],
+       [0. , 0. , 0. , 0. , 0. , 0. , 0.5, 0.5],
+       [0. , 0.5, 0. , 0. , 0. , 0. , 0. , 0.5],
+       [0. , 0. , 0. , 0. , 0. , 0. , 1. , 0. ],
+       [0. , 0. , 0.5, 0. , 0. , 0. , 0.5, 0. ],
+       [0. , 0. , 0. , 0. , 0. , 0. , 0. , 1. ],
+       [0. , 0.5, 0. , 0. , 0. , 0. , 0.5, 0. ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use this matrix to simulate a random walk with many walkers at the same time.
+For example, suppose we start with 100 walkers at each node, represented by the array <code class="docutils literal notranslate"><span class="pre">x</span></code>:</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([100, 100, 100, 100, 100, 100, 100, 100])
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we transpose <code class="docutils literal notranslate"><span class="pre">P</span></code>, we get a <a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_matrix">transition matrix</a> where the element at row <code class="docutils literal notranslate"><span class="pre">i</span></code> and column <code class="docutils literal notranslate"><span class="pre">j</span></code> is the fraction of walkers at node <code class="docutils literal notranslate"><span class="pre">j</span></code> that move to node <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p>
+<p>If we multiply the transition matrix by <code class="docutils literal notranslate"><span class="pre">x</span></code>, the result is an array with the number of walkers at each node after one time step.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span>
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([  0., 100.,  50.,   0.,   0.,   0., 450., 200.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you run that cell a few times, you should find that it converges to a steady state where the number of walkers at each node doesn’t change much from one time step to the next.</p>
+<p>However, you might notice that some nodes lose all of their walkers.
+That’s because the random walk we’ve simulated doesn’t include random jumps.</p>
+<p>To add random jumps, we can create another matrix that include transitions from all nodes to all other nodes with equal probability.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="mi">1</span><span class="o">/</span><span class="n">N</span><span class="p">)</span>
+<span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125],
+       [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’ll use the parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code> to compute a weighted sum of <code class="docutils literal notranslate"><span class="pre">P</span></code> and <code class="docutils literal notranslate"><span class="pre">Q</span></code>.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.85</span>
+<span class="n">GM</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">P</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a “Google matrix” that represents transitions in a random walk, including random jumps.</p>
+<p>So let’s start again with an equal number of walkers on all nodes and simulate 10 time steps.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">GM</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we normalize <code class="docutils literal notranslate"><span class="pre">x</span></code> so it adds up to one, the result should approximate the ranks we got from PageRank.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ranks_am</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">ranks_am</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.01875   , 0.17554722, 0.02671875, 0.01875   , 0.01875   ,
+       0.01875   , 0.36831967, 0.35441436])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the table that compares the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">s1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ranks_pr</span><span class="p">)</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ranks_am</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">PageRank</span><span class="o">=</span><span class="n">s1</span><span class="p">,</span> <span class="n">AdjMatrix</span><span class="o">=</span><span class="n">s2</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;AdjMatrix&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;PageRank&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">*</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PageRank</th>
+      <th>AdjMatrix</th>
+      <th>Diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>-3.469447e-16</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.642403</td>
+      <td>17.554722</td>
+      <td>-8.768057e-02</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.671875</td>
+      <td>2.671875</td>
+      <td>0.000000e+00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>-3.469447e-16</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>-3.469447e-16</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>-3.469447e-16</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>36.961229</td>
+      <td>36.831967</td>
+      <td>-1.292624e-01</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>35.224493</td>
+      <td>35.441436</td>
+      <td>2.169430e-01</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="eigenvectors">
+<h2>Eigenvectors<a class="headerlink" href="#eigenvectors" title="Link to this heading">#</a></h2>
+<p>If you start with almost any vector and multiply by a matrix repeatedly, as we did in the previous section, the result will converge to the eigenvector of the matrix that corresponds to the largest eigenvalue.</p>
+<p>In fact, repeated multiplication is one of the algorithms used to compute eigenvalues: it is called <a class="reference external" href="https://en.wikipedia.org/wiki/Power_iteration">power iteration</a>.</p>
+<p>Instead of using an iterative method, we can also compute eigenvalues directly, which is what the Numpy function <code class="docutils literal notranslate"><span class="pre">eig</span></code> does.
+Here are the eigenvalues and eigenvectors of the Google matrix.</p>
+<div class="cell tag_fill-in docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">GM</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">eigenvalues</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1.00000000e+00+0.00000000e+00j, -4.25000000e-01+4.25000000e-01j,
+       -4.25000000e-01-4.25000000e-01j, -3.28340773e-17+1.11628260e-09j,
+       -3.28340773e-17-1.11628260e-09j,  4.17139444e-17+0.00000000e+00j,
+       -9.46529890e-19+2.58993073e-18j, -9.46529890e-19-2.58993073e-18j])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s how we can get the eigenvector corresponding to the largest eigenvalue.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
+<span class="n">ind</span><span class="p">,</span> <span class="n">eigenvalues</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.int64(0), np.complex128(0.9999999999999993+0j))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">largest</span> <span class="o">=</span> <span class="n">eigenvectors</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">]</span>
+<span class="n">largest</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.03458399+0.j, 0.32540858+0.j, 0.04928219+0.j, 0.03458399+0.j,
+       0.03458399+0.j, 0.03458399+0.j, 0.68174359+0.j, 0.64970916+0.j])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result contains complex numbers, but the imaginary parts are all 0, so we can pull out just the real part.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">largest</span> <span class="o">=</span> <span class="n">largest</span><span class="o">.</span><span class="n">real</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And normalize it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ranks_ev</span> <span class="o">=</span> <span class="n">largest</span> <span class="o">/</span> <span class="n">largest</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">ranks_ev</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.01875   , 0.17642299, 0.02671875, 0.01875   , 0.01875   ,
+       0.01875   , 0.369613  , 0.35224527])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is the set of ranks based on the eigenvectors of the Google matrix.
+They should be identical to the results from PageRank, except for small floating-point errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">s1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ranks_pr</span><span class="p">)</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ranks_ev</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">PageRank</span><span class="o">=</span><span class="n">s1</span><span class="p">,</span> <span class="n">Eigenvector</span><span class="o">=</span><span class="n">s2</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Eigenvector&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;PageRank&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">*</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PageRank</th>
+      <th>Eigenvector</th>
+      <th>Diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>-3.469447e-16</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.642403</td>
+      <td>17.642299</td>
+      <td>-1.038397e-04</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2.671875</td>
+      <td>2.671875</td>
+      <td>3.469447e-15</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>3.469447e-16</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>1.734723e-15</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.875000</td>
+      <td>1.875000</td>
+      <td>1.734723e-15</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>36.961229</td>
+      <td>36.961300</td>
+      <td>7.031431e-05</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>35.224493</td>
+      <td>35.224527</td>
+      <td>3.352539e-05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="putting-it-all-together">
+<h2>Putting it all together<a class="headerlink" href="#putting-it-all-together" title="Link to this heading">#</a></h2>
+<p>The following are simplified versions of the NetworkX functions that compute the Google matrix and the PageRank scores.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">google_matrix</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the Google matrix of the graph.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : graph</span>
+<span class="sd">      A NetworkX graph.  Undirected graphs will be converted to a directed</span>
+<span class="sd">      graph with two directed edges for each undirected edge.</span>
+
+<span class="sd">    alpha : float</span>
+<span class="sd">      The damping factor.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The matrix returned represents the transition matrix that describes the</span>
+<span class="sd">    Markov chain used in PageRank. For PageRank to converge to a unique</span>
+<span class="sd">    solution (i.e., a unique stationary distribution in a Markov chain), the</span>
+<span class="sd">    transition matrix must be irreducible. In other words, it must be that</span>
+<span class="sd">    there exists a path between every pair of nodes in the graph, or else there</span>
+<span class="sd">    is the potential of &quot;rank sinks.&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asmatrix</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_array</span><span class="p">(</span><span class="n">G</span><span class="p">))</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">N</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">M</span>
+
+    <span class="c1"># Personalization vector</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    
+    <span class="c1"># Dangling nodes</span>
+    <span class="n">dangling_weights</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="n">dangling_nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Assign dangling_weights to any dangling nodes </span>
+    <span class="c1"># (nodes with no out links)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">dangling_nodes</span><span class="p">:</span>
+        <span class="n">M</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">dangling_weights</span>
+
+    <span class="n">M</span> <span class="o">/=</span> <span class="n">M</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Normalize rows to sum to 1</span>
+
+    <span class="k">return</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">M</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pagerank_numpy</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the PageRank of the nodes in the graph.</span>
+
+<span class="sd">    PageRank computes a ranking of the nodes in the graph G based on</span>
+<span class="sd">    the structure of the incoming links. It was originally designed as</span>
+<span class="sd">    an algorithm to rank web pages.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G : graph</span>
+<span class="sd">      A NetworkX graph.  Undirected graphs will be converted to a directed</span>
+<span class="sd">      graph with two directed edges for each undirected edge.</span>
+
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">      Damping parameter for PageRank, default=0.85.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pagerank : dictionary</span>
+<span class="sd">       Dictionary of nodes with PageRank as value.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; G = nx.DiGraph(nx.path_graph(4))</span>
+<span class="sd">    &gt;&gt;&gt; pr = nx.pagerank_numpy(G, alpha=0.9)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The eigenvector calculation uses NumPy&#39;s interface to the LAPACK</span>
+<span class="sd">    eigenvalue solvers.  This will be the fastest and most accurate</span>
+<span class="sd">    for small graphs.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] A. Langville and C. Meyer,</span>
+<span class="sd">       &quot;A survey of eigenvector methods of web information retrieval.&quot;</span>
+<span class="sd">       http://citeseer.ist.psu.edu/713792.html</span>
+<span class="sd">    .. [2] Page, Lawrence; Brin, Sergey; Motwani, Rajeev and Winograd, Terry,</span>
+<span class="sd">       The PageRank citation ranking: Bringing order to the Web. 1999</span>
+<span class="sd">       http://dbpubs.stanford.edu:8090/pub/showDoc.Fulltext?lang=en&amp;doc=1999-66&amp;format=pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">google_matrix</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+    
+    <span class="c1"># use numpy LAPACK solver</span>
+    <span class="n">eigenvalues</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">)</span>
+
+    <span class="c1"># eigenvector of largest eigenvalue is at ind, normalized</span>
+    <span class="n">largest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eigenvectors</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">real</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">largest</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">largest</span> <span class="o">/</span> <span class="n">norm</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pagerank_numpy</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: 0.01875,
+ 1: 0.1764229879169022,
+ 2: 0.026718750000000038,
+ 3: 0.018750000000000006,
+ 4: 0.01875000000000002,
+ 5: 0.01875000000000002,
+ 6: 0.36961299639626893,
+ 7: 0.35224526568682885}
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>Data Structures and Information Retrieval in Python</em></p>
+<p>Copyright 2021 Allen Downey</p>
+<p>License: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ranking-pages">Ranking pages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-walk">Random Walk</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adjacency-matrix">Adjacency Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">Eigenvectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#putting-it-all-together">Putting it all together</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

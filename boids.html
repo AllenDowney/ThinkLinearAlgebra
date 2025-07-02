@@ -1,0 +1,1234 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Boids &#8212; Think Linear Algebra, 1st edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'boids';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">1. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">2. Truss in the System</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkLinearAlgebra/tree/main" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/boids.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Boids</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Boids</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-boid-algorithm">The Boid algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbitration">Arbitration</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
+<section id="boids">
+<h1>Boids<a class="headerlink" href="#boids" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/boids.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> nb_black
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The nb_black extension is already loaded. To reload it, use:
+  %reload_ext nb_black
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 4;
+            var nbb_formatted_code = "%load_ext nb_black";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 5;
+            var nbb_formatted_code = "from os.path import basename, exists\n\n\ndef download(url):\n    filename = basename(url)\n    if not exists(filename):\n        from urllib.request import urlretrieve\n\n        local, _ = urlretrieve(url, filename)\n        print(\"Downloaded \" + local)\n\n\ndownload(\"https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py\")";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 6;
+            var nbb_formatted_code = "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom utils import decorate";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<section id="id1">
+<h2>Boids<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>In 1987 Craig Reynolds published “Flocks, herds and schools: A
+distributed behavioral model”, which describes an agent-based model of
+herd behavior. You can download his paper from
+<a class="reference external" href="https://thinkcomplex.com/boid">https://thinkcomplex.com/boid</a>.</p>
+<p>Agents in this model are called “Boids”, which is both a contraction of
+“bird-oid” and an accented pronunciation of “bird” (although Boids are
+also used to model fish and herding land animals).</p>
+<p>Each agent simulates three behaviors:</p>
+<dl class="simple myst">
+<dt>Flock centering:</dt><dd><p>Move toward the center of the flock.</p>
+</dd>
+<dt>Collision avoidance:</dt><dd><p>Avoid obstacles, including other Boids.</p>
+</dd>
+<dt>Velocity matching:</dt><dd><p>Align velocity (speed and direction) with neighboring Boids.</p>
+</dd>
+</dl>
+<p>Boids make decisions based on local information only; each Boid only
+sees (or pays attention to) other Boids in its field of vision.</p>
+<p>In the repository for this book, you will find <code class="docutils literal notranslate"><span class="pre">Boids7.py</span></code>, which
+contains my implementation of Boids, based in part on the description in
+Gary William Flake’s book, <em>The Computational Beauty of Nature</em>.</p>
+<p>My implementation uses VPython, which is a library that provides 3-D
+graphics. VPython provides a <code class="docutils literal notranslate"><span class="pre">Vector</span></code> object, which I use to represent
+the position and velocity of Boids in three dimensions. You can read
+about them at <a class="reference external" href="https://thinkcomplex.com/vector">https://thinkcomplex.com/vector</a>.</p>
+</section>
+<section id="the-boid-algorithm">
+<h2>The Boid algorithm<a class="headerlink" href="#the-boid-algorithm" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Boids7.py</span></code> defines two classes: <code class="docutils literal notranslate"><span class="pre">Boid</span></code>, which implements the Boid
+behaviors, and <code class="docutils literal notranslate"><span class="pre">World</span></code>, which contains a list of Boids and a “carrot”
+the Boids are attracted to.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Boid</span></code> class defines the following methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">center</span></code>: Finds other Boids within range and computes a vector
+toward their centroid.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avoid</span></code>: Finds objects, including other Boids, within a given range,
+and computes a vector that points away from their centroid.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">align</span></code>: Finds other Boids within range and computes the average of
+their headings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">love</span></code>: Computes a vector that points toward the carrot.</p></li>
+</ul>
+<p>Here’s the implementation of <code class="docutils literal notranslate"><span class="pre">center</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+    <span class="n">vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">boid</span><span class="o">.</span><span class="n">pos</span> <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_toward_center</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 7;
+            var nbb_formatted_code = "def center(self, boids, radius=1, angle=1):\n    neighbors = self.get_neighbors(boids, radius, angle)\n    vecs = [boid.pos for boid in neighbors]\n    return self.vector_toward_center(vecs)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p>The parameters <code class="docutils literal notranslate"><span class="pre">radius</span></code> and <code class="docutils literal notranslate"><span class="pre">angle</span></code> are the radius and angle of the
+field of view, which determines which other Boids are taken into
+consideration. <code class="docutils literal notranslate"><span class="pre">radius</span></code> is in arbitrary units of length; <code class="docutils literal notranslate"><span class="pre">angle</span></code> is in
+radians.</p>
+<p><code class="docutils literal notranslate"><span class="pre">center</span></code> uses <code class="docutils literal notranslate"><span class="pre">get_neighbors</span></code> to get a list of <code class="docutils literal notranslate"><span class="pre">Boid</span></code> objects that are
+in the field of view. <code class="docutils literal notranslate"><span class="pre">vecs</span></code> is a list of <code class="docutils literal notranslate"><span class="pre">Vector</span></code> objects that
+represent their positions.</p>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">vector_toward_center</span></code> computes a <code class="docutils literal notranslate"><span class="pre">Vector</span></code> that points from
+<code class="docutils literal notranslate"><span class="pre">self</span></code> to the centroid of <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>.</p>
+<p>Here’s how <code class="docutils literal notranslate"><span class="pre">get_neighbors</span></code> works:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">boids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">boid</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># if not in range, skip it</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">boid</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+        <span class="k">if</span> <span class="n">offset</span><span class="o">.</span><span class="n">mag</span> <span class="o">&gt;</span> <span class="n">radius</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># if not within viewing angle, skip it</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">angle</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># otherwise add it to the list</span>
+        <span class="n">neighbors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">boid</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">neighbors</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 8;
+            var nbb_formatted_code = "def get_neighbors(self, boids, radius, angle):\n    neighbors = []\n    for boid in boids:\n        if boid is self:\n            continue\n\n        # if not in range, skip it\n        offset = boid.pos - self.pos\n        if offset.mag > radius:\n            continue\n\n        # if not within viewing angle, skip it\n        if self.vel.diff_angle(offset) > angle:\n            continue\n\n        # otherwise add it to the list\n        neighbors.append(boid)\n\n    return neighbors";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p>For each other Boid, <code class="docutils literal notranslate"><span class="pre">get_neighbors</span></code> uses vector subtraction to compute
+the vector from <code class="docutils literal notranslate"><span class="pre">self</span></code> to <code class="docutils literal notranslate"><span class="pre">boid</span></code>. The magnitude of this vector is the
+distance between them; if this magnitude exceeds <code class="docutils literal notranslate"><span class="pre">radius</span></code>, we ignore
+<code class="docutils literal notranslate"><span class="pre">boid</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">diff_angle</span></code> computes the angle between the velocity of <code class="docutils literal notranslate"><span class="pre">self</span></code>, which
+points in the direction the Boid is heading, and the position of <code class="docutils literal notranslate"><span class="pre">boid</span></code>.
+If this angle exceeds <code class="docutils literal notranslate"><span class="pre">angle</span></code>, we ignore <code class="docutils literal notranslate"><span class="pre">boid</span></code>.</p>
+<p>Otherwise <code class="docutils literal notranslate"><span class="pre">boid</span></code> is in view, so we add it to <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>.</p>
+<p>Now here’s the implementation of <code class="docutils literal notranslate"><span class="pre">vector_toward_center</span></code>, which computes
+a vector from <code class="docutils literal notranslate"><span class="pre">self</span></code> to the centroid of its neighbors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vector_toward_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">vecs</span><span class="p">:</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+        <span class="n">toward</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">center</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">limit_vector</span><span class="p">(</span><span class="n">toward</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">null_vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 9;
+            var nbb_formatted_code = "def vector_toward_center(self, vecs):\n    if vecs:\n        center = np.mean(vecs)\n        toward = vector(center - self.pos)\n        return limit_vector(toward)\n    else:\n        return null_vector";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p>VPython vectors work with NumPy, so <code class="docutils literal notranslate"><span class="pre">np.mean</span></code> computes the mean of
+<code class="docutils literal notranslate"><span class="pre">vecs</span></code>, which is a sequence of vectors. <code class="docutils literal notranslate"><span class="pre">limit_vector</span></code> limits the
+magnitude of the result to 1; <code class="docutils literal notranslate"><span class="pre">null_vector</span></code> has magnitude 0.</p>
+<p>We use the same helper methods to implement <code class="docutils literal notranslate"><span class="pre">avoid</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">avoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">carrot</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">):</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">boids</span> <span class="o">+</span> <span class="p">[</span><span class="n">carrot</span><span class="p">]</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+    <span class="n">vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">boid</span><span class="o">.</span><span class="n">pos</span> <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">vector_toward_center</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 10;
+            var nbb_formatted_code = "def avoid(self, boids, carrot, radius=0.3, angle=np.pi):\n    objects = boids + [carrot]\n    neighbors = self.get_neighbors(objects, radius, angle)\n    vecs = [boid.pos for boid in neighbors]\n    return -self.vector_toward_center(vecs)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">avoid</span></code> is similar to <code class="docutils literal notranslate"><span class="pre">center</span></code>, but it takes into account the carrot as
+well as the other Boids. Also, the parameters are different: <code class="docutils literal notranslate"><span class="pre">radius</span></code> is
+smaller, so Boids only avoid objects that are too close, and <code class="docutils literal notranslate"><span class="pre">angle</span></code> is
+wider, so Boids avoid objects from all directions. Finally, the result
+from <code class="docutils literal notranslate"><span class="pre">vector_toward_center</span></code> is negated, so it points <em>away</em> from the
+centroid of any objects that are too close.</p>
+<p>Here’s the implementation of <code class="docutils literal notranslate"><span class="pre">align</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">align</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+    <span class="n">vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">boid</span><span class="o">.</span><span class="n">vel</span> <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_toward_center</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 11;
+            var nbb_formatted_code = "def align(self, boids, radius=0.5, angle=1):\n    neighbors = self.get_neighbors(boids, radius, angle)\n    vecs = [boid.vel for boid in neighbors]\n    return self.vector_toward_center(vecs)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">align</span></code> is also similar to <code class="docutils literal notranslate"><span class="pre">center</span></code>; the big difference is that it
+computes the average of the neighbors’ velocities, rather than their
+positions. If the neighbors point in a particular direction, the Boid
+tends to steer toward that direction.</p>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">love</span></code> computes a vector that points in the direction of the
+carrot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">love</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carrot</span><span class="p">):</span>
+    <span class="n">toward</span> <span class="o">=</span> <span class="n">carrot</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+    <span class="k">return</span> <span class="n">limit_vector</span><span class="p">(</span><span class="n">toward</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 12;
+            var nbb_formatted_code = "def love(self, carrot):\n    toward = carrot.pos - self.pos\n    return limit_vector(toward)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p>The results from <code class="docutils literal notranslate"><span class="pre">center</span></code>, <code class="docutils literal notranslate"><span class="pre">avoid</span></code>, <code class="docutils literal notranslate"><span class="pre">align</span></code>, and <code class="docutils literal notranslate"><span class="pre">love</span></code> are what Reynolds calls “acceleration requests”, where each request is intended to achieve a different goal.</p>
+</section>
+<section id="arbitration">
+<h2>Arbitration<a class="headerlink" href="#arbitration" title="Link to this heading">#</a></h2>
+<p>To arbitrate among these possibly conflicting goals, we compute a weighted sum of the four requests:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">set_goal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">carrot</span><span class="p">):</span>
+    <span class="n">w_avoid</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">w_center</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">w_align</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">w_love</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">w_center</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">boids</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">w_avoid</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">avoid</span><span class="p">(</span><span class="n">boids</span><span class="p">,</span> <span class="n">carrot</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">w_align</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">boids</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">w_love</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">love</span><span class="p">(</span><span class="n">carrot</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 13;
+            var nbb_formatted_code = "def set_goal(self, boids, carrot):\n    w_avoid = 10\n    w_center = 3\n    w_align = 1\n    w_love = 10\n\n    self.goal = (\n        w_center * self.center(boids)\n        + w_avoid * self.avoid(boids, carrot)\n        + w_align * self.align(boids)\n        + w_love * self.love(carrot)\n    )\n    self.goal.mag = 1";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">w_center</span></code>, <code class="docutils literal notranslate"><span class="pre">w_avoid</span></code>, and the other weights determine the importance of the acceleration requests. Usually <code class="docutils literal notranslate"><span class="pre">w_avoid</span></code> is relatively high and <code class="docutils literal notranslate"><span class="pre">w_align</span></code> is relatively low.</p>
+<p>After computing a goal for each Boid, we update their velocity and position:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 14;
+            var nbb_formatted_code = "def move(self, mu=0.1, dt=0.1):\n    self.vel = (1 - mu) * self.vel + mu * self.goal\n    self.vel.mag = 1\n    self.pos += dt * self.vel\n    self.axis = self.length * self.vel";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p>Read the code to see how the parameters control Boid behaviors.
+Experiment with different parameters. What happens if you “turn off” one
+of the behaviors by setting its weight to 0?</p>
+<p>To generate more bird-like behavior, Flake suggests adding a behavior to
+maintain a clear line of sight; in other words, if there is another bird
+directly ahead, the Boid should move away laterally. What effect do you
+expect this rule to have on the behavior of the flock? Implement it and
+see.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">vpython</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">vp</span>
+
+<span class="n">vp</span><span class="o">.</span><span class="n">sphere</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">27</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">vpython</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">vp</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">vp</span><span class="o">.</span><span class="n">sphere</span><span class="p">()</span>
+
+<span class="nn">File ~/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py:1189,</span> in <span class="ni">sphere.__init__</span><span class="nt">(self, **args)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1187</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;_default_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1188</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;_objName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sphere&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1189</span> <span class="nb">super</span><span class="p">(</span><span class="n">sphere</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1190</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sizing</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="nn">File ~/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py:612,</span> in <span class="ni">standardAttributes.setup</span><span class="nt">(self, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">611</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">612</span>     <span class="nb">super</span><span class="p">(</span><span class="n">standardAttributes</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">613</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_constructing</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1">## calls to setters are from constructor</span>
+<span class="g g-Whitespace">    </span><span class="mi">615</span>     <span class="n">objName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objName</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;_objName&#39;</span><span class="p">]</span>  <span class="c1">## identifies object type</span>
+
+<span class="nn">File ~/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py:265,</span> in <span class="ni">baseObj.__init__</span><span class="nt">(self, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">baseObj</span><span class="o">.</span><span class="n">_view_constructed</span> <span class="ow">or</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>         <span class="n">baseObj</span><span class="o">.</span><span class="n">_canvas_constructing</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span>     <span class="k">if</span> <span class="n">_isnotebook</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">265</span>         <span class="kn">from</span><span class="w"> </span><span class="nn">.with_notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+<span class="g g-Whitespace">    </span><span class="mi">266</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">267</span>         <span class="kn">from</span><span class="w"> </span><span class="nn">.no_notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">ThinkLinearAlgebra</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">vpython</span><span class="o">/</span><span class="n">with_notebook</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">154</span>
+<span class="g g-Whitespace">    </span><span class="mi">152</span> <span class="n">baseObj</span><span class="o">.</span><span class="n">glow</span> <span class="o">=</span> <span class="n">GlowWidget</span><span class="p">(</span><span class="n">wsport</span><span class="o">=</span><span class="n">__SOCKET_PORT</span><span class="p">,</span> <span class="n">wsuri</span><span class="o">=</span><span class="s1">&#39;/ws&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">153</span> <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">wsConnected</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">154</span>     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>          <span class="c1"># wait for websocket to connect</span>
+<span class="g g-Whitespace">    </span><span class="mi">156</span> <span class="n">baseObj</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span>  <span class="c1"># start the trigger ping-pong process</span>
+<span class="g g-Whitespace">    </span><span class="mi">159</span> <span class="c1"># Same justification as above for removing the ipykernel check.</span>
+<span class="g g-Whitespace">    </span><span class="mi">160</span> <span class="c1"># There was also an IPython version check for &gt;=4, which was</span>
+<span class="g g-Whitespace">    </span><span class="mi">161</span> <span class="c1"># released in Nov 2015. Ok to stop supporting in 2.019 I think.</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 27;
+            var nbb_formatted_code = "import vpython as vp\n\nvp.sphere()";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">vpython</span><span class="w"> </span><span class="kn">import</span> <span class="n">vector</span>
+
+<span class="n">null_vector</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">random_vector</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a vector with each element uniformly distributed in [a, b).&quot;&quot;&quot;</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vector</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">limit_vector</span><span class="p">(</span><span class="n">vect</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If the magnitude is greater than 1, set it to 1&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">vect</span><span class="o">.</span><span class="n">mag</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">vect</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">vect</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Boid</span><span class="p">(</span><span class="n">vp</span><span class="o">.</span><span class="n">cone</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Boid is a VPython cone with a velocity and an axis.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">random_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">=</span> <span class="n">random_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">length</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of neighbors within a field of view.</span>
+
+<span class="sd">        boids: list of boids</span>
+<span class="sd">        radius: field of view radius</span>
+<span class="sd">        angle: field of view angle in radians</span>
+
+<span class="sd">        returns: list of Boid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">boids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">boid</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">boid</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+
+            <span class="c1"># if not in range, skip it</span>
+            <span class="k">if</span> <span class="n">offset</span><span class="o">.</span><span class="n">mag</span> <span class="o">&gt;</span> <span class="n">radius</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># if not within viewing angle, skip it</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">angle</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># otherwise add it to the list</span>
+            <span class="n">neighbors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">boid</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">neighbors</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the center of mass of other boids in range and</span>
+<span class="sd">        return a vector pointing toward it.&quot;&quot;&quot;</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+        <span class="n">vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">boid</span><span class="o">.</span><span class="n">pos</span> <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_toward_center</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">vector_toward_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Vector from self to the mean of vecs.</span>
+
+<span class="sd">        vecs: sequence of vector</span>
+
+<span class="sd">        returns: Vector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">vecs</span><span class="p">:</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+            <span class="n">toward</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="n">center</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">limit_vector</span><span class="p">(</span><span class="n">toward</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">null_vector</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">avoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">carrot</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the center of mass of all objects in range and</span>
+<span class="sd">        return a vector in the opposite direction, with magnitude</span>
+<span class="sd">        proportional to the inverse of the distance (up to a limit).&quot;&quot;&quot;</span>
+        <span class="n">objects</span> <span class="o">=</span> <span class="n">boids</span> <span class="o">+</span> <span class="p">[</span><span class="n">carrot</span><span class="p">]</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+        <span class="n">vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">boid</span><span class="o">.</span><span class="n">pos</span> <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
+        <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">vector_toward_center</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">align</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the average heading of other boids in range.</span>
+
+<span class="sd">        boids: list of Boids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">boids</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">angle</span><span class="p">)</span>
+        <span class="n">vecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">boid</span><span class="o">.</span><span class="n">vel</span> <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_toward_center</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">love</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carrot</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a vector pointing toward the carrot.&quot;&quot;&quot;</span>
+        <span class="n">toward</span> <span class="o">=</span> <span class="n">carrot</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+        <span class="k">return</span> <span class="n">limit_vector</span><span class="p">(</span><span class="n">toward</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_goal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boids</span><span class="p">,</span> <span class="n">carrot</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the goal to be the weighted sum of the goal vectors.&quot;&quot;&quot;</span>
+
+        <span class="c1"># weights for various rules</span>
+        <span class="n">w_avoid</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">w_center</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">w_align</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">w_love</span> <span class="o">=</span> <span class="mi">10</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">w_center</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">boids</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">w_avoid</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">avoid</span><span class="p">(</span><span class="n">boids</span><span class="p">,</span> <span class="n">carrot</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">w_align</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">boids</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">w_love</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">love</span><span class="p">(</span><span class="n">carrot</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the velocity, position and axis vectors.</span>
+
+<span class="sd">        mu: how fast the boids can turn (maneuverability).</span>
+<span class="sd">        dt: time step</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">goal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 23;
+            var nbb_formatted_code = "class Boid(vp.cone):\n    \"\"\"A Boid is a VPython cone with a velocity and an axis.\"\"\"\n\n    def __init__(self, radius=0.03, length=0.1):\n        pos = random_vector(0, 1)\n        self.vel = random_vector(0, 1).norm()\n        super().__init__(pos=pos, radius=radius, length=length)\n        self.axis = length * self.vel\n\n    def get_neighbors(self, boids, radius, angle):\n        \"\"\"Return a list of neighbors within a field of view.\n\n        boids: list of boids\n        radius: field of view radius\n        angle: field of view angle in radians\n\n        returns: list of Boid\n        \"\"\"\n        neighbors = []\n        for boid in boids:\n            if boid is self:\n                continue\n            offset = boid.pos - self.pos\n\n            # if not in range, skip it\n            if offset.mag > radius:\n                continue\n\n            # if not within viewing angle, skip it\n            diff = self.vel.diff_angle(offset)\n            if abs(diff) > angle:\n                continue\n\n            # otherwise add it to the list\n            neighbors.append(boid)\n\n        return neighbors\n\n    def center(self, boids, radius=1, angle=1):\n        \"\"\"Find the center of mass of other boids in range and\n        return a vector pointing toward it.\"\"\"\n        neighbors = self.get_neighbors(boids, radius, angle)\n        vecs = [boid.pos for boid in neighbors]\n        return self.vector_toward_center(vecs)\n\n    def vector_toward_center(self, vecs):\n        \"\"\"Vector from self to the mean of vecs.\n\n        vecs: sequence of vector\n\n        returns: Vector\n        \"\"\"\n        if vecs:\n            center = np.mean(vecs)\n            toward = vector(center - self.pos)\n            return limit_vector(toward)\n        else:\n            return null_vector\n\n    def avoid(self, boids, carrot, radius=0.3, angle=np.pi):\n        \"\"\"Find the center of mass of all objects in range and\n        return a vector in the opposite direction, with magnitude\n        proportional to the inverse of the distance (up to a limit).\"\"\"\n        objects = boids + [carrot]\n        neighbors = self.get_neighbors(objects, radius, angle)\n        vecs = [boid.pos for boid in neighbors]\n        return -self.vector_toward_center(vecs)\n\n    def align(self, boids, radius=0.5, angle=1):\n        \"\"\"Return the average heading of other boids in range.\n\n        boids: list of Boids\n        \"\"\"\n        neighbors = self.get_neighbors(boids, radius, angle)\n        vecs = [boid.vel for boid in neighbors]\n        return self.vector_toward_center(vecs)\n\n    def love(self, carrot):\n        \"\"\"Returns a vector pointing toward the carrot.\"\"\"\n        toward = carrot.pos - self.pos\n        return limit_vector(toward)\n\n    def set_goal(self, boids, carrot):\n        \"\"\"Sets the goal to be the weighted sum of the goal vectors.\"\"\"\n\n        # weights for various rules\n        w_avoid = 10\n        w_center = 3\n        w_align = 1\n        w_love = 10\n\n        self.goal = (\n            w_center * self.center(boids)\n            + w_avoid * self.avoid(boids, carrot)\n            + w_align * self.align(boids)\n            + w_love * self.love(carrot)\n        )\n        self.goal.mag = 1\n\n    def move(self, mu=0.1, dt=0.1):\n        \"\"\"Update the velocity, position and axis vectors.\n\n        mu: how fast the boids can turn (maneuverability).\n        dt: time step\n        \"\"\"\n\n        self.vel = (1 - mu) * self.vel + mu * self.goal\n        self.vel.mag = 1\n        self.pos += dt * self.vel\n        self.axis = self.length * self.vel";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">World</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create n Boids and one carrot.</span>
+
+<span class="sd">        tracking: indicates whether the carrot follows the mouse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boids</span> <span class="o">=</span> <span class="p">[</span><span class="n">Boid</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">carrot</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracking</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute one time step.&quot;&quot;&quot;</span>
+        <span class="c1"># move the boids</span>
+        <span class="k">for</span> <span class="n">boid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boids</span><span class="p">:</span>
+            <span class="n">boid</span><span class="o">.</span><span class="n">set_goal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">boids</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">carrot</span><span class="p">)</span>
+            <span class="n">boid</span><span class="o">.</span><span class="n">move</span><span class="p">()</span>
+
+        <span class="c1"># if we&#39;re tracking, move the carrot</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracking</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">carrot</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">mouse</span><span class="o">.</span><span class="n">pos</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 24;
+            var nbb_formatted_code = "class World(object):\n\n    def __init__(self, n=10):\n        \"\"\"Create n Boids and one carrot.\n\n        tracking: indicates whether the carrot follows the mouse\n        \"\"\"\n        self.boids = [Boid() for i in range(n)]\n        self.carrot = sphere(pos=vector(1, 0, 0), radius=0.1, color=vector(1, 0, 0))\n        self.tracking = False\n\n    def step(self):\n        \"\"\"Compute one time step.\"\"\"\n        # move the boids\n        for boid in self.boids:\n            boid.set_goal(self.boids, self.carrot)\n            boid.move()\n\n        # if we're tracking, move the carrot\n        if self.tracking:\n            self.carrot.pos = scene.mouse.pos";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">world</span> <span class="o">=</span> <span class="n">World</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">scene</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">carrot</span><span class="o">.</span><span class="n">pos</span>
+<span class="n">scene</span><span class="o">.</span><span class="n">autoscale</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">toggle_tracking</span><span class="p">(</span><span class="n">evt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If we&#39;re currently tracking, turn it off, and vice versa.&quot;&quot;&quot;</span>
+    <span class="n">world</span><span class="o">.</span><span class="n">tracking</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">world</span><span class="o">.</span><span class="n">tracking</span>
+
+
+<span class="c1"># when the user clicks, toggle tracking.</span>
+<span class="n">scene</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="n">toggle_tracking</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">rate</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">world</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Exception ignored in: &lt;function standardAttributes.__del__ at 0x7f11ddd5a680&gt;
+Traceback (most recent call last):
+  File &quot;/home/downey/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py&quot;, line 1176, in __del__
+    super(standardAttributes, self).__del__()
+  File &quot;/home/downey/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py&quot;, line 348, in __del__
+    cmd = {&quot;cmd&quot;: &quot;delete&quot;, &quot;idx&quot;: self.idx}
+AttributeError: &#39;Boid&#39; object has no attribute &#39;idx&#39;
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">world</span> <span class="o">=</span> <span class="n">World</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">scene</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">carrot</span><span class="o">.</span><span class="n">pos</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">scene</span><span class="o">.</span><span class="n">autoscale</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="nn">Cell In[24], line 8,</span> in <span class="ni">World.__init__</span><span class="nt">(self, n)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Create n Boids and one carrot.</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="sd"> </span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span><span class="sd">     tracking: indicates whether the carrot follows the mouse</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">8</span>     <span class="bp">self</span><span class="o">.</span><span class="n">boids</span> <span class="o">=</span> <span class="p">[</span><span class="n">Boid</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="bp">self</span><span class="o">.</span><span class="n">carrot</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="bp">self</span><span class="o">.</span><span class="n">tracking</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="nn">Cell In[24], line 8,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Create n Boids and one carrot.</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="sd"> </span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span><span class="sd">     tracking: indicates whether the carrot follows the mouse</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">8</span>     <span class="bp">self</span><span class="o">.</span><span class="n">boids</span> <span class="o">=</span> <span class="p">[</span><span class="n">Boid</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="bp">self</span><span class="o">.</span><span class="n">carrot</span> <span class="o">=</span> <span class="n">sphere</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="bp">self</span><span class="o">.</span><span class="n">tracking</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="nn">Cell In[23], line 7,</span> in <span class="ni">Boid.__init__</span><span class="nt">(self, radius, length)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">random_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">=</span> <span class="n">random_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">length</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span>
+
+<span class="nn">File ~/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py:1246,</span> in <span class="ni">cone.__init__</span><span class="nt">(self, **args)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1244</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;_default_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1245</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;_objName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cone&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1246</span> <span class="nb">super</span><span class="p">(</span><span class="n">cone</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py:612,</span> in <span class="ni">standardAttributes.setup</span><span class="nt">(self, args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">611</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">612</span>     <span class="nb">super</span><span class="p">(</span><span class="n">standardAttributes</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">613</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_constructing</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1">## calls to setters are from constructor</span>
+<span class="g g-Whitespace">    </span><span class="mi">615</span>     <span class="n">objName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_objName</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;_objName&#39;</span><span class="p">]</span>  <span class="c1">## identifies object type</span>
+
+<span class="nn">File ~/miniconda3/envs/ThinkLinearAlgebra/lib/python3.10/site-packages/vpython/vpython.py:265,</span> in <span class="ni">baseObj.__init__</span><span class="nt">(self, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">baseObj</span><span class="o">.</span><span class="n">_view_constructed</span> <span class="ow">or</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>         <span class="n">baseObj</span><span class="o">.</span><span class="n">_canvas_constructing</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span>     <span class="k">if</span> <span class="n">_isnotebook</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">265</span>         <span class="kn">from</span><span class="w"> </span><span class="nn">.with_notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+<span class="g g-Whitespace">    </span><span class="mi">266</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">267</span>         <span class="kn">from</span><span class="w"> </span><span class="nn">.no_notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">ThinkLinearAlgebra</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">vpython</span><span class="o">/</span><span class="n">with_notebook</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">154</span>
+<span class="g g-Whitespace">    </span><span class="mi">152</span> <span class="n">baseObj</span><span class="o">.</span><span class="n">glow</span> <span class="o">=</span> <span class="n">GlowWidget</span><span class="p">(</span><span class="n">wsport</span><span class="o">=</span><span class="n">__SOCKET_PORT</span><span class="p">,</span> <span class="n">wsuri</span><span class="o">=</span><span class="s1">&#39;/ws&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">153</span> <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="n">wsConnected</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">154</span>     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>          <span class="c1"># wait for websocket to connect</span>
+<span class="g g-Whitespace">    </span><span class="mi">156</span> <span class="n">baseObj</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span>  <span class="c1"># start the trigger ping-pong process</span>
+<span class="g g-Whitespace">    </span><span class="mi">159</span> <span class="c1"># Same justification as above for removing the ipykernel check.</span>
+<span class="g g-Whitespace">    </span><span class="mi">160</span> <span class="c1"># There was also an IPython version check for &gt;=4, which was</span>
+<span class="g g-Whitespace">    </span><span class="mi">161</span> <span class="c1"># released in Nov 2015. Ok to stop supporting in 2.019 I think.</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 25;
+            var nbb_formatted_code = "n = 20\nsize = 5\n\nworld = World(n)\nscene.center = world.carrot.pos\nscene.autoscale = False\n\n\ndef toggle_tracking(evt):\n    \"\"\"If we're currently tracking, turn it off, and vice versa.\"\"\"\n    world.tracking = not world.tracking\n\n\n# when the user clicks, toggle tracking.\nscene.bind(\"click\", toggle_tracking)\n\nwhile 1:\n    rate(10)\n    world.step()";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Boids</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-boid-algorithm">The Boid algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbitration">Arbitration</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

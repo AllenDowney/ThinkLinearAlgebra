@@ -1,0 +1,1770 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Truss in the System &#8212; Think Linear Algebra, 1st edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'truss';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="1. Null Space" href="nullspace.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">1. Null Space</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Truss in the System</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkLinearAlgebra/tree/main" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/truss.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Truss in the System</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplest-truss">2.1. The Simplest Truss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-force">2.2. Internal Force</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium">2.3. Equilibrium</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffness-matrix">2.4. The Stiffness Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warren-trusses">2.5. Warren Trusses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#block-matrix-equation">2.6. Block Matrix Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-block-matrix">2.7. Compute the Block Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shift-and-rotate">2.8. Shift and Rotate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-the-matrix">2.9. Reduce the Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-system">2.10. Solve the System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.11. Discussion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
+<section id="truss-in-the-system">
+<h1><span class="section-number">2. </span>Truss in the System<a class="headerlink" href="#truss-in-the-system" title="Link to this heading">#</a></h1>
+<p>In this chapter, we’ll use systems of linear equations to analyze trusses.</p>
+<p>A <strong>truss</strong> is an assembly of bars connected by joints, usually designed to support a load. Many bridges and roofs are supported by trusses, and if you’ve ever participated in a model bridge competition, the structure you built was probably a truss.</p>
+<p>This picture shows a <strong>Warren truss</strong>, the basis of many railroad bridge designs:</p>
+<a class="reference internal image-reference" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/VIEW_OF_BRIDGE_FROM_SOUTH_WITH_ONCOMING_CSX_LOCOMOTIVE_ON_TRACKS_BELOW%2C_LOOKING_NORTHEAST_-_Wills_Creek_Bollman_Bridge%2C_Spanning_CSX_tracks_at_T381%2C_Meyersdale%2C_Somerset_County%2C_HAER_PA%2C56-MEYER.V%2C2-2.tif/lossy-page1-800px-thumbnail.tif.jpg"><img alt="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/VIEW_OF_BRIDGE_FROM_SOUTH_WITH_ONCOMING_CSX_LOCOMOTIVE_ON_TRACKS_BELOW%2C_LOOKING_NORTHEAST_-_Wills_Creek_Bollman_Bridge%2C_Spanning_CSX_tracks_at_T381%2C_Meyersdale%2C_Somerset_County%2C_HAER_PA%2C56-MEYER.V%2C2-2.tif/lossy-page1-800px-thumbnail.tif.jpg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/VIEW_OF_BRIDGE_FROM_SOUTH_WITH_ONCOMING_CSX_LOCOMOTIVE_ON_TRACKS_BELOW%2C_LOOKING_NORTHEAST_-_Wills_Creek_Bollman_Bridge%2C_Spanning_CSX_tracks_at_T381%2C_Meyersdale%2C_Somerset_County%2C_HAER_PA%2C56-MEYER.V%2C2-2.tif/lossy-page1-800px-thumbnail.tif.jpg" style="width: 400px;" />
+</a>
+<p>This structure is made of three connected triangles with horizontal bars across the top.
+It’s supported by anchor points at each end, and it carries a deck that supports a roadway.
+The load on the truss includes the weight of the roadway, any vehicles on it, and the weight of the truss itself.</p>
+<p>To model a structure like this, we’ll make some simplifying assumptions:</p>
+<ul class="simple">
+<li><p>We’ll treat the structure as two-dimensional, analyzing only one side of the truss.</p></li>
+<li><p>We’ll assume the joints behave like hinge pins that connect bars at their ends but allow them to rotate freely.</p></li>
+<li><p>We’ll assume the load is applied only at the joints, not along the length of the bars.</p></li>
+<li><p>We’ll treat each bar as a spring that pushes or pulls in response to stretching or compression, with force that depends on its size and material.</p></li>
+<li><p>We’ll assume that the stretching and compression are small enough that the geometry of the truss is unchanged.</p></li>
+</ul>
+<p>These assumptions aren’t fully realistic, but they’re reasonable approximations.
+And they make it easier to analyze the structure – that is, for a given load, we can compute how much each bar stretches or compresses, and how much force it exerts in response.</p>
+<p>The goal is to find an <strong>equilibrium</strong>, where the external forces applied to the truss are balanced by internal spring forces in the bars.</p>
+<p>To do this analysis, we’ll use <strong>projection matrices</strong>, which we saw in Section XXX, and we’ll introduce <strong>block matrices</strong>, which are matrices that contain vectors or submatrices as elements.</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/truss.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">gset</span><span class="p">,</span> <span class="n">gget</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="the-simplest-truss">
+<h2><span class="section-number">2.1. </span>The Simplest Truss<a class="headerlink" href="#the-simplest-truss" title="Link to this heading">#</a></h2>
+<p>We’ll start with a truss that contains two bars, connected at a single joint and supported at two points.</p>
+<p>To represent the locations of the joint and the support points, we’ll use vectors we’ll call <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, and <code class="docutils literal notranslate"><span class="pre">C</span></code>.
+And to represent the vectors, we’ll use a SymPy <code class="docutils literal notranslate"><span class="pre">Matrix</span></code>.
+The following function takes two coordinates and returns a symbolic vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sp_vector</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the positions of the nodes, using the symbol <code class="docutils literal notranslate"><span class="pre">L</span></code> to represent the length of the bars.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">pos_A</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="o">-</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="n">L</span><span class="p">)</span>
+<span class="n">pos_B</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="n">L</span><span class="p">)</span>   
+<span class="n">pos_C</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following diagram shows the configuration of this truss.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">diagram_truss</span>
+
+<span class="n">subs</span> <span class="o">=</span> <span class="p">{</span><span class="n">L</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}</span>
+<span class="n">nodes</span> <span class="o">=</span> <span class="n">pos_A</span><span class="p">,</span> <span class="n">pos_B</span><span class="p">,</span> <span class="n">pos_C</span>
+<span class="n">diagram_truss</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">subs</span><span class="p">,</span> <span class="n">lim</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/75e68dfdce59c6ba0056f2aa273f861acf7d0fcfc126d351d601f59d3287f8f2.png" src="_images/75e68dfdce59c6ba0056f2aa273f861acf7d0fcfc126d351d601f59d3287f8f2.png" />
+</div>
+</div>
+<p>One bar connects <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code> and the other connects <code class="docutils literal notranslate"><span class="pre">B</span></code> and <code class="docutils literal notranslate"><span class="pre">C</span></code>.
+The triangles represent anchors holding the <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> in place.
+The circle represents a pin joint that can move under load.</p>
+<p>To start the analysis of this truss, we’ll define symbols to represent the displacement of <code class="docutils literal notranslate"><span class="pre">C</span></code> from its starting position due to force applied to it.
+These are the unknowns we will solve for.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_x</span><span class="p">,</span> <span class="n">u_y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;u_x u_y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll put these symbols in a column vector that represents the displacement of <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_C</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="n">u_x</span><span class="p">,</span> <span class="n">u_y</span><span class="p">)</span>
+<span class="n">u_C</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}u_{x}\\u_{y}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Most materials, when they are compressed or stretched by a small amount, are well modeled as a linear spring, where the reaction force is proportional to the size of the displacement.
+So we can write <span class="math notranslate nohighlight">\(f = k |u|\)</span>, where <span class="math notranslate nohighlight">\(f\)</span> is the reaction force, <span class="math notranslate nohighlight">\(|u|\)</span> is the size of the displacement, and <span class="math notranslate nohighlight">\(k\)</span> is the <strong>spring constant</strong>.</p>
+<p>For a bar under compression or tension, we can compute <span class="math notranslate nohighlight">\(k\)</span> as a function of the size of the bar and its material properties.
+Specifically:</p>
+<p><span class="math notranslate nohighlight">\(k = \frac{A E}{L}\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(L\)</span> is the length of the bar, <span class="math notranslate nohighlight">\(A\)</span> is the cross-sectional area, and <code class="docutils literal notranslate"><span class="pre">E</span></code> is Young’s modulus, a constant that quantifies the stiffness of a material – that is, its ability to push back when compressed or stretched.</p>
+<p>The following symbols represent <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">E</span></code>.
+We’ll fill in values for these parameters later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;A E&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can compute the spring constant of the two bars.
+To make the analysis more interesting, let’s suppose the bar <code class="docutils literal notranslate"><span class="pre">CB</span></code> is twice as thick as <code class="docutils literal notranslate"><span class="pre">CA</span></code>, so it has twice the cross-sectional area.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k_CA</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">E</span> <span class="o">/</span> <span class="n">L</span>
+<span class="n">k_CB</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">E</span> <span class="o">/</span> <span class="n">L</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we’ll compute the spring forces in the truss due to a known displacement.</p>
+</section>
+<section id="internal-force">
+<h2><span class="section-number">2.2. </span>Internal Force<a class="headerlink" href="#internal-force" title="Link to this heading">#</a></h2>
+<p>Soon we will find the displacement of the truss under a given load.
+But first let’s suppose, temporarily, that we are given the displacement, <code class="docutils literal notranslate"><span class="pre">u</span></code>.</p>
+<p>To compute the spring forces in the bars we have to figure out what part of the displacement, <code class="docutils literal notranslate"><span class="pre">u</span></code>, is along the axis of each bar.
+First we’ll compute vectors that represent the offset of A and B, relative to C.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r_CA</span> <span class="o">=</span> <span class="n">pos_A</span> <span class="o">-</span> <span class="n">pos_C</span>
+<span class="n">r_CB</span> <span class="o">=</span> <span class="n">pos_B</span> <span class="o">-</span> <span class="n">pos_C</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we’ll compute the vector projection of <code class="docutils literal notranslate"><span class="pre">u</span></code> onto <code class="docutils literal notranslate"><span class="pre">r_CA</span></code> and <code class="docutils literal notranslate"><span class="pre">r_CB</span></code>, as shown in this diagram.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-6</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mf">2e4</span>
+<span class="n">diagram_truss</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">subs</span><span class="p">,</span> <span class="n">u</span><span class="o">*</span><span class="n">scale</span><span class="p">,</span> <span class="n">lim</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">add_pin</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8d9b986b2d3036a3d4cb37f889943c170f1e8e3a36141c513c22d444a3d88883.png" src="_images/8d9b986b2d3036a3d4cb37f889943c170f1e8e3a36141c513c22d444a3d88883.png" />
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(u_{CA}\)</span> is the component of the displacement in the direction of <span class="math notranslate nohighlight">\(r_{CA}\)</span>, and
+<span class="math notranslate nohighlight">\(u_{CB}\)</span> is the component of the displacement in the direction of <span class="math notranslate nohighlight">\(r_{CB}\)</span>.</p>
+<p>To compute these vector projections, we’ll use this function, which:</p>
+<ol class="arabic simple">
+<li><p>Computes the unit vector in the direction of <code class="docutils literal notranslate"><span class="pre">r</span></code>, called <code class="docutils literal notranslate"><span class="pre">r_hat</span></code>,</p></li>
+<li><p>Computes <code class="docutils literal notranslate"><span class="pre">r_hat.T</span> <span class="pre">*</span> <span class="pre">u</span></code>, which is the scalar magnitude of <code class="docutils literal notranslate"><span class="pre">u</span></code> in the direction of <code class="docutils literal notranslate"><span class="pre">r_hat</span></code>, and</p></li>
+<li><p>Multiplies the result by <code class="docutils literal notranslate"><span class="pre">r_hat</span></code>.</p></li>
+</ol>
+<p>The result is a vector that represents the component of <code class="docutils literal notranslate"><span class="pre">u</span></code> in the direction of <code class="docutils literal notranslate"><span class="pre">r</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vector_projection</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="n">r_hat</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+    <span class="n">scalar_projection</span> <span class="o">=</span> <span class="n">r_hat</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">u</span>
+    <span class="k">return</span> <span class="n">r_hat</span> <span class="o">*</span> <span class="n">scalar_projection</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, instead of a known displacement, <code class="docutils literal notranslate"><span class="pre">u</span></code>, suppose we have the unknown displacement <code class="docutils literal notranslate"><span class="pre">u_C</span></code>.
+For any value of <code class="docutils literal notranslate"><span class="pre">u_C</span></code>, we can find the spring forces in the bars by computing the vector projections of the displacement onto the axis of the bars, and multiplying by the spring constants.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_CA</span> <span class="o">=</span> <span class="o">-</span><span class="n">k_CA</span> <span class="o">*</span> <span class="n">vector_projection</span><span class="p">(</span><span class="n">u_C</span><span class="p">,</span> <span class="n">r_CA</span><span class="p">)</span>
+<span class="n">f_CB</span> <span class="o">=</span> <span class="o">-</span><span class="n">k_CB</span> <span class="o">*</span> <span class="n">vector_projection</span><span class="p">(</span><span class="n">u_C</span><span class="p">,</span> <span class="n">r_CB</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s one of the results, <code class="docutils literal notranslate"><span class="pre">f_CA</span></code>, with the constants factored out.
+We’ll use <code class="docutils literal notranslate"><span class="pre">factor_matrix</span></code> throughout this chapter to make matrices easier to read by pulling out common factors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">factor_matrix</span>
+
+<span class="n">factor</span> <span class="o">=</span> <span class="o">-</span><span class="n">A</span> <span class="o">*</span> <span class="n">E</span> <span class="o">/</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">factor_matrix</span><span class="p">(</span><span class="n">f_CA</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle - \frac{A E}{2 L} \left[\begin{matrix}u_{x} + u_{y}\\u_{x} + u_{y}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">f_CA</span></code> is a column vector that represents the reaction force of bar <code class="docutils literal notranslate"><span class="pre">CA</span></code> if <code class="docutils literal notranslate"><span class="pre">C</span></code> is displaced by <code class="docutils literal notranslate"><span class="pre">u_C</span></code>; similarly <code class="docutils literal notranslate"><span class="pre">f_CB</span></code> represents the reaction force of bar <code class="docutils literal notranslate"><span class="pre">CB</span></code>.</p>
+<p>The total force at <code class="docutils literal notranslate"><span class="pre">C</span></code> due to this displacement, which we’ll call the <strong>internal force</strong>, is the sum of the reaction forces.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_int</span> <span class="o">=</span> <span class="n">f_CA</span> <span class="o">+</span> <span class="n">f_CB</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s find the displacement of the truss under load.</p>
+</section>
+<section id="equilibrium">
+<h2><span class="section-number">2.3. </span>Equilibrium<a class="headerlink" href="#equilibrium" title="Link to this heading">#</a></h2>
+<p>Suppose we apply a force at <code class="docutils literal notranslate"><span class="pre">C</span></code> that pulls down in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction, with no additional force in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction.
+We can represent this <strong>external force</strong> with the following vector, where the <code class="docutils literal notranslate"><span class="pre">F</span></code> represents the magnitude of the force.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="n">f_ext</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the truss is not moving, the internal and external forces must add up to zero, so we can write the equation <span class="math notranslate nohighlight">\(f_{int} = -f_{ext}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">f_int</span><span class="p">,</span> <span class="o">-</span><span class="n">f_ext</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Which we can display concisely like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">factor_matrix</span><span class="p">(</span><span class="n">f_int</span><span class="p">,</span> <span class="n">factor</span><span class="p">),</span> <span class="o">-</span><span class="n">f_ext</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle - \frac{A E}{2 L} \left[\begin{matrix}3 u_{x} - u_{y}\\- u_{x} + 3 u_{y}\end{matrix}\right] = \left[\begin{matrix}0\\F\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>To analyze the truss, we want to find the displacement <code class="docutils literal notranslate"><span class="pre">u_C</span></code> that solves this equation.
+First, let’s plug in values for the symbols, assuming that the truss is made of wooden popsicle sticks.</p>
+<p>A common popsicle stick is about 15 cm long, 1 cm wide, and 0.2 cm thick.
+The Young’s modulus of wood is about 3 gigapascal.
+Let’s suppose the external force is the weight of a one kilogram mass, which is roughly 9.8 N.
+We’ll use the <code class="docutils literal notranslate"><span class="pre">pint</span></code> library to represent these quantities, including their units.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pint</span>
+<span class="n">ureg</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">UnitRegistry</span><span class="p">()</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">L</span><span class="p">:</span> <span class="mf">15.0</span> <span class="o">*</span> <span class="n">ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+    <span class="n">E</span><span class="p">:</span> <span class="mf">3.0e9</span> <span class="o">*</span> <span class="n">ureg</span><span class="o">.</span><span class="n">Pa</span><span class="p">,</span>
+    <span class="n">A</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">ureg</span><span class="o">.</span><span class="n">cm</span> <span class="o">*</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">ureg</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span>
+    <span class="n">F</span><span class="p">:</span> <span class="mf">9.8</span> <span class="o">*</span> <span class="n">ureg</span><span class="o">.</span><span class="n">newton</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To substitute these values into the equation, we’ll use this function, which makes a dictionary that maps from symbols to their values, converted to base units.
+For example, <code class="docutils literal notranslate"><span class="pre">L</span></code> in centimeters gets converted to meters, and <code class="docutils literal notranslate"><span class="pre">A</span></code> to square meters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_subs</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a dictionary that maps from symbols to quantities.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">symbol</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">to_base_units</span><span class="p">()</span><span class="o">.</span><span class="n">magnitude</span> 
+            <span class="k">for</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the results in SI units.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subs</span> <span class="o">=</span> <span class="n">make_subs</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="n">subs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{L: 0.15, E: 3000000000.0, A: 2e-05, F: 9.8}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’ll use the <code class="docutils literal notranslate"><span class="pre">subs</span></code> method to replace the symbols in the equation with these numbers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_num</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+<span class="n">eq_num</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}0\\9.8\end{matrix}\right] = \left[\begin{matrix}- 600000.0 u_{x} + 200000.0 u_{y}\\200000.0 u_{x} - 600000.0 u_{y}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And <code class="docutils literal notranslate"><span class="pre">solve</span></code> to find the value of <code class="docutils literal notranslate"><span class="pre">u_C</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">eq_num</span><span class="p">,</span> <span class="n">u_C</span><span class="p">)</span>
+<span class="n">sol</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{u_x: -6.12500000000000e-6, u_y: -1.83750000000000e-5}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a dictionary that maps from the unknown components to their values.
+To put these values in a vector, we can use <code class="docutils literal notranslate"><span class="pre">subs</span></code> again, and display the result in micrometers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_sol</span> <span class="o">=</span> <span class="n">u_C</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">u_C</span><span class="p">,</span> <span class="n">u_sol</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}u_{x}\\u_{y}\end{matrix}\right] = \left[\begin{matrix}-6.125\\-18.375\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>So if we hang a 1 kg mass from a truss like this made of popsicle sticks, we expect <code class="docutils literal notranslate"><span class="pre">C</span></code> to be displaced by about 6 micrometers left and 18 micrometers down.</p>
+<p>To see whether this result is plausible, let’s compare it with the result from a simpler configuration.
+If we balance a 1 kg mass on top of a vertical popsicle stick, and hold the bottom fixed, we can compute the displacement like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">displacement</span> <span class="o">=</span> <span class="n">F</span> <span class="o">*</span> <span class="n">L</span> <span class="o">/</span> <span class="n">A</span> <span class="o">/</span> <span class="n">E</span>
+<span class="n">displacement</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e6</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 24.5\]</div>
+</div>
+</div>
+<p>The displacement we calculated for the simple truss is a little smaller than the displacement we expect from a single popsicle stick, so the results of the analysis seem plausible.</p>
+<p>The simple truss is made of three popsicle sticks (remember that we doubled the thickness of <code class="docutils literal notranslate"><span class="pre">CB</span></code>), so we might expect it to be three times stiffer.
+But the bars are diagonal, so only part of the displacement is along the axis of each bar, and only part of the reaction force is in the vertical direction.</p>
+<p>Before we leave this example, let’s also remember that our model of the truss is based on the assumption that the displacements are small enough that the bars are not deformed or broken.
+With a 1 kilogram mass, the displacements we computed are much smaller than the lengths of the bars, so that assumption seems reasonable.</p>
+<p>In contrast, suppose we use the same method to compute the displacement due to a 1000 kg mass.
+The result would be about 0.6 cm left and 1.8 cm down.
+If you are familiar with popsicle sticks, you probably have a sense that it is not possible to stretch or compress one by more than a centimeter without breaking it.
+So the model we used to analyze this truss would not be realistic for such a large external force.</p>
+<p>We’re almost ready to take on a more complex truss, but first we need a new tool, the stiffness matrix.</p>
+</section>
+<section id="the-stiffness-matrix">
+<h2><span class="section-number">2.4. </span>The Stiffness Matrix<a class="headerlink" href="#the-stiffness-matrix" title="Link to this heading">#</a></h2>
+<p>In the previous section, we wrote this equation with internal force on the left and external force on the right:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">factor_matrix</span><span class="p">(</span><span class="n">f_int</span><span class="p">,</span> <span class="n">factor</span><span class="p">),</span> <span class="o">-</span><span class="n">f_ext</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle - \frac{A E}{2 L} \left[\begin{matrix}3 u_{x} - u_{y}\\- u_{x} + 3 u_{y}\end{matrix}\right] = \left[\begin{matrix}0\\F\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>That was sufficient to analyze the simple truss, but for more complex trusses, we need a more general method.
+Specifically, we’ll write a matrix equation <span class="math notranslate nohighlight">\(K u = f\)</span>, where <span class="math notranslate nohighlight">\(u\)</span> is the vector of unknown displacements, <span class="math notranslate nohighlight">\(f\)</span> is the vector of external forces, and <span class="math notranslate nohighlight">\(K\)</span> is the <strong>stiffness matrix</strong> that represents the relationship between the displacements and the reaction forces.</p>
+<p>As an example, we’ll rewrite the equation from the previous section in this form.
+To start, let’s rethink the scalar projection.</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{proj}_{r} u = \hat{r}\, \hat{r}^T u\]</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">vector_projection</span></code>, we computed the scalar projection <span class="math notranslate nohighlight">\(\hat{r}^T u\)</span> first, to get the magnitude of the projection of <span class="math notranslate nohighlight">\(u\)</span> in the direction of <span class="math notranslate nohighlight">\(r\)</span>, and then multiplied by <span class="math notranslate nohighlight">\(\hat{r}\)</span>.
+In other words, we evaluated the vector projection like this:</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{proj}_{r} u = \hat{r}\, (\hat{r}^T u)\]</div>
+<p>As an alternative, we could have multiplied <span class="math notranslate nohighlight">\(\hat{r}\)</span> and <span class="math notranslate nohighlight">\(\hat{r}^T\)</span> first, like this:</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{proj}_{r} u = (\hat{r}\, \hat{r}^T) u\]</div>
+<p>The product <span class="math notranslate nohighlight">\(\hat{r}\, \hat{r}^T\)</span> is a <strong>projector matrix</strong>, which we can compute like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">projector</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="n">rhat</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">rhat</span> <span class="o">*</span> <span class="n">rhat</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As an example, here’s the projector matrix for the vector <code class="docutils literal notranslate"><span class="pre">r_CA</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P_CA</span> <span class="o">=</span> <span class="n">projector</span><span class="p">(</span><span class="n">r_CA</span><span class="p">)</span>
+<span class="n">P_CA</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\frac{1}{2} &amp; \frac{1}{2}\\\frac{1}{2} &amp; \frac{1}{2}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Now if we multiply <code class="docutils literal notranslate"><span class="pre">P_CA</span></code> and <code class="docutils literal notranslate"><span class="pre">u_C</span></code>, the result is the vector projection of <code class="docutils literal notranslate"><span class="pre">u_C</span></code> onto <code class="docutils literal notranslate"><span class="pre">r_CA</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P_CA</span> <span class="o">*</span> <span class="n">u_C</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\frac{u_{x}}{2} + \frac{u_{y}}{2}\\\frac{u_{x}}{2} + \frac{u_{y}}{2}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>If we multiply a projector matrix by the spring constant <code class="docutils literal notranslate"><span class="pre">k</span></code>, the result is a the stiffness matrix.
+So <code class="docutils literal notranslate"><span class="pre">k_CA</span> <span class="pre">*</span> <span class="pre">P_CA</span></code> is the stiffness matrix due to bar <code class="docutils literal notranslate"><span class="pre">CA</span></code>, and <code class="docutils literal notranslate"><span class="pre">k_CB</span> <span class="pre">*</span> <span class="pre">P_CB</span></code> is the stiffness matrix due to bar <code class="docutils literal notranslate"><span class="pre">CB</span></code>.
+Their sum is the stiffness matrix for the whole truss, which we’ll call <code class="docutils literal notranslate"><span class="pre">K</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P_CB</span> <span class="o">=</span> <span class="n">projector</span><span class="p">(</span><span class="n">r_CB</span><span class="p">)</span>
+
+<span class="n">K</span> <span class="o">=</span> <span class="n">k_CA</span> <span class="o">*</span> <span class="n">P_CA</span> <span class="o">+</span> <span class="n">k_CB</span> <span class="o">*</span> <span class="n">P_CB</span>
+<span class="n">factor_matrix</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">A</span> <span class="o">*</span> <span class="n">E</span> <span class="o">/</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \frac{A E}{2 L} \left[\begin{matrix}3 &amp; -1\\-1 &amp; 3\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>If we multiply <code class="docutils literal notranslate"><span class="pre">K</span></code> by a displacement vector, the result is a force vector that represents the internal force due to that displacement.
+So we can interpret the stiffness matrix by testing it with small displacements.
+First we’ll use <code class="docutils literal notranslate"><span class="pre">subs</span></code> to replace the symbols in <code class="docutils literal notranslate"><span class="pre">K</span></code> with numbers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">sympy_to_numpy</span>
+
+<span class="n">K_np</span> <span class="o">=</span> <span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">subs</span><span class="p">)</span>
+<span class="n">K_np</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 600000., -200000.],
+       [-200000.,  600000.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s an example where we displace node <code class="docutils literal notranslate"><span class="pre">C</span></code> by one micrometer in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_example1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="mf">1e-6</span>
+<span class="n">f_example1</span> <span class="o">=</span> <span class="o">-</span><span class="n">K_np</span> <span class="o">@</span> <span class="n">u_example1</span>
+<span class="n">f_example1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.6,  0.2])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The restoring force is 0.6 N in the negative <code class="docutils literal notranslate"><span class="pre">x</span></code> direction and 0.2 N in the positive <code class="docutils literal notranslate"><span class="pre">y</span></code> direction.
+And here’s an example where we displace <code class="docutils literal notranslate"><span class="pre">C</span></code> by one micrometer in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_example2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="mf">1e-6</span>
+<span class="n">f_example2</span> <span class="o">=</span> <span class="o">-</span><span class="n">K_np</span> <span class="o">@</span> <span class="n">u_example2</span>
+<span class="n">f_example2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.2, -0.6])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The restoring force is about 0.2 N in the positive <code class="docutils literal notranslate"><span class="pre">x</span></code> direction and 0.6 N in the negative <code class="docutils literal notranslate"><span class="pre">y</span></code> direction.</p>
+<p>More generally, we can use <code class="docutils literal notranslate"><span class="pre">K</span></code> to compute the force that results from any displacement.
+To demonstrate, we’ll make an array of 9 values from -20 to 20 micrometers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scale</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">bound</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">displacements</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">bound</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By enumerating all pairs of values, we can make an array of 81 displacement vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">displacements</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">displacements</span><span class="p">]</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> 
+<span class="n">U</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 81)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">U</span></code> is matrix-like in the sense that it has two dimensions, but we are using it as a collection of vectors, not a matrix.
+If we multiply by the stiffness matrix, the result is a collection of force vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F_field</span> <span class="o">=</span> <span class="o">-</span><span class="n">K_np</span> <span class="o">@</span> <span class="n">U</span>
+<span class="n">F_field</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 81)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following figure shows these results.
+The location of each arrow shows a hypothetical displacement.
+Each arrow shows the direction and relative magnitude of the resulting force due to displacement.
+Note that the positions and forces are not in the same units, so the scale of the arrows is arbitrary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_force_field</span>
+    
+<span class="n">ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">lim</span> <span class="o">=</span> <span class="n">scale</span> <span class="o">*</span> <span class="p">(</span><span class="n">bound</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plot_force_field</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">subs</span><span class="p">,</span> <span class="n">F_field</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">lim</span><span class="p">,</span> <span class="n">displacements</span><span class="p">,</span> <span class="n">ticks</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/832101dad3df5aa5692717dfa0fdcf537d99fc8eb10ca0420a1f6f33c90535bf.png" src="_images/832101dad3df5aa5692717dfa0fdcf537d99fc8eb10ca0420a1f6f33c90535bf.png" />
+</div>
+</div>
+<p>Notice that the restoring forces are bigger in the upper left and lower right, which correspond to extension and compression of the thicker bar.</p>
+<p>In summary, multiplication by <code class="docutils literal notranslate"><span class="pre">K</span></code> is like a function that takes a displacement vector and returns a corresponding force vector.
+A function that maps vectors to other vectors is sometimes called a <strong>vector field</strong>.
+And when those vectors represent forces, we call it a <strong>force field</strong>.</p>
+<p>Finally, let’s confirm that we get the same result using NumPy to solve <span class="math notranslate nohighlight">\(K u = f\)</span>.
+First we’ll convert the external force vector to an array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_ext_np</span> <span class="o">=</span> <span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">f_ext</span><span class="p">,</span> <span class="n">subs</span><span class="p">)</span>
+<span class="n">f_ext_np</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0. , -9.8])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s the solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K_np</span><span class="p">,</span> <span class="n">f_ext_np</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e6</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ -6.125, -18.375])
+</pre></div>
+</div>
+</div>
+</div>
+<p>That’s the same as the result we got before we factored out the stiffness matrix.</p>
+<p>The key idea of this example is the use of the projector matrix to construct the stiffness matrix.
+We’ll use this idea again in the next example.</p>
+</section>
+<section id="warren-trusses">
+<h2><span class="section-number">2.5. </span>Warren Trusses<a class="headerlink" href="#warren-trusses" title="Link to this heading">#</a></h2>
+<p>So far we’ve been working with a simple truss with two bars and only one joint that can move, so we wrote a vector equation with only two components.
+Now let’s try something a little harder – we’ll analyze a Warren truss.
+We’ll use NetworkX to represent the joints and bars as nodes and edges; then we’ll construct a matrix equation that relates the displacements at the joints to the external forces.</p>
+<p>To specify the configuration of the truss, we’ll define <code class="docutils literal notranslate"><span class="pre">N</span></code>, which is the number of triangles, <code class="docutils literal notranslate"><span class="pre">L</span></code>, which is the length of the bars, and <code class="docutils literal notranslate"><span class="pre">H</span></code>, which is the height of the triangles.
+If the bars are all the same length, the triangles are equilateral, so <span class="math notranslate nohighlight">\(H = \frac{\sqrt{3} L}{2}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s make the graph.
+To understand the next few blocks of code, you might find it helpful to look ahead to the diagram that shows the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First we’ll create the nodes that run along the bottom of the truss and the edges that connect them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">origin</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">sp_vector</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;B</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;B</span><span class="si">{</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;B</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The bottom nodes are assigned positions based on <code class="docutils literal notranslate"><span class="pre">L</span></code>, and labeled with strings like <code class="docutils literal notranslate"><span class="pre">B0</span></code>, <code class="docutils literal notranslate"><span class="pre">B1</span></code>, etc.</p>
+<p>Now we’ll add the nodes that run along the top, the horizontal edges that connect them, and the diagonal edges that connect the top and bottom nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">origin</span> <span class="o">+</span> <span class="n">sp_vector</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">sp</span><span class="o">.</span><span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">L</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;B</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;T</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;B</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;T</span><span class="si">{</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;T</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The top nodes are assigned positions based on <code class="docutils literal notranslate"><span class="pre">L</span></code> and <code class="docutils literal notranslate"><span class="pre">H</span></code>, and labeled <code class="docutils literal notranslate"><span class="pre">T0</span></code>, <code class="docutils literal notranslate"><span class="pre">T1</span></code>, etc.
+Here’s what the graph looks like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw_truss_graph</span>
+
+<span class="n">draw_truss_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="p">{</span><span class="n">L</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/99329c1cfac36ed10781ed27013debf43a09d6a78afb0150d60931d1ee7de3a1.png" src="_images/99329c1cfac36ed10781ed27013debf43a09d6a78afb0150d60931d1ee7de3a1.png" />
+</div>
+</div>
+<p>For reasons we’ll see later, it will be convenient if every node has a unique index starting from <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+So we’ll loop through the nodes and use <code class="docutils literal notranslate"><span class="pre">gset</span></code> to assign each node an index.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+    <span class="n">gset</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we’ll loop through the nodes and assign a displacement vector to each one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+    <span class="n">ux</span><span class="p">,</span> <span class="n">uy</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;u_</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">_x u_</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1">_y&#39;</span><span class="p">)</span>    
+    <span class="n">disp</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="n">ux</span><span class="p">,</span> <span class="n">uy</span><span class="p">)</span>
+    <span class="n">gset</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For this example, we’ll assume that the roadway is attached to the bottom nodes.
+To keep things simple, we’ll ignore the weight of the truss itself and assume that the load is attached to a single node, <code class="docutils literal notranslate"><span class="pre">B1</span></code>.
+The following loop creates a force vector for each node in the truss and assigns it to an attribute called <code class="docutils literal notranslate"><span class="pre">f_ext</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<span class="n">weighted</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">weighted</span><span class="p">:</span>
+        <span class="n">gset</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">f_ext</span><span class="o">=</span><span class="n">sp_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gset</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">f_ext</span><span class="o">=</span><span class="n">sp_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, for each bar, we’ll compute a projector matrix that represents the projection of a displacement vector along the axis of the bar.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+    <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span> <span class="o">=</span> <span class="n">edge</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node2</span><span class="p">][</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">projector</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">gset</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To keep this example simple, we’ll assume that every bar has the same cross-sectional area and Young’s modulus – but it would be easy to generalize by adding these attributes to the edges.</p>
+</section>
+<section id="block-matrix-equation">
+<h2><span class="section-number">2.6. </span>Block Matrix Equation<a class="headerlink" href="#block-matrix-equation" title="Link to this heading">#</a></h2>
+<p>At this point we have a NetworkX graph that represents the bars and joints of the truss.
+The next step is to write a matrix equation to relate the unknown displacements to the internal and external forces.
+To do that, we will construct a <strong>block matrix</strong> which is a way to represent a system of equations where the unknowns are vectors.</p>
+<p>To show the structure of the problem, we’ll construct with a vector of displacements, where each displacement is itself a vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">MatrixSymbol</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;u_</span><span class="se">{{</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+<span class="n">u_block</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">([[</span><span class="n">u</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}u_{B0}\\u_{B1}\\u_{B2}\\u_{T0}\\u_{T1}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And another vector that represents the external forces on the nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">MatrixSymbol</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;f_</span><span class="se">{{</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+<span class="n">f_block</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">([[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}f_{B0}\\f_{B1}\\f_{B2}\\f_{T0}\\f_{T1}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Now we’ll create a block matrix where each element is a stiffness matrix – the element <span class="math notranslate nohighlight">\(K_{ij}\)</span> represents the stiffness at node <span class="math notranslate nohighlight">\(i\)</span> due to its connection to node <span class="math notranslate nohighlight">\(j\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+<span class="n">blocks</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sp</span><span class="o">.</span><span class="n">MatrixSymbol</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;K_</span><span class="si">{</span><span class="n">i</span><span class="si">}{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> 
+           <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span> 
+           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+<span class="n">K_block</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}K_{00} &amp; K_{01} &amp; K_{02} &amp; K_{03} &amp; K_{04}\\K_{10} &amp; K_{11} &amp; K_{12} &amp; K_{13} &amp; K_{14}\\K_{20} &amp; K_{21} &amp; K_{22} &amp; K_{23} &amp; K_{24}\\K_{30} &amp; K_{31} &amp; K_{32} &amp; K_{33} &amp; K_{34}\\K_{40} &amp; K_{41} &amp; K_{42} &amp; K_{43} &amp; K_{44}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Here’s the equation that relates these matrices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">equation</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">K_block</span> <span class="o">*</span> <span class="n">u_block</span><span class="p">,</span> <span class="n">f_block</span><span class="p">)</span>
+<span class="n">equation</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}K_{00} &amp; K_{01} &amp; K_{02} &amp; K_{03} &amp; K_{04}\\K_{10} &amp; K_{11} &amp; K_{12} &amp; K_{13} &amp; K_{14}\\K_{20} &amp; K_{21} &amp; K_{22} &amp; K_{23} &amp; K_{24}\\K_{30} &amp; K_{31} &amp; K_{32} &amp; K_{33} &amp; K_{34}\\K_{40} &amp; K_{41} &amp; K_{42} &amp; K_{43} &amp; K_{44}\end{matrix}\right] \left[\begin{matrix}u_{B0}\\u_{B1}\\u_{B2}\\u_{T0}\\u_{T1}\end{matrix}\right] = \left[\begin{matrix}f_{B0}\\f_{B1}\\f_{B2}\\f_{T0}\\f_{T1}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Let’s think about what each element of the stiffness matrix means.
+Each row represents an equation that computes the sum of the internal forces on one node, given the displacements of all of the nodes.
+And each column represents the contribution of one displacement to the internal forces on all of the nodes.</p>
+<p>Now let’s think about how to compute the elements of <span class="math notranslate nohighlight">\(K\)</span>.
+As an example, consider the bar between <code class="docutils literal notranslate"><span class="pre">B0</span></code> and <code class="docutils literal notranslate"><span class="pre">T0</span></code>, which have indices 0 and 3.
+The stiffness matrix of that bar contributes to four elements of <span class="math notranslate nohighlight">\(K\)</span>:</p>
+<ul class="simple">
+<li><p>In row 0, it contributes to <span class="math notranslate nohighlight">\(K_{00}\)</span> and <span class="math notranslate nohighlight">\(K_{03}\)</span>, because the internal force on node 0 depends on the difference of displacements <span class="math notranslate nohighlight">\(u_{B0}\)</span> and <span class="math notranslate nohighlight">\(u_{T0}\)</span>.</p></li>
+<li><p>In row 3, it contributes to <span class="math notranslate nohighlight">\(K_{30}\)</span> and <span class="math notranslate nohighlight">\(K_{33}\)</span>, because the internal force on node 3 depends on the same difference of displacements.</p></li>
+</ul>
+<p>In the next section, we’ll assemble <span class="math notranslate nohighlight">\(K\)</span> by looping through the edges and adding up the contributions from the stiffness matrix of each bar.</p>
+</section>
+<section id="compute-the-block-matrix">
+<h2><span class="section-number">2.7. </span>Compute the Block Matrix<a class="headerlink" href="#compute-the-block-matrix" title="Link to this heading">#</a></h2>
+<p>To construct the block matrix, we’ll loop through the edges and compute a matrix that represents the stiffness of each node due to the other nodes it is connected to.
+We’ll start by working through a single example, the edge from <code class="docutils literal notranslate"><span class="pre">B0</span></code> to <code class="docutils literal notranslate"><span class="pre">T0</span></code>.
+We can use <code class="docutils literal notranslate"><span class="pre">gget</span></code> to get the projector matrix for this edge.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">edge</span> <span class="o">=</span> <span class="s1">&#39;B0&#39;</span><span class="p">,</span> <span class="s1">&#39;T0&#39;</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">)</span>
+<span class="n">P</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\frac{1}{4} &amp; \frac{\sqrt{3}}{4}\\\frac{\sqrt{3}}{4} &amp; \frac{3}{4}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>So we can compute the stiffness matrix for a single bar like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">E</span> <span class="o">/</span> <span class="n">L</span>
+<span class="n">kP</span> <span class="o">=</span> <span class="o">-</span><span class="n">k</span> <span class="o">*</span> <span class="n">P</span>
+<span class="n">factor_matrix</span><span class="p">(</span><span class="n">kP</span><span class="p">,</span> <span class="n">k</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \frac{A E}{L} \left[\begin{matrix}- \frac{1}{4} &amp; - \frac{\sqrt{3}}{4}\\- \frac{\sqrt{3}}{4} &amp; - \frac{3}{4}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Next we’ll get the displacements of the nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span> <span class="o">=</span> <span class="n">edge</span>
+<span class="n">u1</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node1</span><span class="p">,</span> <span class="s2">&quot;disp&quot;</span><span class="p">)</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="s2">&quot;disp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If both ends of the bar are displaced, the total extension or compression is the difference between the displacements, <code class="docutils literal notranslate"><span class="pre">u1</span> <span class="pre">-</span> <span class="pre">u2</span></code>.</p>
+<p>Now we’re ready to assemble the block matrix.
+We’ll start with a list of lists, where each element is a stiffness matrix full of zeroes.
+As we loop through the edges, we’ll add to these matrices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blocks</span> <span class="o">=</span> <span class="p">[[</span><span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now here’s the key to the whole operation.
+If <code class="docutils literal notranslate"><span class="pre">kP</span></code> is the stiffness matrix of the bar that connects <code class="docutils literal notranslate"><span class="pre">u1</span></code> and <code class="docutils literal notranslate"><span class="pre">u2</span></code>, the internal force in that bar is <code class="docutils literal notranslate"><span class="pre">kP</span> <span class="pre">*</span> <span class="pre">(u1</span> <span class="pre">-</span> <span class="pre">u2)</span></code>, which we can factor as <code class="docutils literal notranslate"><span class="pre">kP</span> <span class="pre">*</span> <span class="pre">u1</span></code> and <code class="docutils literal notranslate"><span class="pre">-kP</span> <span class="pre">*</span> <span class="pre">u2</span></code>.</p>
+<p>Now let’s figure out how to add <code class="docutils literal notranslate"><span class="pre">kP</span></code> to the block matrix.
+Remember that each row of the block matrix represents an equation that computes the total internal force on that node.
+And each column represents the contribution of one displacement to each of the nodes.</p>
+<p>So each edge contributes to two rows in the matrix, one for each node it connects.
+And it contributes to two columns, because it depends on the difference between two displacements.</p>
+<p>To break this down, we’ll use the following function, which takes two nodes and a stiffness matrix, <code class="docutils literal notranslate"><span class="pre">kP</span></code>.
+It uses <code class="docutils literal notranslate"><span class="pre">gget</span></code> to look up the indices of the nodes.
+Then it modifies two blocks in the row corresponding to <code class="docutils literal notranslate"><span class="pre">u1</span></code>: it adds <code class="docutils literal notranslate"><span class="pre">kP</span></code> to the column corresponding to <code class="docutils literal notranslate"><span class="pre">u1</span></code> and subtracts <code class="docutils literal notranslate"><span class="pre">kP</span></code> from the column corresponding to <code class="docutils literal notranslate"><span class="pre">u2</span></code>.
+These changes represent the stiffness at <code class="docutils literal notranslate"><span class="pre">node1</span></code> because it is connected to <code class="docutils literal notranslate"><span class="pre">node2</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_block</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">kP</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node1</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span>
+    
+    <span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span>  <span class="n">kP</span>
+    <span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">kP</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now for each edge in the graph, we call <code class="docutils literal notranslate"><span class="pre">add_block</span></code> twice, once to add the stiffness at <code class="docutils literal notranslate"><span class="pre">node1</span></code> because it is connected to <code class="docutils literal notranslate"><span class="pre">node2</span></code>, and once to add the stiffness at <code class="docutils literal notranslate"><span class="pre">node2</span></code> because it is connected with <code class="docutils literal notranslate"><span class="pre">node1</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+    <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span> <span class="o">=</span> <span class="n">edge</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">)</span>
+
+    <span class="n">add_block</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">k</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span>
+    <span class="n">add_block</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="n">node1</span><span class="p">,</span> <span class="n">k</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a list of lists of matrices, each a sum of stiffness matrices.</p>
+<p>Finally, we can use the list of lists to make a <code class="docutils literal notranslate"><span class="pre">BlockMatrix</span></code>.
+Here’s the result, shown with the common factor <span class="math notranslate nohighlight">\(k/4\)</span> pulled out.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K_block</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
+<span class="n">factor_matrix</span><span class="p">(</span><span class="n">K_block</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">k</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \frac{A E}{4 L} \left[\begin{matrix}\left[\begin{matrix}5 &amp; \sqrt{3}\\\sqrt{3} &amp; 3\end{matrix}\right] &amp; \left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}0 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; - \sqrt{3}\\- \sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}0 &amp; 0\\0 &amp; 0\end{matrix}\right]\\\left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}10 &amp; 0\\0 &amp; 6\end{matrix}\right] &amp; \left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; \sqrt{3}\\\sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; - \sqrt{3}\\- \sqrt{3} &amp; -3\end{matrix}\right]\\\left[\begin{matrix}0 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}5 &amp; - \sqrt{3}\\- \sqrt{3} &amp; 3\end{matrix}\right] &amp; \left[\begin{matrix}0 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; \sqrt{3}\\\sqrt{3} &amp; -3\end{matrix}\right]\\\left[\begin{matrix}-1 &amp; - \sqrt{3}\\- \sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; \sqrt{3}\\\sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}0 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}6 &amp; 0\\0 &amp; 6\end{matrix}\right] &amp; \left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right]\\\left[\begin{matrix}0 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; - \sqrt{3}\\- \sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; \sqrt{3}\\\sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}6 &amp; 0\\0 &amp; 6\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Now let’s see if we can solve the matrix equation <span class="math notranslate nohighlight">\(K u = f\)</span> (hint: we can’t quite yet).</p>
+</section>
+<section id="shift-and-rotate">
+<h2><span class="section-number">2.8. </span>Shift and Rotate<a class="headerlink" href="#shift-and-rotate" title="Link to this heading">#</a></h2>
+<p>At this point we have a block matrix with five columns – one for each displacement – and five rows – one for each equation.
+So if we are given five external forces, it’s tempting to think we can solve for the unknown displacements.
+But we can’t, because the stiffness matrix we assembled does not have full rank.</p>
+<p>Before we can compute its rank, we have to convert <code class="docutils literal notranslate"><span class="pre">k_block</span></code> from a 5x5 block matrix to a 10x10 conventional matrix, using the method <code class="docutils literal notranslate"><span class="pre">as_explicit</span></code>.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="n">K_block</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">()</span>
+<span class="n">factor_matrix</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">k</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \frac{A E}{4 L} \left[\begin{matrix}5 &amp; \sqrt{3} &amp; -4 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; - \sqrt{3} &amp; 0 &amp; 0\\\sqrt{3} &amp; 3 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; - \sqrt{3} &amp; -3 &amp; 0 &amp; 0\\-4 &amp; 0 &amp; 10 &amp; 0 &amp; -4 &amp; 0 &amp; -1 &amp; \sqrt{3} &amp; -1 &amp; - \sqrt{3}\\0 &amp; 0 &amp; 0 &amp; 6 &amp; 0 &amp; 0 &amp; \sqrt{3} &amp; -3 &amp; - \sqrt{3} &amp; -3\\0 &amp; 0 &amp; -4 &amp; 0 &amp; 5 &amp; - \sqrt{3} &amp; 0 &amp; 0 &amp; -1 &amp; \sqrt{3}\\0 &amp; 0 &amp; 0 &amp; 0 &amp; - \sqrt{3} &amp; 3 &amp; 0 &amp; 0 &amp; \sqrt{3} &amp; -3\\-1 &amp; - \sqrt{3} &amp; -1 &amp; \sqrt{3} &amp; 0 &amp; 0 &amp; 6 &amp; 0 &amp; -4 &amp; 0\\- \sqrt{3} &amp; -3 &amp; \sqrt{3} &amp; -3 &amp; 0 &amp; 0 &amp; 0 &amp; 6 &amp; 0 &amp; 0\\0 &amp; 0 &amp; -1 &amp; - \sqrt{3} &amp; -1 &amp; \sqrt{3} &amp; -4 &amp; 0 &amp; 6 &amp; 0\\0 &amp; 0 &amp; - \sqrt{3} &amp; -3 &amp; \sqrt{3} &amp; -3 &amp; 0 &amp; 0 &amp; 0 &amp; 6\end{matrix}\right]\end{split}\]</div>
+</div>
+</details>
+</div>
+<p>Now we can compute the rank, which indicates the number of non-redundant equations it represents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7
+</pre></div>
+</div>
+</div>
+</div>
+<p>Although the matrix has 10 rows, the rank is only 7, which means that the matrix represents only 7 independent equations.
+The rank-nullity theorem implies that it has a three-dimensional nullspace, which we can compute with the <code class="docutils literal notranslate"><span class="pre">nullspace</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nullspace</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">nullspace</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">nullspace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a list of three vectors.
+Each of them is a solution to the homogeneous equation <span class="math notranslate nohighlight">\(K u = 0\)</span>, which means that there are three ways we can displace the truss that don’t depend on the external forces.</p>
+<p>If you think about the physical scenario we are modeling, you might be able to figure out what they are.
+The equations we have written so far balance the internal and external forces, but they don’t constrain the truss from moving in space.
+Because the truss is not attached to anything, it is free to shift in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction, shift in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction, and rotate.
+These unconstrained ways of moving are called <strong>degrees of freedom</strong>.</p>
+<p>If we inspect the vectors in the nullspace, we can see how they correspond to these degress of freedom.
+We’ll use this function to extract the displacements of the nodes, in symbolic form, and put them in a block matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_block_vector</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">gget</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">keep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">keep</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">([[</span><span class="n">block</span><span class="p">]</span> <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_sym</span> <span class="o">=</span> <span class="n">get_block_vector</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="s1">&#39;disp&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now here’s the second of the three null vectors, which is the easiest to interpret.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_null_1</span> <span class="o">=</span> <span class="n">nullspace</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">u_sym</span><span class="p">,</span> <span class="n">v_null_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}u_{B0 x}\\u_{B0 y}\\u_{B1 x}\\u_{B1 y}\\u_{B2 x}\\u_{B2 y}\\u_{T0 x}\\u_{T0 y}\\u_{T1 x}\\u_{T1 y}\end{matrix}\right] = \left[\begin{matrix}1\\0\\1\\0\\1\\0\\1\\0\\1\\0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>This vector represents a displacement of all nodes by one unit in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction.</p>
+<p>The sum of the other two null vectors is similar – it displaces all nodes by one unit in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_null_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">nullspace</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">nullspace</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">u_sym</span><span class="p">,</span> <span class="n">v_null_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}u_{B0 x}\\u_{B0 y}\\u_{B1 x}\\u_{B1 y}\\u_{B2 x}\\u_{B2 y}\\u_{T0 x}\\u_{T0 y}\\u_{T1 x}\\u_{T1 y}\end{matrix}\right] = \left[\begin{matrix}0\\1\\0\\1\\0\\1\\0\\1\\0\\1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Finally, here’s the difference between the same two null vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_null_3</span> <span class="o">=</span> <span class="p">(</span><span class="n">nullspace</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">nullspace</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">u_sym</span><span class="p">,</span> <span class="n">v_null_3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}u_{B0 x}\\u_{B0 y}\\u_{B1 x}\\u_{B1 y}\\u_{B2 x}\\u_{B2 y}\\u_{T0 x}\\u_{T0 y}\\u_{T1 x}\\u_{T1 y}\end{matrix}\right] = \left[\begin{matrix}- \sqrt{3}\\2\\- \sqrt{3}\\0\\- \sqrt{3}\\-2\\0\\1\\0\\-1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Looking at the components of this vector, it’s not obvious what it means.
+It will be clearer if we plot the effect it has on the truss.
+To do that, we’ll pack it into a dictionary that maps from the components of the displacement vectors to the elements of the null vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rotation</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">u_sym</span><span class="p">,</span> <span class="n">v_null_3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll use the following function to loop through the nodes in the graph and displace each node using the values in this dictionary.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">displace_truss</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">sol</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="n">G_sol</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G_sol</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G_sol</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">gget</span><span class="p">(</span><span class="n">G_sol</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;disp&#39;</span><span class="p">)</span>
+        <span class="n">u_eval</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span><span class="o">.</span><span class="n">evalf</span><span class="p">()</span> <span class="o">*</span> <span class="n">scale</span> 
+        <span class="n">gset</span><span class="p">(</span><span class="n">G_sol</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span> <span class="o">+</span> <span class="n">u_eval</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">G_sol</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">scale</span></code> parameter determines the magnitudes of the displacements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_rot</span> <span class="o">=</span> <span class="n">displace_truss</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, let’s draw the displaced truss on top of an outline of the original.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_truss_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">subs</span><span class="p">,</span> <span class="n">label_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">draw_truss_graph</span><span class="p">(</span><span class="n">G_rot</span><span class="p">,</span> <span class="n">subs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4ed93e3fa57d078ee149dc5b7e595f999958d4bf712ffc39db2dba3fae382b40.png" src="_images/4ed93e3fa57d078ee149dc5b7e595f999958d4bf712ffc39db2dba3fae382b40.png" />
+</div>
+</div>
+<p>Now we can see that this null vector represents the third degree of freedom, rotation.</p>
+<p>With 10 unknowns and only 7 independent equations, this system is <strong>underdetermined</strong>, which means it has many possible solutions.
+But that’s because we have not yet taken into account all of the information we have about the physical scenario – specifically, we know that two of the nodes are fixed in space.</p>
+</section>
+<section id="reduce-the-matrix">
+<h2><span class="section-number">2.9. </span>Reduce the Matrix<a class="headerlink" href="#reduce-the-matrix" title="Link to this heading">#</a></h2>
+<p>Let’s assume that the truss is attached firmly at the left and right.
+The following loop makes a copy of the graph where the displacement at those nodes is zero.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B0&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;B</span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+<span class="n">G_fixed</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">fixed_nodes</span><span class="p">:</span>
+        <span class="n">disp</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">gset</span><span class="p">(</span><span class="n">G_fixed</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since these displacements are no longer unknown, we can remove them from the matrix equation.
+First, we’ll compute the indices of the remaining nodes that are not fixed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keep</span> <span class="o">=</span> <span class="p">[</span><span class="n">gget</span><span class="p">(</span><span class="n">G_fixed</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">)</span> 
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G_fixed</span><span class="o">.</span><span class="n">nodes</span> 
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fixed_nodes</span><span class="p">]</span>
+<span class="n">keep</span>    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 3, 4]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’ll select the blocks that correspond to these nodes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">blocks_reduced</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> 
+     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">keep</span><span class="p">]</span>
+     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">keep</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And make a new block matrix that has been <strong>reduced</strong> by removing the known displacements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K_reduced</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks_reduced</span><span class="p">)</span>
+<span class="n">factor_matrix</span><span class="p">(</span><span class="n">K_reduced</span><span class="p">,</span> <span class="n">k</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \frac{A E}{4 L} \left[\begin{matrix}\left[\begin{matrix}10 &amp; 0\\0 &amp; 6\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; \sqrt{3}\\\sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}-1 &amp; - \sqrt{3}\\- \sqrt{3} &amp; -3\end{matrix}\right]\\\left[\begin{matrix}-1 &amp; \sqrt{3}\\\sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}6 &amp; 0\\0 &amp; 6\end{matrix}\right] &amp; \left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right]\\\left[\begin{matrix}-1 &amp; - \sqrt{3}\\- \sqrt{3} &amp; -3\end{matrix}\right] &amp; \left[\begin{matrix}-4 &amp; 0\\0 &amp; 0\end{matrix}\right] &amp; \left[\begin{matrix}6 &amp; 0\\0 &amp; 6\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Now there are only 6 columns, and the matrix has <strong>full rank</strong> – that is, the equations it represents are independent.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K_reduced</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">()</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
+</pre></div>
+</div>
+</div>
+</div>
+<p>And that means the equation <span class="math notranslate nohighlight">\(K u = f\)</span> has a unique solution for any vector of forces, <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>To solve the system, we’ll use <code class="docutils literal notranslate"><span class="pre">get_block_vector</span></code> to loop through the graph and collect the unknown displacements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_reduced</span> <span class="o">=</span> <span class="n">get_block_vector</span><span class="p">(</span><span class="n">G_fixed</span><span class="p">,</span> <span class="s1">&#39;disp&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
+<span class="n">u_reduced</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\left[\begin{matrix}u_{B1 x}\\u_{B1 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T0 x}\\u_{T0 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T1 x}\\u_{T1 y}\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And we can collect the external forces the same way.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_reduced</span> <span class="o">=</span> <span class="n">get_block_vector</span><span class="p">(</span><span class="n">G_fixed</span><span class="p">,</span> <span class="s1">&#39;f_ext&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="p">)</span>
+<span class="n">f_reduced</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\left[\begin{matrix}0\\0\end{matrix}\right]\\\left[\begin{matrix}0\\- \frac{F}{2}\end{matrix}\right]\\\left[\begin{matrix}0\\- \frac{F}{2}\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Now (finally!) we are ready to solve the system.</p>
+</section>
+<section id="solve-the-system">
+<h2><span class="section-number">2.10. </span>Solve the System<a class="headerlink" href="#solve-the-system" title="Link to this heading">#</a></h2>
+<p>Here’s the matrix equation, <span class="math notranslate nohighlight">\(K u = f\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">K_reduced</span> <span class="o">*</span> <span class="n">u_reduced</span><span class="p">,</span> <span class="n">f_reduced</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">subs</span></code> again to replace the symbols with their values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_num</span> <span class="o">=</span> <span class="n">eq</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a numerical matrix equation we can solve for the unknown displacements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">eq_num</span><span class="p">,</span> <span class="n">u_reduced</span><span class="o">.</span><span class="n">as_explicit</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what the result looks like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_sol</span> <span class="o">=</span> <span class="n">u_reduced</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sol</span><span class="p">)</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">u_reduced</span><span class="p">,</span> <span class="n">factor_matrix</span><span class="p">(</span><span class="n">u_sol</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\left[\begin{matrix}u_{B1 x}\\u_{B1 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T0 x}\\u_{T0 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T1 x}\\u_{T1 y}\end{matrix}\right]\end{matrix}\right] = 1.0 \cdot 10^{-6} \left[\begin{matrix}\left[\begin{matrix}0\\-20.4166666666667\end{matrix}\right]\\\left[\begin{matrix}3.53627039878646\\-18.375\end{matrix}\right]\\\left[\begin{matrix}-3.53627039878646\\-18.375\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And here’s what those displacements look like, scaled up by a factor of 300 to make them visible.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_sol</span> <span class="o">=</span> <span class="n">displace_truss</span><span class="p">(</span><span class="n">G_fixed</span><span class="p">,</span> <span class="n">sol</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="n">draw_truss_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">subs</span><span class="p">,</span> <span class="n">label_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">draw_truss_graph</span><span class="p">(</span><span class="n">G_sol</span><span class="p">,</span> <span class="n">subs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/fbe3809a705697730b46b64c233e695f31d49069965ad599d818604f5dd3da7e.png" src="_images/fbe3809a705697730b46b64c233e695f31d49069965ad599d818604f5dd3da7e.png" />
+</div>
+</div>
+<p>At <code class="docutils literal notranslate"><span class="pre">B1</span></code>, the displacement in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction is about 41 micrometers, which is about twice the displacement we computed for the simple truss.
+And that makes sense because the span of this truss is about twice the span of the simple truss.</p>
+<p>If you go back where we defined <code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">2</span></code>, you can set <code class="docutils literal notranslate"><span class="pre">N</span></code> to another value and run the notebook again.
+See what happens to the results as you increase <code class="docutils literal notranslate"><span class="pre">N</span></code>.</p>
+<p>In some Warren trusses, the roadbed is suspended from the top nodes, rather than attached to the bottom nodes.
+Run the analysis with half of the load on each of <code class="docutils literal notranslate"><span class="pre">T0</span></code> and <code class="docutils literal notranslate"><span class="pre">T1</span></code>, rather than all of it on <code class="docutils literal notranslate"><span class="pre">B0</span></code>.
+Are the displacements bigger or smaller?</p>
+<p>TECHNICAL NOTE: If you’ve seen truss analysis before, you might have been surprised that I constrained the fixed nodes in both dimensions.
+In textbook truss analysis, it is more common to constrain one of the nodes in only one dimension.
+In this example, that would reduce the 10x10 underdetermined system to a 7x7 fully determined system.
+By fixing two nodes entirely, we reduced it to a 6x6 system, also fully determined.</p>
+<p>The conventional approach imposes the minimal number of constraints, but the approach I used here was a little easier to implement, and I think it’s a more realistic model of a real bridge, where the two endpoints are generally similar.
+But either method is fine.</p>
+</section>
+<section id="discussion">
+<h2><span class="section-number">2.11. </span>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
+<p>When I was an undergraduate, I took a class where we learned to analyze trusses.
+One of my classmates asked a question that I’m not sure I appreciated at the time, but it stuck with me.
+To paraphrase, he asked, “Do we design trusses because they are optimal, or because they are easy to analyze?”
+This is a really good question.</p>
+<p>As you might guess, the answer is both.
+If your goal is to build a structure that supports a given load with a minimum amount of material, a truss may not be optimal – with the complexity of real-world requirements and constraints, it’s hard to say what “optimal” even means.
+But for many applications, a truss is a fundamentally good design.</p>
+<p>It is also easy to analyze, but that is not as important as it used to be.
+Before we had computers, we analyzed structures by hand, so we had to keep them simple.
+When I was an undergraduate, we had enough computational power and software capability to analyze more complex structures, but what we could design was still limited by what we could analyze.</p>
+<p>Now with modern computational tools, we can analyze almost any structure we can imagine, so analysis is no longer the limiting factor on what we can design and build.
+But this is a recent change, and we are only beginning to see its consequences.</p>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
+<p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="nullspace.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Null Space</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplest-truss">2.1. The Simplest Truss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-force">2.2. Internal Force</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium">2.3. Equilibrium</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffness-matrix">2.4. The Stiffness Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warren-trusses">2.5. Warren Trusses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#block-matrix-equation">2.6. Block Matrix Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-block-matrix">2.7. Compute the Block Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shift-and-rotate">2.8. Shift and Rotate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-the-matrix">2.9. Reduce the Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-system">2.10. Solve the System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.11. Discussion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

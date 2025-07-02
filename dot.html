@@ -1,0 +1,1475 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dot Product &#8212; Think Linear Algebra, 1st edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'dot';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">1. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">2. Truss in the System</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkLinearAlgebra/tree/main" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/dot.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dot Product</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section">Section</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
+<section id="dot-product">
+<h1>Dot Product<a class="headerlink" href="#dot-product" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/dot.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> nb_black
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 1;
+            var nbb_formatted_code = "%load_ext nb_black\n%load_ext autoreload\n%autoreload 2";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</details>
+</div>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 2;
+            var nbb_formatted_code = "from os.path import basename, exists\n\n\ndef download(url):\n    filename = basename(url)\n    if not exists(filename):\n        from urllib.request import urlretrieve\n\n        local, _ = urlretrieve(url, filename)\n        print(\"Downloaded \" + local)\n\n\ndownload(\"https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py\")";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</details>
+</div>
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 3;
+            var nbb_formatted_code = "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom utils import decorate";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</details>
+</div>
+<section id="section">
+<h2>Section<a class="headerlink" href="#section" title="Link to this heading">#</a></h2>
+<p>9-foot table (standard regulation)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_width</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">table_height</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">ball_diameter</span> <span class="o">=</span> <span class="mf">2.25</span>
+<span class="n">ball_radius</span> <span class="o">=</span> <span class="n">ball_diameter</span> <span class="o">/</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 74;
+            var nbb_formatted_code = "table_width = 100\ntable_height = 50\n\nball_diameter = 2.25\nball_radius = ball_diameter / 2";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">underride</span><span class="p">,</span> <span class="n">decorate</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_circles</span><span class="p">(</span><span class="n">vs</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+    <span class="n">underride</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;ax&quot;</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">vs</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">ball_radius</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 75;
+            var nbb_formatted_code = "from utils import underride, decorate\n\n\ndef draw_circles(vs, **options):\n    underride(options, color=\"C1\", alpha=0.6, lw=0)\n    ax = options.pop(\"ax\", plt.gca())\n    for x, y in vs:\n        ax.add_patch(plt.Circle((x, y), ball_radius, **options))";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">cartesian_product</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_table</span><span class="p">():</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">))</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">table_width</span><span class="p">,</span> <span class="n">table_height</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
+
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+    <span class="n">pockets</span> <span class="o">=</span> <span class="n">cartesian_product</span><span class="p">([</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">])</span>
+    <span class="n">draw_circles</span><span class="p">(</span><span class="n">pockets</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Remove ticks and labels</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+
+    <span class="c1"># Set the aspect ratio and limits</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">&quot;box&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">table_width</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">table_height</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 76;
+            var nbb_formatted_code = "from utils import cartesian_product\n\n\ndef draw_table():\n    fig, ax = plt.subplots(figsize=(5, 2.5))\n\n    ax.add_patch(plt.Rectangle((0, 0), table_width, table_height, fill=None))\n\n    xs = [0, 50, 100]\n    ys = [0, 50]\n    pockets = cartesian_product([xs, ys])\n    draw_circles(pockets, color=\"black\")\n\n    # Remove ticks and labels\n    ax.set_xticks([])\n    ax.set_yticks([])\n    ax.set_xticklabels([])\n    ax.set_yticklabels([])\n\n    # Set the aspect ratio and limits\n    ax.set_aspect(\"equal\", adjustable=\"box\")\n    ax.set_xlim(0, table_width)\n    ax.set_ylim(0, table_height)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_table</span><span class="p">()</span>
+<span class="n">cue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">])</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">75</span><span class="p">,</span> <span class="mi">25</span><span class="p">])</span>
+<span class="n">draw_circles</span><span class="p">([</span><span class="n">cue</span><span class="p">,</span> <span class="n">target</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e28c50e982b6569aa2b3d81f334f683a81d6581dcab8eaf2bd6e1477b68654ce.png" src="_images/e28c50e982b6569aa2b3d81f334f683a81d6581dcab8eaf2bd6e1477b68654ce.png" />
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 77;
+            var nbb_formatted_code = "draw_table()\ncue = np.array([25, 25])\ntarget = np.array([75, 25])\ndraw_circles([cue, target])";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">polar_to_cartesian</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mf">0.033</span>
+<span class="n">direction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">polar_to_cartesian</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">theta</span><span class="p">))</span>
+<span class="n">direction</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.99945555, 0.03299401])
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 78;
+            var nbb_formatted_code = "from utils import polar_to_cartesian\n\nr = 1\ntheta = 0.033\ndirection = np.array(polar_to_cartesian(r, theta))\ndirection";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">magnitude</span> <span class="o">=</span> <span class="mi">47</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="n">direction</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 79;
+            var nbb_formatted_code = "magnitude = 47\nv = magnitude * direction";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">numpy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">distance_between</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">v1</span> <span class="o">-</span> <span class="n">v2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 80;
+            var nbb_formatted_code = "from numpy.linalg import norm\n\n\ndef distance_between(v1, v2):\n    return norm(v1 - v2)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pos1</span> <span class="o">=</span> <span class="n">cue</span> <span class="o">+</span> <span class="n">v</span>
+<span class="n">pos2</span> <span class="o">=</span> <span class="n">target</span>
+<span class="n">distance_between</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(3.399840844152523)
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 81;
+            var nbb_formatted_code = "pos1 = cue + v\npos2 = target\ndistance_between(pos1, pos2)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_vector</span>
+
+<span class="n">draw_table</span><span class="p">()</span>
+<span class="n">draw_circles</span><span class="p">([</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">])</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">cue</span><span class="p">)</span>
+<span class="n">label_vector</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">cue</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.015</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f77043406d124fd055aed510228427f75545dcc71303625855660bee4904dd90.png" src="_images/f77043406d124fd055aed510228427f75545dcc71303625855660bee4904dd90.png" />
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 83;
+            var nbb_formatted_code = "from utils import plot_vector\n\ndraw_table()\ndraw_circles([pos1, pos2])\nplot_vector(v, cue)\nlabel_vector(v, cue, \"v\", label_pos=1, offset=0.015)\ndecorate(xlim=[60, 80], ylim=[20, 30])";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">objective_func</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="n">direction</span>
+    <span class="k">return</span> <span class="n">distance_between</span><span class="p">(</span><span class="n">pos1</span> <span class="o">+</span> <span class="n">v</span><span class="p">,</span> <span class="p">[</span><span class="n">pos2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 84;
+            var nbb_formatted_code = "def objective_func(magnitude, direction, pos1, pos2):\n    v = magnitude * direction\n    return distance_between(pos1 + v, [pos2])";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">objective_func</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">cue</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(3.399840844152523)
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 85;
+            var nbb_formatted_code = "objective_func(magnitude, direction, cue, target)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize_scalar</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">minimize_distance</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">distance_between</span><span class="p">(</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">)</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">minimize_scalar</span><span class="p">(</span>
+        <span class="n">objective_func</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bounded&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">solution</span><span class="o">.</span><span class="n">success</span>
+    <span class="k">return</span> <span class="n">solution</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 86;
+            var nbb_formatted_code = "from scipy.optimize import minimize_scalar\n\n\ndef minimize_distance(direction, pos1, pos2):\n    args = (direction, pos1, target)\n\n    upper = distance_between(pos1, pos2)\n    solution = minimize_scalar(\n        objective_func, bounds=(0, upper), args=args, method=\"bounded\"\n    )\n\n    assert solution.success\n    return solution";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">minimize_distance</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">cue</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">solution</span><span class="o">.</span><span class="n">fun</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.6497005413060046)
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 87;
+            var nbb_formatted_code = "solution = minimize_distance(direction, cue, target)\nsolution.fun";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distance_to_min</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 88;
+            var nbb_formatted_code = "distance_to_min = solution.x";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">will_hit</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">thresh</span><span class="p">):</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">minimize_distance</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">solution</span><span class="o">.</span><span class="n">fun</span> <span class="o">&lt;</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 89;
+            var nbb_formatted_code = "def will_hit(direction, pos1, pos2, thresh):\n    solution = minimize_distance(direction, pos1, pos2)\n    return solution.fun < thresh";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">will_hit</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">cue</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">ball_diameter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.True_
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 90;
+            var nbb_formatted_code = "will_hit(direction, cue, target, ball_diameter)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">error_func</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">goal_distance</span><span class="p">):</span>
+    <span class="n">actual_distance</span> <span class="o">=</span> <span class="n">objective_func</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">actual_distance</span> <span class="o">-</span> <span class="n">goal_distance</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 91;
+            var nbb_formatted_code = "def error_func(magnitude, direction, pos1, pos2, goal_distance):\n    actual_distance = objective_func(magnitude, direction, pos1, pos2)\n    return actual_distance - goal_distance";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">error_func</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">cue</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">ball_diameter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.1498408441525232)
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 92;
+            var nbb_formatted_code = "error_func(magnitude, direction, cue, target, ball_diameter)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lower</span> <span class="o">=</span> <span class="n">distance_to_min</span> <span class="o">-</span> <span class="n">ball_diameter</span>
+<span class="n">upper</span> <span class="o">=</span> <span class="n">distance_to_min</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 93;
+            var nbb_formatted_code = "lower = distance_to_min - ball_diameter\nupper = distance_to_min";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">root_scalar</span>
+
+<span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">cue</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">ball_diameter</span><span class="p">)</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="n">root_scalar</span><span class="p">(</span><span class="n">error_func</span><span class="p">,</span> <span class="n">bracket</span><span class="o">=</span><span class="p">[</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">],</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;brentq&quot;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">solution</span><span class="o">.</span><span class="n">converged</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 94;
+            var nbb_formatted_code = "from scipy.optimize import root_scalar\n\nargs = (direction, cue, target, ball_diameter)\nsolution = root_scalar(error_func, bracket=[lower, upper], args=args, method=\"brentq\")\nassert solution.converged";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">magnitude</span> <span class="o">=</span> <span class="n">solution</span><span class="o">.</span><span class="n">root</span>
+<span class="n">magnitude</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>48.442748672152476
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 95;
+            var nbb_formatted_code = "magnitude = solution.root\nmagnitude";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_soln</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="n">direction</span>
+<span class="n">pos1</span> <span class="o">=</span> <span class="n">cue</span> <span class="o">+</span> <span class="n">v_soln</span>
+<span class="n">pos2</span> <span class="o">=</span> <span class="n">target</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 96;
+            var nbb_formatted_code = "v_soln = magnitude * direction\npos1 = cue + v_soln\npos2 = target";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_table</span><span class="p">()</span>
+<span class="n">draw_circles</span><span class="p">([</span><span class="n">pos1</span><span class="p">,</span> <span class="n">target</span><span class="p">])</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">v_soln</span><span class="p">,</span> <span class="n">cue</span><span class="p">)</span>
+<span class="n">label_vector</span><span class="p">(</span><span class="n">v_soln</span><span class="p">,</span> <span class="n">cue</span><span class="p">,</span> <span class="s1">&#39;v_soln&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.015</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1f4fedda97db699f8224e317297fc4fbbdc5b1647cd76834e4cb0f56e08c5844.png" src="_images/1f4fedda97db699f8224e317297fc4fbbdc5b1647cd76834e4cb0f56e08c5844.png" />
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 98;
+            var nbb_formatted_code = "draw_table()\ndraw_circles([pos1, target])\nplot_vector(v_soln, cue)\nlabel_vector(v_soln, cue, \"v_soln\", label_pos=1, offset=0.015)\ndecorate(xlim=[60, 80], ylim=[20, 30])";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">normalize</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">v</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 27;
+            var nbb_formatted_code = "def normalize(v):\n    return v / norm(v)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">pos2</span> <span class="o">-</span> <span class="n">pos1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 28;
+            var nbb_formatted_code = "v1 = v / norm(v)\nv2 = np.array([0, 0])\nn = normalize(pos2 - pos1)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_vectors</span>
+
+<span class="n">draw_table</span><span class="p">()</span>
+<span class="n">draw_circles</span><span class="p">([</span><span class="n">pos1</span><span class="p">,</span> <span class="n">target</span><span class="p">])</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">v_soln</span><span class="p">,</span> <span class="n">cue</span><span class="p">)</span>
+<span class="n">plot_vectors</span><span class="p">([</span><span class="n">v1</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="p">[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b37f7a6418aae541e0c8e7eb57e9a39f1cecdb099a678bf59876054248ff2c73.png" src="_images/b37f7a6418aae541e0c8e7eb57e9a39f1cecdb099a678bf59876054248ff2c73.png" />
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 55;
+            var nbb_formatted_code = "from utils import plot_vectors\n\ndraw_table()\ndraw_circles([pos1, target])\nplot_vector(v_soln, cue)\nplot_vectors([v1, n], [pos1, pos1], labels=[\"v1\", \"n\"], scale=5, color=\"C2\")\ndecorate(xlim=[60, 80], ylim=[20, 30])";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 30;
+            var nbb_formatted_code = "def dot(v, w):\n    return np.dot(v, w)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v1_normal</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">dot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span>
+<span class="n">v1_tangent</span> <span class="o">=</span> <span class="n">v1</span> <span class="o">-</span> <span class="n">v1_normal</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 31;
+            var nbb_formatted_code = "v1_normal = dot(v1, n) / dot(n, n) * n\nv1_tangent = v1 - v1_normal";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_table</span><span class="p">()</span>
+<span class="n">draw_circles</span><span class="p">([</span><span class="n">pos1</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plot_vectors</span><span class="p">([</span><span class="n">v1</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
+<span class="n">plot_vectors</span><span class="p">([</span><span class="n">v1_normal</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="n">v1_tangent</span> <span class="o">*</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v1_normal&#39;</span><span class="p">,</span> <span class="s1">&#39;v1_tangent&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">65</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2bbdd1dc0cceffea7a1ff49386011cc77d09bf81e3d7b64281cd35722129b54c.png" src="_images/2bbdd1dc0cceffea7a1ff49386011cc77d09bf81e3d7b64281cd35722129b54c.png" />
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 57;
+            var nbb_formatted_code = "draw_table()\ndraw_circles([pos1, target], alpha=0.2)\nplot_vectors([v1 * 5, n * 5], [pos1, pos1], color=\"C2\")\nplot_vectors(\n    [v1_normal * 5, v1_tangent * 5],\n    [pos1, pos1],\n    labels=[\"v1_normal\", \"v1_tangent\"],\n    color=\"C3\",\n)\ndecorate(xlim=[65, 80], ylim=[20, 30])";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v2_normal</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">dot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span>
+<span class="n">v2_tangent</span> <span class="o">=</span> <span class="n">v2</span> <span class="o">-</span> <span class="n">v2_normal</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 33;
+            var nbb_formatted_code = "v2_normal = dot(v2, n) / dot(n, n) * n\nv2_tangent = v2 - v2_normal";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v1_after</span> <span class="o">=</span> <span class="n">v1_tangent</span> <span class="o">+</span> <span class="n">v2_normal</span>
+<span class="n">v2_after</span> <span class="o">=</span> <span class="n">v2_tangent</span> <span class="o">+</span> <span class="n">v1_normal</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 34;
+            var nbb_formatted_code = "v1_after = v1_tangent + v2_normal\nv2_after = v2_tangent + v1_normal";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_table</span><span class="p">()</span>
+<span class="n">draw_circles</span><span class="p">([</span><span class="n">pos1</span><span class="p">,</span> <span class="n">target</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plot_vectors</span><span class="p">([</span><span class="n">v1_after</span><span class="p">,</span> <span class="n">v2_after</span><span class="p">],</span> <span class="p">[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;v1_after&#39;</span><span class="p">,</span> <span class="s1">&#39;v2_after&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.quiver.Quiver at 0x75ec64588a60&gt;
+</pre></div>
+</div>
+<img alt="_images/2b6bdd9ae530d74f194f900a82e1e484aab272be93526e6ea09180477ca1b4c3.png" src="_images/2b6bdd9ae530d74f194f900a82e1e484aab272be93526e6ea09180477ca1b4c3.png" />
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 101;
+            var nbb_formatted_code = "draw_table()\ndraw_circles([pos1, target], alpha=0.6)\nplot_vectors(\n    [v1_after, v2_after],\n    [pos1, pos2],\n    scale=30,\n    labels=[\"v1_after\", \"v2_after\"],\n    color=\"C2\",\n)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pocket1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+<span class="n">pocket2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 36;
+            var nbb_formatted_code = "pocket1 = np.array([100, 50])\npocket2 = np.array([100, 0])";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">will_hit</span><span class="p">(</span><span class="n">v2_after</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">pocket2</span><span class="p">,</span> <span class="n">ball_diameter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.True_
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 37;
+            var nbb_formatted_code = "will_hit(v2_after, pos2, pocket2, ball_diameter)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">will_hit</span><span class="p">(</span><span class="n">v1_after</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">pocket1</span><span class="p">,</span> <span class="n">ball_diameter</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.False_
+</pre></div>
+</div>
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 38;
+            var nbb_formatted_code = "will_hit(v1_after, pos1, pocket1, ball_diameter)";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">label_vector</span>
+
+<span class="n">draw_table</span><span class="p">()</span>
+<span class="n">origin</span> <span class="o">=</span> <span class="n">cue</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">30</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
+    <span class="n">label_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">origin</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4d9617f6f10594ec8842e104bda83382e436f21399d8cf6eea5a34e77e0c7ccb.png" src="_images/4d9617f6f10594ec8842e104bda83382e436f21399d8cf6eea5a34e77e0c7ccb.png" />
+<script type="application/javascript">
+        setTimeout(function() {
+            var nbb_cell_id = 51;
+            var nbb_formatted_code = "from utils import label_vector\n\ndraw_table()\norigin = cue\nvector = np.array([30, 15])\nplot_vector(vector, origin)\n\nfor pos in range(12):\n    label_vector(vector, origin, label=pos, label_pos=pos, color=\"C1\")";
+            var nbb_cells = Jupyter.notebook.get_cells();
+            for (var i = 0; i < nbb_cells.length; ++i) {
+                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
+                    nbb_cells[i].set_text(nbb_formatted_code);
+                    break;
+                }
+            }
+        }, 500);
+        </script></div>
+</div>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
+<p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section">Section</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

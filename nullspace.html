@@ -1,0 +1,1324 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Null Space &#8212; Think Linear Algebra, 1st edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nullspace';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Truss in the System" href="truss.html" />
+    <link rel="prev" title="Think Stats, 3rd edition" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">2. Truss in the System</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkLinearAlgebra/tree/main" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/nullspace.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Null Space</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stoichiometry">1.1. Stoichiometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-null-space-numerically">1.2. Finding a Null Space Numerically</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-spaces-with-more-dimensions">1.3. Null Spaces With More Dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">1.4. Discussion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">1.4.1. Exercise</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
+<section id="null-space">
+<h1><span class="section-number">1. </span>Null Space<a class="headerlink" href="#null-space" title="Link to this heading">#</a></h1>
+<p>In the previous chapter we saw examples where a system of linear equations has a single solution.
+In this chapter, we’ll consider an example where there are many possible solution.
+One domain where systems like this are common is conservation of atoms (and sometimes charge) in chemical reactions – that is, stoichiometry.
+If you studied chemistry some time ago, or never, I’ll explain what you need to know.</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/nullspace.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="stoichiometry">
+<h2><span class="section-number">1.1. </span>Stoichiometry<a class="headerlink" href="#stoichiometry" title="Link to this heading">#</a></h2>
+<p>In chemistry, a reaction equation specifies a set of chemicals that can react to form another set of chemicals.
+In this context, the chemicals are called reagents.</p>
+<p>As an example, we’ll write the reaction equation for combustion of ethanol – that is, the reaction of ethanol with molecular oxygen to form carbon dioxide and water.
+We’ll define SymPy symbols to represent each of these reagents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+
+<span class="n">C2H5OH</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;C_</span><span class="si">{2}</span><span class="s1"> H_5 OH&#39;</span><span class="p">)</span>
+<span class="n">O2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;O2&#39;</span><span class="p">)</span>
+<span class="n">CO2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;CO2&#39;</span><span class="p">)</span>
+<span class="n">H2O</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;H_</span><span class="si">{2}</span><span class="s1"> O&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can define the left hand side and the right hand side of the equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lhs</span> <span class="o">=</span> <span class="n">C2H5OH</span> <span class="o">+</span> <span class="n">O2</span>
+<span class="n">rhs</span> <span class="o">=</span> <span class="n">CO2</span> <span class="o">+</span> <span class="n">H2O</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can display it like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Math</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sp</span><span class="o">.</span><span class="n">latex</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">rightarrow </span><span class="si">{</span><span class="n">sp</span><span class="o">.</span><span class="n">latex</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle C_{2} H_5 OH + O_{2} \rightarrow CO_{2} + H_{2} O\]</div>
+</div>
+</div>
+<p>In this form the equation is not balanced, because it does not have the same number of atoms, of each kind, on both sides.
+For example, there are two carbon atoms on the left and only one on the right.
+In chemical reactions (as opposed to nuclear reactions) atoms are conserved.</p>
+<p>To balance the equation, we have to find a set of proportions in which these species of chemicals can be combined while conserving atoms.
+To do that, we’ll introduce unknown coefficients to the equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x1 x2 x3 x4&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll rewrite the equations with each species multiplied by a coefficient.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lhs</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">C2H5OH</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">O2</span>
+<span class="n">rhs</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">CO2</span> <span class="o">+</span> <span class="n">x4</span> <span class="o">*</span> <span class="n">H2O</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And collect the coefficients and species into lists.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">]</span>
+<span class="n">species</span> <span class="o">=</span> <span class="p">[</span><span class="n">C2H5OH</span><span class="p">,</span> <span class="n">O2</span><span class="p">,</span> <span class="n">CO2</span><span class="p">,</span> <span class="n">H2O</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can use the following function to display the reaction equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">display_reaction</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">species</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">terms</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="n">s</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">species</span><span class="p">)]</span>
+    <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">terms</span><span class="p">[:</span><span class="n">i</span><span class="p">]),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">terms</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sp</span><span class="o">.</span><span class="n">latex</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2">rightarrow </span><span class="si">{</span><span class="n">sp</span><span class="o">.</span><span class="n">latex</span><span class="p">(</span><span class="n">rhs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what the combustion of ethanol looks like with stoichiometric coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle C_{2} H_5 OH x_{1} + O_{2} x_{2} \rightarrow CO_{2} x_{3} + H_{2} O x_{4}\]</div>
+</div>
+</div>
+<p>Now let’s solve for the unknown coefficients.
+We can do that by writing an equation to represent conservation of each type of atom involved in the reaction.</p>
+<p>For example, there are <span class="math notranslate nohighlight">\(2 x_1\)</span> carbon atoms on the left and <span class="math notranslate nohighlight">\(x3\)</span> on the right, so we can write:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_carbon</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>         
+<span class="n">eq_carbon</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 2 x_{1} = x_{3}\]</div>
+</div>
+</div>
+<p>Similarly, there are six hydrogen atoms in each molecule of ethanol and two in each molecule of <span class="math notranslate nohighlight">\(H_2\)</span>, so we can write:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_hydrogen</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">x4</span><span class="p">)</span>     
+<span class="n">eq_hydrogen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 6 x_{1} = 2 x_{4}\]</div>
+</div>
+</div>
+<p>Finally, we can write this equation to represent conservation of oxygen atoms.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_oxygen</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span> <span class="o">+</span> <span class="n">x4</span><span class="p">)</span>  
+<span class="n">eq_oxygen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x_{1} + 2 x_{2} = 2 x_{3} + x_{4}\]</div>
+</div>
+</div>
+<p>Together, these form a system of linear equations, which we will solve simultaneously.
+As we did in the previous chapter, we can write the system as a matrix equation.
+We’ll use the SymPy function <code class="docutils literal notranslate"><span class="pre">linear_eq_to_matrix</span></code> to assemble the equations into a matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linear_eq_to_matrix</span><span class="p">([</span><span class="n">eq_carbon</span><span class="p">,</span> <span class="n">eq_hydrogen</span><span class="p">,</span> <span class="n">eq_oxygen</span><span class="p">],</span> <span class="n">coefficients</span><span class="p">)</span>
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}2 &amp; 0 &amp; -1 &amp; 0\\6 &amp; 0 &amp; 0 &amp; -2\\1 &amp; 2 &amp; -2 &amp; -1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>The results represent the matrix equation <span class="math notranslate nohighlight">\(A x = b\)</span>, where <span class="math notranslate nohighlight">\(x\)</span> is the vector of coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}x_{1}\\x_{2}\\x_{3}\\x_{4}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>If we multiply the left hand side, we can confirm that we recover the system of equations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eqn</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">eqn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}2 x_{1} - x_{3}\\6 x_{1} - 2 x_{4}\\x_{1} + 2 x_{2} - 2 x_{3} - x_{4}\end{matrix}\right] = \left[\begin{matrix}0\\0\\0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Because there are no constants in the equations, <span class="math notranslate nohighlight">\(b\)</span> is all zeros – which means that this is a homogeneous equation.
+We can use <code class="docutils literal notranslate"><span class="pre">solve</span></code> to solve this system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">eqn</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">solution</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{x1: x4/3, x2: x4, x3: 2*x4/3}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a dictionary that represents a system of equations that express <span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_2\)</span>, and <span class="math notranslate nohighlight">\(x_3\)</span> in terms of <span class="math notranslate nohighlight">\(x_4\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">equations</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">expr</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">expr</span> <span class="ow">in</span> <span class="n">solution</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+<span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">equations</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">latex</span><span class="p">(</span><span class="n">eq</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x_{1} = \frac{x_{4}}{3}\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x_{2} = x_{4}\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x_{3} = \frac{2 x_{4}}{3}\]</div>
+</div>
+</div>
+<p>This is not the most convenient way to represent the solution.
+An alternative is to compute the null space of the system, which represents the solution as a list of vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nullspace</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">nullspace</span><span class="p">()</span>
+<span class="n">nullspace</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Matrix([
+ [1/3],
+ [  1],
+ [2/3],
+ [  1]])]
+</pre></div>
+</div>
+</div>
+</div>
+<p>This vector represents a solution to the system of equations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">basis_vector</span> <span class="o">=</span> <span class="n">nullspace</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">basis_vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\frac{1}{3}\\1\\\frac{2}{3}\\1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>If we multiply the solution by <span class="math notranslate nohighlight">\(A\)</span>, we can confirm that the result is <span class="math notranslate nohighlight">\(b\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">*</span> <span class="n">basis_vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}0\\0\\0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And we can use it to write a balanced version of reaction equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="n">basis_vector</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \frac{C_{2} H_5 OH}{3} + O_{2} \rightarrow \frac{2 CO_{2}}{3} + H_{2} O\]</div>
+</div>
+</div>
+<p>But it is not standard to write reaction equations with fractional coefficients.
+So we’ll use the following function to find the least common multiplier of the fractional coefficients and multiply through.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">scale_vector</span><span class="p">(</span><span class="n">vector</span><span class="p">):</span>
+    <span class="n">denoms</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">denom</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vector</span><span class="p">]</span>
+    <span class="n">lcm</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lcm</span><span class="p">(</span><span class="n">denoms</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vector</span> <span class="o">*</span> <span class="n">lcm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the scaled version of the solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">scale_vector</span><span class="p">(</span><span class="n">basis_vector</span><span class="p">)</span>
+<span class="n">solution</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1\\3\\2\\3\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Any multiple of the solution vector is also a solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">*</span> <span class="n">solution</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}0\\0\\0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Finally here’s the balanced reaction equation in standard form.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle C_{2} H_5 OH + 3 O_{2} \rightarrow 2 CO_{2} + 3 H_{2} O\]</div>
+</div>
+</div>
+<p>Because every molecule contains an integer number of each atom type, we know that the coefficients can be expressed as integers.
+So using SymPy to compute the solution symbolically is a good option.
+But we can also find null spaces numerically.</p>
+</section>
+<section id="finding-a-null-space-numerically">
+<h2><span class="section-number">1.2. </span>Finding a Null Space Numerically<a class="headerlink" href="#finding-a-null-space-numerically" title="Link to this heading">#</a></h2>
+<p>To find the null space of <span class="math notranslate nohighlight">\(A\)</span> numerically, we’ll convert it to a NumPy array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">A_numpy</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 2.,  0., -1.,  0.],
+       [ 6.,  0.,  0., -2.],
+       [ 1.,  2., -2., -1.]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And use the <code class="docutils literal notranslate"><span class="pre">null_space</span></code> function from SciPy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">null_space</span>
+
+<span class="n">ns</span> <span class="o">=</span> <span class="n">null_space</span><span class="p">(</span><span class="n">A_numpy</span><span class="p">)</span>
+<span class="n">ns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.20851441],
+       [0.62554324],
+       [0.41702883],
+       [0.62554324]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is an array where each column is a vector in the null space.
+In this example there is only one, so we can select it like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.20851441, 0.62554324, 0.41702883, 0.62554324])
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we multiply by <span class="math notranslate nohighlight">\(A\)</span>, we can confirm that the result is all zeros, within floating-point error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_numpy</span> <span class="o">@</span> <span class="n">vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.0000000e+00, -4.4408921e-16,  0.0000000e+00])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We might not recognize this vector as the solution we got from SymPy.
+That’s because it is normalized so its magnitude is 1, within floating-point error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.9999999999999999)
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we scale it so the smallest element is 1, its easier to recognize.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">denom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vector</span><span class="p">))</span>
+<span class="n">scaled</span> <span class="o">=</span> <span class="n">vector</span> <span class="o">/</span> <span class="n">denom</span>
+<span class="n">scaled</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1., 3., 2., 3.])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And again, any multiple of this vector is also a solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_numpy</span> <span class="o">@</span> <span class="n">scaled</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.00000000e+00, -1.77635684e-15,  0.00000000e+00])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="null-spaces-with-more-dimensions">
+<h2><span class="section-number">1.3. </span>Null Spaces With More Dimensions<a class="headerlink" href="#null-spaces-with-more-dimensions" title="Link to this heading">#</a></h2>
+<p>Let’s consider a more complex example, the oxidation of hydrogen peroxide (<span class="math notranslate nohighlight">\(H_2O_2\)</span>) by potassium permanganate (<span class="math notranslate nohighlight">\(K \mathit{Mn} O_4\)</span>).
+This reaction is a classic demonstration in chemistry classes because the color of the solution changes dramatically.
+It is also used in oxidative treatment of wastewater.</p>
+<p>Here are the species we’ll need to write the reaction equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">KMnO4</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;K \mathit</span><span class="si">{Mn}</span><span class="s1"> O_4&#39;</span><span class="p">)</span>
+<span class="n">H2O2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;H_</span><span class="si">{2}</span><span class="s1">O_</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">H_plus</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;H^{+}&#39;</span><span class="p">)</span>
+<span class="n">Mn2_plus</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;\mathit</span><span class="si">{Mn}</span><span class="s1">^{2+}&#39;</span><span class="p">)</span>
+<span class="n">K_plus</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;K^{+}&#39;</span><span class="p">)</span>
+
+<span class="n">species2</span> <span class="o">=</span> <span class="p">[</span><span class="n">KMnO4</span><span class="p">,</span> <span class="n">H2O2</span><span class="p">,</span> <span class="n">H_plus</span><span class="p">,</span> <span class="n">Mn2_plus</span><span class="p">,</span> <span class="n">O2</span><span class="p">,</span> <span class="n">H2O</span><span class="p">,</span> <span class="n">K_plus</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since we have seven species, we’ll need seven coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;a b c d e f g&#39;</span><span class="p">)</span>
+<span class="n">coefficients2</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here is the version of the reaction equation with unknown coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="n">coefficients2</span><span class="p">,</span> <span class="n">species2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle H^{+} c + H_{2}O_{2} b + K \mathit{Mn} O_4 a \rightarrow H_{2} O f + K^{+} g + O_{2} e + \mathit{Mn}^{2+} d\]</div>
+</div>
+</div>
+<p>To find the coefficients, we can write four equations, one for each type of atom involved in the reaction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_mn</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="n">eq_k</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+<span class="n">eq_h</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">f</span><span class="p">)</span>
+<span class="n">eq_o</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">e</span> <span class="o">+</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that three of the reagents are charged ions: <span class="math notranslate nohighlight">\(H^{+}\)</span> and <span class="math notranslate nohighlight">\(K^{+}\)</span> and <span class="math notranslate nohighlight">\(\mathit{Mn}^{2+}\)</span>.
+So we can write an additional equation that requires charge to be conserved.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_charge</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">d</span> <span class="o">+</span> <span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eqns</span> <span class="o">=</span> <span class="p">[</span><span class="n">eq_mn</span><span class="p">,</span> <span class="n">eq_k</span><span class="p">,</span> <span class="n">eq_h</span><span class="p">,</span> <span class="n">eq_o</span><span class="p">,</span> <span class="n">eq_charge</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">eqn</span> <span class="ow">in</span> <span class="n">eqns</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">latex</span><span class="p">(</span><span class="n">eqn</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle a = d\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle a = g\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 2 b + c = 2 f\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 4 a + 2 b = 2 e + f\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle c = 2 d + g\]</div>
+</div>
+</div>
+<p>Now we can express this system as a matrix equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linear_eq_to_matrix</span><span class="p">(</span><span class="n">eqns</span><span class="p">,</span> <span class="n">coefficients2</span><span class="p">)</span>
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0 &amp; -1 &amp; 0 &amp; 0 &amp; 0\\1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; -1\\0 &amp; 2 &amp; 1 &amp; 0 &amp; 0 &amp; -2 &amp; 0\\4 &amp; 2 &amp; 0 &amp; 0 &amp; -2 &amp; -1 &amp; 0\\0 &amp; 0 &amp; 1 &amp; -2 &amp; 0 &amp; 0 &amp; -1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Because we have seven coefficients and only five equations, the system is underconstrained.
+In fact, it is even less constrained than the previous example: the null space contains two vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nullspace</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">nullspace</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">nullspace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll scale the vectors so the coefficients are integers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solutions</span> <span class="o">=</span> <span class="p">[</span><span class="n">scale_vector</span><span class="p">(</span><span class="n">basis_vector</span><span class="p">)</span> <span class="k">for</span> <span class="n">basis_vector</span> <span class="ow">in</span> <span class="n">nullspace</span><span class="p">]</span>
+<span class="n">solutions</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Matrix([
+ [0],
+ [2],
+ [0],
+ [0],
+ [1],
+ [2],
+ [0]]),
+ Matrix([
+ [ 2],
+ [-3],
+ [ 6],
+ [ 2],
+ [ 1],
+ [ 0],
+ [ 2]])]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here is what the first solution looks like as a balanced equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="n">solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">species2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 2 H_{2}O_{2} \rightarrow 2 H_{2} O + O_{2}\]</div>
+</div>
+</div>
+<p>This equation represent the decomposition of hydrogen peroxide (H2O2) into water (H2O) and oxygen gas (O2).
+This reaction happens slowly at room temperature, and more quickly in the presence of catalase, an enzyme found in living cells, which is the cause of the foaming you might see if you apply hydrogen peroxide to a wound.</p>
+<p>Here’s the second solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="n">solutions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">species2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 6 H^{+} - 3 H_{2}O_{2} + 2 K \mathit{Mn} O_4 \rightarrow 2 K^{+} + O_{2} + 2 \mathit{Mn}^{2+}\]</div>
+</div>
+</div>
+<p>Notice that it contains a negative coefficient, which is not meaningful – there can’t be a negative amount of a reagent.
+So this solution is mathematically valid in the sense that it solves the equations that conserve atoms and charge, but by itself it does not represent a physically possible reaction.</p>
+<p>However, any linear combination of these solutions is also a solution, and some of those combinations are physically possible.
+For example, if we combine the solutions in the ratio 4:1, we get the following reaction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">solutions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">species2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 6 H^{+} + 5 H_{2}O_{2} + 2 K \mathit{Mn} O_4 \rightarrow 8 H_{2} O + 2 K^{+} + 5 O_{2} + 2 \mathit{Mn}^{2+}\]</div>
+</div>
+</div>
+<p>This equation is balanced in atoms and charge, and it is theoretically possible because all of the coefficients are positive.
+In fact this is the reaction that occurs spontaneously when these reagents are combined.</p>
+<p>However, if we combine the solutions in a ratio of 2:1, the result is also balanced and theoretically possible.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">solutions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">solutions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">species2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 6 H^{+} + H_{2}O_{2} + 2 K \mathit{Mn} O_4 \rightarrow 4 H_{2} O + 2 K^{+} + 3 O_{2} + 2 \mathit{Mn}^{2+}\]</div>
+</div>
+</div>
+<p>But under normal conditions, this reaction does not happen at non-negligible levels, I presume because it is not energetically favored.
+And there are many more combinations that are theoretically possible, but also unlikely.</p>
+<p>So this is an example where balance of atoms and charge can tell us which reactions are theoretically possible, but stoichiometry alone is not enough to tell us which reactions are thermodynamically likely.</p>
+</section>
+<section id="discussion">
+<h2><span class="section-number">1.4. </span>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
+<p>This chapter presents underdetermined systems, where the number of unknowns is greater than the number of equations.
+These systems often have many solutions.</p>
+<p>The set of solutions forms a <strong>null space</strong>, which is defined by a set of basis vectors.
+Every linear combination of these vectors is a solution to the system.</p>
+<p>In the ethanol example, the null space had one basis vector, so the solution space was one-dimensional.
+In the potassium permanganate example, there were two basis vectors, forming a two-dimensional space of solutions.</p>
+<p>In general, there is a relationship between the rank of a matrix and the number of dimensions in its null space, given by the <strong>rank-nullity theorem</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{rank}(A) + \text{nullity}(A) = n
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is the number of columns in <span class="math notranslate nohighlight">\(A\)</span>.
+The rank tells us how many independent constraints the equations impose.
+The nullity tells us how many degrees of freedom remain.</p>
+<p>In the next chapter we consider overdetermined systems with no solutions – so we will try to find the best of the non-solutions.</p>
+<section id="exercise">
+<h3><span class="section-number">1.4.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<p>Balance the equation for the combustion of methanol.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CH3OH</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;C H_</span><span class="si">{3}</span><span class="s1"> OH&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lhs</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">CH3OH</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">O2</span>
+<span class="n">rhs</span> <span class="o">=</span> <span class="n">x3</span> <span class="o">*</span> <span class="n">CO2</span> <span class="o">+</span> <span class="n">x4</span> <span class="o">*</span> <span class="n">H2O</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">],</span> <span class="n">species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle C_{2} H_5 OH x_{1} + O_{2} x_{2} \rightarrow CO_{2} x_{3} + H_{2} O x_{4}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_carbon</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>         
+<span class="n">eq_carbon</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x_{1} = x_{3}\]</div>
+</div>
+</div>
+<p>Hydrogen: 6 from ethanol = 2 per H2O</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_hydrogen</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">x4</span><span class="p">)</span>     
+<span class="n">eq_hydrogen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 4 x_{1} = 2 x_{4}\]</div>
+</div>
+</div>
+<p>Oxygen: 1 in ethanol + 2 per O2 = 2 per CO2 + 1 per H2O</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_oxygen</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x2</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">x3</span> <span class="o">+</span> <span class="n">x4</span><span class="p">)</span>  
+<span class="n">eq_oxygen</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle x_{1} + 2 x_{2} = 2 x_{3} + x_{4}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linear_eq_to_matrix</span><span class="p">([</span><span class="n">eq_carbon</span><span class="p">,</span> <span class="n">eq_hydrogen</span><span class="p">,</span> <span class="n">eq_oxygen</span><span class="p">],</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">))</span>
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; -1 &amp; 0\\4 &amp; 0 &amp; 0 &amp; -2\\1 &amp; 2 &amp; -2 &amp; -1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}0\\0\\0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nullspace</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">nullspace</span><span class="p">()</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">nullspace</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">basis_vector</span> <span class="o">=</span> <span class="n">nullspace</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">basis_vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\frac{1}{2}\\\frac{3}{4}\\\frac{1}{2}\\1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution</span> <span class="o">=</span> <span class="n">scale_vector</span><span class="p">(</span><span class="n">basis_vector</span><span class="p">)</span>
+<span class="n">solution</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}2\\3\\2\\4\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_reaction</span><span class="p">(</span><span class="n">solution</span><span class="p">,</span> <span class="n">species</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 2 C_{2} H_5 OH + 3 O_{2} \rightarrow 2 CO_{2} + 4 H_{2} O\]</div>
+</div>
+</div>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
+<p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Think Stats, 3rd edition</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="truss.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Truss in the System</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stoichiometry">1.1. Stoichiometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-null-space-numerically">1.2. Finding a Null Space Numerically</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-spaces-with-more-dimensions">1.3. Null Spaces With More Dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">1.4. Discussion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">1.4.1. Exercise</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
