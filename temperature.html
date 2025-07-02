@@ -1,0 +1,791 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Downloading Our World in Data &#8212; Think Stats, 3rd edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'temperature';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Stats, 3rd edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chap00.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap01.html">Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap02.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap03.html">Probability Mass Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap04.html">Cumulative Distribution Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap05.html">Modeling Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap06.html">Probability Density Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap07.html">Relationships between variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap08.html">Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap09.html">Hypothesis Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap10.html">Least Squares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap11.html">Multiple Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap12.html">Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap13.html">Survival analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap14.html">Analytic Methods</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkStats/tree/v3" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/temperature.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Downloading Our World in Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#air-temperature">Air Temperature</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="downloading-our-world-in-data">
+<h1>Downloading Our World in Data<a class="headerlink" href="#downloading-our-world-in-data" title="Link to this heading">#</a></h1>
+<p>Our World in Data <a class="reference external" href="https://ourworldindata.org/easier-to-reuse-our-data">recently announced</a> that they are providing APIs to access their data.
+Coincidentally, I am using one of their datasets in my <a class="reference external" href="https://global2024.pydata.org/cfp/talk/KLXYKX/">workshop on time series analysis at PyData Global 2024</a>.
+So I took this opportunity to update my example using the new API – this notebook shows what I learned.</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkStats/blob/v3/examples/temperature.ipynb">Click here to run this notebook on Colab</a>.
+It is based on Chapter 12 of <a class="reference external" href="https://allendowney.github.io/ThinkStats/"><em>Think Stats</em>, third edition</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="air-temperature">
+<h2>Air Temperature<a class="headerlink" href="#air-temperature" title="Link to this heading">#</a></h2>
+<p>In the chapter on time series analysis, in an exercise on seasonal decomposition, I use monthly average surface temperatures in the United States, from a <a class="reference external" href="https://ourworldindata.org/grapher/average-monthly-surface-temperature">dataset from Our World in Data</a> that includes “temperature [in Celsius] of the air measured 2 meters above the ground, encompassing land, sea, and in-land water surfaces,” for most countries in the world from 1941 to 2024.</p>
+<p>The following cells download and display the metadata that describes the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://ourworldindata.org/grapher/&quot;</span>
+    <span class="s2">&quot;average-monthly-surface-temperature.metadata.json&quot;</span>
+<span class="p">)</span>
+<span class="n">query_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;csvType&quot;</span><span class="p">:</span> <span class="s2">&quot;full&quot;</span><span class="p">,</span> <span class="s2">&quot;useColumnShortNames&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">}</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="s2">&quot;Our World In Data data fetch/1.0&quot;</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">query_params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="n">metadata</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a nested dictionary. Here are the top-level keys.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;chart&#39;, &#39;columns&#39;, &#39;dateDownloaded&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the chart-level documentation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="n">pprint</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;chart&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;citation&#39;: &#39;Contains modified Copernicus Climate Change Service information &#39;
+             &#39;(2019)&#39;,
+ &#39;originalChartUrl&#39;: &#39;https://ourworldindata.org/grapher/average-monthly-surface-temperature?v=1&amp;csvType=full&amp;useColumnShortNames=true&#39;,
+ &#39;selection&#39;: [&#39;World&#39;],
+ &#39;subtitle&#39;: &#39;The temperature of the air measured 2 meters above the ground, &#39;
+             &#39;encompassing land, sea, and in-land water surfaces.&#39;,
+ &#39;title&#39;: &#39;Average monthly surface temperature&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s the documentation of the column we’ll use.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">][</span><span class="s2">&quot;temperature_2m&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;citationLong&#39;: &#39;Contains modified Copernicus Climate Change Service &#39;
+                 &#39;information (2019) – with major processing by Our World in &#39;
+                 &#39;Data. “Annual average” [dataset]. Contains modified &#39;
+                 &#39;Copernicus Climate Change Service information, “ERA5 monthly &#39;
+                 &#39;averaged data on single levels from 1940 to present 2” &#39;
+                 &#39;[original data].&#39;,
+ &#39;citationShort&#39;: &#39;Contains modified Copernicus Climate Change Service &#39;
+                  &#39;information (2019) – with major processing by Our World in &#39;
+                  &#39;Data&#39;,
+ &#39;descriptionKey&#39;: [],
+ &#39;descriptionProcessing&#39;: &#39;- Temperature measured in kelvin was converted to &#39;
+                          &#39;degrees Celsius (°C) by subtracting 273.15.\n&#39;
+                          &#39;\n&#39;
+                          &#39;- Initially, the temperature dataset is provided &#39;
+                          &#39;with specific coordinates in terms of longitude and &#39;
+                          &#39;latitude. To tailor this data to each country, we &#39;
+                          &#39;utilize geographical boundaries as defined by the &#39;
+                          &#39;World Bank. The method involves trimming the global &#39;
+                          &#39;temperature dataset to match the exact geographical &#39;
+                          &#39;shape of each country. To correct for potential &#39;
+                          &quot;distortions caused by the Earth&#39;s curvature on a &quot;
+                          &#39;flat map, we apply a latitude-based weighting. This &#39;
+                          &#39;step is essential for maintaining accuracy, &#39;
+                          &#39;especially in high-latitude regions where &#39;
+                          &#39;distortion is more pronounced. The result of this &#39;
+                          &#39;process is a latitude-weighted average temperature &#39;
+                          &#39;for each nation.\n&#39;
+                          &#39;\n&#39;
+                          &quot;- It&#39;s important to note, however, that due to the &quot;
+                          &#39;resolution constraints of the Copernicus dataset, &#39;
+                          &#39;this methodology might not be as effective for &#39;
+                          &#39;countries with very small landmasses. In these &#39;
+                          &#39;cases, the process may not yield reliable data.\n&#39;
+                          &#39;\n&#39;
+                          &#39;- The derived 2-meter temperature readings for each &#39;
+                          &#39;country are calculated based on administrative &#39;
+                          &#39;borders, encompassing all land surface types within &#39;
+                          &#39;these defined areas. As a result, temperatures over &#39;
+                          &#39;oceans and seas are not included in these averages, &#39;
+                          &#39;focusing the data primarily on terrestrial &#39;
+                          &#39;environments.\n&#39;
+                          &#39;\n&#39;
+                          &#39;- Global temperature averages and anomalies are &#39;
+                          &#39;calculated over all land and ocean surfaces.&#39;,
+ &#39;descriptionShort&#39;: &#39;The temperature of the air measured 2 meters above the &#39;
+                     &#39;ground, encompassing land, sea, and in-land water &#39;
+                     &#39;surfaces. The 2024 data is incomplete and was last &#39;
+                     &#39;updated 13 October 2024.&#39;,
+ &#39;fullMetadata&#39;: &#39;https://api.ourworldindata.org/v1/indicators/819532.metadata.json&#39;,
+ &#39;lastUpdated&#39;: &#39;2023-12-20&#39;,
+ &#39;owidVariableId&#39;: 819532,
+ &#39;shortName&#39;: &#39;temperature_2m&#39;,
+ &#39;shortUnit&#39;: &#39;°C&#39;,
+ &#39;timespan&#39;: &#39;1940-2024&#39;,
+ &#39;titleLong&#39;: &#39;Annual average&#39;,
+ &#39;titleShort&#39;: &#39;Annual average&#39;,
+ &#39;type&#39;: &#39;Numeric&#39;,
+ &#39;unit&#39;: &#39;°C&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following cells download the data for the United States – to see data from another country, change <code class="docutils literal notranslate"><span class="pre">country_code</span></code> to almost any <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes#Current_ISO_3166_country_code">three-letter ISO 3166 country codes</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">country_code</span> <span class="o">=</span> <span class="s2">&quot;USA&quot;</span>  <span class="c1"># replace this with other three-letter country codes</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://ourworldindata.org/grapher/&quot;</span> 
+    <span class="s2">&quot;average-monthly-surface-temperature.csv&quot;</span>
+<span class="p">)</span>
+
+<span class="n">query_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;csvType&quot;</span><span class="p">:</span> <span class="s2">&quot;filtered&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;useColumnShortNames&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="s2">&quot;chart&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;country&quot;</span><span class="p">:</span> <span class="n">country_code</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlencode</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">urlencode</span><span class="p">(</span><span class="n">query_params</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In general, you can find out which query parameters are supported by exploring the dataset online and pressing the download icon, which displays a URL with query parameters corresponding to the filters you selected by interacting with the chart.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temp_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Entity</th>
+      <th>Code</th>
+      <th>year</th>
+      <th>Day</th>
+      <th>temperature_2m</th>
+      <th>temperature_2m.1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>United States</td>
+      <td>USA</td>
+      <td>1941</td>
+      <td>1941-12-15</td>
+      <td>-1.878019</td>
+      <td>8.016244</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>United States</td>
+      <td>USA</td>
+      <td>1942</td>
+      <td>1942-01-15</td>
+      <td>-4.776551</td>
+      <td>7.848984</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>United States</td>
+      <td>USA</td>
+      <td>1942</td>
+      <td>1942-02-15</td>
+      <td>-3.870868</td>
+      <td>7.848984</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>United States</td>
+      <td>USA</td>
+      <td>1942</td>
+      <td>1942-03-15</td>
+      <td>0.097811</td>
+      <td>7.848984</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>United States</td>
+      <td>USA</td>
+      <td>1942</td>
+      <td>1942-04-15</td>
+      <td>7.537291</td>
+      <td>7.848984</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The resulting <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> includes the column that’s documented in the metadata, <code class="docutils literal notranslate"><span class="pre">temperature_2m</span></code>, and an additional undocumented column, which might be an annual average.</p>
+<p>For this example, we’ll use the monthly data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temp_series</span> <span class="o">=</span> <span class="n">temp_df</span><span class="p">[</span><span class="s2">&quot;temperature_2m&quot;</span><span class="p">]</span>
+<span class="n">temp_series</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">temp_df</span><span class="p">[</span><span class="s2">&quot;Day&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what it looks like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temp_series</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">country_code</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Surface temperature (℃)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Surface temperature (℃)&#39;)
+</pre></div>
+</div>
+<img alt="_images/fe05d2e77042cb5d03657e7d484808be4dbaa1fa7f60390f3cca461f0f928cae.png" src="_images/fe05d2e77042cb5d03657e7d484808be4dbaa1fa7f60390f3cca461f0f928cae.png" />
+</div>
+</div>
+<p>Not surprisingly, there is a strong seasonal pattern.
+We can use <code class="docutils literal notranslate"><span class="pre">seasonal_decompose</span></code> from StatsModels to identify a long-term trend, a seasonal component, and a residual.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.tsa.seasonal</span><span class="w"> </span><span class="kn">import</span> <span class="n">seasonal_decompose</span>
+
+<span class="n">decomposition</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">temp_series</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;additive&quot;</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll use the following function to plot the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_decomposition</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">decomposition</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Original&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Original&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">trend</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Trend&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Trend&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">seasonal</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Seasonal&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Seasonal&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">decomposition</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Residual&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Residual&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_decomposition</span><span class="p">(</span><span class="n">temp_series</span><span class="p">,</span> <span class="n">decomposition</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c5738f871cf8982612f4921ae8479cf1c5ad9d583b5f0cebabb401af92abce1f.png" src="_images/c5738f871cf8982612f4921ae8479cf1c5ad9d583b5f0cebabb401af92abce1f.png" />
+</div>
+</div>
+<p>As always, I’m grateful to Our World in Data for making datasets like this available, and now easier to use programmatically.</p>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkStats/index.html">Think Stats: Exploratory Data Analysis in Python, 3rd Edition</a></p>
+<p>Copyright 2024 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#air-temperature">Air Temperature</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

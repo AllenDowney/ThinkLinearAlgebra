@@ -1,0 +1,1392 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Variability Hypothesis &#8212; Think Stats, 3rd edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'variability';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Stats, 3rd edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chap00.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap01.html">Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap02.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap03.html">Probability Mass Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap04.html">Cumulative Distribution Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap05.html">Modeling Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap06.html">Probability Density Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap07.html">Relationships between variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap08.html">Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap09.html">Hypothesis Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap10.html">Least Squares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap11.html">Multiple Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap12.html">Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap13.html">Survival analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap14.html">Analytic Methods</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkStats/tree/v3" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/variability.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Variability Hypothesis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-means">Difference in means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-standard-deviations">Difference in standard deviations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-coefficient-of-variation">Difference in coefficient of variation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-robust-cv">Difference in robust CV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-iqr-median">Difference in IQR / median</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="the-variability-hypothesis">
+<h1>The Variability Hypothesis<a class="headerlink" href="#the-variability-hypothesis" title="Link to this heading">#</a></h1>
+<p>This notebook demonstrates the use of resampling for hypothesis testing. I used it as part of a keynote at posit::conf 2024.</p>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Variability_hypothesis">variability hypothesis</a> is the theory that males are generally more variable than females in both physical and psychological traits.
+It is a controversial claim, to put it mildly.</p>
+<p>As a quick exploration of the topic – and a demonstration of bootstrap resampling – let’s see whether men are more variable than women in height.
+We’ll use the 2022 dataset from the Behavioral Risk Factor Surveillance System (BRFSS), which  includes self-reported heights and weights for more than 400,000 respondents.</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkStats/blob/v3/examples/variability.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">empiricaldist</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>empiricaldist
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">75</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="data">
+<h2>Data<a class="headerlink" href="#data" title="Link to this heading">#</a></h2>
+<p>The following function reads the data in an SAS export format, downloaded from the <a class="reference external" href="https://www.cdc.gov/brfss/annual_data/annual_2022.html">BRFSS website</a> on August 1, 2024.
+It selects the columns we’ll use and writes the much smaller excerpt to an HDF file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">write_hdf</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the SAS export file and write an HDF file.&quot;&quot;&quot;</span>
+    <span class="n">brfss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sas</span><span class="p">(</span><span class="s2">&quot;LLCP2022.XPT.gz&quot;</span><span class="p">)</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_SEX&quot;</span><span class="p">,</span> <span class="s2">&quot;HTM4&quot;</span><span class="p">,</span> <span class="s2">&quot;WTKG3&quot;</span><span class="p">,</span> <span class="s2">&quot;_LLCPWT&quot;</span><span class="p">]</span>
+    <span class="n">brfss</span><span class="p">[</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s2">&quot;LLCP2022.hdf5&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;brfss&quot;</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Rather than download the whole dataset, we can get just the excerpt.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/LLCP2022.hdf5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the first few rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">brfss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s2">&quot;LLCP2022.hdf5&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;brfss&quot;</span><span class="p">)</span>
+<span class="n">brfss</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>_SEX</th>
+      <th>HTM4</th>
+      <th>WTKG3</th>
+      <th>_LLCPWT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>445132.000000</td>
+      <td>416480.000000</td>
+      <td>403054.000000</td>
+      <td>445132.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.529942</td>
+      <td>170.269057</td>
+      <td>8307.447039</td>
+      <td>594.856344</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.499103</td>
+      <td>10.717750</td>
+      <td>2144.817270</td>
+      <td>1134.837415</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>91.000000</td>
+      <td>2268.000000</td>
+      <td>0.020464</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1.000000</td>
+      <td>163.000000</td>
+      <td>6804.000000</td>
+      <td>115.885991</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2.000000</td>
+      <td>170.000000</td>
+      <td>8074.000000</td>
+      <td>274.632388</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2.000000</td>
+      <td>178.000000</td>
+      <td>9525.000000</td>
+      <td>627.913694</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2.000000</td>
+      <td>241.000000</td>
+      <td>29257.000000</td>
+      <td>54390.520926</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The dataset includes self-reported heights for almost 200,000 mean and almost 220,000 women.
+Here are numbers of males and females with the shortest recorded heights.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xtab</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">brfss</span><span class="p">[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">],</span> <span class="n">brfss</span><span class="p">[</span><span class="s2">&quot;_SEX&quot;</span><span class="p">])</span>
+<span class="n">xtab</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Male&quot;</span><span class="p">,</span> <span class="s2">&quot;Female&quot;</span><span class="p">]</span>
+<span class="n">xtab</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Male</th>
+      <th>Female</th>
+    </tr>
+    <tr>
+      <th>HTM4</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>91.0</th>
+      <td>7</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>92.0</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>95.0</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>97.0</th>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>99.0</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>And the tallest recorded heights.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xtab</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Male</th>
+      <th>Female</th>
+    </tr>
+    <tr>
+      <th>HTM4</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>226.0</th>
+      <td>9</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>229.0</th>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>234.0</th>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>236.0</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>241.0</th>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>According to the <a class="reference external" href="https://www.cdc.gov/brfss/annual_data/2022/pdf/2022-calculated-variables-version4-508.pdf">codebook</a>, heights below 91 cm are set to 91 cm, and heights above 241 cm are set to 241 cm.
+Even so, some of the remaining values are likely to be errors.
+For example, the current tallest woman in the world is 234 cm, so the largest female height in the dataset, 241 cm, was probably reported or recorded incorrectly.</p>
+<p>To draw a bootstrap sample from this <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, we’ll use the following function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">resample</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw a bootstrap sample.</span>
+
+<span class="sd">    df: DataFrame</span>
+
+<span class="sd">    returns: DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s2">&quot;_LLCPWT&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s a single sample we’ll use for testing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">brfss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="difference-in-means">
+<h2>Difference in means<a class="headerlink" href="#difference-in-means" title="Link to this heading">#</a></h2>
+<p>Before we test whether men are more variable than women, let’s warm up by confirming that men are taller than women, on average.
+We’ll use bootstrap resampling to estimate the sampling distribution of the difference in means.
+The following is a utility function that computes the difference between the first two elements of a sequence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">diff</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Difference between the first two elements of a sequence.</span>
+
+<span class="sd">    seq: sequence</span>
+
+<span class="sd">    returns: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">seq</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll use it to compute the difference in means in a sample, which is the “test statistic”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">diff_means</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Difference in average height (M minus F).</span>
+
+<span class="sd">    sample: DataFrame with _SEX and HTM4 columns</span>
+
+<span class="sd">    returns: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grouped_heights</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;_SEX&quot;</span><span class="p">)[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">diff</span><span class="p">(</span><span class="n">grouped_heights</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The difference is defined so a positive value indicates that men are taller.
+Here an example using the bootstrapped sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_means</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14.455796580284954
+</pre></div>
+</div>
+</div>
+</div>
+<p>Men are about 14 cm taller than women, on average.</p>
+<p>The following function takes a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> and a function that computes a test statistic.
+It runs resample many times, computes the test statistic for each sample, and returns a list of test statistics.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">sampling_dist</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">test_stat</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">201</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate bootstrap samples and compute test statistic.</span>
+
+<span class="sd">    df: DataFrame</span>
+<span class="sd">    test_stat: function that takes a DataFrame</span>
+<span class="sd">    iters: number of samples</span>
+
+<span class="sd">    returns: list of float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">test_stat</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span><span class="n">df</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s how we call it.
+The result is a sample from the sampling distribution of differences in means.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t1</span> <span class="o">=</span> <span class="n">sampling_dist</span><span class="p">(</span><span class="n">brfss</span><span class="p">,</span> <span class="n">diff_means</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14.433755828000592
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following function uses KDE to estimate the density of the sampling distribution, uses the estimated density to compute a confidence interval, and generates a plot that shows the sampling distribution, the mean, and the 95% CI.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_kde</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">empiricaldist</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pmf</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_sampling_distribution</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">format_str</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the sampling distribution, mean and CI</span>
+
+<span class="sd">    data: sample from the sampling distribution</span>
+<span class="sd">    format_str: used to format the values</span>
+<span class="sd">    options: passed to plt.plot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># compute the mean and CI</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">data</span><span class="p">)(</span><span class="n">qs</span><span class="p">)</span>
+    <span class="n">pmf</span> <span class="o">=</span> <span class="n">Pmf</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span> <span class="n">qs</span><span class="p">)</span>
+    <span class="n">pmf</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+    <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">pmf</span><span class="o">.</span><span class="n">make_cdf</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">([</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">])</span>
+
+    <span class="c1"># plot the density</span>
+    <span class="n">pmf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">inside</span> <span class="o">=</span> <span class="n">pmf</span><span class="p">[(</span><span class="n">pmf</span><span class="o">.</span><span class="n">qs</span> <span class="o">&gt;=</span> <span class="n">low</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">pmf</span><span class="o">.</span><span class="n">qs</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">)]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">inside</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">inside</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pmf</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+    <span class="c1"># add text and lines</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;95% CI&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">m</span><span class="p">,</span> <span class="n">m</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
+
+    <span class="c1"># adjust xticks</span>
+    <span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">low</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">high</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">format</span><span class="p">(</span><span class="n">tick</span><span class="p">,</span> <span class="n">format_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">tick</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">ticks</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+
+    <span class="c1"># remove spines</span>
+    <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_kde</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">empiricaldist</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pmf</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">format_str</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the sampling distribution, mean and CI</span>
+
+<span class="sd">    data: sample from the sampling distribution</span>
+<span class="sd">    format_str: used to format the values</span>
+<span class="sd">    options: passed to plt.plot</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># compute the mean and CI</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="mi">501</span><span class="p">)</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">data</span><span class="p">)(</span><span class="n">qs</span><span class="p">)</span>
+    <span class="n">pmf</span> <span class="o">=</span> <span class="n">Pmf</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span> <span class="n">qs</span><span class="p">)</span>
+    <span class="n">pmf</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+    <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">pmf</span><span class="o">.</span><span class="n">make_cdf</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">([</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">])</span>
+
+    <span class="c1"># plot the density</span>
+    <span class="n">pmf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pmf</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+    <span class="c1"># adjust xticks</span>
+    <span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="n">low</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">high</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">format</span><span class="p">(</span><span class="n">tick</span><span class="p">,</span> <span class="n">format_str</span><span class="p">)</span> <span class="k">for</span> <span class="n">tick</span> <span class="ow">in</span> <span class="n">ticks</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="c1"># plt.xticks(ticks, labels)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+
+    <span class="c1"># remove spines</span>
+    <span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the results for the sampling distribution of the difference in means.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">simple_plot</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Difference in means (cm)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;variability0.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3d827e510d571605a348cfef2dc276fcf9d5f7883cc815104a03e6e8e309f2d1.png" src="_images/3d827e510d571605a348cfef2dc276fcf9d5f7883cc815104a03e6e8e309f2d1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sampling_distribution</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Difference in means (cm)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;variability1.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/02a79c8f990ce1a7716b5a13afa412dbb323733b3b8daed6f4fbf15903540f57.png" src="_images/02a79c8f990ce1a7716b5a13afa412dbb323733b3b8daed6f4fbf15903540f57.png" />
+</div>
+</div>
+<p>The difference in means is about 14.4 cm.
+If we simulate the data collection process and compute the difference in means many times, it varies a little, but it is never close to zero.</p>
+<p>The following function estimates the probability that a value from this distribution exceeds 0, which is the p-value for the hypothesis that men are taller than women on average.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">p_value</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The p-value is so close to zero we can’t compute it with floating-point arithmetic, which means it is truly negligible.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_value</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>This result means that if we collect another sample this size from the same population, it is practically impossible that the women in the sample would be taller, on average.</p>
+<p>To go a step farther, we can reasonably conclude that the difference we see in the sample is very unlikely to have occurred by chance.
+Some people who interpret hypothesis tests very formally don’t like that conclusion, but <a class="reference external" href="https://allendowney.blogspot.com/2015/05/hypothesis-testing-is-only-mostly.html">I stand by it</a>.</p>
+</section>
+<section id="difference-in-standard-deviations">
+<h2>Difference in standard deviations<a class="headerlink" href="#difference-in-standard-deviations" title="Link to this heading">#</a></h2>
+<p>OK, now let’s get serious.
+If men are more variable than women, we expect the standard deviation of their heights to be higher.
+To see if it is, all we have to do is provide a function that takes a sample and computes the difference in standard deviations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">diff_stds</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Difference in standard deviation (M minus female)</span>
+
+<span class="sd">    sample: DataFrame with `_SEX` and `HTM4` columns</span>
+
+<span class="sd">    returns: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grouped_heights</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;_SEX&quot;</span><span class="p">)[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">diff</span><span class="p">(</span><span class="n">grouped_heights</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Based on a single resampling, is looks like the standard deviation of heights is higher for men.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_stds</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7755433526023632
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">sampling_dist</span></code> again with a different test statistic.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t2</span> <span class="o">=</span> <span class="n">sampling_dist</span><span class="p">(</span><span class="n">brfss</span><span class="p">,</span> <span class="n">diff_stds</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8125943377103155
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the sampling distribution with its mean and 95% CI.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sampling_distribution</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Difference in standard deviation (cm)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;variability2.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c6d67ff72280049c18e2379231fae4358f9f9bd81aea99eb5d1592f1e33c84cb.png" src="_images/c6d67ff72280049c18e2379231fae4358f9f9bd81aea99eb5d1592f1e33c84cb.png" />
+</div>
+</div>
+<p>The 95% CI does not contain zero, which indicates that the difference is significant at the 5% level.
+Assuming that the tails of the distribution drop off like the tails of a normal distribution, we can estimate the p-value like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_value</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.314884452466515e-169
+</pre></div>
+</div>
+</div>
+</div>
+<p>This p-value is just barely big enough to compute, but still so small we can conclude that the apparent difference is very unlikely to be due to chance.</p>
+<p>However, comparing standard deviations might not be a sensible way to assess whether men are more variable.
+Men are taller, on average, so if their heights vary more in absolute terms, that’s doesn’t necessarily means that they vary more in relative terms.
+If we think that variation relative to the mean is more relevant to the variability hypothesis, another test statistic to consider is the coefficient of variation.</p>
+</section>
+<section id="difference-in-coefficient-of-variation">
+<h2>Difference in coefficient of variation<a class="headerlink" href="#difference-in-coefficient-of-variation" title="Link to this heading">#</a></h2>
+<p>The coefficient of variation is the ratio of the standard deviation to the mean, so it quantifies variability in relative terms.
+Here’s a function that takes a sample and computes the difference in coefficients of variation for men and women.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">diff_cvs</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Difference in CV (M minus female)</span>
+
+<span class="sd">    sample: DataFrame with `_SEX` and `HTM4` columns</span>
+
+<span class="sd">    returns: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grouped_heights</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;_SEX&quot;</span><span class="p">)[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">stds</span> <span class="o">=</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">diff</span><span class="p">(</span><span class="n">stds</span> <span class="o">/</span> <span class="n">means</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s a sample from the sampling distribution of the differences.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t3</span> <span class="o">=</span> <span class="n">sampling_dist</span><span class="p">(</span><span class="n">brfss</span><span class="p">,</span> <span class="n">diff_cvs</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0006739584748971127
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the sampling distribution and a 95% CI.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sampling_distribution</span><span class="p">(</span><span class="n">t3</span><span class="p">,</span> <span class="n">format_str</span><span class="o">=</span><span class="s2">&quot;0.4f&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Difference in coefficient of variation&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;variability3.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f55b1f10a049165bdd98518d196853cfc1ceb83c1b0788ee175d2674dbfccf9f.png" src="_images/f55b1f10a049165bdd98518d196853cfc1ceb83c1b0788ee175d2674dbfccf9f.png" />
+</div>
+</div>
+<p>The CI does not contain zero, so the difference is statistically significant.
+And the p-value is small.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_value</span><span class="p">(</span><span class="n">t3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.9123330373066635e-05
+</pre></div>
+</div>
+</div>
+</div>
+<p>But in practical terms, the difference is very small.
+The coefficients of variations are about 0.048.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grouped_heights</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;_SEX&quot;</span><span class="p">)[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span>
+<span class="n">means</span> <span class="o">=</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">stds</span> <span class="o">=</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">CVs</span> <span class="o">=</span> <span class="n">stds</span> <span class="o">/</span> <span class="n">means</span>
+<span class="n">CVs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>_SEX
+1.0    0.048558
+2.0    0.048107
+Name: HTM4, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we express the difference in CVs and a percentage of the CVs, it is only about 1.4%.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t3</span><span class="p">)</span> <span class="o">/</span> <span class="n">CVs</span> <span class="o">*</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>_SEX
+1.0    1.387945
+2.0    1.400971
+Name: HTM4, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>By this measure of variability, men’s heights are slightly more variable than women’s, but the difference is so small, it is unlikely to have any practical consequences.</p>
+<p>Also, both standard deviation and coefficient of variation are affected by outliers, and we have seen that there are extreme values in this dataset that are probably not correct.
+It’s possible that the apparent difference in variability, by these test statistics, is the result of data errors.</p>
+<p>So let’s try again with a more robust statistic.</p>
+</section>
+<section id="difference-in-robust-cv">
+<h2>Difference in robust CV<a class="headerlink" href="#difference-in-robust-cv" title="Link to this heading">#</a></h2>
+<p>As an alternative to the coefficient of variation, we can use a more robust measure of variability.
+One option is the ratio of the median absolute deviation (MAD) to the median.
+Here’s a function that computes it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">robust_cv</span><span class="p">(</span><span class="n">series</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Median absolute deviation.</span>
+
+<span class="sd">    series: Series of numbers</span>
+
+<span class="sd">    returns: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    <span class="n">deviations</span> <span class="o">=</span> <span class="n">series</span> <span class="o">-</span> <span class="n">m</span>
+    <span class="k">return</span> <span class="n">deviations</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">median</span><span class="p">()</span> <span class="o">/</span> <span class="n">m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following function computes the difference in robust CVs.
+The first line jitters the data – otherwise we would get the same results from every resampling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">diff_robust_cv</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Difference in robust CV (M minus female)</span>
+
+<span class="sd">    sample: DataFrame with `_SEX` and `HTM4` columns</span>
+
+<span class="sd">    returns: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span>
+    <span class="n">grouped_heights</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;_SEX&quot;</span><span class="p">)[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span>
+    <span class="n">rcvs</span> <span class="o">=</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">robust_cv</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">diff</span><span class="p">(</span><span class="n">rcvs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The robust CV of the sample is negative, which suggests that women’s heights are more variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_robust_cv</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.0025971928221166715
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the sampling distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t4</span> <span class="o">=</span> <span class="n">sampling_dist</span><span class="p">(</span><span class="n">brfss</span><span class="p">,</span> <span class="n">diff_robust_cv</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.002502441445045549
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sampling_distribution</span><span class="p">(</span><span class="n">t4</span><span class="p">,</span> <span class="n">format_str</span><span class="o">=</span><span class="s2">&quot;0.4f&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Difference in robust CV&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;variability4.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9e7b3b48c8c358ec83d3f786eb90f6b15455634e1481e9d932c47d59b1567426.png" src="_images/9e7b3b48c8c358ec83d3f786eb90f6b15455634e1481e9d932c47d59b1567426.png" />
+</div>
+</div>
+<p>And the p-value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_value</span><span class="p">(</span><span class="n">t4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.93074075784399e-122
+</pre></div>
+</div>
+</div>
+</div>
+<p>According to the robust CV, women are more variable, but again the difference is so small it has no practical consequences.</p>
+</section>
+<section id="discussion">
+<h2>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
+<p>This example demonstrates a strength of bootstrap resampling – it is easy to explore multiple test statistics and consider which is most relevant to the hypothesis in question.</p>
+<ul class="simple">
+<li><p>If we compare standard deviations of height, men are more variable, but that’s not too surprising – men are taller, and almost any process that makes bigger things probably makes more variable things, too.</p></li>
+<li><p>Coefficient of variation might be a better way to compare things with different sizes. By that standard, men are still slightly more variable, but the difference is so small, it’s hard to imagine it has any practical consequences.</p></li>
+<li><p>And it might be an artifact of errors in the data. If we use a robust alternative to the coefficient of variation – MAD divided by median – women are more variable. But again, it is probably not a difference that makes a difference.</p></li>
+</ul>
+<p>In conclusion, the distribution of human height doesn’t provide much support for the variability hypothesis.</p>
+</section>
+<section id="difference-in-iqr-median">
+<h2>Difference in IQR / median<a class="headerlink" href="#difference-in-iqr-median" title="Link to this heading">#</a></h2>
+<p>Here’s one more robust measure of variability.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">diff_relative_iqr</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Difference in IQR / median (M minus female)</span>
+
+<span class="sd">    sample: DataFrame with `_SEX` and `HTM4` columns</span>
+
+<span class="sd">    returns: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span>
+    <span class="n">grouped_heights</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;_SEX&quot;</span><span class="p">)[</span><span class="s2">&quot;HTM4&quot;</span><span class="p">]</span>
+    <span class="n">medians</span> <span class="o">=</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    
+    <span class="c1"># the results depend on which quantiles we use</span>
+    <span class="n">iqrs</span> <span class="o">=</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span> <span class="o">-</span> <span class="n">grouped_heights</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="c1">#iqrs = grouped_heights.quantile(0.95) - grouped_heights.quantile(0.05)</span>
+    
+    <span class="k">return</span> <span class="o">-</span><span class="n">diff</span><span class="p">(</span><span class="n">iqrs</span> <span class="o">/</span> <span class="n">medians</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff_relative_iqr</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.0031180661772347157
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t5</span> <span class="o">=</span> <span class="n">sampling_dist</span><span class="p">(</span><span class="n">brfss</span><span class="p">,</span> <span class="n">diff_relative_iqr</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.004621824998497872
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sampling_distribution</span><span class="p">(</span><span class="n">t5</span><span class="p">,</span> <span class="n">format_str</span><span class="o">=</span><span class="s2">&quot;0.4f&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Difference in IQR / median&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;variability5.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c5295c1cc75e2b41d08d444b5dffcb1f4dfffd0a290951f7265a150f4cfcae9d.png" src="_images/c5295c1cc75e2b41d08d444b5dffcb1f4dfffd0a290951f7265a150f4cfcae9d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_value</span><span class="p">(</span><span class="n">t5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.773833573553618e-98
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-means">Difference in means</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-standard-deviations">Difference in standard deviations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-coefficient-of-variation">Difference in coefficient of variation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-robust-cv">Difference in robust CV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-in-iqr-median">Difference in IQR / median</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

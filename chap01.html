@@ -1,0 +1,1511 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Exploratory Data Analysis &#8212; Think Stats, 3rd edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chap01';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Distributions" href="chap02.html" />
+    <link rel="prev" title="Preface" href="chap00.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Stats, 3rd edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chap00.html">Preface</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap02.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap03.html">Probability Mass Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap04.html">Cumulative Distribution Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap05.html">Modeling Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap06.html">Probability Density Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap07.html">Relationships between variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap08.html">Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap09.html">Hypothesis Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap10.html">Least Squares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap11.html">Multiple Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap12.html">Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap13.html">Survival analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap14.html">Analytic Methods</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkStats/tree/v3" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chap01.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Exploratory Data Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">Evidence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-national-survey-of-family-growth">The National Survey of Family Growth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-data">Reading the Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformation">Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-statistics">Summary Statistics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-1">Exercise 1.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-2">Exercise 1.2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-3">Exercise 1.3</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p>The third edition of <em>Think Stats</em> is available now from <a class="reference external" href="https://bookshop.org/a/98697/9781098190255">Bookshop.org</a> and <a class="reference external" href="https://amzn.to/42lmxwu">Amazon</a> (those are affiliate links). If you are enjoying the free, online version, consider <a class="reference external" href="https://buymeacoffee.com/allendowney">buying me a coffee</a>.</p>
+<section id="exploratory-data-analysis">
+<h1>Exploratory Data Analysis<a class="headerlink" href="#exploratory-data-analysis" title="Link to this heading">#</a></h1>
+<p>The thesis of this book is we can use data to answer questions, resolve debates, and make better decisions.</p>
+<p>This chapter introduces the steps we’ll use to do that: loading and validating data, exploring, and choosing statistics that measure what we are interested in.
+As an example, we’ll use data from the National Survey of Family Growth (NSFG) to answer a question I heard when my wife and I were expecting our first child: do first babies tend to arrive late?</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkStats/blob/v3/nb/chap01.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/nb/thinkstats.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">empiricaldist</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">pip</span> install empiricaldist
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">thinkstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="evidence">
+<h2>Evidence<a class="headerlink" href="#evidence" title="Link to this heading">#</a></h2>
+<p>You might have heard that first babies are more likely to be late.
+If you search the web with this question, you will find plenty of discussion.
+Some people claim it’s true, others say it’s a myth, and some people say it’s the other way around: first babies come early.</p>
+<p>In many of these discussions, people provide data to support their claims.
+I found many examples like these:</p>
+<blockquote>
+<div><p>“My two friends that have given birth recently to their first babies, BOTH went almost 2 weeks overdue before going into labour or being induced.”</p>
+</div></blockquote>
+<blockquote>
+<div><p>“My first one came 2 weeks late and now I think the second one is going to come out two weeks early!!”</p>
+</div></blockquote>
+<blockquote>
+<div><p>“I don’t think that can be true because my sister was my mother’s first and she was early, as with many of my cousins.”</p>
+</div></blockquote>
+<p>Reports like these are called <strong>anecdotal evidence</strong> because they are based on data that is unpublished and usually personal.
+In casual conversation, there is nothing wrong with anecdotes, so I don’t mean to pick on the people I quoted.</p>
+<p>But we might want evidence that is more persuasive and an answer that is more reliable.
+By those standards, anecdotal evidence usually fails, because:</p>
+<ul class="simple">
+<li><p>Small number of observations: If pregnancy length is longer for first babies, the difference is probably small compared to natural variation. In that case, we might have to compare a large number of pregnancies to know whether there is a difference.</p></li>
+<li><p>Selection bias: People who join a discussion of this question might be interested because their first babies were late. In that case the process of selecting data would bias the results.</p></li>
+<li><p>Confirmation bias: People who believe the claim might be more likely to contribute examples that confirm it. People who doubt the claim are more likely to cite counterexamples.</p></li>
+<li><p>Inaccuracy: Anecdotes are often personal stories, and might be misremembered, misrepresented, repeated inaccurately, etc.</p></li>
+</ul>
+<p>To address the limitations of anecdotes, we will use the tools of statistics, which include:</p>
+<ul class="simple">
+<li><p>Data collection: We will use data from a large national survey that was designed explicitly with the goal of generating statistically valid inferences about the U.S. population.</p></li>
+<li><p>Descriptive statistics: We will generate statistics that summarize the data concisely, and evaluate different ways to visualize data.</p></li>
+<li><p>Exploratory data analysis: We will look for patterns, differences, and other features that address the questions we are interested in. At the same time we will check for inconsistencies and identify limitations.</p></li>
+<li><p>Estimation: We will use data from a sample to estimate characteristics of the general population.</p></li>
+<li><p>Hypothesis testing: Where we see apparent effects, like a difference between two groups, we will evaluate whether the effect might have happened by chance.</p></li>
+</ul>
+<p>By performing these steps with care to avoid pitfalls, we can reach conclusions that are more justified and more likely to be correct.</p>
+</section>
+<section id="the-national-survey-of-family-growth">
+<span id="section-nsfg"></span><h2>The National Survey of Family Growth<a class="headerlink" href="#the-national-survey-of-family-growth" title="Link to this heading">#</a></h2>
+<p>Since 1973 the U.S. Centers for Disease Control and Prevention (CDC) have conducted the National Survey of Family Growth (NSFG), which is intended to gather “information on family life, marriage and divorce, pregnancy, infertility, use of contraception, and men’s and women’s health. The survey results are used…to plan health services and health education programs, and to do statistical studies of families, fertility, and health.”</p>
+<p>You can read more about the NSFG at <a class="reference external" href="http://cdc.gov/nchs/nsfg.htm">http://cdc.gov/nchs/nsfg.htm</a>.</p>
+<p>We will use data collected by this survey to investigate whether first babies tend to be born late, and other questions.
+In order to use this data effectively, we have to understand the design of the study.</p>
+<p>In general, the goal of a statistical study is to draw conclusions about a <strong>population</strong>.
+In the NSFG, the target population is people in the United States aged 15-44.</p>
+<p>Ideally surveys would collect data from every member of the population, but that’s seldom possible.
+Instead we collect data from a subset of the population called a <strong>sample</strong>.
+The people who participate in a survey are called <strong>respondents</strong>.</p>
+<p>The NSFG is a <strong>cross-sectional</strong> study, which means that it captures a snapshot of a population at a point in time.
+The NSFG has been conducted several times now; each deployment is called a <strong>cycle</strong>.
+We will use data from Cycle 6, which was conducted from January 2002 to March 2003.</p>
+<p>In general, cross-sectional studies are meant to be <strong>representative</strong>, which means that the sample is similar to the target population in all ways that are important for the purposes of the study.
+That ideal is hard to achieve in practice, but people who conduct surveys come as close as they can.</p>
+<p>The NSFG is not representative; instead it is <strong>stratified</strong>, which means that it deliberately <strong>oversamples</strong> some groups.
+The designers of the study recruited three groups – Hispanics, African-Americans and teenagers – at rates higher than their representation in the U.S. population, in order to make sure that the number of respondents in each group is large enough to draw valid conclusions.
+The drawback of oversampling is that it is not as easy to draw conclusions about the population based on statistics from the sample.
+We will come back to this point later.</p>
+<p>When working with this kind of data, it is important to be familiar with the <strong>codebook</strong>, which documents the design of the study, the survey questions, and the encoding of the responses.</p>
+<p>The codebook and user’s guide for the NSFG data are available from <a class="reference external" href="http://www.cdc.gov/nchs/nsfg/nsfg_cycle6.htm">http://www.cdc.gov/nchs/nsfg/nsfg_cycle6.htm</a></p>
+</section>
+<section id="reading-the-data">
+<h2>Reading the Data<a class="headerlink" href="#reading-the-data" title="Link to this heading">#</a></h2>
+<p>Before downloading NSFG data, you have to agree to the terms of use:</p>
+<blockquote>
+<div><p>Any intentional identification or disclosure of an individual or establishment violates the assurances of confidentiality given to the providers of the information. Therefore, users will:</p>
+<ul class="simple">
+<li><p>Use the data in this dataset for statistical reporting and analysis only.</p></li>
+<li><p>Make no attempt to learn the identity of any person or establishment included in these data.</p></li>
+<li><p>Not link this dataset with individually identifiable data from other NCHS or non-NCHS datasets.</p></li>
+<li><p>Not engage in any efforts to assess disclosure methodologies applied to protect individuals and establishments or any research on methods of re-identification of individuals and establishments.</p></li>
+</ul>
+</div></blockquote>
+<p>If you agree to comply with these terms, instructions for downloading the data are in the notebook for this chapter.</p>
+<p>The data files are available directly from the NSFG web site at <a class="reference external" href="https://www.cdc.gov/nchs/data_access/ftp_dua.htm?url_redirect=ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NSFG">https://www.cdc.gov/nchs/data_access/ftp_dua.htm?url_redirect=ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NSFG</a>, but we will download them from the repository for this book, which provides a compressed version of the data file.</p>
+<p>The following cells download the data files and install <code class="docutils literal notranslate"><span class="pre">statadict</span></code>, which we need to read the data.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/2002FemPreg.dct&quot;</span><span class="p">)</span>
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/2002FemPreg.dat.gz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">statadict</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">pip</span> install statadict
+</pre></div>
+</div>
+</div>
+</div>
+<p>The data is stored in two files, a “dictionary” that describes the format of the data, and a data file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dct_file</span> <span class="o">=</span> <span class="s2">&quot;2002FemPreg.dct&quot;</span>
+<span class="n">dat_file</span> <span class="o">=</span> <span class="s2">&quot;2002FemPreg.dat.gz&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The notebook for this chapter defines a function that reads these files.
+It is called <code class="docutils literal notranslate"><span class="pre">read_stata</span></code> because this data format is compatible with a statistical software package called Stata.</p>
+<p>The following function takes these file names as arguments, reads the dictionary, and uses the results to read the data file.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">statadict</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse_stata_dict</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_stata</span><span class="p">(</span><span class="n">dct_file</span><span class="p">,</span> <span class="n">dat_file</span><span class="p">):</span>
+    <span class="n">stata_dict</span> <span class="o">=</span> <span class="n">parse_stata_dict</span><span class="p">(</span><span class="n">dct_file</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_fwf</span><span class="p">(</span>
+        <span class="n">dat_file</span><span class="p">,</span>
+        <span class="n">names</span><span class="o">=</span><span class="n">stata_dict</span><span class="o">.</span><span class="n">names</span><span class="p">,</span>
+        <span class="n">colspecs</span><span class="o">=</span><span class="n">stata_dict</span><span class="o">.</span><span class="n">colspecs</span><span class="p">,</span>
+        <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">resp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s how we use it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span> <span class="o">=</span> <span class="n">read_stata</span><span class="p">(</span><span class="n">dct_file</span><span class="p">,</span> <span class="n">dat_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, which is a Pandas data structure that represents tabular data in rows and columns.
+This <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> contains a row for each pregnancy reported by a respondent and a column for each <strong>variable</strong>.
+A variable can contain responses to a survey question or values that are calculated based on responses to one or more questions.</p>
+<p>In addition to the data, a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> also contains the variable names and their types, and it provides methods for accessing and modifying the data.
+The <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> has an attribute called <code class="docutils literal notranslate"><span class="pre">shape</span></code> that contains the number of rows and columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(13593, 243)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This dataset has 243 variables with information about 13,593 pregnancies.
+The <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> provides a method called <code class="docutils literal notranslate"><span class="pre">head</span></code> that displays the first few rows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>caseid</th>
+      <th>pregordr</th>
+      <th>howpreg_n</th>
+      <th>howpreg_p</th>
+      <th>moscurrp</th>
+      <th>nowprgdk</th>
+      <th>pregend1</th>
+      <th>pregend2</th>
+      <th>nbrnaliv</th>
+      <th>multbrth</th>
+      <th>...</th>
+      <th>poverty_i</th>
+      <th>laborfor_i</th>
+      <th>religion_i</th>
+      <th>metro_i</th>
+      <th>basewgt</th>
+      <th>adj_mod_basewgt</th>
+      <th>finalwgt</th>
+      <th>secu_p</th>
+      <th>sest</th>
+      <th>cmintvw</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3410.389399</td>
+      <td>3869.349602</td>
+      <td>6448.271112</td>
+      <td>2</td>
+      <td>9</td>
+      <td>1231</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3410.389399</td>
+      <td>3869.349602</td>
+      <td>6448.271112</td>
+      <td>2</td>
+      <td>9</td>
+      <td>1231</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>3.0</td>
+      <td>5.0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7226.301740</td>
+      <td>8567.549110</td>
+      <td>12999.542264</td>
+      <td>2</td>
+      <td>12</td>
+      <td>1231</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7226.301740</td>
+      <td>8567.549110</td>
+      <td>12999.542264</td>
+      <td>2</td>
+      <td>12</td>
+      <td>1231</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7226.301740</td>
+      <td>8567.549110</td>
+      <td>12999.542264</td>
+      <td>2</td>
+      <td>12</td>
+      <td>1231</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 243 columns</p>
+</div></div></div>
+</div>
+<p>The left column is the index of the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, which contains a label for each row.
+In this case, the labels are integers starting from 0, but they can also be strings and other types.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> has an attribute called <code class="docutils literal notranslate"><span class="pre">columns</span></code> that contains the names of the variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;caseid&#39;, &#39;pregordr&#39;, &#39;howpreg_n&#39;, &#39;howpreg_p&#39;, &#39;moscurrp&#39;, &#39;nowprgdk&#39;,
+       &#39;pregend1&#39;, &#39;pregend2&#39;, &#39;nbrnaliv&#39;, &#39;multbrth&#39;,
+       ...
+       &#39;poverty_i&#39;, &#39;laborfor_i&#39;, &#39;religion_i&#39;, &#39;metro_i&#39;, &#39;basewgt&#39;,
+       &#39;adj_mod_basewgt&#39;, &#39;finalwgt&#39;, &#39;secu_p&#39;, &#39;sest&#39;, &#39;cmintvw&#39;],
+      dtype=&#39;object&#39;, length=243)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The column names are contained in an <code class="docutils literal notranslate"><span class="pre">Index</span></code> object, which is another Pandas data structure.
+To access a column from a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, you can use the column name as a key.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pregordr</span> <span class="o">=</span> <span class="n">preg</span><span class="p">[</span><span class="s2">&quot;pregordr&quot;</span><span class="p">]</span>
+<span class="nb">type</span><span class="p">(</span><span class="n">pregordr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pandas.core.series.Series
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code>, which represents a sequence of values.
+<code class="docutils literal notranslate"><span class="pre">Series</span></code> also provides <code class="docutils literal notranslate"><span class="pre">head</span></code>, which displays the first few values and their labels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pregordr</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    1
+1    2
+2    1
+3    2
+4    3
+Name: pregordr, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>The last line includes the name of the <code class="docutils literal notranslate"><span class="pre">Series</span></code> and <code class="docutils literal notranslate"><span class="pre">dtype</span></code>, which is the type of the values.
+In this example, <code class="docutils literal notranslate"><span class="pre">int64</span></code> indicates that the values are 64-bit integers.</p>
+<p>The NSFG dataset contains 243 variables in total.
+Here are some of the ones we’ll use for the explorations in this book.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">caseid</span></code> is the integer ID of the respondent.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pregordr</span></code> is a pregnancy serial number: the code for a respondent’s first pregnancy is 1, for the second pregnancy is 2, and so on.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prglngth</span></code> is the integer duration of the pregnancy in weeks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outcome</span></code> is an integer code for the outcome of the pregnancy. The code 1 indicates a live birth.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">birthord</span></code> is a serial number for live births: the code for a respondent’s first child is 1, and so on. For outcomes other than live birth, this field is blank.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">birthwgt_lb</span></code> and <code class="docutils literal notranslate"><span class="pre">birthwgt_oz</span></code> contain the pounds and ounces parts of the birth weight of the baby.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">agepreg</span></code> is the mother’s age at the end of the pregnancy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finalwgt</span></code> is the statistical weight associated with the respondent. It is a floating-point value that indicates the number of people in the U.S. population this respondent represents.</p></li>
+</ul>
+<p>If you read the codebook carefully, you will see that many of the variables are <strong>recodes</strong>, which means that they are not part of the <strong>raw data</strong> collected by the survey – they are calculated using the raw data.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">prglngth</span></code> for live births is equal to the raw variable <code class="docutils literal notranslate"><span class="pre">wksgest</span></code> (weeks of gestation) if it is available; otherwise it is estimated using <code class="docutils literal notranslate"><span class="pre">mosgest</span> <span class="pre">*</span> <span class="pre">4.33</span></code> (months of gestation times the average number of weeks in a month).</p>
+<p>Recodes are often based on logic that checks the consistency and accuracy of the data.
+In general it is a good idea to use recodes when they are available, unless there is a compelling reason to process the raw data yourself.</p>
+</section>
+<section id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h2>
+<p>When data is exported from one software environment and imported into another, errors might be introduced.
+And when you are getting familiar with a new dataset, you might decode data incorrectly or misunderstandings its meaning.
+If you invest time to validate the data, you can save time later and avoid errors.</p>
+<p>One way to validate data is to compute basic statistics and compare them with published results.
+For example, the NSFG codebook includes tables that summarize each variable.
+Here is the table for <code class="docutils literal notranslate"><span class="pre">outcome</span></code>, which encodes the outcome of each pregnancy.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Value</th>
+      <th>Label</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>LIVE BIRTH</td>
+      <td>9148</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>INDUCED ABORTION</td>
+      <td>1862</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>STILLBIRTH</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>MISCARRIAGE</td>
+      <td>1921</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>ECTOPIC PREGNANCY</td>
+      <td>190</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>CURRENT PREGNANCY</td>
+      <td>352</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td>13593</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>The “Total” column indicates the number of pregnancies with each outcome.
+To check these totals, we’ll use the <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> method, which counts the number of times each value appears, and <code class="docutils literal notranslate"><span class="pre">sort_index</span></code>, which sorts the results according to the values in the <code class="docutils literal notranslate"><span class="pre">Index</span></code> (the left column).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="p">[</span><span class="s2">&quot;outcome&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>outcome
+1    9148
+2    1862
+3     120
+4    1921
+5     190
+6     352
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Comparing the results with the published table, we can confirm that the values in <code class="docutils literal notranslate"><span class="pre">outcome</span></code> are correct.
+Similarly, here is the published table for <code class="docutils literal notranslate"><span class="pre">birthwgt_lb</span></code>.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Value</th>
+      <th>Label</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>.</td>
+      <td>inapplicable</td>
+      <td>4449</td>
+    </tr>
+    <tr>
+      <td>0-5</td>
+      <td>UNDER 6 POUNDS</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>6 POUNDS</td>
+      <td>2223</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>7 POUNDS</td>
+      <td>3049</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>8 POUNDS</td>
+      <td>1889</td>
+    </tr>
+    <tr>
+      <td>9-95</td>
+      <td>9 POUNDS OR MORE</td>
+      <td>799</td>
+    </tr>
+    <tr>
+      <td>97</td>
+      <td>Not ascertained</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>98</td>
+      <td>REFUSED</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>99</td>
+      <td>DON'T KNOW</td>
+      <td>57</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td>13593</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+<p>Birth weight is only recorded for pregnancies that ended in a live birth.
+The table indicates that there are 4449 cases where this variable is inapplicable.
+In addition, there is one case where the question was not asked, one where the respondent did not answer, and 57 cases where they did not know.</p>
+<p>Again, we can use <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> to compare the counts in the dataset to the counts in the codebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_lb&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">counts</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>birthwgt_lb
+0.0        8
+1.0       40
+2.0       53
+3.0       98
+4.0      229
+5.0      697
+6.0     2223
+7.0     3049
+8.0     1889
+9.0      623
+10.0     132
+11.0      26
+12.0      10
+13.0       3
+14.0       3
+15.0       1
+51.0       1
+97.0       1
+98.0       1
+99.0      57
+NaN     4449
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>The argument <code class="docutils literal notranslate"><span class="pre">dropna=False</span></code> means that <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> does not ignore values that are “NA” or “Not applicable”.
+These values appear in the results as <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, which stands for “Not a number” – and the count of these values is consistent with the count of inapplicable cases in the codebook.</p>
+<p>The counts for 6, 7, and 8 pounds are consistent with the codebook.
+To check the counts for the weight range from 0 to 5 pounds, we can use an attribute called <code class="docutils literal notranslate"><span class="pre">loc</span></code> – which is short for “location” – and a slice index to select a subset of the counts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>birthwgt_lb
+0.0      8
+1.0     40
+2.0     53
+3.0     98
+4.0    229
+5.0    697
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can use the <code class="docutils literal notranslate"><span class="pre">sum</span></code> method to add them up.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(1125)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The total is consistent with the codebook.</p>
+<p>The values 97, 98, and 99 represent cases where the birth weight is unknown.
+There are several ways we might handle missing data.
+A simple option is to replace these values with <code class="docutils literal notranslate"><span class="pre">NaN</span></code>.
+At the same time, we will also replace a value that is clearly wrong, 51 pounds.</p>
+<p>We can use the replace method like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_lb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_lb&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">51</span><span class="p">,</span> <span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first argument is a list of values to be replaced.
+The second argument, <code class="docutils literal notranslate"><span class="pre">np.nan</span></code>, gets the <code class="docutils literal notranslate"><span class="pre">NaN</span></code> value from NumPy.</p>
+<p>When you read data like this, you often have to check for errors and deal with special values.
+Operations like this are called <strong>data cleaning</strong>.</p>
+</section>
+<section id="transformation">
+<h2>Transformation<a class="headerlink" href="#transformation" title="Link to this heading">#</a></h2>
+<p>As another kind of data cleaning, sometimes we have to convert data into different formats, and perform other calculations.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">agepreg</span></code> contains the mother’s age at the end of the pregnancy.
+According to the codebook, it is an integer number of centiyears (hundredths of a year), as we can tell if we use the <code class="docutils literal notranslate"><span class="pre">mean</span></code> method to compute its average.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="p">[</span><span class="s2">&quot;agepreg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(2468.8151197039497)
+</pre></div>
+</div>
+</div>
+</div>
+<p>To convert it to years, we can divide through by 100.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="p">[</span><span class="s2">&quot;agepreg&quot;</span><span class="p">]</span> <span class="o">/=</span> <span class="mf">100.0</span>
+<span class="n">preg</span><span class="p">[</span><span class="s2">&quot;agepreg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(24.6881511970395)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the average is more credible.</p>
+<p>As another example, <code class="docutils literal notranslate"><span class="pre">birthwgt_lb</span></code> and <code class="docutils literal notranslate"><span class="pre">birthwgt_oz</span></code> contain birth weights with the pounds and ounces in separate columns.
+It will be more convenient to combine them into as single column that contains weights in pounds and fractions of a pound.</p>
+<p>First we’ll clean <code class="docutils literal notranslate"><span class="pre">birthwgt_oz</span></code> as we did with <code class="docutils literal notranslate"><span class="pre">birthwgt_lb</span></code>.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_oz&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>birthwgt_oz
+0.0     1037
+1.0      408
+2.0      603
+3.0      533
+4.0      525
+5.0      535
+6.0      709
+7.0      501
+8.0      756
+9.0      505
+10.0     475
+11.0     557
+12.0     555
+13.0     487
+14.0     475
+15.0     378
+97.0       1
+98.0       1
+99.0      46
+NaN     4506
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_oz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_oz&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">97</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">99</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can use the cleaned values to create a new column that combines pounds and ounces into a single quantity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">preg</span><span class="p">[</span><span class="s2">&quot;totalwgt_lb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_lb&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">preg</span><span class="p">[</span><span class="s2">&quot;birthwgt_oz&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">16.0</span>
+<span class="n">preg</span><span class="p">[</span><span class="s2">&quot;totalwgt_lb&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(7.265628457623368)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The average of the result seems plausible.</p>
+</section>
+<section id="summary-statistics">
+<span id="section-summary-statistics"></span><h2>Summary Statistics<a class="headerlink" href="#summary-statistics" title="Link to this heading">#</a></h2>
+<p>A <strong>statistic</strong> is a number derived from a dataset, usually intended to quantify some aspect of the data.
+Examples include the count, mean, variance, and standard deviation.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Series</span></code> object has a <code class="docutils literal notranslate"><span class="pre">count</span></code> method that returns the number of values that are not <code class="docutils literal notranslate"><span class="pre">nan</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span> <span class="o">=</span> <span class="n">preg</span><span class="p">[</span><span class="s2">&quot;totalwgt_lb&quot;</span><span class="p">]</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">n</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(9038)
+</pre></div>
+</div>
+</div>
+</div>
+<p>It also provides a <code class="docutils literal notranslate"><span class="pre">sum</span></code> method that returns the sum of the values – we can use it to compute the mean like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n</span>
+<span class="n">mean</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(7.265628457623368)
+</pre></div>
+</div>
+</div>
+</div>
+<p>But as we’ve already seen, there’s also a <code class="docutils literal notranslate"><span class="pre">mean</span></code> method that does the same thing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(7.265628457623368)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this dataset, the average birth weight is about 7.3 pounds.</p>
+<p>Variance is a statistic that quantifies the spread of a set of values.
+It is the mean of the squared deviations, which are the distances of each point from the mean.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">squared_deviations</span> <span class="o">=</span> <span class="p">(</span><span class="n">weights</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can compute the mean of the squared deviations like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">squared_deviations</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">n</span>
+<span class="n">var</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.983070989750022)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you might expect, <code class="docutils literal notranslate"><span class="pre">Series</span></code> provides a <code class="docutils literal notranslate"><span class="pre">var</span></code> method that does <em>almost</em> the same thing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.9832904288326545)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is slightly different because when the <code class="docutils literal notranslate"><span class="pre">var</span></code> method computes the mean of the squared deviations, it divides by <code class="docutils literal notranslate"><span class="pre">n-1</span></code> rather than <code class="docutils literal notranslate"><span class="pre">n</span></code>.
+That’s because there are two ways to compute the variance of a sample, depending on what you are trying to do.
+I’ll explain the difference in <a class="reference internal" href="chap08.html#section-estimating-variance"><span class="std std-ref">Chapter 8</span></a> – but in practice it usually doesn’t matter.
+If you prefer the version with <code class="docutils literal notranslate"><span class="pre">n</span></code> in the denominator, you can get it by passing <code class="docutils literal notranslate"><span class="pre">ddof=0</span></code> as a keyword argument to the <code class="docutils literal notranslate"><span class="pre">var</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.983070989750022)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this dataset, the variance of the birth weights is about 1.98, but that value is hard to interpret – for one thing, it is in units of pounds squared.
+Variance is useful in some computations, but not a good way to describe a dataset.
+A better option is the <strong>standard deviation</strong>, which is the square root of variance.
+We can compute it like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="n">std</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.40821553384062)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or, we can use the <code class="docutils literal notranslate"><span class="pre">std</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.40821553384062)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this dataset, the standard deviation of birth weights is about 1.4 pounds.
+Informally, values that are one or two standard deviations from the mean are common – values farther from the mean are rare.</p>
+</section>
+<section id="interpretation">
+<h2>Interpretation<a class="headerlink" href="#interpretation" title="Link to this heading">#</a></h2>
+<p>To work with data effectively, you have to think on two levels at the same time: the level of statistics and the level of context.
+As an example, let’s select the rows in the pregnancy file with <code class="docutils literal notranslate"><span class="pre">caseid</span></code> 10229.
+The <code class="docutils literal notranslate"><span class="pre">query</span></code> method takes a string that can contain column names, comparison operators, and numbers, among other things.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset</span> <span class="o">=</span> <span class="n">preg</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;caseid == 10229&quot;</span><span class="p">)</span>
+<span class="n">subset</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(7, 244)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> that contains only the rows where the query is <code class="docutils literal notranslate"><span class="pre">True</span></code>.
+This respondent reported seven pregnancies – here are their outcomes, which are recorded in chronological order.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset</span><span class="p">[</span><span class="s2">&quot;outcome&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([4, 4, 4, 4, 4, 4, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The outcome code <code class="docutils literal notranslate"><span class="pre">1</span></code> indicates a live birth.
+Code <code class="docutils literal notranslate"><span class="pre">4</span></code> indicates a miscarriage – that is, a pregnancy loss, usually with no known medical cause.</p>
+<p>Statistically this respondent is not unusual.
+Pregnancy loss is common and there are other respondents who reported as many instances.
+But remembering the context, this data tells the story of a woman who was pregnant six times, each time ending in miscarriage.
+Her seventh and most recent pregnancy ended in a live birth.
+If we consider this data with empathy, it is natural to be moved by the story it tells.</p>
+<p>Each row in the NSFG dataset represents a person who provided honest answers to many personal and difficult questions.
+We can use this data to answer statistical questions about family life, reproduction, and health.
+At the same time, we have an obligation to consider the people represented by the data, and to afford them respect and gratitude.</p>
+</section>
+<section id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h2>
+<p>The end of each chapter provides a glossary of words that are defined in the chapter.</p>
+<ul class="simple">
+<li><p><strong>anecdotal evidence:</strong> Data collected informally from a small number of individual cases, often without systematic sampling.</p></li>
+<li><p><strong>cross-sectional study:</strong> A study that collects data from a representative sample of a population at a single point or interval in time.</p></li>
+<li><p><strong>cycle:</strong> One data-collection interval in a study that collects data at multiple intervals in time.</p></li>
+<li><p><strong>population:</strong> The entire group of individuals or items that is the subject of a study.</p></li>
+<li><p><strong>sample:</strong> A subset of a population, often chosen at random.</p></li>
+<li><p><strong>respondents:</strong> People who participate in a survey and respond to questions.</p></li>
+<li><p><strong>representative:</strong> A sample is representative if it is similar to the population in ways that are important for the purposes of the study.</p></li>
+<li><p><strong>stratified:</strong> A sample is stratified if it deliberately oversamples some groups, usually to make sure that enough members are included to support valid conclusions.</p></li>
+<li><p><strong>oversampled:</strong> A group is oversampled if its members have a higher chance of appearing in a sample.</p></li>
+<li><p><strong>variable:</strong> In survey data, a variable is a collection of responses to questions or values computed from responses.</p></li>
+<li><p><strong>codebook:</strong> A document that describes the variables in a dataset, and provides other information about the data.</p></li>
+<li><p><strong>recode:</strong> A variable that is computed based on other variables in a dataset.</p></li>
+<li><p><strong>raw data:</strong> Data that has not been processed after collection.</p></li>
+<li><p><strong>data cleaning:</strong> A process for identifying and correcting errors in a dataset, dealing with missing values, and computing recodes.</p></li>
+<li><p><strong>statistic:</strong> A value that describes or summarizes a property of a sample.</p></li>
+<li><p><strong>standard deviation:</strong> A statistic that quantifies the spread of data around the mean.</p></li>
+</ul>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p>The exercises for this chapter are based on the NSFG pregnancy file.</p>
+<section id="exercise-1-1">
+<h3>Exercise 1.1<a class="headerlink" href="#exercise-1-1" title="Link to this heading">#</a></h3>
+<p>Select the <code class="docutils literal notranslate"><span class="pre">birthord</span></code> column from <code class="docutils literal notranslate"><span class="pre">preg</span></code>, print the value counts, and compare to results published in the  codebook at <a class="reference external" href="https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NSFG/Cycle6Codebook-Pregnancy.pdf">https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NSFG/Cycle6Codebook-Pregnancy.pdf</a>.</p>
+</section>
+<section id="exercise-1-2">
+<h3>Exercise 1.2<a class="headerlink" href="#exercise-1-2" title="Link to this heading">#</a></h3>
+<p>Create a new column named <code class="docutils literal notranslate"><span class="pre">totalwgt_kg</span></code> that contains birth weight in kilograms (there are approximately 2.2 pounds per kilogram).
+Compute the mean and standard deviation of the new column.</p>
+</section>
+<section id="exercise-1-3">
+<h3>Exercise 1.3<a class="headerlink" href="#exercise-1-3" title="Link to this heading">#</a></h3>
+<p>What are the pregnancy lengths for the respondent with <code class="docutils literal notranslate"><span class="pre">caseid</span></code> 2298?</p>
+<p>What was the birth weight of the first baby born to the respondent with <code class="docutils literal notranslate"><span class="pre">caseid</span></code> 5013?
+Hint: You can use <code class="docutils literal notranslate"><span class="pre">and</span></code> to check more than one condition in a query.</p>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkStats/index.html">Think Stats: Exploratory Data Analysis in Python, 3rd Edition</a></p>
+<p>Copyright 2024 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chap00.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Preface</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chap02.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Distributions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence">Evidence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-national-survey-of-family-growth">The National Survey of Family Growth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-data">Reading the Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformation">Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-statistics">Summary Statistics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-1">Exercise 1.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-2">Exercise 1.2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-3">Exercise 1.3</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

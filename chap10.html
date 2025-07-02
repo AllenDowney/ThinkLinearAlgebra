@@ -1,0 +1,1509 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Least Squares &#8212; Think Stats, 3rd edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chap10';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Multiple Regression" href="chap11.html" />
+    <link rel="prev" title="Hypothesis Testing" href="chap09.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Stats, 3rd edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chap00.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap01.html">Exploratory Data Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap02.html">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap03.html">Probability Mass Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap04.html">Cumulative Distribution Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap05.html">Modeling Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap06.html">Probability Density Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap07.html">Relationships between variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap08.html">Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap09.html">Hypothesis Testing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Least Squares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap11.html">Multiple Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap12.html">Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap13.html">Survival analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap14.html">Analytic Methods</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkStats/tree/v3" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chap10.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Least Squares</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares-fit">Least Squares Fit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coefficient-of-determination">Coefficient of Determination</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimizing-mse">Minimizing MSE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation">Estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-uncertainty">Visualizing Uncertainty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformation">Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-1">Exercise 10.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-2">Exercise 10.2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-3">Exercise 10.3</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p>The third edition of <em>Think Stats</em> is available now from <a class="reference external" href="https://bookshop.org/a/98697/9781098190255">Bookshop.org</a> and <a class="reference external" href="https://amzn.to/42lmxwu">Amazon</a> (those are affiliate links). If you are enjoying the free, online version, consider <a class="reference external" href="https://buymeacoffee.com/allendowney">buying me a coffee</a>.</p>
+<section id="least-squares">
+<h1>Least Squares<a class="headerlink" href="#least-squares" title="Link to this heading">#</a></h1>
+<p>This chapter and the next introduce the idea of fitting a model to data.
+In this context, a <strong>model</strong> consists of a mathematical description of the relationship between variables – like a straight line – and a description of random variation – like a normal distribution.</p>
+<p>When we say that a model fits data, we usually mean that it minimizes errors, which are the distances between the model and the data.
+We’ll start with one of the most widely-used ways of fitting a model, minimizing the sum of the squared errors, which is called a least squares fit.</p>
+<p>We’ll also start with models that work with just two variables at a time.
+The next chapter introduces models that can handle more than two variables.</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkStats/blob/v3/nb/chap10.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/nb/thinkstats.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">empiricaldist</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">pip</span> install empiricaldist
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">thinkstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="least-squares-fit">
+<h2>Least Squares Fit<a class="headerlink" href="#least-squares-fit" title="Link to this heading">#</a></h2>
+<p>As a first example, let’s return to the scenario from <a class="reference internal" href="chap08.html#section-weighing-penguins"><span class="std std-ref">Chapter 8</span></a>.
+Suppose you are a researcher in Antarctica, studying local populations of penguins.
+As part of your data collection, you capture a sample of penguins, measure and weigh them – and then release them unharmed.</p>
+<p>As you would soon learn, it can be difficult to get penguins to stay on the scale long enough to get an accurate measurement.
+Suppose that for some penguins we have measurements like flipper and bill sizes, but no weights.
+Let’s see if we can use the other measurements to fill in the missing data – this process is called <strong>imputation</strong>.</p>
+<p>We’ll start by exploring the relationship between the weights and measurements, using data collected between 2007 and 2010 by researchers at Palmer Station in Antarctica.
+The data they collected is freely available – instructions for downloading it are in the notebook for this chapter.</p>
+<p>The following cell downloads the data from a repository created by Allison Horst.</p>
+<p>Horst AM, Hill AP, Gorman KB (2020). palmerpenguins: Palmer Archipelago (Antarctica) penguin data. R package version 0.1.0. <a class="reference external" href="https://allisonhorst.github.io/palmerpenguins/">https://allisonhorst.github.io/palmerpenguins/</a>. doi: 10.5281/zenodo.3960218.</p>
+<p>The data was collected as part of the research that led to this paper: Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081. <a class="reference external" href="https://doi.org/10.1371/journal.pone.0090081">https://doi.org/10.1371/journal.pone.0090081</a></p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span>
+    <span class="s2">&quot;https://raw.githubusercontent.com/allisonhorst/palmerpenguins/c19a904462482430170bfe2c718775ddb7dbb885/inst/extdata/penguins_raw.csv&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> to read the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;penguins_raw.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Body Mass (g)&quot;</span><span class="p">])</span>
+<span class="n">penguins</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(342, 17)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The dataset includes measurements of 151 Adélie penguins.
+We can use <code class="docutils literal notranslate"><span class="pre">query</span></code> to select the rows that contain this data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adelie</span> <span class="o">=</span> <span class="n">penguins</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;Species.str.startswith(&quot;Adelie&quot;)&#39;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">adelie</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>151
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now suppose we know the flipper length of an Adélie penguin – let’s see how well we can predict its weight.
+First we’ll select these columns from the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xvar</span> <span class="o">=</span> <span class="s2">&quot;Flipper Length (mm)&quot;</span>
+<span class="n">yvar</span> <span class="o">=</span> <span class="s2">&quot;Body Mass (g)&quot;</span>
+
+<span class="n">flipper_length</span> <span class="o">=</span> <span class="n">adelie</span><span class="p">[</span><span class="n">xvar</span><span class="p">]</span>
+<span class="n">body_mass</span> <span class="o">=</span> <span class="n">adelie</span><span class="p">[</span><span class="n">yvar</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s a scatter plot showing the relationship between these quantities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">xvar</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">yvar</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c1497e43f443a03d9aefd5923bece65ad0f62beba904785a691698be286484fc.png" src="_images/c1497e43f443a03d9aefd5923bece65ad0f62beba904785a691698be286484fc.png" />
+</div>
+</div>
+<p>It looks like they are related – we can quantify the strength of the relationship by computing the coefficient of correlation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.4682016942179394)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The correlation is about 0.47, so penguins with longer flippers tend to be heavier.
+That’s useful because it means we can guess a penguin’s weight more accurately if we know its flipper length – but correlation alone doesn’t tell us how to make those guesses.
+For that, we need to choose a <strong>line of best fit</strong>.</p>
+<p>There are many ways to define the “best” line, but for data like this a common choice is a <strong>linear least squares</strong> fit, which is the straight line that minimizes the mean squared error (MSE).</p>
+<p>SciPy provides a function called <code class="docutils literal notranslate"><span class="pre">linregress</span></code> that computes a least squares fit.
+The name is short for <strong>linear regression</strong>, which is another term for a model like this.
+The arguments of <code class="docutils literal notranslate"><span class="pre">linregress</span></code> are the <code class="docutils literal notranslate"><span class="pre">x</span></code> values and the <code class="docutils literal notranslate"><span class="pre">y</span></code> values, in that order.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">)</span>
+<span class="n">result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LinregressResult(slope=np.float64(32.83168975115009), intercept=np.float64(-2535.8368022002514), rvalue=np.float64(0.46820169421793933), pvalue=np.float64(1.3432645947790051e-09), stderr=np.float64(5.076138407990821), intercept_stderr=np.float64(964.7984274994059))
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a <code class="docutils literal notranslate"><span class="pre">LinregressResult</span></code> object that contains the slope and intercept of the fitted line, along with other information we’ll unpack soon.
+The slope is about 32.8, which means that each additional millimeter of flipper length is associated with an additional 32.8 grams of body weight.</p>
+<p>The intercept is -2535 grams, which might seem nonsensical, since a measured weight can’t be negative.
+It might make more sense if we use the slope and intercept to evaluate the fitted line at the average flipper length.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">flipper_length</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">intercept</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">slope</span> <span class="o">*</span> <span class="n">x</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(189.95364238410596), np.float64(3700.662251655629))
+</pre></div>
+</div>
+</div>
+</div>
+<p>For a penguin with the average flipper length, about 190 mm, the expected body weight is about 3700 grams.</p>
+<p>The following function takes the result from <code class="docutils literal notranslate"><span class="pre">linregress</span></code> and a sequence of <code class="docutils literal notranslate"><span class="pre">xs</span></code> and finds the point on the fitted line for each value of <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">xs</span><span class="p">):</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">intercept</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">slope</span> <span class="o">*</span> <span class="n">xs</span>
+    <span class="k">return</span> <span class="n">ys</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The name <code class="docutils literal notranslate"><span class="pre">predict</span></code> might seem odd here – in natural language, a <strong>prediction</strong> usually pertains to something happening in the future, but in the context of regression, the points on the fitted line are also called predictions.</p>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">predict</span></code> to compute the points on the line for a range of flipper sizes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">))</span>
+<span class="n">fit_ys</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">fit_xs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the fitted line along with the scatter plot of the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_xs</span><span class="p">,</span> <span class="n">fit_ys</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">xvar</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">yvar</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7a9504e113fd8974cb69f6a98c5a33729bd2366c24678199dbae4578866a29e8.png" src="_images/7a9504e113fd8974cb69f6a98c5a33729bd2366c24678199dbae4578866a29e8.png" />
+</div>
+</div>
+<p>As expected, the fitted line goes through the center of the data and follows the trend.
+And some of the predictions are accurate – but many of the data points are far from the line.
+To get a sense of how good (or bad) the predictions are, we can compute the prediction error, which is the vertical distance of each point from the line.
+The following function computes these errors, which are also called <strong>residuals</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_residuals</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
+    <span class="n">fit_ys</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ys</span> <span class="o">-</span> <span class="n">fit_ys</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the residuals for body mass as a function of flipper length.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residuals</span> <span class="o">=</span> <span class="n">compute_residuals</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As an example, we can look at the results for the first penguin in the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">flipper_length</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(181.0), np.float64(3406.699042757914))
+</pre></div>
+</div>
+</div>
+</div>
+<p>The flipper length of the selected penguin is 181 mm and the predicted body mass is 3407 grams.
+Now let’s see what the actual mass is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">body_mass</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">residuals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(3750.0), np.float64(343.30095724208604))
+</pre></div>
+</div>
+</div>
+</div>
+<p>The actual mass of this penguin is 3750 grams, and the residual – after subtracting away the prediction – is 343 grams.</p>
+<p>The average of the squared residuals is the mean squared error (MSE) of the predictions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">mse</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(163098.85902884745)
+</pre></div>
+</div>
+</div>
+</div>
+<p>By itself, this number doesn’t mean very much.
+We can make more sense of it by computing the coefficient of determination.</p>
+</section>
+<section id="coefficient-of-determination">
+<h2>Coefficient of Determination<a class="headerlink" href="#coefficient-of-determination" title="Link to this heading">#</a></h2>
+<p>Suppose you want to guess the weight of a penguin.
+If you know its flipper length, you can use the least squares fit to inform your guess, and the MSE quantifies the accuracy of your guesses, on average.</p>
+<p>But what if you don’t know the flipper length – what would you guess?
+It turns out that guessing the mean is the best strategy in the sense that it minimizes the MSE.
+If we always guess the mean, the prediction errors are the deviations from the mean.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deviations</span> <span class="o">=</span> <span class="n">body_mass</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">body_mass</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the MSE is the mean squared deviation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">deviations</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(208890.28989956583)
+</pre></div>
+</div>
+</div>
+</div>
+<p>You might remember that the mean squared deviation is the variance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">body_mass</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(208890.28989956583)
+</pre></div>
+</div>
+</div>
+</div>
+<p>So we can think of the variance of the masses as the MSE if we always guess the mean, and the variance of the residuals as the MSE if we use the regression line.
+If we compute the ratio of these variances and subtract it from 1, the result indicates how much the MSE is reduced if we use flipper lengths to inform our guesses.</p>
+<p>The following function computes this value, which is technically called the <strong>coefficient of determination</strong>, but because it is denoted <span class="math notranslate nohighlight">\(R^2\)</span>, most people call it “R squared”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">coefficient_of_determination</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">residuals</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">residuals</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the example, <span class="math notranslate nohighlight">\(R^2\)</span> is about 0.22, which means that the fitted line reduces MSE by 22%.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R2</span> <span class="o">=</span> <span class="n">coefficient_of_determination</span><span class="p">(</span><span class="n">body_mass</span><span class="p">,</span> <span class="n">residuals</span><span class="p">)</span>
+<span class="n">R2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.21921282646854912)
+</pre></div>
+</div>
+</div>
+</div>
+<p>It turns out that there’s a relationship between the coefficient of determination, <span class="math notranslate nohighlight">\(R^2\)</span>, and the coefficient of correlation, <span class="math notranslate nohighlight">\(r\)</span>.
+As you might guess based on the notation, <span class="math notranslate nohighlight">\(r^2 = R^2\)</span>.</p>
+<p>We can show that’s true by computing the square root of <span class="math notranslate nohighlight">\(R^2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">R2</span><span class="p">)</span>
+<span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.4682016942179397)
+</pre></div>
+</div>
+</div>
+</div>
+<p>And comparing it to the correlation we computed earlier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">corr</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.4682016942179394)
+</pre></div>
+</div>
+</div>
+</div>
+<p>They are the same except for a small difference due to floating-point approximation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">linregress</span></code> function also computes this value and returns it as an attribute in the <code class="docutils literal notranslate"><span class="pre">RegressionResult</span></code> object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">rvalue</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.46820169421793933)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The coefficients of determination and correlation convey mostly the same information, but they are interpreted differently:</p>
+<ul class="simple">
+<li><p>Correlation quantifies the strength of the relationship on a scale from -1 to 1.</p></li>
+<li><p><span class="math notranslate nohighlight">\(R^2\)</span> quantifies the ability of the fitted line to reduce MSE.</p></li>
+</ul>
+<p>Also, <span class="math notranslate nohighlight">\(R^2\)</span> is always positive, so it doesn’t indicate whether the correlation is positive or negative.</p>
+</section>
+<section id="minimizing-mse">
+<h2>Minimizing MSE<a class="headerlink" href="#minimizing-mse" title="Link to this heading">#</a></h2>
+<p>Earlier I said that the least squares fit is the straight line that minimizes the mean squared error (MSE).
+We won’t prove that, but we can test it by adding small random values to the intercept and slope, and checking whether the MSE gets worse.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">intercept</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">intercept</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">slope</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">slope</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To run the test, we need to make an object with <code class="docutils literal notranslate"><span class="pre">intercept</span></code> and <code class="docutils literal notranslate"><span class="pre">slope</span></code> attributes – we’ll use the <code class="docutils literal notranslate"><span class="pre">SimpleNamespace</span></code> object provided by the <code class="docutils literal notranslate"><span class="pre">types</span></code> module.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+
+<span class="n">fake_result</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="n">intercept</span><span class="o">=</span><span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="n">slope</span><span class="p">)</span>
+<span class="n">fake_result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>namespace(intercept=np.float64(-2533.193389187175),
+          slope=np.float64(32.15393529728294))
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can pass this object to <code class="docutils literal notranslate"><span class="pre">compute_residuals</span></code> and use the residuals to compute the MSE.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fake_residuals</span> <span class="o">=</span> <span class="n">compute_residuals</span><span class="p">(</span><span class="n">fake_result</span><span class="p">,</span> <span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">)</span>
+<span class="n">fake_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fake_residuals</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we compare the result to the MSE of the least squares line, it is always worse.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mse</span><span class="p">,</span> <span class="n">fake_mse</span><span class="p">,</span> <span class="n">fake_mse</span> <span class="o">&gt;</span> <span class="n">mse</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(163098.85902884745), np.float64(179019.20812685465), np.True_)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Minimizing MSE is nice, but it’s not the only definition of “best”.
+One alternative is to minimize the absolute values of the errors.
+Another is to minimize the shortest distance from each point to the fitted line, which is called the “total error”.
+In some contexts, guessing too high might be better (or worse) than guessing too low.
+In that case you might want to compute a cost function for each residual, and minimize total cost.</p>
+<p>But the least squares fit is much more widely used than these alternatives, primarily because it is efficient to compute.
+The following function shows how.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">least_squares</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
+    <span class="n">xbar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="n">ybar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+
+    <span class="n">xdev</span> <span class="o">=</span> <span class="n">xs</span> <span class="o">-</span> <span class="n">xbar</span>
+    <span class="n">ydev</span> <span class="o">=</span> <span class="n">ys</span> <span class="o">-</span> <span class="n">ybar</span>
+
+    <span class="n">slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xdev</span> <span class="o">*</span> <span class="n">ydev</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xdev</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">intercept</span> <span class="o">=</span> <span class="n">ybar</span> <span class="o">-</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">xbar</span>
+
+    <span class="k">return</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To test this function, we’ll use flipper length and body mass again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span> <span class="o">=</span> <span class="n">least_squares</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">)</span>
+<span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(-2535.8368022002524), np.float64(32.831689751150094))
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can confirm that we get the same results we got from <code class="docutils literal notranslate"><span class="pre">linregress</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">([</span><span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span><span class="p">],</span> <span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">intercept</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">slope</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Minimizing MSE made sense when computational efficiency was more important than choosing the method most appropriate to the problem at hand.
+But that’s no longer the case, so it is worth considering whether squared residuals are the right thing to minimize.</p>
+</section>
+<section id="estimation">
+<h2>Estimation<a class="headerlink" href="#estimation" title="Link to this heading">#</a></h2>
+<p>The parameters <code class="docutils literal notranslate"><span class="pre">slope</span></code> and <code class="docutils literal notranslate"><span class="pre">intercept</span></code> are estimates based on a sample.
+Like other estimates, they are vulnerable to non-representative sampling, measurement error, and variability due to random sampling.
+As usual, it’s hard to quantify the effect of non-representative sampling and measurement error.
+It’s easier to quantify the effect of random sampling.</p>
+<p>One way to do that is a kind of resampling called <strong>bootstrapping</strong>: we’ll treat the sample as if it were the whole population and draw new samples, with replacement, from the observed data.
+The following function takes a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> and uses the <code class="docutils literal notranslate"><span class="pre">sample</span></code> method to resample the rows and return a new <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">resample</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the following function takes a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, finds the least squares fit, and returns the slope of the fitted line.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">estimate_slope</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Flipper Length (mm)&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Body Mass (g)&quot;</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">slope</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use these functions to generate many simulated datasets and compute the slope for each one.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seed the random number generator so we get the same results every time</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resampled_slopes</span> <span class="o">=</span> <span class="p">[</span><span class="n">estimate_slope</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span><span class="n">adelie</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1001</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a sample from the sampling distribution of the slope.
+Here’s what it looks like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">thinkstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_kde</span>
+
+<span class="n">plot_kde</span><span class="p">(</span><span class="n">resampled_slopes</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Slope of the fitted line (g / mm)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/bea8c2bcf4ff1888a13da5443b8659d73cda43e2f5e723f81b08dae2a14e1987.png" src="_images/bea8c2bcf4ff1888a13da5443b8659d73cda43e2f5e723f81b08dae2a14e1987.png" />
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">percentile</span></code> to compute a 90% confidence interval.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ci90</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">resampled_slopes</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">95</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">slope</span><span class="p">,</span> <span class="n">ci90</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>32.83168975115009 [25.39604591 40.21054526]
+</pre></div>
+</div>
+</div>
+</div>
+<p>So we could report that the estimated slope is 33 grams / mm with a 90% CI [25, 40] grams / mm.</p>
+<p>The standard error of the estimate is the standard deviation of the sampling distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stderr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">resampled_slopes</span><span class="p">)</span>
+<span class="n">stderr</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(4.570238986584832)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">RegressionResult</span></code> object we got from <code class="docutils literal notranslate"><span class="pre">linregress</span></code> provides an approximation of the standard error, based on some assumptions about the shape of the distribution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">stderr</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(5.076138407990821)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The standard error we computed by resampling is a little smaller, but the difference probably doesn’t matter in practice.</p>
+</section>
+<section id="visualizing-uncertainty">
+<h2>Visualizing Uncertainty<a class="headerlink" href="#visualizing-uncertainty" title="Link to this heading">#</a></h2>
+<p>Each time we resample the dataset, we get a different fitted line.
+To see how much variation there is in the lines, one option is to loop through them and plot them all.
+The following function takes a resampled <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, computes a least squares fit, and generates predicted values for a sequence of <code class="docutils literal notranslate"><span class="pre">xs</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fit_line</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fit_xs</span><span class="p">):</span>
+    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Flipper Length (mm)&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Body Mass (g)&quot;</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+    <span class="n">fit_ys</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">fit_xs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fit_ys</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the sequence of <code class="docutils literal notranslate"><span class="pre">xs</span></code> we’ll use.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xs</span> <span class="o">=</span> <span class="n">adelie</span><span class="p">[</span><span class="s2">&quot;Flipper Length (mm)&quot;</span><span class="p">]</span>
+<span class="n">fit_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s what the fitted lines look like, along with a scatter plot of the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">):</span>
+    <span class="n">fit_ys</span> <span class="o">=</span> <span class="n">fit_line</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span><span class="n">adelie</span><span class="p">),</span> <span class="n">fit_xs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_xs</span><span class="p">,</span> <span class="n">fit_ys</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">xvar</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">yvar</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/30885975c39318a2a5e8815d946b6245f9fda4f4f2609cc366748d884a68c749.png" src="_images/30885975c39318a2a5e8815d946b6245f9fda4f4f2609cc366748d884a68c749.png" />
+</div>
+</div>
+<p>Near the middle, the fitted lines are close together – at the extremes, they are farther apart.</p>
+<p>Another way to represent the variability of the fitted lines is to plot a 90% confidence interval for each predicted value.
+We can do that by collecting the fitted lines as a list of arrays.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fitted_ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">fit_line</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span><span class="n">adelie</span><span class="p">),</span> <span class="n">fit_xs</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1001</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can think of this list of arrays as a two-dimensional array with one row for each fitted line and one column corresponding to each of the <code class="docutils literal notranslate"><span class="pre">xs</span></code>.</p>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">percentile</span></code> with the <code class="docutils literal notranslate"><span class="pre">axis=0</span></code> argument to find the 5th, 50th, and 95th percentiles of the <code class="docutils literal notranslate"><span class="pre">ys</span></code> corresponding to each of the <code class="docutils literal notranslate"><span class="pre">xs</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">low</span><span class="p">,</span> <span class="n">median</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">fitted_ys</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’ll use <code class="docutils literal notranslate"><span class="pre">fill_between</span></code> to plot a region between the 5th and 95 percentiles, which represents the 90% CI, along with the median value in each column and a scatter plot of the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">flipper_length</span><span class="p">,</span> <span class="n">body_mass</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">fit_xs</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_xs</span><span class="p">,</span> <span class="n">median</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">xvar</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">yvar</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5967287882b5ae2e30aafbd931f96e8b761844203d0074f0dc9f1af90d4d8c65.png" src="_images/5967287882b5ae2e30aafbd931f96e8b761844203d0074f0dc9f1af90d4d8c65.png" />
+</div>
+</div>
+<p>This is my favorite way to represent the variability of a fitted line due to random sampling.</p>
+</section>
+<section id="transformation">
+<h2>Transformation<a class="headerlink" href="#transformation" title="Link to this heading">#</a></h2>
+<p>Before fitting a line to data, it is sometimes useful to transform one or both variables, for example by computing the squares of the values, their square roots, or their logarithms.
+To demonstrate, we’ll use heights and weights from the Behavioral Risk Factor Surveillance System (BRFSS), described in <a class="reference internal" href="chap05.html#section-lognormal-distribution"><span class="std std-ref">Chapter 5</span></a>.</p>
+<p>The following cell downloads the BRFSS data.</p>
+<div class="cell tag_remove-print tag_bm docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/CDBRFS08.ASC.gz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can load the BRFSS data like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">thinkstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_brfss</span>
+
+<span class="n">brfss</span> <span class="o">=</span> <span class="n">read_brfss</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we’ll find the rows with valid data and select the columns containing heights and weights.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">valid</span> <span class="o">=</span> <span class="n">brfss</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;htm3&quot;</span><span class="p">,</span> <span class="s2">&quot;wtkg2&quot;</span><span class="p">])</span>
+<span class="n">heights</span><span class="p">,</span> <span class="n">weights</span> <span class="o">=</span> <span class="n">valid</span><span class="p">[</span><span class="s2">&quot;htm3&quot;</span><span class="p">],</span> <span class="n">valid</span><span class="p">[</span><span class="s2">&quot;wtkg2&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">linregress</span></code> to compute the slope and intercept of the least squares fit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_brfss</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+<span class="n">result_brfss</span><span class="o">.</span><span class="n">intercept</span><span class="p">,</span> <span class="n">result_brfss</span><span class="o">.</span><span class="n">slope</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(-82.65926054409877), np.float64(0.957074585033226))
+</pre></div>
+</div>
+</div>
+</div>
+<p>The slope is about 0.96, which means that an increase of 1 centimeter corresponds to an increase of almost 1 kilogram, on average.
+We can use <code class="docutils literal notranslate"><span class="pre">predict</span></code> again to generate predicted values for a range of <code class="docutils literal notranslate"><span class="pre">xs</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">heights</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">heights</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">fit_ys</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">result_brfss</span><span class="p">,</span> <span class="n">fit_xs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before we make a scatter plot of the data, it’s useful to jitter the heights and weights.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">thinkstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">jitter</span>
+
+<span class="n">jittered_heights</span> <span class="o">=</span> <span class="n">jitter</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">jittered_weights</span> <span class="o">=</span> <span class="n">jitter</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we’ll use the mean and standard deviation of the heights to choose the limits of the <span class="math notranslate nohighlight">\(x\)</span> axis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">heights</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">heights</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">xlim</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">s</span>
+<span class="n">ylim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">200</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s a scatter plot of the jittered data along with the fitted line.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">jittered_heights</span><span class="p">,</span> <span class="n">jittered_weights</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_xs</span><span class="p">,</span> <span class="n">fit_ys</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Height (cm)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Weight (kg)&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/99f7709b0cd0c254ea57d67675c260d921f898f9bd54e45e919d51983372e087.png" src="_images/99f7709b0cd0c254ea57d67675c260d921f898f9bd54e45e919d51983372e087.png" />
+</div>
+</div>
+<p>The fitted line doesn’t pass through the densest part of the scatter plot.
+That’s because the weights don’t follow a normal distribution.
+As we saw in <a class="reference internal" href="chap05.html#section-lognormal-distribution"><span class="std std-ref">Chapter 5</span></a>, adult weights tend to follow a lognormal distribution, which is skewed toward larger values – and those values pull the fitted line up.</p>
+<p>Another cause for concern is the distribution of the residuals, which looks like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residuals</span> <span class="o">=</span> <span class="n">compute_residuals</span><span class="p">(</span><span class="n">result_brfss</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">thinkstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pmf</span>
+
+<span class="n">pmf_kde</span> <span class="o">=</span> <span class="n">make_pmf</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+<span class="n">pmf_kde</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Residual (kg)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/df348d0cf285c7af9f7329f9f7ab1ad1c3db7f53cf3644907936d1992ef2ceb7.png" src="_images/df348d0cf285c7af9f7329f9f7ab1ad1c3db7f53cf3644907936d1992ef2ceb7.png" />
+</div>
+</div>
+<p>The distribution of the residuals is skewed to the right.
+By itself, that’s not necessarily a problem, but it suggests that the least squares fit has not characterized the relationship between these variables properly.</p>
+<p>If the weights follow a lognormal distribution, their logarithms follow a normal distribution.
+So let’s see what happens if we fit a line to the logarithms of weight as a function of height.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+<span class="n">result_brfss2</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">log_weights</span><span class="p">)</span>
+<span class="n">result_brfss2</span><span class="o">.</span><span class="n">intercept</span><span class="p">,</span> <span class="n">result_brfss2</span><span class="o">.</span><span class="n">slope</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(0.9930804163932876), np.float64(0.005281454169417777))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because we transformed one of the variables, the slope and intercept are harder to interpret.
+But we can use <code class="docutils literal notranslate"><span class="pre">predict</span></code> to compute the fitted line.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">heights</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">heights</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">fit_ys</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">result_brfss2</span><span class="p">,</span> <span class="n">fit_xs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And then plot it along with a scatter plot of the transformed data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jittered_log_weights</span> <span class="o">=</span> <span class="n">jitter</span><span class="p">(</span><span class="n">log_weights</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">jittered_heights</span><span class="p">,</span> <span class="n">jittered_log_weights</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_xs</span><span class="p">,</span> <span class="n">fit_ys</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Height (cm)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Weight (log10 kg)&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/43cb4016f0e05c73f57be4571c5a3717623132807d7711f8b365f6b913c4ead4.png" src="_images/43cb4016f0e05c73f57be4571c5a3717623132807d7711f8b365f6b913c4ead4.png" />
+</div>
+</div>
+<p>The fitted line passes through the densest part of the plot, and the actual values extend about the same distance above and below the line – so the distribution of the residuals is roughly symmetric.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residuals</span> <span class="o">=</span> <span class="n">compute_residuals</span><span class="p">(</span><span class="n">result_brfss2</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="n">log_weights</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pmf_kde</span> <span class="o">=</span> <span class="n">make_pmf</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">)</span>
+<span class="n">pmf_kde</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Residual (kg)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Density&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/f63c4baee11a0b5e2f31d2c8c46026c04a111c0b34c7bd185318b2cc71aad4c6.png" src="_images/f63c4baee11a0b5e2f31d2c8c46026c04a111c0b34c7bd185318b2cc71aad4c6.png" />
+</div>
+</div>
+<p>The appearance of the scatter plot and the distribution of the residuals suggest that the relationship of height and log-transformed weight is well described by the fitted line.
+If we compare the <span class="math notranslate nohighlight">\(r\)</span> values of the two regressions, we see that the correlation of height with log-transformed weights is slightly higher.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_brfss</span><span class="o">.</span><span class="n">rvalue</span><span class="p">,</span> <span class="n">result_brfss2</span><span class="o">.</span><span class="n">rvalue</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(0.5087364789734582), np.float64(0.5317282605983435))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Which means that the <span class="math notranslate nohighlight">\(R^2\)</span> value is slightly higher, too.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_brfss</span><span class="o">.</span><span class="n">rvalue</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">result_brfss2</span><span class="o">.</span><span class="n">rvalue</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(0.2588128050383119), np.float64(0.28273494311893993))
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we use heights to guess weights, the guesses are a little better if we work with the log-transformed weights.</p>
+<p>However, transforming the data makes the parameters of the model harder to interpret – it can help to invert the transformation before presenting the results.
+For example, the inverse of a logarithm in base 10 is exponentiation with base 10.
+Here’s what the fitted line looks like after the inverse transformation, along with the untransformed data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">jittered_heights</span><span class="p">,</span> <span class="n">jittered_weights</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_xs</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="n">fit_ys</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Height (cm)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Weight (kg)&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/05277c82c794c22d37f9c609147a3c17ef59cc8a0da9e9525303ea3b478396f6.png" src="_images/05277c82c794c22d37f9c609147a3c17ef59cc8a0da9e9525303ea3b478396f6.png" />
+</div>
+</div>
+<p>A fitted line that’s straight with respect to the transformed data is curved with respect to the original data.</p>
+</section>
+<section id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>model</strong>: In the context of regression, a model is a mathematical description of the relationship between variables – such as a straight line – along with a description of random variation – such as a normal distribution.</p></li>
+<li><p><strong>imputation:</strong> A process for estimating and filling in missing values in a dataset.</p></li>
+<li><p><strong>line of best fit:</strong> A line (or curve) that best describes a relationship between variables, by some definition of “best”.</p></li>
+<li><p><strong>linear regression:</strong> A method for finding a line of best fit.</p></li>
+<li><p><strong>prediction</strong>: A point on a line of best fit – in the context of regression, it is not necessarily a claim about the future.</p></li>
+<li><p><strong>residual</strong>: The difference between an observed value and a value predicted by a line of best fit.</p></li>
+<li><p><strong>linear least squares fit:</strong> A line that minimizes the sum of squared residuals.</p></li>
+<li><p><strong>coefficient of determination</strong>: A statistic, denoted <span class="math notranslate nohighlight">\(R^2\)</span> and often pronounced “R squared”, that quantifies how well a model fits the data.</p></li>
+<li><p><strong>bootstrap resampling</strong>: A way of resampling by treating the sample as a population and drawing new samples with the same size as the original, with replacement.</p></li>
+</ul>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise-10-1">
+<h3>Exercise 10.1<a class="headerlink" href="#exercise-10-1" title="Link to this heading">#</a></h3>
+<p>In this chapter we computed a least squares fit for penguin weights as a function of flipper length.
+There are two other measurements in the dataset we can also consider: culmen length and culmen depth (the culmen is the top ridge of the bill).</p>
+<p>Compute the least squares fit for weight as a function of culmen length.
+Make a scatter plot of these variables and plot the fitted line.</p>
+<p>Based on the <code class="docutils literal notranslate"><span class="pre">rvalue</span></code> attribute of the <code class="docutils literal notranslate"><span class="pre">RegressionResult</span></code> object, what is the correlation of these variables?
+What is the coefficient of determination?
+Which is a better predictor of weight, culmen length or flipper length?</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xvar</span> <span class="o">=</span> <span class="s2">&quot;Culmen Length (mm)&quot;</span>
+<span class="n">yvar</span> <span class="o">=</span> <span class="s2">&quot;Body Mass (g)&quot;</span>
+
+<span class="n">culmen_length</span> <span class="o">=</span> <span class="n">adelie</span><span class="p">[</span><span class="n">xvar</span><span class="p">]</span>
+<span class="n">body_mass</span> <span class="o">=</span> <span class="n">adelie</span><span class="p">[</span><span class="n">yvar</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-10-2">
+<h3>Exercise 10.2<a class="headerlink" href="#exercise-10-2" title="Link to this heading">#</a></h3>
+<p>In this chapter we used resampling to approximate the sampling distribution for the slope of a fitted line.
+We can approximate the sampling distribution of the intercept the same way:</p>
+<ol class="arabic simple">
+<li><p>Write a function called <code class="docutils literal notranslate"><span class="pre">estimate_intercept</span></code> that takes a resampled <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> as an argument, computes the least squares fit of penguin weight as a function of flipper length, and returns the intercept.</p></li>
+<li><p>Call the function with many resampled versions of <code class="docutils literal notranslate"><span class="pre">adelie</span></code> and collect the intercepts.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">plot_kde</span></code> to plot the sampling distribution of the intercept.</p></li>
+<li><p>Compute the standard error and a 90% confidence interval.</p></li>
+<li><p>Check that the standard error you get from resampling is consistent with the <code class="docutils literal notranslate"><span class="pre">intercept_stderr</span></code> attribute in the <code class="docutils literal notranslate"><span class="pre">RegressionResult</span></code> object – it might be a little smaller.</p></li>
+</ol>
+</section>
+<section id="exercise-10-3">
+<h3>Exercise 10.3<a class="headerlink" href="#exercise-10-3" title="Link to this heading">#</a></h3>
+<p>A person’s Body Mass Index (BMI) is their weight in kilograms divided by their height in meters raised to the second power.
+In the BRFSS dataset, we can compute BMI like this, after converting heights from centimeters to meters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heights_m</span> <span class="o">=</span> <span class="n">heights</span> <span class="o">/</span> <span class="mi">100</span>
+<span class="n">bmis</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">heights_m</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this definition, heights are squared, rather than raised to some other exponent, because of the observation – early in the history of statistics – that average weight increases roughly in proportion to height squared.</p>
+<p>To see whether that’s true, we can use data from the BRFSS, a least squares fit, and a little bit of math.
+Suppose weight is proportional to height raised to an unknown exponent, <span class="math notranslate nohighlight">\(a\)</span>.
+In that case, we can write:</p>
+<div class="math notranslate nohighlight">
+\[w = b h^a\]</div>
+<p>where <span class="math notranslate nohighlight">\(w\)</span> is weight, <span class="math notranslate nohighlight">\(h\)</span> is height, and <span class="math notranslate nohighlight">\(b\)</span> is an unknown constant of proportionality.
+Taking logarithms of both sides:</p>
+<div class="math notranslate nohighlight">
+\[\log w = \log b + a \log h\]</div>
+<p>So, if we compute a least squares fit for log-transformed weights as a function of log-transformed heights, the slope of the fitted line estimates the unknown exponent <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<p>Compute the logarithms of height and weight.
+You can use any base for the logarithms, as long as it’s the same for both transformations.
+Compute a least squares fit.
+Is the slope close to 2?</p>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkStats/index.html">Think Stats: Exploratory Data Analysis in Python, 3rd Edition</a></p>
+<p>Copyright 2024 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chap09.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hypothesis Testing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chap11.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Multiple Regression</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#least-squares-fit">Least Squares Fit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coefficient-of-determination">Coefficient of Determination</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimizing-mse">Minimizing MSE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation">Estimation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-uncertainty">Visualizing Uncertainty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformation">Transformation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-1">Exercise 10.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-2">Exercise 10.2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-10-3">Exercise 10.3</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1270 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Distributions &#8212; Think Stats, 3rd edition</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chap02';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Probability Mass Functions" href="chap03.html" />
+    <link rel="prev" title="Exploratory Data Analysis" href="chap01.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Stats, 3rd edition</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Stats, 3rd edition
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="chap00.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap01.html">Exploratory Data Analysis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap03.html">Probability Mass Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap04.html">Cumulative Distribution Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap05.html">Modeling Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap06.html">Probability Density Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap07.html">Relationships between variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap08.html">Estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap09.html">Hypothesis Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap10.html">Least Squares</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap11.html">Multiple Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap12.html">Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap13.html">Survival analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chap14.html">Analytic Methods</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkStats/tree/v3" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/chap02.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Distributions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency-tables">Frequency Tables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nsfg-distributions">NSFG Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outliers">Outliers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-babies">First Babies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size">Effect Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-results">Reporting results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1">Exercise 2.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2">Exercise 2.2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3">Exercise 2.3</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p>The third edition of <em>Think Stats</em> is available now from <a class="reference external" href="https://bookshop.org/a/98697/9781098190255">Bookshop.org</a> and <a class="reference external" href="https://amzn.to/42lmxwu">Amazon</a> (those are affiliate links). If you are enjoying the free, online version, consider <a class="reference external" href="https://buymeacoffee.com/allendowney">buying me a coffee</a>.</p>
+<section id="distributions">
+<h1>Distributions<a class="headerlink" href="#distributions" title="Link to this heading">#</a></h1>
+<p>This chapter introduces one of the most fundamental ideas in statistics, the distribution.
+We’ll start with frequency tables – which represent the values in a dataset and the number of times each of them appears – and use them to explore data from the National Survey of Family Growth (NSFG).
+We’ll also look for extreme or erroneous values, called outliers, and consider ways to handle them.</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkStats/blob/v3/nb/chap02.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/nb/thinkstats.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">empiricaldist</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">pip</span> install empiricaldist
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">thinkstats</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="frequency-tables">
+<h2>Frequency Tables<a class="headerlink" href="#frequency-tables" title="Link to this heading">#</a></h2>
+<p>One way to describe a variable is a <strong>frequency table</strong>, which contains the values of the variable and their <strong>frequencies</strong> – that is, the number of times each value appears.
+This description is called the <strong>distribution</strong> of the variable.</p>
+<p>To represent distributions, we’ll use a library called <code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code>.
+In this context, “empirical” means that the distributions are based on data rather than mathematical models.
+<code class="docutils literal notranslate"><span class="pre">empiricaldist</span></code> provides a class called <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> that we can use to compute and plot frequency tables.
+We can import it like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">empiricaldist</span><span class="w"> </span><span class="kn">import</span> <span class="n">FreqTab</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To show how it works, we’ll start with a small list of values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> provides a method called <code class="docutils literal notranslate"><span class="pre">from_seq</span></code> that takes a sequence and makes a <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab</span> <span class="o">=</span> <span class="n">FreqTab</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">ftab</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>freqs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2.0</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3.0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5.0</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object is a kind of Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code> that contains values and their frequencies.
+In this example, the value <code class="docutils literal notranslate"><span class="pre">1.0</span></code> corresponds to frequency 1, the value <code class="docutils literal notranslate"><span class="pre">2.0</span></code> corresponds to frequency 2, etc.</p>
+<p><code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> provides a method called <code class="docutils literal notranslate"><span class="pre">bar</span></code> that plots the frequency table as a bar chart.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/38cccabec368062f7c957bc062b975b2eb398c88981d728edffb6662929d05a0.png" src="_images/38cccabec368062f7c957bc062b975b2eb398c88981d728edffb6662929d05a0.png" />
+</div>
+</div>
+<p>Because a <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> is a Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code>, we can use the bracket operator to look up a value and get its frequency.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab</span><span class="p">[</span><span class="mf">2.0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(2)
+</pre></div>
+</div>
+</div>
+</div>
+<p>But unlike a Pandas <code class="docutils literal notranslate"><span class="pre">Series</span></code>, we can also call a <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object like a function to look up a value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(2)
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we look up a value that does not appear in the <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code>, the function syntax returns <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+</div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object has an attribute called <code class="docutils literal notranslate"><span class="pre">qs</span></code> that returns an array of values – <code class="docutils literal notranslate"><span class="pre">qs</span></code> stands for quantities, although technically not all values are quantities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab</span><span class="o">.</span><span class="n">qs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1., 2., 3., 5.])
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> also has an attribute called <code class="docutils literal notranslate"><span class="pre">fs</span></code> that returns an array of frequencies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab</span><span class="o">.</span><span class="n">fs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 2, 1, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> provides an <code class="docutils literal notranslate"><span class="pre">items</span></code> method we can use to loop through quantity-frequency pairs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="n">ftab</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0 1
+2.0 2
+3.0 1
+5.0 1
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll see more <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> methods as we go along.</p>
+</section>
+<section id="nsfg-distributions">
+<h2>NSFG Distributions<a class="headerlink" href="#nsfg-distributions" title="Link to this heading">#</a></h2>
+<p>When you start working with a new dataset, I suggest you explore the variables you are planning to use one at a time, and a good way to start is by looking at frequency tables.</p>
+<p>As an example, let’s look at data from the National Survey of Family Growth (NSFG).
+In the previous chapter, we downloaded this dataset, read it into a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, and cleaned a few of the variables.
+The code we used to load and clean the data is in a module called <code class="docutils literal notranslate"><span class="pre">nsfg.py</span></code> – instructions for installing this module are in the notebook for this chapter.</p>
+<p>The following cells download the data files and install <code class="docutils literal notranslate"><span class="pre">statadict</span></code>, which we need to read the data.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">statadict</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">%</span><span class="k">pip</span> install statadict
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/nb/nsfg.py&quot;</span><span class="p">)</span>
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/2002FemPreg.dct&quot;</span><span class="p">)</span>
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/2002FemPreg.dat.gz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can import it and read the pregnancy file like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">nsfg</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_fem_preg</span>
+
+<span class="n">preg</span> <span class="o">=</span> <span class="n">read_fem_preg</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the examples in this chapter, we’ll focus on pregnancies that ended in live birth.
+We can use the <code class="docutils literal notranslate"><span class="pre">query</span></code> method to select the rows where <code class="docutils literal notranslate"><span class="pre">outcome</span></code> is 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">live</span> <span class="o">=</span> <span class="n">preg</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;outcome == 1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the string that’s passed to <code class="docutils literal notranslate"><span class="pre">query</span></code>, variable names like <code class="docutils literal notranslate"><span class="pre">outcome</span></code> refer to column names in the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.
+This string can also contain operators like <code class="docutils literal notranslate"><span class="pre">==</span></code> and operands like <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<p>Now we can use <code class="docutils literal notranslate"><span class="pre">FreqTab.from_seq</span></code> to count the number of times each quantity appears in <code class="docutils literal notranslate"><span class="pre">birthwgt_lb</span></code>, which is the pounds part of the birth weights.
+The <code class="docutils literal notranslate"><span class="pre">name</span></code> argument gives the <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object a name, which is used as a label when we plot it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_lb</span> <span class="o">=</span> <span class="n">FreqTab</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">live</span><span class="p">[</span><span class="s2">&quot;birthwgt_lb&quot;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;birthwgt_lb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what the distribution looks like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_lb</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Pounds&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1225faefc9cc328f587038caa330467083abbfad0df65fe7ac30c19f7de66934.png" src="_images/1225faefc9cc328f587038caa330467083abbfad0df65fe7ac30c19f7de66934.png" />
+</div>
+</div>
+<p>Looking at a distribution like this, the first thing we notice is the shape, which resembles the famous bell curve, more formally called a normal distribution or a Gaussian distribution.
+The other notable feature of the distribution is the <strong>mode</strong>, which is the most common value.
+To find the mode, we can use the method <code class="docutils literal notranslate"><span class="pre">idxmax</span></code>, which finds the quantity associated with the highest frequency.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_lb</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(7.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> provides a method called <code class="docutils literal notranslate"><span class="pre">mode</span></code> that does the same thing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_lb</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(7.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this distribution, the mode is at 7 pounds.</p>
+<p>As another example, here’s the frequency table of <code class="docutils literal notranslate"><span class="pre">birthwgt_oz</span></code>, which is the ounces part of birth weight.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_oz</span> <span class="o">=</span> <span class="n">FreqTab</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">live</span><span class="p">[</span><span class="s2">&quot;birthwgt_oz&quot;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;birthwgt_oz&quot;</span><span class="p">)</span>
+<span class="n">ftab_oz</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Ounces&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/295e6c3c74a56a495b3c3b3770e02da72343f26ab49b06bd530b1b5532aa5951.png" src="_images/295e6c3c74a56a495b3c3b3770e02da72343f26ab49b06bd530b1b5532aa5951.png" />
+</div>
+</div>
+<p>Because nature doesn’t know about pounds and ounces, we might expect all values of <code class="docutils literal notranslate"><span class="pre">birthwgt_oz</span></code> to be equally likely – that is, this distribution should be <strong>uniform</strong>.
+But it looks like <code class="docutils literal notranslate"><span class="pre">0</span></code> is more common than the other quantities, and <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">15</span></code> are less common, which suggests that respondents round off birth weights that are close to a whole number of pounds.</p>
+<p>As another example, let’s look at the frequency table of <code class="docutils literal notranslate"><span class="pre">agepreg</span></code>, which is the mother’s age at the end of pregnancy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_age</span> <span class="o">=</span> <span class="n">FreqTab</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">live</span><span class="p">[</span><span class="s2">&quot;agepreg&quot;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;agepreg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the NSFG, age is recorded in years and months, so there are more unique values than in the other distributions we’ve looked at.
+For that reason, we’ll pass <code class="docutils literal notranslate"><span class="pre">width=0.1</span></code> as a keyword argument to the <code class="docutils literal notranslate"><span class="pre">bar</span></code> method, which adjusts the width of the bars so they don’t overlap too much.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_age</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Age&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d36be578217dbc1d4ccb1b37fe09e25271eaad1f93339057d94107d4f917c49e.png" src="_images/d36be578217dbc1d4ccb1b37fe09e25271eaad1f93339057d94107d4f917c49e.png" />
+</div>
+</div>
+<p>The distribution is very roughly bell-shaped, but it is <strong>skewed</strong> to the right – that is, the tail extends farther right than left.</p>
+<p>Finally, let’s look at the frequency table of <code class="docutils literal notranslate"><span class="pre">prglngth</span></code>, which is the length of the pregnancy in weeks.
+The <code class="docutils literal notranslate"><span class="pre">xlim</span></code> argument sets the limit of the x-axis to the range from 20 to 50 weeks – there are not many values outside this range, and they are probably errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_length</span> <span class="o">=</span> <span class="n">FreqTab</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">live</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;prglngth&quot;</span><span class="p">)</span>
+<span class="n">ftab_length</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Weeks&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2b603baf7dd3e5c07f5a1eb73351efd3a220a91e2635cc45a7a3fc31ca327ab1.png" src="_images/2b603baf7dd3e5c07f5a1eb73351efd3a220a91e2635cc45a7a3fc31ca327ab1.png" />
+</div>
+</div>
+<p>By far the most common quantity is 39 weeks.
+The left tail is longer than the right – early babies are common, but pregnancies seldom go past 43 weeks, and doctors often intervene if they do.</p>
+</section>
+<section id="outliers">
+<h2>Outliers<a class="headerlink" href="#outliers" title="Link to this heading">#</a></h2>
+<p>Looking at frequency tables, it is easy to identify the shape of the distribution and the most common quantities, but rare quantities are not always visible.
+Before going on, it is a good idea to check for <strong>outliers</strong>, which are extreme values that might be measurement or recording errors, or might be accurate reports of rare events.</p>
+<p>To identify outliers, the following function takes a <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object and an integer <code class="docutils literal notranslate"><span class="pre">n</span></code>, and uses a slice index to select the <code class="docutils literal notranslate"><span class="pre">n</span></code> smallest quantities and their frequencies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">smallest</span><span class="p">(</span><span class="n">ftab</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ftab</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the frequency table of <code class="docutils literal notranslate"><span class="pre">prglngth</span></code>, here are the 10 smallest values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smallest</span><span class="p">(</span><span class="n">ftab_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>prglngth
+0     1
+4     1
+9     1
+13    1
+17    2
+18    1
+19    1
+20    1
+21    2
+22    7
+Name: prglngth, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since we selected the rows for live births, pregnancy lengths less than 10 weeks are certainly errors.
+The most likely explanation is that the outcome was not coded correctly.
+Lengths higher than 30 weeks are probably legitimate.
+Between 10 and 30 weeks, it is hard to be sure – some quantities are probably errors, but some are correctly recorded preterm births.</p>
+<p>The following function selects the largest values from a <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">largest</span><span class="p">(</span><span class="n">ftab</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ftab</span><span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the longest pregnancy lengths in the dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">largest</span><span class="p">(</span><span class="n">ftab_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>prglngth
+40    1116
+41     587
+42     328
+43     148
+44      46
+45      10
+46       1
+47       1
+48       7
+50       2
+Name: prglngth, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Again, some of these values are probably errors.
+Most doctors recommend induced labor if a pregnancy exceeds 41 weeks, so 50 weeks seems unlikely to be correct.
+But there is no clear line between values that are certainly errors and values that might be correct reports of rare events.</p>
+<p>The best way to handle outliers depends on “domain knowledge” – that is, information about where the data come from and what they mean.
+And it depends on what analysis you are planning to perform.</p>
+<p>In this example, the motivating question is whether first babies tend to be earlier or later than other babies.
+So we’ll use statistics that are not thrown off too much by a small number of incorrect values.</p>
+</section>
+<section id="first-babies">
+<h2>First Babies<a class="headerlink" href="#first-babies" title="Link to this heading">#</a></h2>
+<p>Now let’s compare the distribution of pregnancy lengths for first babies and others.
+We can use the <code class="docutils literal notranslate"><span class="pre">query</span></code> method to select rows that represent first babies and others.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">firsts</span> <span class="o">=</span> <span class="n">live</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;birthord == 1&quot;</span><span class="p">)</span>
+<span class="n">others</span> <span class="o">=</span> <span class="n">live</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;birthord != 1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And make a <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> of pregnancy lengths for each group.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ftab_first</span> <span class="o">=</span> <span class="n">FreqTab</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">firsts</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;firsts&quot;</span><span class="p">)</span>
+<span class="n">ftab_other</span> <span class="o">=</span> <span class="n">FreqTab</span><span class="o">.</span><span class="n">from_seq</span><span class="p">(</span><span class="n">others</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;others&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following function plots two frequency tables side-by-side.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">two_bar_plots</span><span class="p">(</span><span class="n">ftab1</span><span class="p">,</span> <span class="n">ftab2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.45</span><span class="p">):</span>
+    <span class="n">ftab1</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=-</span><span class="n">width</span><span class="p">)</span>
+    <span class="n">ftab2</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="s2">&quot;edge&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what they look like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">two_bar_plots</span><span class="p">(</span><span class="n">ftab_first</span><span class="p">,</span> <span class="n">ftab_other</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Weeks&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7476e6cd1892ee8b93ce13c513e3c5558cb2e14dd985a3621e7ec9166262e9dd.png" src="_images/7476e6cd1892ee8b93ce13c513e3c5558cb2e14dd985a3621e7ec9166262e9dd.png" />
+</div>
+</div>
+<p>There is no obvious difference in the shape of the distributions or in the outliers.
+It looks like more of the non-first babies are born during week 39, but there are more non-first babies in the dataset, so we should not compare the counts directly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">firsts</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">others</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.int64(4413), np.int64(4735))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Comparing the means of the distributions, it looks like first babies are a little bit later on average.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">first_mean</span> <span class="o">=</span> <span class="n">firsts</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">other_mean</span> <span class="o">=</span> <span class="n">others</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">first_mean</span><span class="p">,</span> <span class="n">other_mean</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(38.60095173351461), np.float64(38.52291446673706))
+</pre></div>
+</div>
+</div>
+</div>
+<p>But the difference is only 0.078 weeks, which is about 13 hours.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="n">first_mean</span> <span class="o">-</span> <span class="n">other_mean</span>
+<span class="n">diff</span><span class="p">,</span> <span class="n">diff</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">24</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(0.07803726677754952), np.float64(13.11026081862832))
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are several possible causes of this apparent difference:</p>
+<ul class="simple">
+<li><p>There might be an actual difference in average pregnancy length between first babies and others.</p></li>
+<li><p>The apparent difference we see in this dataset might be the result of bias in the sampling process – that is, the selection of survey respondents.</p></li>
+<li><p>The apparent difference might be the result of measurement error – for example, the self-reported pregnancy lengths might be more accurate for first babies or others.</p></li>
+<li><p>The apparent difference might be the result of random variation in the sampling process.</p></li>
+</ul>
+<p>In later chapters, we will consider these possible explanations more carefully, but for now we will take this result at face value: in this dataset, there is a small difference in pregnancy length between these groups.</p>
+</section>
+<section id="effect-size">
+<h2>Effect Size<a class="headerlink" href="#effect-size" title="Link to this heading">#</a></h2>
+<p>A difference like this is sometimes called an “effect”.
+There are several ways to quantify the magnitude of an effect.
+The simplest is to report the difference in absolute terms – in this example, the difference is 0.078 weeks.</p>
+<p>Another is to report the difference in relative terms.
+For example, we might say that first pregnancies are 0.2% longer than others, on average.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">/</span> <span class="n">live</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.20237586646738304)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another option is to report a <strong>standardized</strong> effect size, which is a statistic intended to quantify the size of an effect in a way that is comparable between different quantities and different groups.</p>
+<p>Standardizing means we express the difference as a multiple of the standard deviation.
+So we might be tempted to write something like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">/</span> <span class="n">live</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.028877623375210403)
+</pre></div>
+</div>
+</div>
+</div>
+<p>But notice that we used both groups to compute the standard deviation.
+If the groups are substantially different, the standard deviation when we put them together is larger than in either group, which might make the effect size seem small.</p>
+<p>An alternative is to use the standard deviation of just one group, but it’s not clear which. So we could take the average of the two standard deviations, but if the groups are different sizes, that would give too much weight to one group and not enough to the other.</p>
+<p>A common solution is to use <strong>pooled standard deviation</strong>, which is the square root of pooled variance, which is the weighted sum of the variances in the groups.
+To compute it, we’ll start with the variances.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group1</span><span class="p">,</span> <span class="n">group2</span> <span class="o">=</span> <span class="n">firsts</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">],</span> <span class="n">others</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">group1</span><span class="o">.</span><span class="n">var</span><span class="p">(),</span> <span class="n">group2</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here is the weighted sum, with the group sizes as weights.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">group1</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">group2</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">pooled_var</span> <span class="o">=</span> <span class="p">(</span><span class="n">n1</span> <span class="o">*</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">v2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, here is the pooled standard deviation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pooled_var</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(2.7022108144953862)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The pooled standard deviation is between the standard deviations of the groups.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">firsts</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">others</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(2.7919014146687204), np.float64(2.6158523504392375))
+</pre></div>
+</div>
+</div>
+</div>
+<p>A standardized effect size that uses pooled standard deviation is called <strong>Cohen’s effect size</strong>. Here’s a function that computes it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">cohen_effect_size</span><span class="p">(</span><span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">):</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">group1</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">group2</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">group1</span><span class="o">.</span><span class="n">var</span><span class="p">(),</span> <span class="n">group2</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+    <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">group1</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">group2</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">pooled_var</span> <span class="o">=</span> <span class="p">(</span><span class="n">n1</span> <span class="o">*</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">n2</span> <span class="o">*</span> <span class="n">v2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">diff</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pooled_var</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s the effect size for the difference in mean pregnancy lengths.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cohen_effect_size</span><span class="p">(</span><span class="n">firsts</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">],</span> <span class="n">others</span><span class="p">[</span><span class="s2">&quot;prglngth&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.028879044654449834)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this example, the difference is 0.029 standard deviations, which is small.
+To put that in perspective, the difference in height between men and women is about 1.7 standard deviations.</p>
+</section>
+<section id="reporting-results">
+<h2>Reporting results<a class="headerlink" href="#reporting-results" title="Link to this heading">#</a></h2>
+<p>We have seen several ways to describe the difference in pregnancy length (if there is one) between first babies and others.
+How should we report these results?</p>
+<p>The answer depends on who is asking the question.
+A scientist might be interested in any (real) effect, no matter how small.
+A doctor might only care about effects that are <strong>practically significant</strong> – that is, differences that matter in practice.
+A pregnant woman might be interested in results that are relevant to her, like the probability of delivering early or late.</p>
+<p>How you report results also depends on your goals.
+If you are trying to demonstrate the importance of an effect, you might choose summary statistics that emphasize differences.
+If you are trying to reassure a patient, you might choose statistics that put the differences in context.</p>
+<p>Of course your decisions should also be guided by professional ethics.
+It’s OK to be persuasive – you <em>should</em> design statistical reports and visualizations that tell a story clearly.
+But you should also do your best to make your reports honest, and to acknowledge uncertainty and limitations.</p>
+</section>
+<section id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>distribution</strong>: The set of values and how frequently each value appears in a dataset.</p></li>
+<li><p><strong>frequency table</strong>: A mapping from values to frequencies.</p></li>
+<li><p><strong>frequency</strong>: The number of times a value appears in a sample.</p></li>
+<li><p><strong>skewed:</strong> A distribution is skewed if it is asymmetrical, with extreme quantities extending farther in one direction than the other.</p></li>
+<li><p><strong>mode</strong>: The most frequent quantity in a sample, or one of the most frequent quantities.</p></li>
+<li><p><strong>uniform distribution</strong>: A distribution in which all quantities have the same frequency.</p></li>
+<li><p><strong>outlier</strong>: An extreme quantity in a distribution.</p></li>
+<li><p><strong>standardized:</strong> A statistic is standardized if it is expressed in terms that are comparable across different datasets and domains.</p></li>
+<li><p><strong>pooled standard deviation:</strong> A statistic that combines data from two or more groups to compute a common standard deviation.</p></li>
+<li><p><strong>Cohen’s effect size:</strong> A standardized statistic that quantifies the difference in the means of two groups.</p></li>
+<li><p><strong>practically significant:</strong> An effect is practically significant if it is big enough to matter in practice.</p></li>
+</ul>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p>For the exercises in this chapter, we’ll load the NSFG female respondent file, which contains one row for each female respondent.
+Instructions for downloading the data and the codebook are in the notebook for this chapter.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/2002FemResp.dct&quot;</span><span class="p">)</span>
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkStats/raw/v3/data/2002FemResp.dat.gz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The codebook for the female respondent file is at <a class="reference external" href="https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NSFG/Cycle6Codebook-Female.pdf">https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NSFG/Cycle6Codebook-Female.pdf</a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">nsfg.py</span></code> module provides a function that reads the female respondent file, cleans some of the variables, and returns a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">nsfg</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_fem_resp</span>
+
+<span class="n">resp</span> <span class="o">=</span> <span class="n">read_fem_resp</span><span class="p">()</span>
+<span class="n">resp</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(7643, 3092)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> contains 3092 columns, but we’ll use just a few of them.</p>
+<section id="exercise-2-1">
+<h3>Exercise 2.1<a class="headerlink" href="#exercise-2-1" title="Link to this heading">#</a></h3>
+<p>We’ll start with <code class="docutils literal notranslate"><span class="pre">totincr</span></code>, which records the total income for the respondent’s family, encoded with a value from 1 to 14.
+You can read the codebook for the respondent file to see what income level each value represents.</p>
+<p>Make a <code class="docutils literal notranslate"><span class="pre">FreqTab</span></code> object to represent the distribution of this variable and plot it as a bar chart.</p>
+</section>
+<section id="exercise-2-2">
+<h3>Exercise 2.2<a class="headerlink" href="#exercise-2-2" title="Link to this heading">#</a></h3>
+<p>Make a frequency table of the <code class="docutils literal notranslate"><span class="pre">parity</span></code> column, which records the number of children each respondent has borne.
+How would you describe the shape of this distribution?</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">largest</span></code> function to find the largest values of <code class="docutils literal notranslate"><span class="pre">parity</span></code>.
+Are there any values you think are errors?</p>
+</section>
+<section id="exercise-2-3">
+<h3>Exercise 2.3<a class="headerlink" href="#exercise-2-3" title="Link to this heading">#</a></h3>
+<p>Let’s investigate whether women with higher or lower income bear more children.
+Use the query method to select the respondents with the highest income (level 14).
+Plot the frequency table of <code class="docutils literal notranslate"><span class="pre">parity</span></code> for just the high income respondents.</p>
+<p>Compare the mean <code class="docutils literal notranslate"><span class="pre">parity</span></code> for high income respondents and others.</p>
+<p>Compute Cohen’s effect size for this difference.
+How does it compare with the difference in pregnancy length for first babies and others?</p>
+<p>Do these results show that people with higher income have fewer children, or can you think of another explanation for the apparent difference?</p>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkStats/index.html">Think Stats: Exploratory Data Analysis in Python, 3rd Edition</a></p>
+<p>Copyright 2024 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="chap01.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Exploratory Data Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="chap03.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Probability Mass Functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency-tables">Frequency Tables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nsfg-distributions">NSFG Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outliers">Outliers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-babies">First Babies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-size">Effect Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-results">Reporting results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#glossary">Glossary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-1">Exercise 2.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-2">Exercise 2.2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-3">Exercise 2.3</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
