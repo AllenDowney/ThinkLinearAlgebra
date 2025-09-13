@@ -75,6 +75,21 @@ def vector_rejection(a, b):
     b = np.asarray(b, dtype=float)
     return a - vector_projection(a, b)
 
+def cross2d(x, y):
+    """Compute the 2D cross product (determinant) of two vectors.
+    
+    This is the version recommended to replace the deprecated np.cross for 2D arrays.
+    https://numpy.org/doc/stable/reference/generated/numpy.cross.html
+
+    Args:
+        x: NumPy array
+        y: NumPy array
+
+    Returns: 
+        array or float
+    """
+    return x[..., 0] * y[..., 1] - x[..., 1] * y[..., 0]
+
 def angle_between(a, b, degrees=True):
     """Compute the angle between two vectors.
     
@@ -401,7 +416,7 @@ def label_vectors(vectors, origins, labels, label_positions=None, **options):
         label_vector(vector, origin, label, label_pos, **options)
 
 
-def label_vector(vector, origin, label, label_pos=12, offset=0.1, **options):
+def label_vector(vector, origin, label, label_pos=12, offset=0.4, **options):
     """Label a vector with a string at a given position.
 
     Args:
@@ -411,15 +426,14 @@ def label_vector(vector, origin, label, label_pos=12, offset=0.1, **options):
         label_pos: integer clock position
         offset: offset of the label from the vector
     """
-    v_mag = norm(vector)
     v_hat = normalize(vector)
     w_hat = vector_perp(v_hat)
 
     i = label_pos % 12
     v = np.array([4, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4])[i] / 4 * vector
 
-    offset_v = np.array([1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0])[i] * offset * v_mag
-    offset_w = np.array([0, -1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1])[i] * offset * v_mag
+    offset_v = np.array([1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0])[i] * offset
+    offset_w = np.array([0, -1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1])[i] * offset
 
     x, y = origin + v + v_hat * offset_v + w_hat * offset_w
 
