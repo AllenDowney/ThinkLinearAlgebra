@@ -2,7 +2,7 @@
 
 <div style="float: right; margin: 0 0 1em 1em;">
   <a href="https://bookshop.org/a/98697/9781098190255">
-    <img src="https://raw.githubusercontent.com/AllenDowney/ThinkStats/refs/heads/v3/think_stats_3e_cover_medium.jpg" alt="Think Stats 3rd Edition Cover" style="height:500px;">
+    <img src="https://raw.githubusercontent.com/AllenDowney/ThinkLinearAlgebra/main/think_linear_algebra_fake_cover_small.png" alt="Fake cover for Think Linear Algebra" style="height:400px;">
   </a>
 </div>
 
