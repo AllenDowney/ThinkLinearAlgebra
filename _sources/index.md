@@ -1,9 +1,10 @@
-# Think Linear Algebra, 1st edition
+# Think Linear Algebra
 
 *Think Linear Algebra* is a code-first, case-based introduction to the most widely used concepts in linear algebra, designed for readers who want to understand and apply these ideas — not just learn them in the abstract. Each chapter centers on a real-world problem like modeling traffic in the web, simulating flocking birds, or analyzing electrical circuits. Using Python and powerful libraries like NumPy, SciPy, SymPy, and NetworkX, readers build working solutions that reveal how linear algebra provides elegant, general-purpose tools for thinking and doing.
 
-<div style="text-align: center; margin: 2em 0;">
+<div style="text-align: center; margin: 0 0;">
     <iframe src="enterprise.html" width="100%" height="400" frameborder="0"></iframe>
+    <p style="font-style: italic; margin-top: 0.5em; font-size: 0.9em;">Press the play button to try this example from the chapter on affine transforms.</p>
 </div>
 
 This book is for readers who may have struggled with traditional math instruction, or who want a more intuitive, hands-on way to learn. By working in Jupyter notebooks, readers get instant feedback as they write code, run simulations, visualize results, and explore what-if scenarios. Rather than beginning with mathematical formalism, *Think Linear Algebra* starts with meaningful applications and builds up the theory when it's needed. The result is a uniquely practical and empowering introduction to linear algebra as a language for solving real problems.
@@ -12,15 +13,6 @@ Linear algebra is foundational for machine learning, scientific computing, and c
 
 This book is available under a Creative Commons license, which means that you are free to copy, distribute, and modify it, as long as you attribute the source and don't use it for commercial purposes.
 
-## Prerequisites
-
-This book assumes you have:
-
-* Intermediate Python experience — you should be comfortable with variables, functions, loops, and basic data structures
-* Some experience with NumPy or matplotlib — though we'll introduce these libraries as we go
-* No prior linear algebra required — we'll build all the mathematical concepts from the ground up
-
-If you're new to Python or Jupyter, you can start with [Think Python](https://greenteapress.com/wp/think-python-3rd-edition/).
 
 ## What You'll Learn
 
@@ -38,21 +30,21 @@ Here are the chapters that are available now. More coming soon!
 
 **Chapter 1: The Power of Linear Algebra**
 
-* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/centrality.ipynb)
+* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/centrality.ipynb)
 
 
 **Chapter 5: To Boldly Go**
 
-* [Click here to run Chapter 5 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/affine.ipynb)
+* [Click here to run Chapter 5 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/affine.ipynb)
 
 
 **Chapter 8: Null Space**
 
-* [Click here to run Chapter 8 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/nullspace.ipynb)
+* [Click here to run Chapter 8 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/nullspace.ipynb)
 
 
 **Chapter 9: Truss In the System**
 
-* [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/truss.ipynb)
+* [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/truss.ipynb)
 
 
