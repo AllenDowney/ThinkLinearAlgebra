@@ -13,19 +13,19 @@ Here are the chapters that are available now. More coming soon!
 
 **Chapter 1: The Power of Linear Algebra**
 
-* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/centrality.ipynb)
+* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/centrality.ipynb)
 
 **Chapter 5: To Boldly Go**
 
-* [Click here to run Chapter 5 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/affine.ipynb)
+* [Click here to run Chapter 5 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/affine.ipynb)
 
 **Chapter 8: Null Space**
 
-* [Click here to run Chapter 8 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/nullspace.ipynb)
+* [Click here to run Chapter 8 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/nullspace.ipynb)
 
 **Chapter 9: Truss In the System**
 
-* [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/truss.ipynb)
+* [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/truss.ipynb)
 
 
 ## Working with the code
