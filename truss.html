@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. Truss in the System &#8212; Think Linear Algebra, 1st edition</title>
+    <title>4. Truss in the System &#8212; Think Linear Algebra, 1st edition</title>
   
   
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'truss';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="2. Null Space" href="nullspace.html" />
+    <link rel="prev" title="3. Null Space" href="nullspace.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -176,9 +176,10 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="affine.html">1. To Boldly Go</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nullspace.html">2. Null Space</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Truss in the System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="centrality.html">1. The Power of Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">2. To Boldly Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">3. Null Space</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Truss in the System</a></li>
 </ul>
 
     </div>
@@ -342,17 +343,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplest-truss">3.1. The Simplest Truss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-force">3.2. Internal Force</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium">3.3. Equilibrium</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffness-matrix">3.4. The Stiffness Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warren-trusses">3.5. Warren Trusses</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#block-matrix-equation">3.6. Block Matrix Equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-block-matrix">3.7. Compute the Block Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shift-and-rotate">3.8. Shift and Rotate</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-the-matrix">3.9. Reduce the Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-system">3.10. Solve the System</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">3.11. Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplest-truss">4.1. The Simplest Truss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-force">4.2. Internal Force</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium">4.3. Equilibrium</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffness-matrix">4.4. The Stiffness Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warren-trusses">4.5. Warren Trusses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#block-matrix-equation">4.6. Block Matrix Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-block-matrix">4.7. Compute the Block Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shift-and-rotate">4.8. Shift and Rotate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-the-matrix">4.9. Reduce the Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-system">4.10. Solve the System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">4.11. Discussion</a></li>
 </ul>
             </nav>
         </div>
@@ -366,7 +367,7 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="truss-in-the-system">
-<h1><span class="section-number">3. </span>Truss in the System<a class="headerlink" href="#truss-in-the-system" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">4. </span>Truss in the System<a class="headerlink" href="#truss-in-the-system" title="Link to this heading">#</a></h1>
 <p>In this chapter, we’ll use systems of linear equations to analyze trusses.</p>
 <p>A <strong>truss</strong> is an assembly of bars connected by joints, usually designed to support a load. Many bridges and roofs are supported by trusses, and if you’ve ever participated in a model bridge competition, the structure you built was probably a truss.</p>
 <p>This picture shows a <strong>Warren truss</strong>, the basis of many railroad bridge designs:</p>
@@ -441,7 +442,7 @@ And they make it easier to analyze the structure – that is, for a given load, 
 </details>
 </div>
 <section id="the-simplest-truss">
-<h2><span class="section-number">3.1. </span>The Simplest Truss<a class="headerlink" href="#the-simplest-truss" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.1. </span>The Simplest Truss<a class="headerlink" href="#the-simplest-truss" title="Link to this heading">#</a></h2>
 <p>We’ll start with a truss that contains two bars, connected at a single joint and supported at two points.</p>
 <p>To represent the locations of the joint and the support points, we’ll use vectors we’ll call <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, and <code class="docutils literal notranslate"><span class="pre">C</span></code>.
 And to represent the vectors, we’ll use a SymPy <code class="docutils literal notranslate"><span class="pre">Matrix</span></code>.
@@ -534,7 +535,7 @@ To make the analysis more interesting, let’s suppose the bar <code class="docu
 <p>Next we’ll compute the spring forces in the truss due to a known displacement.</p>
 </section>
 <section id="internal-force">
-<h2><span class="section-number">3.2. </span>Internal Force<a class="headerlink" href="#internal-force" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.2. </span>Internal Force<a class="headerlink" href="#internal-force" title="Link to this heading">#</a></h2>
 <p>Soon we will find the displacement of the truss under a given load.
 But first let’s suppose, temporarily, that we are given the displacement, <code class="docutils literal notranslate"><span class="pre">u</span></code>.</p>
 <p>To compute the spring forces in the bars we have to figure out what part of the displacement, <code class="docutils literal notranslate"><span class="pre">u</span></code>, is along the axis of each bar.
@@ -617,7 +618,7 @@ We’ll use <code class="docutils literal notranslate"><span class="pre">factor_
 <p>Now let’s find the displacement of the truss under load.</p>
 </section>
 <section id="equilibrium">
-<h2><span class="section-number">3.3. </span>Equilibrium<a class="headerlink" href="#equilibrium" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.3. </span>Equilibrium<a class="headerlink" href="#equilibrium" title="Link to this heading">#</a></h2>
 <p>Suppose we apply a force at <code class="docutils literal notranslate"><span class="pre">C</span></code> that pulls down in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction, with no additional force in the <code class="docutils literal notranslate"><span class="pre">x</span></code> direction.
 We can represent this <strong>external force</strong> with the following vector, where the <code class="docutils literal notranslate"><span class="pre">F</span></code> represents the magnitude of the force.</p>
 <div class="cell docutils container">
@@ -763,7 +764,7 @@ So the model we used to analyze this truss would not be realistic for such a lar
 <p>We’re almost ready to take on a more complex truss, but first we need a new tool, the stiffness matrix.</p>
 </section>
 <section id="the-stiffness-matrix">
-<h2><span class="section-number">3.4. </span>The Stiffness Matrix<a class="headerlink" href="#the-stiffness-matrix" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.4. </span>The Stiffness Matrix<a class="headerlink" href="#the-stiffness-matrix" title="Link to this heading">#</a></h2>
 <p>In the previous section, we wrote this equation with internal force on the left and external force on the right:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -990,7 +991,7 @@ First we’ll convert the external force vector to an array.</p>
 We’ll use this idea again in the next example.</p>
 </section>
 <section id="warren-trusses">
-<h2><span class="section-number">3.5. </span>Warren Trusses<a class="headerlink" href="#warren-trusses" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.5. </span>Warren Trusses<a class="headerlink" href="#warren-trusses" title="Link to this heading">#</a></h2>
 <p>So far we’ve been working with a simple truss with two bars and only one joint that can move, so we wrote a vector equation with only two components.
 Now let’s try something a little harder – we’ll analyze a Warren truss.
 We’ll use NetworkX to represent the joints and bars as nodes and edges; then we’ll construct a matrix equation that relates the displacements at the joints to the external forces.</p>
@@ -1113,7 +1114,7 @@ The following loop creates a force vector for each node in the truss and assigns
 <p>To keep this example simple, we’ll assume that every bar has the same cross-sectional area and Young’s modulus – but it would be easy to generalize by adding these attributes to the edges.</p>
 </section>
 <section id="block-matrix-equation">
-<h2><span class="section-number">3.6. </span>Block Matrix Equation<a class="headerlink" href="#block-matrix-equation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.6. </span>Block Matrix Equation<a class="headerlink" href="#block-matrix-equation" title="Link to this heading">#</a></h2>
 <p>At this point we have a NetworkX graph that represents the bars and joints of the truss.
 The next step is to write a matrix equation to relate the unknown displacements to the internal and external forces.
 To do that, we will construct a <strong>block matrix</strong> which is a way to represent a system of equations where the unknowns are vectors.</p>
@@ -1185,7 +1186,7 @@ The stiffness matrix of that bar contributes to four elements of <span class="ma
 <p>In the next section, we’ll assemble <span class="math notranslate nohighlight">\(K\)</span> by looping through the edges and adding up the contributions from the stiffness matrix of each bar.</p>
 </section>
 <section id="compute-the-block-matrix">
-<h2><span class="section-number">3.7. </span>Compute the Block Matrix<a class="headerlink" href="#compute-the-block-matrix" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.7. </span>Compute the Block Matrix<a class="headerlink" href="#compute-the-block-matrix" title="Link to this heading">#</a></h2>
 <p>To construct the block matrix, we’ll loop through the edges and compute a matrix that represents the stiffness of each node due to the other nodes it is connected to.
 We’ll start by working through a single example, the edge from <code class="docutils literal notranslate"><span class="pre">B0</span></code> to <code class="docutils literal notranslate"><span class="pre">T0</span></code>.
 We can use <code class="docutils literal notranslate"><span class="pre">gget</span></code> to get the projector matrix for this edge.</p>
@@ -1291,7 +1292,7 @@ Here’s the result, shown with the common factor <span class="math notranslate 
 <p>Now let’s see if we can solve the matrix equation <span class="math notranslate nohighlight">\(K u = f\)</span> (hint: we can’t quite yet).</p>
 </section>
 <section id="shift-and-rotate">
-<h2><span class="section-number">3.8. </span>Shift and Rotate<a class="headerlink" href="#shift-and-rotate" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.8. </span>Shift and Rotate<a class="headerlink" href="#shift-and-rotate" title="Link to this heading">#</a></h2>
 <p>At this point we have a block matrix with five columns – one for each displacement – and five rows – one for each equation.
 So if we are given five external forces, it’s tempting to think we can solve for the unknown displacements.
 But we can’t, because the stiffness matrix we assembled does not have full rank.</p>
@@ -1460,7 +1461,7 @@ To do that, we’ll pack it into a dictionary that maps from the components of t
 But that’s because we have not yet taken into account all of the information we have about the physical scenario – specifically, we know that two of the nodes are fixed in space.</p>
 </section>
 <section id="reduce-the-matrix">
-<h2><span class="section-number">3.9. </span>Reduce the Matrix<a class="headerlink" href="#reduce-the-matrix" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.9. </span>Reduce the Matrix<a class="headerlink" href="#reduce-the-matrix" title="Link to this heading">#</a></h2>
 <p>Let’s assume that the truss is attached firmly at the left and right.
 The following loop makes a copy of the graph where the displacement at those nodes is zero.</p>
 <div class="cell docutils container">
@@ -1561,7 +1562,7 @@ First, we’ll compute the indices of the remaining nodes that are not fixed.</p
 <p>Now (finally!) we are ready to solve the system.</p>
 </section>
 <section id="solve-the-system">
-<h2><span class="section-number">3.10. </span>Solve the System<a class="headerlink" href="#solve-the-system" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.10. </span>Solve the System<a class="headerlink" href="#solve-the-system" title="Link to this heading">#</a></h2>
 <p>Here’s the matrix equation, <span class="math notranslate nohighlight">\(K u = f\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1628,7 +1629,7 @@ By fixing two nodes entirely, we reduced it to a 6x6 system, also fully determin
 But either method is fine.</p>
 </section>
 <section id="discussion">
-<h2><span class="section-number">3.11. </span>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.11. </span>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
 <p>When I was an undergraduate, I took a class where we learned to analyze trusses.
 One of my classmates asked a question that I’m not sure I appreciated at the time, but it stuck with me.
 To paraphrase, he asked, “Do we design trusses because they are optimal, or because they are easy to analyze?”
@@ -1684,7 +1685,7 @@ But this is a recent change, and we are only beginning to see its consequences.<
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">2. </span>Null Space</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Null Space</p>
       </div>
     </a>
 </div>
@@ -1703,17 +1704,17 @@ But this is a recent change, and we are only beginning to see its consequences.<
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplest-truss">3.1. The Simplest Truss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-force">3.2. Internal Force</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium">3.3. Equilibrium</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffness-matrix">3.4. The Stiffness Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warren-trusses">3.5. Warren Trusses</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#block-matrix-equation">3.6. Block Matrix Equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-block-matrix">3.7. Compute the Block Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shift-and-rotate">3.8. Shift and Rotate</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-the-matrix">3.9. Reduce the Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-system">3.10. Solve the System</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">3.11. Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-simplest-truss">4.1. The Simplest Truss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-force">4.2. Internal Force</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium">4.3. Equilibrium</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-stiffness-matrix">4.4. The Stiffness Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#warren-trusses">4.5. Warren Trusses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#block-matrix-equation">4.6. Block Matrix Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-block-matrix">4.7. Compute the Block Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shift-and-rotate">4.8. Shift and Rotate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reduce-the-matrix">4.9. Reduce the Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-system">4.10. Solve the System</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">4.11. Discussion</a></li>
 </ul>
   </nav></div>
 

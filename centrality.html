@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Art Thief &#8212; Think Linear Algebra, 1st edition</title>
+    <title>1. The Power of Linear Algebra &#8212; Think Linear Algebra, 1st edition</title>
   
   
   
@@ -57,11 +57,13 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'centrality';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. To Boldly Go" href="affine.html" />
+    <link rel="prev" title="Think Linear Algebra, 1st edition" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +126,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -176,9 +176,11 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="nullspace.html">1. Null Space</a></li>
-<li class="toctree-l1"><a class="reference internal" href="truss.html">2. Truss in the System</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. The Power of Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">2. To Boldly Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">3. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">4. Truss in the System</a></li>
 </ul>
 
     </div>
@@ -332,7 +334,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>The Art Thief</h1>
+    <h1>The Power of Linear Algebra</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -342,9 +344,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section">Section</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-louvre">The Louvre</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-day-at-the-museum">1.1. A Day at the Museum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjacency-matrix">1.2. The Adjacency Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">1.3. Dot Product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">1.4. Eigenvectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">1.5. Linearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagerank">1.6. PageRank</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.7. Exercises</a></li>
 </ul>
             </nav>
         </div>
@@ -357,8 +363,18 @@ document.write(`
                 <article class="bd-article">
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
-<section id="the-art-thief">
-<h1>The Art Thief<a class="headerlink" href="#the-art-thief" title="Link to this heading">#</a></h1>
+<section id="the-power-of-linear-algebra">
+<h1><span class="section-number">1. </span>The Power of Linear Algebra<a class="headerlink" href="#the-power-of-linear-algebra" title="Link to this heading">#</a></h1>
+<p>One of the challenges of learning Linear Algebra is where to start.
+Most textbooks start with vector arithmetic, which make senses if you are working with paper and pencil, but they take a long time to get to something useful.</p>
+<p>With a computational approach, we have the option to proceed top-down – that is, we can start with libraries that implement the core algorithms of linear algebra, and wait until later to see how they work.
+With this approach we can can get to the good stuff faster.</p>
+<p>To demonstrate, this chapter introduces vectors, matrices, and matrix-vector multiplication.
+We’ll use these tools to simulate a random walk in a network, and we’ll implement the PageRank algorithm Google used to revolutionize web search.
+Along the way, we’ll learn about eigenvectors, one of the most powerful ideas in linear algebra.</p>
+<p>That’s a lot for just one chapter, so we’ll move quickly.
+If you don’t feel like you understand all of it deeply, don’t worry – we’ll come back to these topics in future chapters.
+But I hope you’ll find it useful to get the big picture before we fill in the details.</p>
 <p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/centrality.ipynb">Click here to run this notebook on Colab</a>.</p>
 <div class="cell tag_remove-print tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -396,32 +412,24 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
 </pre></div>
 </div>
 </div>
 </details>
 </div>
-<section id="section">
-<h2>Section<a class="headerlink" href="#section" title="Link to this heading">#</a></h2>
+<section id="a-day-at-the-museum">
+<h2><span class="section-number">1.1. </span>A Day at the Museum<a class="headerlink" href="#a-day-at-the-museum" title="Link to this heading">#</a></h2>
+<p>Suppose you are meeting a friend at the Isabella Stewart Gardner Museum in Boston.
+You have not agreed on a meeting place – and let’s assume your cell phone is dead.
+If you are familiar with the layout of the museum, you might be able to make an intelligent guess about where to look for your friend.</p>
+<p>As a rough model of the situation, suppose your friend has been at the museum for some time, wandering from room to room at random.
+By simulating this random walk, we can compute their probability of being in each room.</p>
+<p>As a small example, we’ll create a graph that represents just a few of the rooms and the connections between them (based on the actual layout of the Gardner Museum).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">room_names</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Lobby&quot;</span><span class="p">,</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Main Stair&quot;</span><span class="p">,</span>
-    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Living Room&quot;</span><span class="p">,</span>
-    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Café&quot;</span><span class="p">,</span>
-    <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Shop&quot;</span><span class="p">,</span>
-    <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;Garden&quot;</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create graph</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
-<span class="n">G</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">room_names</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="s2">&quot;Lobby&quot;</span><span class="p">,</span> <span class="s2">&quot;Living Room&quot;</span><span class="p">),</span>
     <span class="p">(</span><span class="s2">&quot;Lobby&quot;</span><span class="p">,</span> <span class="s2">&quot;Shop&quot;</span><span class="p">),</span>
@@ -431,159 +439,100 @@ document.write(`
     <span class="p">(</span><span class="s2">&quot;Café&quot;</span><span class="p">,</span> <span class="s2">&quot;Garden&quot;</span><span class="p">),</span>
 <span class="p">]</span>
 <span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
-<span class="n">G</span>
 </pre></div>
 </div>
 </div>
+</div>
+<p>Here’s what the graph looks like.</p>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;networkx.classes.graph.Graph at 0x7f33b422a710&gt;
-</pre></div>
+<img alt="_images/f27409ca7874e7126e75a8c558c7f45528bc1ac3c2f5b64261a4964bec118a51.png" src="_images/f27409ca7874e7126e75a8c558c7f45528bc1ac3c2f5b64261a4964bec118a51.png" />
 </div>
 </div>
-</div>
+<p>The following function takes this graph and simulates a random walk through the museum.
+It uses a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> to keep track of the number of times each room is visited.
+Then it divides through by the number of iterations, so the values in the <code class="docutils literal notranslate"><span class="pre">Counter</span></code> add up to  one.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Approximate positions (manually aligned to floor plan layout)</span>
-<span class="n">positions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;Lobby&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="s2">&quot;Main Stair&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s2">&quot;Shop&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s2">&quot;Garden&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="s2">&quot;Living Room&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s2">&quot;Café&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-<span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
 
-<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span>
-    <span class="n">G</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span>
-    <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span>
-    <span class="n">node_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-    <span class="n">font_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-    <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gardner Museum – First Floor&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-<span class="kc">None</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/2a1c894f5f80a6ed54f4f648c19b7b9c33fe230094a8740b510cd95f8a2a4308.png" src="_images/2a1c894f5f80a6ed54f4f648c19b7b9c33fe230094a8740b510cd95f8a2a4308.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">update_probs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">probs</span><span class="p">):</span>
-    <span class="n">new_probs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
-        <span class="n">neighbors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
-        <span class="n">share</span> <span class="o">=</span> <span class="n">probs</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbors</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
-            <span class="n">new_probs</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">+=</span> <span class="n">share</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">random_walk</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">start</span>
+    
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">node</span><span class="p">]))</span>        
+        <span class="n">counter</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         
-    <span class="k">return</span> <span class="n">new_probs</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">counter</span><span class="p">:</span>
+        <span class="n">counter</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/=</span> <span class="n">iters</span>
+
+    <span class="k">return</span> <span class="n">counter</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Here are the results.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-    <span class="n">probs</span> <span class="o">=</span> <span class="n">update_probs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step </span><span class="si">{</span><span class="n">step</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">random_walk</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="s1">&#39;Lobby&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step 1
-Lobby          0.306
-Main Stair     0.222
-Living Room    0.111
-Café           0.222
-Shop           0.056
-Garden         0.083
-dtype: float64
-Step 2
-Lobby          0.185
-Main Stair     0.269
-Living Room    0.176
-Café           0.157
-Shop           0.102
-Garden         0.111
-dtype: float64
-Step 3
-Lobby          0.279
-Main Stair     0.228
-Living Room    0.151
-Café           0.201
-Shop           0.062
-Garden         0.079
-dtype: float64
-Step 4
-Lobby          0.213
-Main Stair     0.269
-Living Room    0.169
-Café           0.155
-Shop           0.093
-Garden         0.100
-dtype: float64
-Step 5
-Lobby          0.267
-Main Stair     0.233
-Living Room    0.161
-Café           0.190
-Shop           0.071
-Garden         0.077
-dtype: float64
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Counter({&#39;Main Stair&#39;: 0.262,
+         &#39;Lobby&#39;: 0.237,
+         &#39;Café&#39;: 0.175,
+         &#39;Living Room&#39;: 0.170,
+         &#39;Garden&#39;: 0.086,
+         &#39;Shop&#39;: 0.070})
 </pre></div>
 </div>
 </div>
 </div>
+<p>These values estimate the long-run probabilities of finding a random walker in each room.</p>
+<p>In reality, your friend doesn’t wander completely at random, and they have not been in the museum forever.
+Even so, it is probably true that you are more likely to find them in the Lobby or Main Stair, and less likely to find them in the Shop or Garden.</p>
+<p>So far, there is not much linear algebra in this linear algebra book.
+Let’s see what we can do about that.</p>
+</section>
+<section id="the-adjacency-matrix">
+<h2><span class="section-number">1.2. </span>The Adjacency Matrix<a class="headerlink" href="#the-adjacency-matrix" title="Link to this heading">#</a></h2>
+<p>As a first step toward linear algebra, we’ll use the <code class="docutils literal notranslate"><span class="pre">to_numpy_array</span></code> method to compute an array that represents the edges in the graph.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
-<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
-<span class="n">nodes</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Lobby&#39;, &#39;Main Stair&#39;, &#39;Living Room&#39;, &#39;Café&#39;, &#39;Shop&#39;, &#39;Garden&#39;]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Adjacency matrix as a NumPy array</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_array</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">nodelist</span><span class="o">=</span><span class="n">nodes</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_array</span><span class="p">(</span><span class="n">G</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">A</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0., 1., 1., 0., 1., 0.],
-       [1., 0., 1., 1., 0., 0.],
-       [1., 1., 0., 0., 0., 0.],
-       [0., 1., 0., 0., 0., 1.],
-       [1., 0., 0., 0., 0., 0.],
-       [0., 0., 0., 1., 0., 0.]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0, 1, 1, 1, 0, 0],
+       [1, 0, 0, 1, 0, 0],
+       [1, 0, 0, 0, 0, 0],
+       [1, 1, 0, 0, 1, 0],
+       [0, 0, 0, 1, 0, 1],
+       [0, 0, 0, 0, 1, 0]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>This result is called an <strong>adjacency matrix</strong>.
+Each element is either <code class="docutils literal notranslate"><span class="pre">1</span></code> to indicate that there is an edge between two nodes or <code class="docutils literal notranslate"><span class="pre">0</span></code> to indicate that there is not.
+Each row corresponds to one node, in the order they appear in the graph.
+We’ll use the following function to label the rows and columns with the names of the rooms.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">show_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">G</span><span class="p">):</span>
+     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adj_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">nodes</span><span class="p">)</span>
-<span class="n">adj_df</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -607,279 +556,1204 @@ dtype: float64
     <tr style="text-align: right;">
       <th></th>
       <th>Lobby</th>
-      <th>Main Stair</th>
       <th>Living Room</th>
-      <th>Café</th>
       <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
       <th>Garden</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Lobby</th>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>Main Stair</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Living Room</th>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>Café</th>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <th>Shop</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Main Stair</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Café</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>Garden</th>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
+<p>So the first row indicates that there are edges from the Lobby to the Living Room, Shop, and Main Stair, but not to the other rooms (and not to itself).</p>
+<p>You might notice that the object we created is a NumPy <em>array</em>, but it is called an adjacency <em>matrix</em>, and you might wonder what the difference is.
+This is a common source of confusion, made worse because people often use the terms interchangeably.</p>
+<p>An array is a general-purpose way to store multidimensional data.
+In this example it’s two-dimensional, but arrays can have any number of dimensions.
+An array can be used to represent a matrix, but it can also represent other things.</p>
+<p>A matrix a mathematical entity defined in linear algebra.
+If you say that an object is a matrix, that implies that it follows matrix rules.
+For example, when we multiply matrixes, we’ll perform matrix multiplication, which is different in important ways from multiplication of plain old numbers.</p>
+<p>The difference between a matrix and an array is similar to the difference between a number and a numeral.
+For example, the number two can be represented by the Hindu-Arabic numeral <code class="docutils literal notranslate"><span class="pre">2</span></code>.
+But it can also be represented by the Roman numeral <code class="docutils literal notranslate"><span class="pre">Ⅱ</span></code> or by the Suzhou numeral <code class="docutils literal notranslate"><span class="pre">〢</span></code>.
+So a number is a mathematical entity that can be represented by different numerals, and a matrix is an entity that can be represented by different data structures.</p>
+<p>We can use the adjacency matrix to compute a <strong>transition matrix</strong>, which represents the probability that a random walker moves from each room to the others.</p>
+<p>We use the following function, computing the sum of each column and dividing through so that each column adds up to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Degree vector (row sums)</span>
-<span class="n">row_sums</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_transition_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">A</span> <span class="o">/</span> <span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the transition matrix for the museum graph.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">make_transition_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">show_matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="c1"># Transition matrix: normalize rows of A</span>
-<span class="n">P</span> <span class="o">=</span> <span class="n">A</span> <span class="o">/</span> <span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lobby</th>
+      <th>Living Room</th>
+      <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
+      <th>Garden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Lobby</th>
+      <td>0.000</td>
+      <td>0.500</td>
+      <td>1.000</td>
+      <td>0.333</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>Living Room</th>
+      <td>0.333</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.333</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>Shop</th>
+      <td>0.333</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>Main Stair</th>
+      <td>0.333</td>
+      <td>0.500</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.500</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>Café</th>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.333</td>
+      <td>0.000</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>Garden</th>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.500</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>To understand what this means, let’s consider the first row.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row0</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">row0</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.   , 0.333, 0.333, 0.   , 0.333, 0.   ],
-       [0.333, 0.   , 0.333, 0.333, 0.   , 0.   ],
-       [0.5  , 0.5  , 0.   , 0.   , 0.   , 0.   ],
-       [0.   , 0.5  , 0.   , 0.   , 0.   , 0.5  ],
-       [1.   , 0.   , 0.   , 0.   , 0.   , 0.   ],
-       [0.   , 0.   , 0.   , 1.   , 0.   , 0.   ]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.   , 0.5  , 1.   , 0.333, 0.   , 0.   ])
 </pre></div>
 </div>
 </div>
 </div>
+<p>Each row is a one-dimensional array that we can think of as a vector.
+Like a matrix, a vector is a mathematical entity that can be represented many ways – but in this chapter we’ll use arrays.
+We’ll use the following function to display vectors with labels.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">show_vector</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">v</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Here’s the first row again.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span>
-<span class="n">x</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_vector</span><span class="p">(</span><span class="n">row0</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="s1">&#39;Lobby&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.30555556, 0.22222222, 0.11111111, 0.22222222, 0.05555556,
-       0.08333333])
-</pre></div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lobby</th>
+      <th>Living Room</th>
+      <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
+      <th>Garden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Lobby</th>
+      <td>0.000</td>
+      <td>0.500</td>
+      <td>1.000</td>
+      <td>0.333</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-</div>
-</div>
+<p>We can interpret the elements of this vector as transition probabilities from other rooms to the Lobby.
+For example, the element corresponding to the Living Room is 0.5, which means that if someone is in the Living Room and they follow a random edge, the probability they end up in the Lobby is 0.5.
+If they leave the Shop, the probability is 1, and if they leave the Main Stair, the probability is 0.333.</p>
+</section>
+<section id="dot-product">
+<h2><span class="section-number">1.3. </span>Dot Product<a class="headerlink" href="#dot-product" title="Link to this heading">#</a></h2>
+<p>Now suppose there are 100 people in every room.
+We can create an array that represents this hypothetical starting condition.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">nodes</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">show_vector</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lobby          0.306
-Main Stair     0.222
-Living Room    0.111
-Café           0.222
-Shop           0.056
-Garden         0.083
-dtype: float64
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lobby</th>
+      <th>Living Room</th>
+      <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
+      <th>Garden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>And now suppose that everyone leaves the room they are in, choosing one of the exits at random.
+To find out how many of them end up in the Lobby, we can multiply <code class="docutils literal notranslate"><span class="pre">row0</span></code> by <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">product</span> <span class="o">=</span> <span class="n">row0</span> <span class="o">*</span> <span class="n">x0</span>
+<span class="n">show_vector</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="s1">&#39;Lobby&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lobby</th>
+      <th>Living Room</th>
+      <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
+      <th>Garden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Lobby</th>
+      <td>0.000</td>
+      <td>50.000</td>
+      <td>100.000</td>
+      <td>33.333</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>When we use the <code class="docutils literal notranslate"><span class="pre">*</span></code> operator to multiply two arrays, the multiplication happens <strong>elementwise</strong> – that is, each element from one vector is multiplied by the corresponding element of the other.</p>
+<p>The result indicates that 50 people would move from the Living Room to the Lobby, 100 from the Shop, and 33.33 from the Main Stair.
+The total number of people who would end up in the library is the sum of these products.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">product</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>183.333
 </pre></div>
 </div>
 </div>
 </div>
+<p>The sum of elementwise products is an “inner product”, more often called a <strong>dot product</strong> because the operator used to denote it is a dot.
+For example, the dot product of vectors <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> is denoted <span class="math notranslate nohighlight">\(\mathbf{u} \cdot \mathbf{v}\)</span>.
+NumPy provides a method called <code class="docutils literal notranslate"><span class="pre">dot</span></code> that computes dot products.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run_random_walk</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row0</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>183.333
+</pre></div>
+</div>
+</div>
+</div>
+<p>It also provides an operator that does the same thing:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row0</span> <span class="o">@</span> <span class="n">x0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>183.333
+</pre></div>
+</div>
+</div>
+</div>
+<p>The same operator also computes the dot product of a matrix and a vector, also known as a <strong>matrix-vector product</strong>.
+It works by computing the dot product of each row of the matrix with the vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">M</span> <span class="o">@</span> <span class="n">x0</span>
+<span class="n">x1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([183.333,  66.667,  33.333, 133.333, 133.333,  50.   ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a vector with one element for each row of the matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_vector</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lobby</th>
+      <th>Living Room</th>
+      <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
+      <th>Garden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>183.333</td>
+      <td>66.667</td>
+      <td>33.333</td>
+      <td>133.333</td>
+      <td>133.333</td>
+      <td>50.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The elements of this vector indicate the number of people in each room after the first step of a random walk that starts with 100 people in each room.
+The total of the elements is 600, which is the same number of people we started with (whew!).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>600.000
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use the following loop to simulate multiple steps of a random walk.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run_random_walk</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">M</span> <span class="o">@</span> <span class="n">x</span>
     <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The arguments are the transition matrix, <code class="docutils literal notranslate"><span class="pre">M</span></code>, a vector representing the number of people starting in each room, <code class="docutils literal notranslate"><span class="pre">x0</span></code>, and the number of steps to compute.
+During each time step, we simulate random moves by multiplying the current vector <code class="docutils literal notranslate"><span class="pre">x</span></code> by the transition matrix.
+The result is the final allocation of people to rooms.</p>
+<p>Before we run this function, we’ll make a new starting vector that contains the probability a  person is in each room, rather than the number of people in each room.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">N</span><span class="p">)</span>
+<span class="n">show_vector</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="c1"># Run 10 steps from uniform start</span>
-<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
-<span class="n">x_final</span> <span class="o">=</span> <span class="n">run_random_walk</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lobby</th>
+      <th>Living Room</th>
+      <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
+      <th>Garden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>probability</th>
+      <td>0.167</td>
+      <td>0.167</td>
+      <td>0.167</td>
+      <td>0.167</td>
+      <td>0.167</td>
+      <td>0.167</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>And we’ll simulate 100 steps.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_final</span> <span class="o">=</span> <span class="n">run_random_walk</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">x_final</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.24264664, 0.25800968, 0.16585969, 0.15859225, 0.08562901,
-       0.08926273])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.25 , 0.167, 0.083, 0.25 , 0.167, 0.083])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result indicates the long-run probability of finding someone in each room.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_vector</span><span class="p">(</span><span class="n">x_final</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Lobby</th>
+      <th>Living Room</th>
+      <th>Shop</th>
+      <th>Main Stair</th>
+      <th>Café</th>
+      <th>Garden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th></th>
+      <td>0.250</td>
+      <td>0.167</td>
+      <td>0.083</td>
+      <td>0.250</td>
+      <td>0.167</td>
+      <td>0.083</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This result is similar to the one we computed previously by simulating the random walk and counting.</p>
+</section>
+<section id="eigenvectors">
+<h2><span class="section-number">1.4. </span>Eigenvectors<a class="headerlink" href="#eigenvectors" title="Link to this heading">#</a></h2>
+<p>In the previous section, we simulated a random walk by multiplying by <code class="docutils literal notranslate"><span class="pre">M</span></code> 100 times.
+Now let’s see what happens if we multiply the result by <code class="docutils literal notranslate"><span class="pre">M</span></code> one more time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">M</span> <span class="o">@</span> <span class="n">x_final</span>
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.25 , 0.167, 0.083, 0.25 , 0.167, 0.083])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s compare this new product with <code class="docutils literal notranslate"><span class="pre">x_final</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_final</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>At least within the limits of floating-point arithmetic, they are the same.</p>
+<p>This result implies that <span class="math notranslate nohighlight">\(\mathbf{M} \mathbf{x} = \mathbf{x}\)</span> for this particular value of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> – which means that <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is an <strong>eigenvector</strong> of <span class="math notranslate nohighlight">\(\mathbf{M}\)</span>.
+More generally, <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is an eigenvector of <span class="math notranslate nohighlight">\(\mathbf{M}\)</span> if <span class="math notranslate nohighlight">\(\mathbf{M} \mathbf{x} = \lambda \mathbf{x}\)</span>, where <span class="math notranslate nohighlight">\(\lambda\)</span> is an <strong>eigenvalue</strong> of <span class="math notranslate nohighlight">\(\mathbf{M}\)</span>.
+In this example, the eigenvalue that corresponds to the eigenvector we found is <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<p>The method we used to simulate a random walk – repeated matrix multiplication – is also an algorithm for finding an eigenvector.
+If you start with almost any vector <code class="docutils literal notranslate"><span class="pre">x</span></code> and repeatedly compute <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">M</span> <span class="pre">&#64;</span> <span class="pre">x</span></code>, the value of <code class="docutils literal notranslate"><span class="pre">x</span></code> converges to an eigenvector of <code class="docutils literal notranslate"><span class="pre">M</span></code> (I’ll explain the “almost” later).</p>
+<p>But this method only finds one eigenvector, and in general there can be more than one.
+Also it is not particularly efficient.</p>
+<p>SciPy provides a function called <code class="docutils literal notranslate"><span class="pre">eig</span></code> that implements an efficient algorithm that finds all of the eigenvectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eig</span>
+
+<span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">eig</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a one-dimensional array of eigenvalues and a two dimensional array of eigenvectors.
+In this example, there are six eigenvalues.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vals</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1.   +0.j,  0.707+0.j,  0.194+0.j, -0.86 +0.j, -0.707+0.j,
+       -0.333+0.j])
+</pre></div>
+</div>
+</div>
+</div>
+<p>In general, the eigenvalues of a matrix can be complex numbers, but in this example the imaginary parts are all 0 – that is, the eigenvalues are all real.
+So we can use the <code class="docutils literal notranslate"><span class="pre">abs</span></code> function to get the real parts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.   , 0.707, 0.194, 0.86 , 0.707, 0.333])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The eigenvector we found by repeated multiplication is the one with eigenvalue 1.
+We can get the corresponding eigenvector by selecting the first column from <code class="docutils literal notranslate"><span class="pre">vecs</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vec0</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">vec0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.567, -0.378, -0.189, -0.567, -0.378, -0.189])
+</pre></div>
+</div>
+</div>
+</div>
+<p>That does not immediately look like the eigenvector we found, but if we divide through so the elements add up to 1, we’ll see that it is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probs</span> <span class="o">=</span> <span class="n">vec0</span> <span class="o">/</span> <span class="n">vec0</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">probs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.25 , 0.167, 0.083, 0.25 , 0.167, 0.083])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert to readable form</span>
-<span class="n">final_probs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x_final</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">nodes</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">final_probs</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">x_final</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lobby          0.2426
-Main Stair     0.2580
-Living Room    0.1659
-Café           0.1586
-Shop           0.0856
-Garden         0.0893
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>While we’re at it let’s confirm that the other eigenvectors also work.
+For example, here’s the second eigenvector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vec1</span> <span class="o">=</span> <span class="n">vecs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">vec1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-5.433e-01, -2.561e-01, -2.561e-01, -8.537e-16,  6.184e-01,
+        4.373e-01])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the second eigenvalue.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">val1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">val1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.707
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we multiply <code class="docutils literal notranslate"><span class="pre">M</span></code> and <code class="docutils literal notranslate"><span class="pre">vec1</span></code>, the result should be <code class="docutils literal notranslate"><span class="pre">val1</span> <span class="pre">*</span> <span class="pre">vec1</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">M</span> <span class="o">@</span> <span class="n">vec1</span><span class="p">,</span> <span class="n">val1</span> <span class="o">*</span> <span class="n">vec1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>And it is.</p>
+</section>
+<section id="linearity">
+<h2><span class="section-number">1.5. </span>Linearity<a class="headerlink" href="#linearity" title="Link to this heading">#</a></h2>
+<p>Since there are multiple eigenvectors for this transition matrix, you might wonder why we focused on the first one and ignored the rest.
+The reason is that the eigenvector that corresponds to eigenvalue 1 represents a stationary point of <code class="docutils literal notranslate"><span class="pre">M</span></code> – that is, a distribution of probability across the nodes that is unchanged when we multiply by the transition matrix.</p>
+<p>The other eigenvalues are all less than 1, which means that if we start with one of the other eigenvectors and multiply by <code class="docutils literal notranslate"><span class="pre">M</span></code> repeatedly, the result gets smaller and smaller, converging toward 0.</p>
+<p>Now suppose we start with an initial vector that is the sum of all of the eigenvectors.
+We’ll use this function to add up the columns in an array.
+In NumPy, axis <code class="docutils literal notranslate"><span class="pre">0</span></code> is down the rows and axis <code class="docutils literal notranslate"><span class="pre">1</span></code> is across the columns, so calling <code class="docutils literal notranslate"><span class="pre">sum</span></code> with <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> adds up the columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_columns</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">array</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the sum of the eigenvectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">add_columns</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s what we get when we multiply by <code class="docutils literal notranslate"><span class="pre">M</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">M</span> <span class="o">@</span> <span class="n">x0</span>
+<span class="n">x1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.704, -1.026, -0.614,  0.259, -0.574,  0.391])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Multiply by <code class="docutils literal notranslate"><span class="pre">M</span></code> is the same as splitting <code class="docutils literal notranslate"><span class="pre">x0</span></code> up into the original eigenvectors, multiplying each eigenvector by <code class="docutils literal notranslate"><span class="pre">M</span></code>, and then adding up the results – which we can compute like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">add_columns</span><span class="p">(</span><span class="n">M</span> <span class="o">@</span> <span class="n">vecs</span><span class="p">)</span>
+<span class="n">x1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.704, -1.026, -0.614,  0.259, -0.574,  0.391])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a weighted the sum of eigenvectors, where the weights are the eigenvalues, which we can compute like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x1</span> <span class="o">=</span> <span class="n">add_columns</span><span class="p">(</span><span class="n">vals</span> <span class="o">*</span> <span class="n">vecs</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.704, 1.026, 0.614, 0.259, 0.574, 0.391])
+</pre></div>
+</div>
+</div>
+</div>
+<p>More generally, if we start with any weighted sum of eigenvectors, and multiply by <code class="docutils literal notranslate"><span class="pre">M</span></code>, the part with eigenvalue 1 stays the same, and all of the other parts get smaller.
+If we multiply repeatedly, the other parts get smaller and smaller until the result is very close to the eigenvector with eigenvalue 1.</p>
+<p>So if we start with almost any distribution of people across the rooms, and we multiply by <code class="docutils literal notranslate"><span class="pre">M</span></code> as a way of simulating a random walk, the distribution converges to the stationary point, which is the eigenvector with eigenvalue 1.</p>
+<p>This example shows that matrix multiplication is <strong>linear</strong> – which is a term that means different things in different contexts.
+In this context, it means:</p>
+<div class="math notranslate nohighlight">
+\[\sum_i \left( M \cdot \mathbf{v}_i \right) = M \cdot \left( \sum_i \mathbf{v}_i \right) \]</div>
+<p>Or in words, if we multiply a set of vectors by <code class="docutils literal notranslate"><span class="pre">M</span></code> and add up the results, it’s the same as adding up the vectors and multiplying by <code class="docutils literal notranslate"><span class="pre">M</span></code>.</p>
+</section>
+<section id="pagerank">
+<h2><span class="section-number">1.6. </span>PageRank<a class="headerlink" href="#pagerank" title="Link to this heading">#</a></h2>
+<p>The algorithm we used to find a friend at the museum is very close to <strong>PageRank</strong>, the algorithm originally used by Google to quantify the importance of web pages.
+It works by making a graph where each node is a web page and each edge represents a link.
+If a page contains a link to another page, the graph contains an edge between the corresponding nodes.</p>
+<p>In the museum graph, the edges are <strong>undirected</strong> – that is, if there is a connection from room A to room B, there is also a connection from B to A.
+There are no one-way doors.</p>
+<p>In the web graph, the edges are <strong>directed</strong> – if there is a link from page A to page B, there is not necessarily a link from B to A.</p>
+<p>As an example, we’ll use a dataset of Wikipedia pages collected as part of a research project and made available in the Stanford Large Network Dataset Collection.</p>
+<blockquote>
+<div><p>This dataset contains human navigation paths on Wikipedia, collected through the human-computation game Wikispeedia. In Wikispeedia, users are asked to navigate from a given source to a given target article, by only clicking Wikipedia links. A condensed version of Wikipedia (4,604 articles) is used. In addition to the navigation paths, we provide the full HTML package of this version of Wikipedia, as well as all articles in plaintext.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://snap.stanford.edu/data/wikispeedia.html">https://snap.stanford.edu/data/wikispeedia.html</a></p>
+<ul class="simple">
+<li><p>Robert West and Jure Leskovec: Human Wayfinding in Information Networks. 21st International World Wide Web Conference (WWW), 2012.</p></li>
+<li><p>Robert West, Joelle Pineau, and Doina Precup: Wikispeedia: An Online Game for Inferring Semantic Distances between Concepts. 21st International Joint Conference on Artificial Intelligence (IJCAI), 2009.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://snap.stanford.edu/data/wikispeedia/wikispeedia_paths-and-graph.tar.gz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use the Pandas function <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> to read the links into a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
+
+<span class="n">archive_file</span> <span class="o">=</span> <span class="s2">&quot;wikispeedia_paths-and-graph.tar.gz&quot;</span>
+    
+<span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">archive_file</span><span class="p">,</span> <span class="s1">&#39;r:gz&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+    <span class="n">links_file</span> <span class="o">=</span> <span class="n">tar</span><span class="o">.</span><span class="n">getmember</span><span class="p">(</span><span class="s1">&#39;wikispeedia_paths-and-graph/links.tsv&#39;</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">tar</span><span class="o">.</span><span class="n">extractfile</span><span class="p">(</span><span class="n">links_file</span><span class="p">)</span>
+    <span class="n">links_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">],</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s a random sample of the links.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">links_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>source</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>38712</th>
+      <td>Feather</td>
+      <td>Reptile</td>
+    </tr>
+    <tr>
+      <th>26590</th>
+      <td>Consolation_of_Philosophy</td>
+      <td>Edward_Gibbon</td>
+    </tr>
+    <tr>
+      <th>29767</th>
+      <td>Death_Valley_National_Park</td>
+      <td>Glacier</td>
+    </tr>
+    <tr>
+      <th>95281</th>
+      <td>San_Marino</td>
+      <td>Croatia</td>
+    </tr>
+    <tr>
+      <th>108854</th>
+      <td>Tobacco</td>
+      <td>Tea</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can use the NetworkX function <code class="docutils literal notranslate"><span class="pre">from_pandas_edgelist</span></code> to make a graph.
+The <code class="docutils literal notranslate"><span class="pre">create_using</span></code> keyword specifies that we want a directed graph – that is, one that keeps track of the direction of the edges.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+
+<span class="n">G_wiki</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_pandas_edgelist</span><span class="p">(</span><span class="n">links_df</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the number of nodes and edges.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_wiki</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">(),</span> <span class="n">G_wiki</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4592, 119882)
+</pre></div>
+</div>
+</div>
+</div>
+<p>One of the challenges of working with a directed graph is that it might contain <strong>sink nodes</strong>.
+For example, if there is a page with no links, it acts like a dead end – if a random walk enters a sink node, it can’t leave.</p>
+<p>To check for sink nodes, we can use the <code class="docutils literal notranslate"><span class="pre">out_degree</span></code> function, which computes the number of edges that go out from each node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">unquote</span>
+
+<span class="n">sink_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">unquote</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">degree</span> <span class="ow">in</span> <span class="n">G_wiki</span><span class="o">.</span><span class="n">out_degree</span><span class="p">()</span> <span class="k">if</span> <span class="n">degree</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">sink_nodes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Osteomalacia&#39;,
+ &#39;Local_community&#39;,
+ &#39;Directdebit&#39;,
+ &#39;Duchenne_muscular_dystrophy&#39;,
+ &quot;Klinefelter&#39;s_syndrome&quot;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>To handle these sink nodes, we’ll add more randomness to the random walk.
+Instead of choosing a random link at every step, we will sometimes “teleport” by choosing another node entirely at random.</p>
+<p>First, let’s get the adjacency matrix from the graph.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_array</span><span class="p">(</span><span class="n">G_wiki</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The row sums are the number of edges out of each node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row_sums</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So the row sum of a sink node is 0.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sink_nodes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">row_sums</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sink_nodes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2890, 3453, 3886, 4539, 4540])
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we get to a sink node, we have to choose a new node at random, so we’ll make a vector with an equal probability for every node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And for each sink node, we’ll replace its row with these teleport probabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">sink_nodes</span><span class="p">:</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can compute the transition matrix as we did before.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">A</span> <span class="o">/</span> <span class="n">A</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>At every step of a PageRank random walk, there is some probability of teleporting regardless of whether we are in a sink node or not.
+A parameter called <code class="docutils literal notranslate"><span class="pre">alpha</span></code> specifies the probability of <em>not</em> teleporting – the default value is <code class="docutils literal notranslate"><span class="pre">0.85</span></code>, which means we teleport 15% f the time.</p>
+<p>To make a transition matrix with teleporting, we’ll compute a weighted sum of the transition matrix <code class="docutils literal notranslate"><span class="pre">M</span></code> and the teleport vector, <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.85</span>
+<span class="n">GM</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">M</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span>
+<span class="n">GM</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4592, 4592)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is called a <strong>Google matrix</strong>.
+NetworkX provides a function that computes it (with a few more options).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">GM_nx</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">google_matrix</span><span class="p">(</span><span class="n">G_wiki</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can confirm that the result is the same as the one we computed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">GM</span><span class="p">,</span> <span class="n">GM_nx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">run_random_walk</span></code> to simulate a random walk using these transition probabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">x_final</span> <span class="o">=</span> <span class="n">run_random_walk</span><span class="p">(</span><span class="n">GM</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>But this matrix is much bigger than the museum matrix, which mean that each step takes longer, and it takes more steps to find the steady-state probabilities.</p>
+<p>It is more efficient to use the SciPy function <code class="docutils literal notranslate"><span class="pre">eigs</span></code>, which computes the eigenvector that corresponds to the largest eigenvalue.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eigs</span>
+
+<span class="n">val</span><span class="p">,</span> <span class="n">vec</span> <span class="o">=</span> <span class="n">eigs</span><span class="p">(</span><span class="n">GM</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;LM&#39;</span><span class="p">)</span>
+<span class="n">val</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.+0.j])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The argument <code class="docutils literal notranslate"><span class="pre">k=1</span></code>indicates that we want only one eigenvector, and <code class="docutils literal notranslate"><span class="pre">which='LM'</span></code> means we want the one with the largest magnitude.
+The resulting eigenvalue is 1 (with imaginary part 0).</p>
+<p>The resulting eigenvector contains complex numbers and doesn’t always add up to 1, but we can normalize it like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vec</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+<span class="n">ranks</span> <span class="o">=</span> <span class="n">mags</span> <span class="o">/</span> <span class="n">mags</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the pages with the highest probabilities, displayed as percentages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rank_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ranks</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">G_wiki</span><span class="p">)</span>
+<span class="n">top_5</span> <span class="o">=</span> <span class="n">rank_series</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">top_5</span> <span class="o">*</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>United_States      0.956
+France             0.644
+Europe             0.635
+United_Kingdom     0.625
+English_language   0.488
 dtype: float64
 </pre></div>
 </div>
 </div>
 </div>
+<p>So a long random walk in this graph has about a 1% chance of ending up in the United States.</p>
+<p>NetworkX also provides an implementation of PageRank, which we can call like this.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eig</span>
-
-<span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">eig</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-<span class="nb">abs</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.        , 0.70710678, 0.19371294, 0.86037961, 0.70710678,
-       0.33333333])
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rank_map_nx</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">pagerank</span><span class="p">(</span><span class="n">G_wiki</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vec</span> <span class="o">=</span> <span class="n">vecs</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">vec</span> <span class="o">/</span> <span class="n">vec</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.25      , 0.25      , 0.16666667, 0.16666667, 0.08333333,
-       0.08333333])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nx</span><span class="o">.</span><span class="n">pagerank</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;Lobby&#39;: 0.24999964238148223,
- &#39;Main Stair&#39;: 0.25000071523391576,
- &#39;Living Room&#39;: 0.1666665281169457,
- &#39;Café&#39;: 0.16666581288337595,
- &#39;Shop&#39;: 0.08333347188374675,
- &#39;Garden&#39;: 0.08333382950053163}
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">]</span>
-<span class="n">degrees</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.25      , 0.25      , 0.16666667, 0.16666667, 0.08333333,
-       0.08333333])
-</pre></div>
-</div>
-</div>
-</div>
+<p>The results are almost the same, but some of the probabilities differ by a few percent, due to differences in the implementations.</p>
+<p>By simulating a random walk through a set of Wikipedia pages, we can compute the long-run probability of landing on each page.
+That brings us to the core idea of PageRank: these probabilities can be used to estimate the importance of a page.</p>
+<p>When an editor adds a link to a page, they’re providing an implicit endorsement.
+So a page with many in-links is likely to be important.
+But it also matters where those links come from – a link from a highly ranked page is a stronger endorsement than a link from a random one.
+PageRank accounts for this by estimating the importance of all pages simultaneously.</p>
+<p>Before Google launched in 1998, the leading search engine was AltaVista, which ranked results based purely on page content.
+It did not make use of the additional information encoded in the network of hyperlinks.
+The effect of PageRank was dramatic – it allowed Google to deliver more relevant results and ultimately dominate web search.</p>
+<p>All that, based on computing a single eigenvector.</p>
 </section>
-<section id="the-louvre">
-<h2>The Louvre<a class="headerlink" href="#the-louvre" title="Link to this heading">#</a></h2>
-<p>Data from Yoshimura, Yuji, Anne Krebs, and Carlo Ratti. “Network science for museums.” Plos one 19, no. 3 (2024): e0300957.</p>
-<p><a class="reference external" href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0300957">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0300957</a></p>
-<p>S1 Data. Louvre museum network data.</p>
-<p><a class="reference external" href="https://doi.org/10.1371/journal.pone.0300957.s001">https://doi.org/10.1371/journal.pone.0300957.s001</a></p>
-<p>(CSV)
-S2 Data. Metropolitan museum of art network data.</p>
-<p><a class="reference external" href="https://doi.org/10.1371/journal.pone.0300957.s002">https://doi.org/10.1371/journal.pone.0300957.s002</a></p>
-<p>(CSV)
-S3 Data. Museum of fine arts Boston network data.</p>
-<p><a class="reference external" href="https://doi.org/10.1371/journal.pone.0300957.s003">https://doi.org/10.1371/journal.pone.0300957.s003</a></p>
-<p>(CSV)</p>
+<section id="exercises">
+<h2><span class="section-number">1.7. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<p>The Gardner Museum is charming, intimate, and dramatic, but it is relatively small.
+Fortunately, it is right across the street from the Museum of Fine Arts, Boston, which is one of the 20 largest art museums in the world (Wikipedia says it is 20th).</p>
+<p>So let’s consider a more challenging problem: rather than losing your friend in the Gardner, suppose you have lost your cat in the MFA.
+A recent paper called “Network science for museums” provides data about three notable museums: the Louvre in Paris, the Metropolitan Museum of Art in New York, and the Museum of Fine Arts, Boston.</p>
+<p>The following cell downloads the data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-
-<span class="n">museum_files</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;Louvre Museum&quot;</span><span class="p">:</span> <span class="s2">&quot;pone.0300957.s001.csv&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Metropolitan Museum of Art&quot;</span><span class="p">:</span> <span class="s2">&quot;pone.0300957.s002.csv&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Museum of Fine Arts Boston&quot;</span><span class="p">:</span> <span class="s2">&quot;pone.0300957.s003.csv&quot;</span>
-<span class="p">}</span>
-
-<span class="n">museum_name</span> <span class="o">=</span> <span class="s2">&quot;Museum of Fine Arts Boston&quot;</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;data&#39;</span> <span class="o">/</span> <span class="n">museum_files</span><span class="p">[</span><span class="n">museum_name</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/data/pone.0300957.s003.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Use this cell to select one of the museums.</p>
+<p>We’ll load the MFA data into a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Download the data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mfa</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">mfa</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">mfa</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>The result is an adjacency matrix showing the connections between the 249 public rooms in the museum.
+Here is a small sample showing the connections among the first 5 rooms.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">louvre</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">louvre</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">louvre</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">louvre</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mfa</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">5</span><span class="p">,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -907,22 +1781,6 @@ S3 Data. Museum of fine arts Boston network data.</p>
       <th>3</th>
       <th>4</th>
       <th>5</th>
-      <th>6</th>
-      <th>7</th>
-      <th>8</th>
-      <th>9</th>
-      <th>10</th>
-      <th>...</th>
-      <th>240</th>
-      <th>241</th>
-      <th>242</th>
-      <th>243</th>
-      <th>244</th>
-      <th>245</th>
-      <th>246</th>
-      <th>247</th>
-      <th>248</th>
-      <th>249</th>
     </tr>
   </thead>
   <tbody>
@@ -930,22 +1788,6 @@ S3 Data. Museum of fine arts Boston network data.</p>
       <th>1</th>
       <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>0</td>
       <td>0</td>
       <td>0</td>
@@ -957,22 +1799,6 @@ S3 Data. Museum of fine arts Boston network data.</p>
       <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>3</th>
@@ -981,44 +1807,12 @@ S3 Data. Museum of fine arts Boston network data.</p>
       <td>0</td>
       <td>1</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>0</td>
       <td>0</td>
       <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
       <td>0</td>
       <td>0</td>
     </tr>
@@ -1029,334 +1823,74 @@ S3 Data. Museum of fine arts Boston network data.</p>
       <td>1</td>
       <td>0</td>
       <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>245</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>246</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>247</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>248</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>249</th>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
     </tr>
   </tbody>
 </table>
-<p>249 rows × 249 columns</p>
 </div></div></div>
 </div>
+<p>We can see, for example, that rooms 1 and 2 are connected, and rooms 2 and 3.
+NetworkX provides a function that takes this adjacency matrix and makes a graph.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_pandas_adjacency</span><span class="p">(</span><span class="n">louvre</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Graph has </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span><span class="si">}</span><span class="s2"> nodes and </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span><span class="si">}</span><span class="s2"> edges.&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_pandas_adjacency</span><span class="p">(</span><span class="n">mfa</span><span class="p">)</span>
+
+<span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">(),</span> <span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Graph has 249 nodes and 312 edges.
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(249, 312)
 </pre></div>
 </div>
 </div>
 </div>
+<p>The graph contains 249 nodes and 312 edges.
+The <strong>degree</strong> of a node is the number of other nodes it’s connected to.
+Here’s the distribution of degree – that is, the number of rooms that are connected to one other room, two other rooms, and so on.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="n">degree_sequence</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">()]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Degree&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Rooms&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Louvre Room Connectivity&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">degree</span><span class="p">()]</span>
+<span class="n">pmf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">pmf</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pmf</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Degree&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Number of rooms&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/cab29b81167a089124360f99fbea2804ddde556f254d750ab8661771351d0968.png" src="_images/cab29b81167a089124360f99fbea2804ddde556f254d750ab8661771351d0968.png" />
+<img alt="_images/9b58790cd1947e42478676c3340d068a6afcc9fd4885801b9c2bf044938f7096.png" src="_images/9b58790cd1947e42478676c3340d068a6afcc9fd4885801b9c2bf044938f7096.png" />
 </div>
 </div>
+<p>Most rooms are connected to one, two, or three neighbors, but a few rooms are connected to eight or nine.
+To visualize the layout, we’ll use the NetworkX function <code class="docutils literal notranslate"><span class="pre">kamada_kawai_layout</span></code>, which tries to arrange the nodes so the distance between the nodes is proportional to the length of the path that connects them in the graph.
+Some of the “rooms” with high degree are actually hallways or staircases.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
-
-<span class="c1"># Compute layout (this might take a minute or two)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing layout...&quot;</span><span class="p">)</span>
-<span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">kamada_kawai_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>  <span class="c1"># Or nx.kamada_kawai_layout(G)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Layout complete.&quot;</span><span class="p">)</span>
-
-<span class="c1"># Save layout using pickle</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;louvre_layout.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computing layout...
-Layout complete.
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">kamada_kawai_layout</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>The result does not necessarily reflect the actual arrangement of the rooms – in particular, it does not take into account that rooms may be on different floors.
+But it creates a visual representation of the layout of the museum.
+Here’s what it looks like.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
-
-<span class="c1"># Load layout</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;louvre_layout.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">pos</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-<span class="c1"># Plot using precomputed layout</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">museum_name</span><span class="p">)</span>
-<span class="kc">None</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/90da99f4fb3ecb6a7c695389745b094be289a087fab2ac0f01c78841f93c182c.png" src="_images/90da99f4fb3ecb6a7c695389745b094be289a087fab2ac0f01c78841f93c182c.png" />
+<img alt="_images/88de27302ecd8eda683b504e18c93f27d65e729e412180eabd050d75f425eb77.png" src="_images/88de27302ecd8eda683b504e18c93f27d65e729e412180eabd050d75f425eb77.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">centrality</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">eigenvector_centrality_numpy</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sort rooms by centrality score</span>
-<span class="n">top_rooms</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">centrality</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Top 10 rooms by eigenvector centrality:&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">room</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">top_rooms</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Room </span><span class="si">{</span><span class="n">room</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Top 10 rooms by eigenvector centrality:
-Room 182: 0.4888
-Room 82: 0.4691
-Room 200: 0.3180
-Room 191: 0.2141
-Room 237: 0.2101
-Room 174: 0.1774
-Room 81: 0.1622
-Room 190: 0.1509
-Room 185: 0.1483
-Room 187: 0.1483
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use centrality values for node sizes or color</span>
-<span class="n">node_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5000</span> <span class="o">*</span> <span class="n">centrality</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
-<span class="n">node_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">centrality</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span>
-    <span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span>
-    <span class="n">node_size</span><span class="o">=</span><span class="n">node_sizes</span><span class="p">,</span>
-    <span class="n">node_color</span><span class="o">=</span><span class="n">node_colors</span><span class="p">,</span>
-    <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">,</span>
-    <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span>
-    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">museum_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="kc">None</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/307089459628cfd8b1f2a3c49cf899408bb1644a618e810b2693058c93e7b950.png" src="_images/307089459628cfd8b1f2a3c49cf899408bb1644a618e810b2693058c93e7b950.png" />
-</div>
-</div>
-</section>
-<section id="discussion">
-<h2>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
-<p>Reformulating Problems in Linear Algebra Terms:</p>
-<p>Once we represent the museum as a graph and model movement with a transition matrix <span class="math notranslate nohighlight">\(P\)</span>, we could simulate the visitor’s steps one by one. But we don’t have to.</p>
-<p>By expressing the problem in linear algebra terms, we can <strong>reduce it to a known problem</strong> — in this case, computing the leading eigenvector of <span class="math notranslate nohighlight">\(P\)</span> (or <span class="math notranslate nohighlight">\(A\)</span>). That tells us the long-run behavior of the system without writing a simulation loop.</p>
-<p>This is a recurring theme in the book:<br />
-<strong>Linear algebra turns custom logic into general-purpose computation.</strong></p>
-<p>Instead of writing problem-specific code, we translate the problem into matrix operations — and let fast, well-tested algorithms do the work.</p>
-<p>To model a random walk on a graph, we compute a transition matrix <span class="math notranslate nohighlight">\(P\)</span> from the adjacency matrix <span class="math notranslate nohighlight">\(A\)</span>.</p>
-<p><strong>1. Row normalization</strong></p>
-<p>Each row of <span class="math notranslate nohighlight">\(A\)</span> is divided by its sum so that the entries in <span class="math notranslate nohighlight">\(P\)</span> represent probabilities:</p>
-<p><span class="math notranslate nohighlight">\(P = A / \text{row sums}\)</span></p>
-<p>This view is intuitive: each node picks a neighbor at random. It’s easy to implement and matches the local behavior of the walk.</p>
-<p><strong>2. Matrix equation</strong></p>
-<p>We can also write <span class="math notranslate nohighlight">\(D P = A\)</span>, where <span class="math notranslate nohighlight">\(D\)</span> is a diagonal matrix of degrees:</p>
-<p><span class="math notranslate nohighlight">\(P = D^{-1} A\)</span></p>
-<p>This version emphasizes structure: <span class="math notranslate nohighlight">\(P\)</span> is the result of applying a global transformation. It connects naturally to spectral methods and generalizes well.</p>
-<p><strong>Summary</strong></p>
-<ul class="simple">
-<li><p>The row-wise view helps with intuition and coding.</p></li>
-<li><p>The matrix view highlights structure and generalizes to more advanced models.</p></li>
-</ul>
+<p>Now let’s see if we can find that cat.</p>
+<ol class="arabic simple">
+<li><p>Use the graph to compute the adjacency matrix, <code class="docutils literal notranslate"><span class="pre">A</span></code>, and the transition matrix, <code class="docutils literal notranslate"><span class="pre">M</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">run_random_walk</span></code> to simulate a random walk in the museum by repeated matrix multiplication.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">eigs</span></code> to compute the eigenvector of the adjacency matrix that corresponds to the largest eigenvalue, and normalize it so the elements sum to 1.</p></li>
+<li><p>Check that the results of the random walk approximate the eigenvector. If you simulate about 1000 steps, the differences should be less than 0.1%.</p></li>
+</ol>
 <p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
 <p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
 <p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
@@ -1394,6 +1928,24 @@ Room 187: 0.1483
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Think Linear Algebra, 1st edition</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="affine.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>To Boldly Go</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1410,9 +1962,13 @@ Room 187: 0.1483
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section">Section</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-louvre">The Louvre</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-day-at-the-museum">1.1. A Day at the Museum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjacency-matrix">1.2. The Adjacency Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">1.3. Dot Product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">1.4. Eigenvectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">1.5. Linearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagerank">1.6. PageRank</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.7. Exercises</a></li>
 </ul>
   </nav></div>
 
