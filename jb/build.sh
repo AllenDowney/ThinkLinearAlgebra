@@ -3,7 +3,7 @@
 # Build the Jupyter book version
 
 # copy the notebooks
-cp ../soln/centrality.ipynb .
+cp ../soln/eigenvector.ipynb .
 cp ../soln/affine.ipynb .
 cp ../soln/nullspace.ipynb .
 cp ../soln/truss.ipynb .

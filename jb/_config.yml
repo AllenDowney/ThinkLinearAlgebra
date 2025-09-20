@@ -1,0 +1,46 @@
+# Book settings
+title: Think Linear Algebra
+author: Allen B. Downey
+
+latex:
+  latex_documents:
+    targetname: book.tex
+
+execute:
+  execute_notebooks: 'off'
+
+repository:
+  url: https://github.com/AllenDowney/ThinkLinearAlgebra/tree/main
+html:
+  use_repository_button: true
+  extra_navbar: ""
+  extra_footer: ""
+  # Copy additional files to the build directory
+  extra_files:
+    - enterprise.html
+
+parse:
+  # myst_extended_syntax: true  # instead enable individual features below
+  myst_enable_extensions:  # https://myst-parser.readthedocs.io/en/latest/using/syntax-optional.html
+    - amsmath
+    # - attrs_inline  # causing the conflict with dollarmath
+    - colon_fence
+    - deflist
+    - dollarmath
+    - fieldlist
+    - html_admonition
+    - html_image
+    - linkify
+    - replacements
+    - smartquotes
+    - strikethrough
+    - substitution
+    - tasklist
+
+sphinx:
+  config:
+    mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    mathjax3_config:
+      tex:
+        inlineMath: [["$","$"], ["\\(", "\\)"]]
+    myst_update_mathjax: false

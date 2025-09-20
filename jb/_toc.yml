@@ -1,0 +1,10 @@
+format: jb-book
+root: index
+parts:
+- caption: Chapters
+  numbered: True
+  chapters:
+    - file: eigenvector
+    - file: affine
+    - file: nullspace
+    - file: truss
