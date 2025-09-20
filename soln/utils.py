@@ -9,6 +9,7 @@ License: GNU GPLv3 http://www.gnu.org/licenses/gpl.html
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+import matplotlib.transforms as mtransforms
 
 from numpy.linalg import norm
 import networkx as nx
@@ -371,7 +372,7 @@ def plot_vectors(
     if labels is not None:
         if label_pos is None:
             label_pos = [12] * len(vectors)
-        label_vectors(vectors, origin, labels, label_pos)
+        label_vectors(labels, vectors, origin, label_pos)
 
     us, vs = vectors[start:end].transpose()
     xs, ys = origin[start:end].transpose()
@@ -398,47 +399,65 @@ def plot_vector(v, origin=None, label=None, label_pos=12, **options):
     return plot_vectors([v], [origin], labels=[label], label_pos=[label_pos], **options)
 
 
-def label_vectors(vectors, origins, labels, label_positions=None, **options):
+def label_vectors(labels, vectors, origins=None, label_positions=None, **options):
     """Label the vectors with a string at a given position.
 
     Args:
+        labels: list of string labels
         vectors: list of vectors or array with one row per vector
         origins: list of vectors or array with one row per vector
-        labels: list of string labels
         label_positions: list of locations as integer clock positions
     """
+    if origins is None:
+        origins = [None] * len(labels)
+
     if label_positions is None:
-        label_positions = np.full_like(labels, 12)
+        label_positions = [12] * len(labels)
 
-    for vector, origin, label, label_pos in zip(
-        vectors, origins, labels, label_positions
+    for label, vector, origin, label_pos in zip(
+        labels, vectors, origins, label_positions
     ):
-        label_vector(vector, origin, label, label_pos, **options)
+        label_vector(label, vector, origin, label_pos, **options)
 
 
-def label_vector(vector, origin, label, label_pos=12, offset=0.4, **options):
-    """Label a vector with a string at a given position.
+def label_vector(label, vector, origin=None, label_pos=12, offset=10, **options):
+    """Label a vector with a string at a given clock-face position.
 
     Args:
+        label: string
         vector: array-like
         origin: array-like
-        label: string
         label_pos: integer clock position
-        offset: offset of the label from the vector
+        offset: distance of the label from the vector, in points
     """
+    if origin is None:
+        origin = np.zeros_like(vector)
+
     v_hat = normalize(vector)
     w_hat = vector_perp(v_hat)
 
+    # fraction of vector length to move along v
     i = label_pos % 12
     v = np.array([4, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4])[i] / 4 * vector
 
-    offset_v = np.array([1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0])[i] * offset
-    offset_w = np.array([0, -1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1])[i] * offset
+    # unit step in v_hat or w_hat
+    offset_v = np.array([1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0])[i]
+    offset_w = np.array([0, -1, -1, -1, -1, -1, 0, 1, 1, 1, 1, 1])[i]
 
-    x, y = origin + v + v_hat * offset_v + w_hat * offset_w
+    # base anchor in data coordinates
+    x0, y0 = origin + v
+
+    # direction for the offset in screen points
+    dx, dy = offset_v * v_hat + offset_w * w_hat
+
+    ax = plt.gca()
+    base = ax.transData
+    offset_transform = mtransforms.offset_copy(
+        base, fig=ax.figure, x=dx*offset, y=dy*offset, units="points"
+    )
 
     underride(options, ha="center", va="center")
-    plt.text(x, y, label, **options)
+    plt.text(x0, y0, label, transform=offset_transform, **options)
 
 
 def plot_rejection(a, b, **kwargs):
@@ -612,8 +631,8 @@ def plot_force_field(nodes, subs, F_field, U, lim, displacements, ticks):
     plt.xticks(displacements, ticks)
     plt.yticks(displacements, ticks)
 
-    plt.xlabel('x displacement in $\mu$m')
-    plt.ylabel('y displacement in $\mu$m')
+    plt.xlabel(r'x displacement in $\mu$m')
+    plt.ylabel(r'y displacement in $\mu$m')
     plt.grid(True)
 
 
