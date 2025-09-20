@@ -13,7 +13,7 @@ Here are the chapters that are available now. More coming soon!
 
 **Chapter 1: The Power of Linear Algebra**
 
-* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/centrality.ipynb)
+* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/eigenvector.ipynb)
 
 **Chapter 5: To Boldly Go**
 
