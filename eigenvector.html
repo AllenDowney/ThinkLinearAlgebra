@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Power of Linear Algebra &#8212; Think Linear Algebra</title>
+    <title>1. The Power of Linear Algebra &#8212; Think Linear Algebra</title>
   
   
   
@@ -59,9 +59,11 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'centrality';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'eigenvector';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. To Boldly Go" href="affine.html" />
+    <link rel="prev" title="Think Linear Algebra" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +126,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -176,8 +176,8 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. The Power of Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="affine.html">2. To Boldly Go</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nullspace.html">3. Null Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="truss.html">4. Truss in the System</a></li>
@@ -250,7 +250,7 @@
       
       
       
-      <li><a href="_sources/centrality.ipynb" target="_blank"
+      <li><a href="_sources/eigenvector.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -344,13 +344,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-day-at-the-museum">A Day at the Museum</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjacency-matrix">The Adjacency Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">Dot Product</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">Eigenvectors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">Linearity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagerank">PageRank</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-day-at-the-museum">1.1. A Day at the Museum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjacency-matrix">1.2. The Adjacency Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">1.3. Dot Product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">1.4. Eigenvectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">1.5. Linearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagerank">1.6. PageRank</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.7. Exercises</a></li>
 </ul>
             </nav>
         </div>
@@ -364,7 +364,7 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="the-power-of-linear-algebra">
-<h1>The Power of Linear Algebra<a class="headerlink" href="#the-power-of-linear-algebra" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">1. </span>The Power of Linear Algebra<a class="headerlink" href="#the-power-of-linear-algebra" title="Link to this heading">#</a></h1>
 <p>One of the challenges of learning Linear Algebra is where to start.
 Most textbooks start with vector arithmetic, which make senses if you are working with paper and pencil, but they take a long time to get to something useful.</p>
 <p>With a computational approach, we have the option to proceed top-down – that is, we can start with libraries that implement the core algorithms of linear algebra, and wait until later to see how they work.
@@ -420,7 +420,7 @@ But I hope you’ll find it useful to get the big picture before we fill in the 
 </details>
 </div>
 <section id="a-day-at-the-museum">
-<h2>A Day at the Museum<a class="headerlink" href="#a-day-at-the-museum" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.1. </span>A Day at the Museum<a class="headerlink" href="#a-day-at-the-museum" title="Link to this heading">#</a></h2>
 <p>Suppose you are meeting a friend at the Isabella Stewart Gardner Museum in Boston.
 You have not agreed on a meeting place – and let’s assume your cell phone is dead.
 If you are familiar with the layout of the museum, you might be able to make an intelligent guess about where to look for your friend.</p>
@@ -498,7 +498,7 @@ Even so, it is probably true that you are more likely to find them in the Lobby 
 Let’s see what we can do about that.</p>
 </section>
 <section id="the-adjacency-matrix">
-<h2>The Adjacency Matrix<a class="headerlink" href="#the-adjacency-matrix" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.2. </span>The Adjacency Matrix<a class="headerlink" href="#the-adjacency-matrix" title="Link to this heading">#</a></h2>
 <p>As a first step toward linear algebra, we’ll use the <code class="docutils literal notranslate"><span class="pre">to_numpy_array</span></code> method to compute an array that represents the edges in the graph.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -817,7 +817,7 @@ For example, the element corresponding to the Living Room is 0.5, which means th
 If they leave the Shop, the probability is 1, and if they leave the Main Stair, the probability is 0.333.</p>
 </section>
 <section id="dot-product">
-<h2>Dot Product<a class="headerlink" href="#dot-product" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.3. </span>Dot Product<a class="headerlink" href="#dot-product" title="Link to this heading">#</a></h2>
 <p>Now suppose there are 100 people in every room.
 We can create an array that represents this hypothetical starting condition.</p>
 <div class="cell docutils container">
@@ -1168,7 +1168,7 @@ The result is the final allocation of people to rooms.</p>
 <p>This result is similar to the one we computed previously by simulating the random walk and counting.</p>
 </section>
 <section id="eigenvectors">
-<h2>Eigenvectors<a class="headerlink" href="#eigenvectors" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.4. </span>Eigenvectors<a class="headerlink" href="#eigenvectors" title="Link to this heading">#</a></h2>
 <p>In the previous section, we simulated a random walk by multiplying by <code class="docutils literal notranslate"><span class="pre">M</span></code> 100 times.
 Now let’s see what happens if we multiply the result by <code class="docutils literal notranslate"><span class="pre">M</span></code> one more time.</p>
 <div class="cell docutils container">
@@ -1331,7 +1331,7 @@ For example, here’s the second eigenvector.</p>
 <p>And it is.</p>
 </section>
 <section id="linearity">
-<h2>Linearity<a class="headerlink" href="#linearity" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.5. </span>Linearity<a class="headerlink" href="#linearity" title="Link to this heading">#</a></h2>
 <p>Since there are multiple eigenvectors for this transition matrix, you might wonder why we focused on the first one and ignored the rest.
 The reason is that the eigenvector that corresponds to eigenvalue 1 represents a stationary point of <code class="docutils literal notranslate"><span class="pre">M</span></code> – that is, a distribution of probability across the nodes that is unchanged when we multiply by the transition matrix.</p>
 <p>The other eigenvalues are all less than 1, which means that if we start with one of the other eigenvectors and multiply by <code class="docutils literal notranslate"><span class="pre">M</span></code> repeatedly, the result gets smaller and smaller, converging toward 0.</p>
@@ -1406,7 +1406,7 @@ In this context, it means:</p>
 <p>Or in words, if we multiply a set of vectors by <code class="docutils literal notranslate"><span class="pre">M</span></code> and add up the results, it’s the same as adding up the vectors and multiplying by <code class="docutils literal notranslate"><span class="pre">M</span></code>.</p>
 </section>
 <section id="pagerank">
-<h2>PageRank<a class="headerlink" href="#pagerank" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.6. </span>PageRank<a class="headerlink" href="#pagerank" title="Link to this heading">#</a></h2>
 <p>The algorithm we used to find a friend at the museum is very close to <strong>PageRank</strong>, the algorithm originally used by Google to quantify the importance of web pages.
 It works by making a graph where each node is a web page and each edge represents a link.
 If a page contains a link to another page, the graph contains an edge between the corresponding nodes.</p>
@@ -1726,7 +1726,7 @@ The effect of PageRank was dramatic – it allowed Google to deliver more releva
 <p>All that, based on computing a single eigenvector.</p>
 </section>
 <section id="exercises">
-<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.7. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <p>The Gardner Museum is charming, intimate, and dramatic, but it is relatively small.
 Fortunately, it is right across the street from the Museum of Fine Arts, Boston, which is one of the 20 largest art museums in the world (Wikipedia says it is 20th).</p>
 <p>So let’s consider a more challenging problem: rather than losing your friend in the Gardner, suppose you have lost your cat in the MFA.
@@ -1928,6 +1928,24 @@ Here’s what it looks like.</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Think Linear Algebra</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="affine.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>To Boldly Go</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1944,13 +1962,13 @@ Here’s what it looks like.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-day-at-the-museum">A Day at the Museum</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjacency-matrix">The Adjacency Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">Dot Product</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">Eigenvectors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">Linearity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagerank">PageRank</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-day-at-the-museum">1.1. A Day at the Museum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adjacency-matrix">1.2. The Adjacency Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dot-product">1.3. Dot Product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenvectors">1.4. Eigenvectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearity">1.5. Linearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagerank">1.6. PageRank</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">1.7. Exercises</a></li>
 </ul>
   </nav></div>
 

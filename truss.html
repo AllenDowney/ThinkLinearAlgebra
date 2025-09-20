@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4. Truss in the System &#8212; Think Linear Algebra, 1st edition</title>
+    <title>4. Truss in the System &#8212; Think Linear Algebra</title>
   
   
   
@@ -150,7 +150,7 @@
   
   
   
-    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+    <p class="title logo__title">Think Linear Algebra</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -176,7 +176,7 @@
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="centrality.html">1. The Power of Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
 <li class="toctree-l1"><a class="reference internal" href="affine.html">2. To Boldly Go</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nullspace.html">3. Null Space</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Truss in the System</a></li>
@@ -391,7 +391,11 @@ And they make it easier to analyze the structure – that is, for a given load, 
 <p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/truss.ipynb">Click here to run this notebook on Colab</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># temporary hack to make autoreload work on Colab</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;imp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">importlib</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
 <span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
 </div>
@@ -489,7 +493,7 @@ The circle represents a pin joint that can move under load.</p>
 These are the unknowns we will solve for.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_x</span><span class="p">,</span> <span class="n">u_y</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;u_x u_y&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_x</span><span class="p">,</span> <span class="n">u_y</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;u_x u_y&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -517,7 +521,7 @@ Specifically:</p>
 We’ll fill in values for these parameters later.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;A E&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;A E&#39;</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -558,7 +562,7 @@ First we’ll compute vectors that represent the offset of A and B, relative to 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/8d9b986b2d3036a3d4cb37f889943c170f1e8e3a36141c513c22d444a3d88883.png" src="_images/8d9b986b2d3036a3d4cb37f889943c170f1e8e3a36141c513c22d444a3d88883.png" />
+<img alt="_images/21f9405096a885c8066029d1f4540af266ba9178fefb364e17ea6b10fbc805cb.png" src="_images/21f9405096a885c8066029d1f4540af266ba9178fefb364e17ea6b10fbc805cb.png" />
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(u_{CA}\)</span> is the component of the displacement in the direction of <span class="math notranslate nohighlight">\(r_{CA}\)</span>, and
@@ -623,7 +627,7 @@ We’ll use <code class="docutils literal notranslate"><span class="pre">factor_
 We can represent this <strong>external force</strong> with the following vector, where the <code class="docutils literal notranslate"><span class="pre">F</span></code> represents the magnitude of the force.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
 <span class="n">f_ext</span> <span class="o">=</span> <span class="n">sp_vector</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1126,10 +1130,6 @@ To do that, we will construct a <strong>block matrix</strong> which is a way to 
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}u_{B0}\\u_{B1}\\u_{B2}\\u_{T0}\\u_{T1}\end{matrix}\right]\end{split}\]</div>
-</div>
 </div>
 <p>And another vector that represents the external forces on the nodes.</p>
 <div class="cell docutils container">
@@ -1138,10 +1138,6 @@ To do that, we will construct a <strong>block matrix</strong> which is a way to 
 <span class="n">f_block</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">([[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">])</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}f_{B0}\\f_{B1}\\f_{B2}\\f_{T0}\\f_{T1}\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
 <p>Now we’ll create a block matrix where each element is a stiffness matrix – the element <span class="math notranslate nohighlight">\(K_{ij}\)</span> represents the stiffness at node <span class="math notranslate nohighlight">\(i\)</span> due to its connection to node <span class="math notranslate nohighlight">\(j\)</span>.</p>
@@ -1154,10 +1150,6 @@ To do that, we will construct a <strong>block matrix</strong> which is a way to 
 <span class="n">K_block</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">BlockMatrix</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}K_{00} &amp; K_{01} &amp; K_{02} &amp; K_{03} &amp; K_{04}\\K_{10} &amp; K_{11} &amp; K_{12} &amp; K_{13} &amp; K_{14}\\K_{20} &amp; K_{21} &amp; K_{22} &amp; K_{23} &amp; K_{24}\\K_{30} &amp; K_{31} &amp; K_{32} &amp; K_{33} &amp; K_{34}\\K_{40} &amp; K_{41} &amp; K_{42} &amp; K_{43} &amp; K_{44}\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
 <p>Here’s the equation that relates these matrices.</p>
@@ -1214,7 +1206,7 @@ We can use <code class="docutils literal notranslate"><span class="pre">gget</sp
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \frac{A E}{L} \left[\begin{matrix}- \frac{1}{4} &amp; - \frac{\sqrt{3}}{4}\\- \frac{\sqrt{3}}{4} &amp; - \frac{3}{4}\end{matrix}\right]\end{split}\]</div>
+\[\begin{split}\displaystyle \frac{A E}{4 L} \left[\begin{matrix}-1 &amp; - \sqrt{3}\\- \sqrt{3} &amp; -3\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
 <p>Next we’ll get the displacements of the nodes.</p>
@@ -1556,7 +1548,7 @@ First, we’ll compute the indices of the remaining nodes that are not fixed.</p
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}\left[\begin{matrix}0\\0\end{matrix}\right]\\\left[\begin{matrix}0\\- \frac{F}{2}\end{matrix}\right]\\\left[\begin{matrix}0\\- \frac{F}{2}\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
+\[\begin{split}\displaystyle \left[\begin{matrix}\left[\begin{matrix}0\\- F\end{matrix}\right]\\\left[\begin{matrix}0\\0\end{matrix}\right]\\\left[\begin{matrix}0\\0\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
 <p>Now (finally!) we are ready to solve the system.</p>
@@ -1597,7 +1589,7 @@ First, we’ll compute the indices of the remaining nodes that are not fixed.</p
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}\left[\begin{matrix}u_{B1 x}\\u_{B1 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T0 x}\\u_{T0 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T1 x}\\u_{T1 y}\end{matrix}\right]\end{matrix}\right] = 1.0 \cdot 10^{-6} \left[\begin{matrix}\left[\begin{matrix}0\\-20.4166666666667\end{matrix}\right]\\\left[\begin{matrix}3.53627039878646\\-18.375\end{matrix}\right]\\\left[\begin{matrix}-3.53627039878646\\-18.375\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
+\[\begin{split}\displaystyle \left[\begin{matrix}\left[\begin{matrix}u_{B1 x}\\u_{B1 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T0 x}\\u_{T0 y}\end{matrix}\right]\\\left[\begin{matrix}u_{T1 x}\\u_{T1 y}\end{matrix}\right]\end{matrix}\right] = 1.0 \cdot 10^{-6} \left[\begin{matrix}\left[\begin{matrix}0\\-40.8333333333333\end{matrix}\right]\\\left[\begin{matrix}7.07254079757292\\-20.4166666666667\end{matrix}\right]\\\left[\begin{matrix}-7.07254079757292\\-20.4166666666667\end{matrix}\right]\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
 <p>And here’s what those displacements look like, scaled up by a factor of 300 to make them visible.</p>
@@ -1611,7 +1603,7 @@ First, we’ll compute the indices of the remaining nodes that are not fixed.</p
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/fbe3809a705697730b46b64c233e695f31d49069965ad599d818604f5dd3da7e.png" src="_images/fbe3809a705697730b46b64c233e695f31d49069965ad599d818604f5dd3da7e.png" />
+<img alt="_images/6d94277b5262f713568857a0dfee06050bd2e3fe1c92fe4994286ee733760aa6.png" src="_images/6d94277b5262f713568857a0dfee06050bd2e3fe1c92fe4994286ee733760aa6.png" />
 </div>
 </div>
 <p>At <code class="docutils literal notranslate"><span class="pre">B1</span></code>, the displacement in the <code class="docutils literal notranslate"><span class="pre">y</span></code> direction is about 41 micrometers, which is about twice the displacement we computed for the simple truss.
