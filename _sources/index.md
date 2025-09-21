@@ -3,8 +3,8 @@
 *Think Linear Algebra* is a code-first, case-based introduction to the most widely used concepts in linear algebra, designed for readers who want to understand and apply these ideas — not just learn them in the abstract. Each chapter centers on a real-world problem like modeling traffic in the web, simulating flocking birds, or analyzing electrical circuits. Using Python and powerful libraries like NumPy, SciPy, SymPy, and NetworkX, readers build working solutions that reveal how linear algebra provides elegant, general-purpose tools for thinking and doing.
 
 <div style="margin: 0 0;">
-    <iframe src="enterprise.html" width="100%" height="400" frameborder="0"></iframe>
     <p style="font-style: italic; margin-top: 0; font-size: 0.9em; text-align: left;">Press the play button to try this example from the chapter on affine transforms.</p>
+    <iframe src="enterprise.html" width="100%" height="400" frameborder="0"></iframe>
 </div>
 
 This book is for readers who may have struggled with traditional math instruction, or who want a more intuitive, hands-on way to learn. By working in Jupyter notebooks, readers get instant feedback as they write code, run simulations, visualize results, and explore what-if scenarios. Rather than beginning with mathematical formalism, *Think Linear Algebra* starts with meaningful applications and builds up the theory when it's needed. The result is a uniquely practical and empowering introduction to linear algebra as a language for solving real problems.

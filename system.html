@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Systems &#8212; Think Linear Algebra, 1st edition</title>
+    <title>3. Systems &#8212; Think Linear Algebra</title>
   
   
   
@@ -57,11 +57,13 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'system';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Null Space" href="nullspace.html" />
+    <link rel="prev" title="2. To Boldly Go" href="affine.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +126,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -151,7 +151,7 @@
   
   
   
-    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+    <p class="title logo__title">Think Linear Algebra</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -171,14 +171,17 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="index.html">
-                    Think Linear Algebra, 1st edition
+                    Think Linear Algebra
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="nullspace.html">1. Null Space</a></li>
-<li class="toctree-l1"><a class="reference internal" href="truss.html">2. Truss in the System</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">2. To Boldly Go</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">4. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">5. Truss in the System</a></li>
 </ul>
 
     </div>
@@ -342,15 +345,18 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">Systems of Equations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">Numerical solution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">Circuit Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">R2R Ladder</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">3.1. Systems of Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-equations">3.2. Matrix Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-inversion">3.3. Matrix Inversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-decomposition">3.4. LU Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">3.5. Numerical Solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">3.6. Circuit Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">3.7. R2R Ladder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.8.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.8.2. Exercise</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strain-gauge">Strain Gauge</a></li>
 </ul>
             </nav>
         </div>
@@ -364,16 +370,9 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="systems">
-<h1>Systems<a class="headerlink" href="#systems" title="Link to this heading">#</a></h1>
-<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/system.ipynb">Click here to run this notebook on Colab</a>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
-</pre></div>
-</div>
-</div>
-</div>
+<h1><span class="section-number">3. </span>Systems<a class="headerlink" href="#systems" title="Link to this heading">#</a></h1>
+<p>This chapter contains only the code, no text yet!</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/system.ipynb">Click here to run this notebook on Colab</a>.</p>
 <div class="cell tag_remove-print tag_hide-cell docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -406,9 +405,11 @@ document.write(`
 <span class="expanded">Hide code cell content</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
 </pre></div>
@@ -416,39 +417,29 @@ document.write(`
 </div>
 </details>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
-</pre></div>
-</div>
-</div>
-</div>
 <section id="systems-of-equations">
-<h2>Systems of Equations<a class="headerlink" href="#systems-of-equations" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1. </span>Systems of Equations<a class="headerlink" href="#systems-of-equations" title="Link to this heading">#</a></h2>
 <p>If you studied algebra, you might have encountered dreaded word problems like this one:</p>
 <blockquote>
 <div><p>At a school play, 50 tickets were sold for a total of $380. Tickets were priced as follows:</p>
 <ul class="simple">
-<li><p><strong>Child</strong> tickets: $5</p></li>
-<li><p><strong>Adult</strong> tickets: $12</p></li>
-<li><p><strong>Senior</strong> tickets: $8</p></li>
+<li><p>Child tickets: $5</p></li>
+<li><p>Adult tickets: $12</p></li>
+<li><p>Senior tickets: $8</p></li>
 </ul>
 <p>Each adult brought exactly two children with them, and no children attended without an adult.</p>
 <p>How many of each type of ticket were sold?</p>
 </div></blockquote>
-<p>To answer questions like this, you were probably taught to define variables to represent the unknown quantities; for example let:</p>
+<p>To answer questions like this, you were probably taught to define variables to represent the unknown quantities. For example, we’ll define</p>
 <ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(c\)</span>: the number of <strong>child</strong> tickets sold</p></li>
-<li><p><span class="math notranslate nohighlight">\(a\)</span>: the number of <strong>adult</strong> tickets sold</p></li>
-<li><p><span class="math notranslate nohighlight">\(s\)</span>: the number of <strong>senior</strong> tickets sold</p></li>
+<li><p><span class="math notranslate nohighlight">\(c\)</span> as the number of child tickets sold</p></li>
+<li><p><span class="math notranslate nohighlight">\(a\)</span> as the number of adult tickets sold</p></li>
+<li><p><span class="math notranslate nohighlight">\(s\)</span> as the number of senior tickets sold</p></li>
 </ul>
 <p>We can use SymPy to represent these variables with symbols.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
-
-<span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;c a s&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;c a s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -493,17 +484,13 @@ This equation represents the total number of tickets sold:</p>
 \[\displaystyle c = 2 a\]</div>
 </div>
 </div>
+<p>To solve these equations, we can use the SymPy function <code class="docutils literal notranslate"><span class="pre">linsolve</span></code>, which takes as parameters a list of equations and a list of unknowns.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eqns</span> <span class="o">=</span> <span class="p">[</span><span class="n">eq1</span><span class="p">,</span> <span class="n">eq2</span><span class="p">,</span> <span class="n">eq3</span><span class="p">]</span>
 <span class="n">unknowns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">.</span><span class="n">linsolve</span><span class="p">(</span><span class="n">eqns</span><span class="p">,</span> <span class="n">unknowns</span><span class="p">)</span>
+
+<span class="n">sp</span><span class="o">.</span><span class="n">linsolve</span><span class="p">(</span><span class="n">eqns</span><span class="p">,</span> <span class="n">unknowns</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -512,6 +499,14 @@ This equation represents the total number of tickets sold:</p>
 \[\displaystyle \left\{\left( 20, \  10, \  20\right)\right\}\]</div>
 </div>
 </div>
+<p>The result is a set of solutions – in this case there is only one: 20 children, 10 adults, and 20 seniors.</p>
+<p>Now let’s see how <code class="docutils literal notranslate"><span class="pre">linsolve</span></code> works.</p>
+</section>
+<section id="matrix-equations">
+<h2><span class="section-number">3.2. </span>Matrix Equations<a class="headerlink" href="#matrix-equations" title="Link to this heading">#</a></h2>
+<p>The algorithm <code class="docutils literal notranslate"><span class="pre">linsolve</span></code> uses is Gauss-Jordan elimination.
+The first step is to write the system of equations as a matrix equation.
+SymPy provides a function that extracts from the equations a matrix of coefficients and a vector of constants.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linear_eq_to_matrix</span><span class="p">(</span><span class="n">eqns</span><span class="p">,</span> <span class="n">unknowns</span><span class="p">)</span>
@@ -535,10 +530,12 @@ This equation represents the total number of tickets sold:</p>
 \[\begin{split}\displaystyle \left[\begin{matrix}50\\380\\0\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>In this representation, the unknowns don’t appear explicitly, but if we put the unknowns in a vector, <code class="docutils literal notranslate"><span class="pre">x</span></code>, we can write the equations in the form <span class="math notranslate nohighlight">\(Ax = b\)</span>.
+So we can recover the original equations like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">unknowns</span><span class="p">)</span>
-<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">A</span><span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">A</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -547,16 +544,210 @@ This equation represents the total number of tickets sold:</p>
 \[\begin{split}\displaystyle \left[\begin{matrix}a + c + s\\12 a + 5 c + 8 s\\- 2 a + c\end{matrix}\right] = \left[\begin{matrix}50\\380\\0\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
-<p>So we have expressed a system of linear equations as a single matrix equation, <span class="math notranslate nohighlight">\(Ax = b\)</span>.
-Why, you might ask, is that a useful thing to do?
-The answer is that it allows us to use the tools of linear algebra to find a solution.
-We’ll consider two ways to do that: one that’s conceptual simple but computationally slow, and one that’s only a little more complicated and a lot faster.</p>
-<p>First, consider how you would solve an equation like <span class="math notranslate nohighlight">\(ax = b\)</span> if <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(b\)</span> we scalars.
-You would divide both sides by <span class="math notranslate nohighlight">\(a\)</span>.
-The result <span class="math notranslate nohighlight">\(x = b/a\)</span> is considered a solution because the unknown, <span class="math notranslate nohighlight">\(x\)</span> is all by itself on the left hand side, and the expression on the right hand side is something we know how to compute, by scalar division.</p>
-<p>To solve a matrix equation like <span class="math notranslate nohighlight">\(Ax = b\)</span>, where <span class="math notranslate nohighlight">\(A\)</span> is a matrix and <span class="math notranslate nohighlight">\(b\)</span> is a vector, it is tempting to say we should divide both sides by <span class="math notranslate nohighlight">\(A\)</span>.
-The problem is that haven’t defined division by a matrix.</p>
-<p>So, instead of dividing both sides by <span class="math notranslate nohighlight">\(A\)</span>, we’ll multiply both sides by the inverse of <span class="math notranslate nohighlight">\(A\)</span>, which is written <span class="math notranslate nohighlight">\(A^{-1}\)</span>, and has the property that <span class="math notranslate nohighlight">\(A^{-1} A = I\)</span>, where <span class="math notranslate nohighlight">\(I\)</span> is the identity matrix.</p>
+<p>Note that for a SymPy matrix, the <code class="docutils literal notranslate"><span class="pre">*</span></code> operator performs matrix multiplication.</p>
+<p>The next step in Gauss-Jordan elimination is to form an <strong>augmented matrix</strong> with <code class="docutils literal notranslate"><span class="pre">b</span></code> appended to <code class="docutils literal notranslate"><span class="pre">A</span></code> as an additional column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">row_join</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 1 &amp; 1 &amp; 50\\5 &amp; 12 &amp; 8 &amp; 380\\1 &amp; -2 &amp; 0 &amp; 0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Each row of the augmented matrix represents an equation with a left hand side and a right hand side.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row0</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">row0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \left[\begin{matrix}1 &amp; 1 &amp; 1 &amp; 50\end{matrix}\right]\]</div>
+</div>
+</div>
+<p>If we multiply both sides of the equation by a constant, the result is still a valid equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row0</span> <span class="o">*</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \left[\begin{matrix}5 &amp; 5 &amp; 5 &amp; 250\end{matrix}\right]\]</div>
+</div>
+</div>
+<p>And if we add or subtract two equations, the result is a valid equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row1</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> 
+<span class="n">row1</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">row0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \left[\begin{matrix}0 &amp; 7 &amp; 3 &amp; 130\end{matrix}\right]\]</div>
+</div>
+</div>
+<p>Notice that by subtracting rows in this way, we canceled out one of the coefficients, leaving a zero at the beginning of the row – which means that this equation depends on one less variable.</p>
+<p>Continuing in this way, we can use these row operations to cancel out one coefficient at a time.
+We’ll use the following function, which takes <code class="docutils literal notranslate"><span class="pre">M</span></code> and uses row <code class="docutils literal notranslate"><span class="pre">i</span></code> to eliminate the element in row <code class="docutils literal notranslate"><span class="pre">j</span></code>, column <code class="docutils literal notranslate"><span class="pre">k</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">row_i</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">row_j</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="n">row_j</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">/</span> <span class="n">row_i</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="n">M</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">row_i</span>
+    <span class="k">return</span> <span class="n">factor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First we’ll use row 0 to eliminate the first element in rows 1 and 2.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 1 &amp; 1 &amp; 50\\0 &amp; 7 &amp; 3 &amp; 130\\0 &amp; -3 &amp; -1 &amp; -50\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Next we’ll use row 1 to eliminate the middle element in rows 0 and 2.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; \frac{4}{7} &amp; \frac{220}{7}\\0 &amp; 7 &amp; 3 &amp; 130\\0 &amp; 0 &amp; \frac{2}{7} &amp; \frac{40}{7}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Next we’ll use row 3 to eliminate the last element of rows 0 and 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0 &amp; 20\\0 &amp; 7 &amp; 0 &amp; 70\\0 &amp; 0 &amp; \frac{2}{7} &amp; \frac{40}{7}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Finally, we’ll use this function to divide each row by its one remaining coefficient.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">normalize_rows</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+        <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">/=</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the result, the solution appears in the last column.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">normalize_rows</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0 &amp; 20\\0 &amp; 1 &amp; 0 &amp; 10\\0 &amp; 0 &amp; 1 &amp; 20\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>We can split the augmented matrix into a square matrix and a solution vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="o">=</span> <span class="n">M</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">M</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the solution displayed as a vector equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">I</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}c\\a\\s\end{matrix}\right] = \left[\begin{matrix}20\\10\\20\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>I called the reduced matrix <code class="docutils literal notranslate"><span class="pre">I</span></code> because that’s the conventional name for the identity matrix.
+If we multiply <code class="docutils literal notranslate"><span class="pre">I</span></code> by any vector, the result is the same vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}c\\a\\s\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And if we multiply by any matrix, the result is the same matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="o">*</span> <span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 1 &amp; 1\\5 &amp; 12 &amp; 8\\1 &amp; -2 &amp; 0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Gauss-Jordan elimination is just one way to solve a matrix equation.
+Let’s look at another.</p>
+</section>
+<section id="matrix-inversion">
+<h2><span class="section-number">3.3. </span>Matrix Inversion<a class="headerlink" href="#matrix-inversion" title="Link to this heading">#</a></h2>
+<p>Suppose you want to solve an equation like <span class="math notranslate nohighlight">\(ax = b\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are scalars.
+If you divide both sides by <span class="math notranslate nohighlight">\(a\)</span>, the result is <span class="math notranslate nohighlight">\(x = b/a\)</span>, which is considered a solution because we know how to do scalar division.</p>
+<p>Unfortunately, we can’t do the same thing with a matrix equation like <span class="math notranslate nohighlight">\(Ax = b\)</span> because there’s no general definition for matrix division.
+But we can avoid division using inverse multiplication.
+In the scalar equation, that means multiplying both sides by <span class="math notranslate nohighlight">\(1/a\)</span>, also denoted <span class="math notranslate nohighlight">\(a^{-1}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[a^{-1} a x = a^{-1} b\]</div>
+<p>On the left side, <span class="math notranslate nohighlight">\(a^{-1} a = 1\)</span>, so we have</p>
+<div class="math notranslate nohighlight">
+\[x = a^{-1} b\]</div>
+<p>We can do the same thing with the matrix equation.
+If we can find the inverse of <span class="math notranslate nohighlight">\(A\)</span>, denoted <span class="math notranslate nohighlight">\(A^{-1}\)</span>, we can multiply both sides of the matrix equation to get:</p>
+<div class="math notranslate nohighlight">
+\[A^{-1} A x = A^{-1} b\]</div>
+<p>On the left side, the product <span class="math notranslate nohighlight">\(A^{-1} A\)</span> is the identity matrix <span class="math notranslate nohighlight">\(I\)</span>, and we have already seen that <span class="math notranslate nohighlight">\(I x = x\)</span>, so the result is</p>
+<div class="math notranslate nohighlight">
+\[x = A^{-1} b\]</div>
+<p>And that’s considered a solution because we know how to do matrix multiplication.</p>
+<p>Now all we have to do is find <span class="math notranslate nohighlight">\(A^{-1}\)</span>.
+SciPy provides a function that does it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">inv</span>
@@ -571,6 +762,7 @@ The problem is that haven’t defined division by a matrix.</p>
 \[\begin{split}\displaystyle \left[\begin{matrix}8 &amp; -1 &amp; -2\\4 &amp; - \frac{1}{2} &amp; - \frac{3}{2}\\-11 &amp; \frac{3}{2} &amp; \frac{7}{2}\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>We can confirm that <span class="math notranslate nohighlight">\(A^{-1} A = I\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_inv</span> <span class="o">*</span> <span class="n">A</span>
@@ -582,6 +774,7 @@ The problem is that haven’t defined division by a matrix.</p>
 \[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0\\0 &amp; 1 &amp; 0\\0 &amp; 0 &amp; 1\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>And we can find a solution by evaluating the right hand side, <span class="math notranslate nohighlight">\(A^{-1} b\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_inv</span> <span class="o">*</span> <span class="n">b</span>
@@ -593,6 +786,71 @@ The problem is that haven’t defined division by a matrix.</p>
 \[\begin{split}\displaystyle \left[\begin{matrix}20\\10\\20\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>That solution should look familiar.</p>
+<p>There are several ways to find the inverse of a matrix.
+One is to write the matrix equation <span class="math notranslate nohighlight">\(A A^{-1} = I\)</span> and use Gauss-Jordan elimination to solve for <span class="math notranslate nohighlight">\(A^{-1}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">row_join</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\5 &amp; 12 &amp; 8 &amp; 0 &amp; 1 &amp; 0\\1 &amp; -2 &amp; 0 &amp; 0 &amp; 0 &amp; 1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gauss_jordan_elimination</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">row_reduce</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gauss_jordan_elimination</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0 &amp; 8 &amp; -1 &amp; -2\\0 &amp; 7 &amp; 0 &amp; 28 &amp; - \frac{7}{2} &amp; - \frac{21}{2}\\0 &amp; 0 &amp; \frac{2}{7} &amp; - \frac{22}{7} &amp; \frac{3}{7} &amp; 1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">normalize_rows</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+<span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0 &amp; 8 &amp; -1 &amp; -2\\0 &amp; 1 &amp; 0 &amp; 4 &amp; - \frac{1}{2} &amp; - \frac{3}{2}\\0 &amp; 0 &amp; 1 &amp; -11 &amp; \frac{3}{2} &amp; \frac{7}{2}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>The result is an augmented matrix that contains <span class="math notranslate nohighlight">\(I\)</span> on the left and <span class="math notranslate nohighlight">\(A^{-1}\)</span> on the right.</p>
+<p>So that’s one way to find the inverse of a matrix, but <code class="docutils literal notranslate"><span class="pre">inv</span></code> uses a different algorithm, called LU decomposition.</p>
+</section>
+<section id="lu-decomposition">
+<h2><span class="section-number">3.4. </span>LU Decomposition<a class="headerlink" href="#lu-decomposition" title="Link to this heading">#</a></h2>
+<p>Let’s see what LU decomposition is, why it is useful, and how we compute it.</p>
+<p>In general, a <strong>decomposition</strong> of a matrix, <span class="math notranslate nohighlight">\(A\)</span>, is a set of matrices whose product is <span class="math notranslate nohighlight">\(A\)</span>.
+More specifically, an LU decomposition is two matrices, <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(U\)</span>, where <span class="math notranslate nohighlight">\(L U = A\)</span>, and</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(L\)</span> is a lower triangular matrix, and</p></li>
+<li><p><span class="math notranslate nohighlight">\(U\)</span> is an upper triangular matrix.</p></li>
+</ul>
+<p>I’ll explain what that means below.
+SciPy matrices have a method that computes an LU decomposition.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">perm</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">LUdecomposition</span><span class="p">()</span>
@@ -600,6 +858,45 @@ The problem is that haven’t defined division by a matrix.</p>
 </div>
 </div>
 </div>
+<p>We can confirm that <span class="math notranslate nohighlight">\(L U = A\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">L</span> <span class="o">*</span> <span class="n">U</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \text{True}\]</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">L</span></code> is lower triangular, which means all of the non-zero elements are on or below the main diagonal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0\\5 &amp; 1 &amp; 0\\1 &amp; - \frac{3}{7} &amp; 1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And <code class="docutils literal notranslate"><span class="pre">U</span></code> is upper triangular, which means all of the non-zero elements are on or above the main diagonal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 1 &amp; 1\\0 &amp; 7 &amp; 3\\0 &amp; 0 &amp; \frac{2}{7}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">LUdecomposition</span></code> sometimes permutes (swaps) the rows of the matrix, so it returns a third value, <code class="docutils literal notranslate"><span class="pre">perm</span></code>, which is a list of pairs, where each pair contains the indices of two rows that were swapped.</p>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">perm</span></code> is an empty list, meaning that there were no swaps.
+So we’ll ignore this detail for now.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">perm</span>
@@ -612,9 +909,67 @@ The problem is that haven’t defined division by a matrix.</p>
 </div>
 </div>
 </div>
+<p>LU decomposition is useful because it provides an efficient way to solve a matrix equation – and it is numerically stable, which means that it can compute the solution more precisely than multiplication by a matrix inverse.</p>
+<p>If we have <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(U\)</span> such that <span class="math notranslate nohighlight">\(L U = A\)</span>, and we want to solve <span class="math notranslate nohighlight">\(A x = b\)</span>, we can do it by rewriting the matrix equation as <span class="math notranslate nohighlight">\(L U x = b\)</span>, and substituting in <span class="math notranslate nohighlight">\(y\)</span> for <span class="math notranslate nohighlight">\(U x\)</span>.
+Then we</p>
+<ul class="simple">
+<li><p>Solve <span class="math notranslate nohighlight">\(L y = b\)</span> for <span class="math notranslate nohighlight">\(y\)</span>, and</p></li>
+<li><p>Solve <span class="math notranslate nohighlight">\(U x = y\)</span> for <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+</ul>
+<p>Here’s the first step:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}50\\130\\\frac{40}{7}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>And here’s the second:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}20\\10\\20\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>That result should look familiar.
+This process is efficient because the <code class="docutils literal notranslate"><span class="pre">solve</span></code> methods provided by <code class="docutils literal notranslate"><span class="pre">L</span></code> and <code class="docutils literal notranslate"><span class="pre">U</span></code> provide take advantage of their structure, so the number of row operations is minimized.</p>
+<p>Now here’s a function that computes an LU decomposition.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">LUdecomposition</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">L</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">row_reduce</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">U</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The function starts with a copy of <code class="docutils literal notranslate"><span class="pre">A</span></code>, which we will transform into <code class="docutils literal notranslate"><span class="pre">U</span></code>, and a new identity matrix, which we will transform into <code class="docutils literal notranslate"><span class="pre">L</span></code>.</p>
+<p>The process is similar to Gauss-Jordan elimination, but we only eliminate the coefficients below the main diagonal.
+At each step, we eliminate one coefficient from <code class="docutils literal notranslate"><span class="pre">U</span></code> and store the multiplicative factors, returned from <code class="docutils literal notranslate"><span class="pre">row_reduce</span></code>, in the lower triangle of <code class="docutils literal notranslate"><span class="pre">L</span></code>.</p>
+<p>We’ll test it by computing the decomposition of <code class="docutils literal notranslate"><span class="pre">A</span></code> again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="n">LUdecomposition</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">L</span>
 </pre></div>
 </div>
 </div>
@@ -634,230 +989,45 @@ The problem is that haven’t defined division by a matrix.</p>
 \[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 1 &amp; 1\\0 &amp; 7 &amp; 3\\0 &amp; 0 &amp; \frac{2}{7}\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">L</span> <span class="o">*</span> <span class="n">U</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \text{True}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;y0, y1, y2&#39;</span><span class="p">))</span>
-
-<span class="n">lhs</span> <span class="o">=</span> <span class="n">L</span> <span class="o">*</span> <span class="n">y</span>
-<span class="n">rhs</span> <span class="o">=</span> <span class="n">b</span>
-
-<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}y_{0}\\5 y_{0} + y_{1}\\y_{0} - \frac{3 y_{1}}{7} + y_{2}\end{matrix}\right] = \left[\begin{matrix}50\\380\\0\end{matrix}\right]\end{split}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq0</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rhs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">eq0</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle y_{0} = 50\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq1</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rhs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">eq1</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle 5 y_{0} + y_{1} = 380\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq1</span> <span class="o">=</span> <span class="n">eq1</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">eq0</span><span class="o">.</span><span class="n">lhs</span><span class="p">,</span> <span class="n">eq0</span><span class="o">.</span><span class="n">rhs</span><span class="p">)</span>
-<span class="n">eq1</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle y_{1} + 250 = 380\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq1</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">eq1</span><span class="o">.</span><span class="n">lhs</span> <span class="o">-</span> <span class="mi">250</span><span class="p">,</span> <span class="n">eq1</span><span class="o">.</span><span class="n">rhs</span> <span class="o">-</span> <span class="mi">250</span><span class="p">)</span>
-<span class="n">eq1</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle y_{1} = 130\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">lhs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">rhs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">eq2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle y_{0} - \frac{3 y_{1}}{7} + y_{2} = 0\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq2</span> <span class="o">=</span> <span class="n">eq2</span><span class="o">.</span><span class="n">subs</span><span class="p">([(</span><span class="n">eq0</span><span class="o">.</span><span class="n">lhs</span><span class="p">,</span> <span class="n">eq0</span><span class="o">.</span><span class="n">rhs</span><span class="p">),</span> <span class="p">(</span><span class="n">eq1</span><span class="o">.</span><span class="n">lhs</span><span class="p">,</span> <span class="n">eq1</span><span class="o">.</span><span class="n">rhs</span><span class="p">)])</span>
-<span class="n">eq2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle y_{2} - \frac{40}{7} = 0\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">term</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Rational</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
-<span class="n">eq2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">eq2</span><span class="o">.</span><span class="n">lhs</span> <span class="o">+</span> <span class="n">term</span><span class="p">,</span> <span class="n">eq2</span><span class="o">.</span><span class="n">rhs</span> <span class="o">+</span> <span class="n">term</span><span class="p">)</span>
-<span class="n">eq2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle y_{2} = \frac{40}{7}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">eq</span><span class="o">.</span><span class="n">rhs</span> <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="p">[</span><span class="n">eq0</span><span class="p">,</span> <span class="n">eq1</span><span class="p">,</span> <span class="n">eq2</span><span class="p">]]</span>
-<span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[50, 130, 40/7]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}50\\130\\\frac{40}{7}\end{matrix}\right]\end{split}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="n">x</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}20\\10\\20\end{matrix}\right]\end{split}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">LUsolve</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="n">x</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}20\\10\\20\end{matrix}\right]\end{split}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">b</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}0\\0\\0\end{matrix}\right]\end{split}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}50\\380\\0\end{matrix}\right]\end{split}\]</div>
-</div>
-</div>
-<p>LU decomposition is particularly useful if we would like to solve the same system of equations with different values of the right hand side, <span class="math notranslate nohighlight">\(b\)</span>.
-For example, suppose the person collecting payment makes an error, and at the end of the evening, the total in the till is only $379, just a dollar short.</p>
-<p>In this scenario, the right hand side is:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">379</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>And since we have already computed <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(U\)</span>, we can use them to solve the system with this new right hand side.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
-<span class="n">x2</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">y2</span><span class="p">)</span>
-<span class="n">x2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}21\\\frac{21}{2}\\\frac{37}{2}\end{matrix}\right]\end{split}\]</div>
-</div>
-</div>
-<p>Since the elements of the solution are not all integers, we can tell that something went wrong.</p>
+<p>Those results should look familiar.</p>
+<p>LU decomposition is the most common method for solving systems of linear equations.
+But it is inefficient to solve large systems symbolically, as we did with SymPy.
+It is more common to solve linear systems numerically.</p>
 </section>
 <section id="numerical-solution">
-<h2>Numerical solution<a class="headerlink" href="#numerical-solution" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.5. </span>Numerical Solution<a class="headerlink" href="#numerical-solution" title="Link to this heading">#</a></h2>
+<p>NumPy has a <code class="docutils literal notranslate"><span class="pre">linalg</span></code> module that provides functions related to linear algebra.
+Before we can use it, we have to convert <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> from SymPy <code class="docutils literal notranslate"><span class="pre">Matrix</span></code> objects to NumPy arrays.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-<span class="n">b_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">A</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, 3)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve</span>
-
-<span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A_np</span><span class="p">,</span> <span class="n">b_np</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">b</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, 1)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The NumPy function <code class="docutils literal notranslate"><span class="pre">solve</span></code> uses LU decomposition to solve matrix equations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A_np</span><span class="p">,</span> <span class="n">b_np</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -867,6 +1037,9 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>If you want to solve several equations with the same matrix, <code class="docutils literal notranslate"><span class="pre">A</span></code>, and different right hand sides, <code class="docutils literal notranslate"><span class="pre">b</span></code>, it is more efficient to compute the LU decomposition once.
+We can’t do that with NumPy, but we can with SciPy.
+The function <code class="docutils literal notranslate"><span class="pre">lu</span></code> returns <code class="docutils literal notranslate"><span class="pre">L</span></code>, <code class="docutils literal notranslate"><span class="pre">U</span></code>, and the permutation matrix, <code class="docutils literal notranslate"><span class="pre">P</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">lu</span>
@@ -876,81 +1049,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.        , 0.        , 0.        ],
-       [0.2       , 1.        , 0.        ],
-       [0.2       , 0.31818182, 1.        ]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 5.        , 12.        ,  8.        ],
-       [ 0.        , -4.4       , -1.6       ],
-       [ 0.        ,  0.        , -0.09090909]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0., 0., 1.],
-       [1., 0., 0.],
-       [0., 1., 0.]])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Pb</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">b_np</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">Pb</span><span class="p">)</span>
-<span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([380.        , -76.        ,  -1.81818182])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_np</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">x_np</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([20., 10., 20.])
-</pre></div>
-</div>
-</div>
-</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">P</span></code>, <code class="docutils literal notranslate"><span class="pre">L</span></code>, and <code class="docutils literal notranslate"><span class="pre">U</span></code> to solve the equation, but it is more convenient to use the helper functions <code class="docutils literal notranslate"><span class="pre">lu_factor</span></code> and <code class="docutils literal notranslate"><span class="pre">lu_solve</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">lu_factor</span><span class="p">,</span> <span class="n">lu_solve</span>
@@ -961,13 +1060,15 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 5.        , 12.        ,  8.        ],
-       [ 0.2       , -4.4       , -1.6       ],
-       [ 0.2       ,  0.31818182, -0.09090909]])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 5.   , 12.   ,  8.   ],
+       [ 0.2  , -4.4  , -1.6  ],
+       [ 0.2  ,  0.318, -0.091]])
 </pre></div>
 </div>
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">lu_factor</span></code> returns a single array that contains the non-zero elements of both <code class="docutils literal notranslate"><span class="pre">L</span></code> and <code class="docutils literal notranslate"><span class="pre">U</span></code> (omitting the diagonal of <code class="docutils literal notranslate"><span class="pre">L</span></code>, which is all ones).
+And it returns a pivot array that represents the permutation matrix in compact form.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">piv</span>
@@ -980,10 +1081,10 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>We don’t need to worry too much about unpacking these structures – we can just pass them as arguments to <code class="docutils literal notranslate"><span class="pre">lu_solve</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_lu</span> <span class="o">=</span> <span class="n">lu_solve</span><span class="p">((</span><span class="n">LU</span><span class="p">,</span> <span class="n">piv</span><span class="p">),</span> <span class="n">b_np</span><span class="p">)</span>
-<span class="n">x_lu</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lu_solve</span><span class="p">((</span><span class="n">LU</span><span class="p">,</span> <span class="n">piv</span><span class="p">),</span> <span class="n">b_np</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -993,9 +1094,19 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Both NumPy and SciPy use functions from LAPACK, an open-source library of linear algebra function written in Fortran in the late 1980s and early 1990s.</p>
+<p>At this point we have solved the same small matrix equations about ten different ways.
+Let’s move on to something more interesting!</p>
 </section>
 <section id="circuit-analysis">
-<h2>Circuit Analysis<a class="headerlink" href="#circuit-analysis" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.6. </span>Circuit Analysis<a class="headerlink" href="#circuit-analysis" title="Link to this heading">#</a></h2>
+<p>Systems of equations are useful for more than contrived word problems.
+As an example, we’ll use them to analyze an electrical circuit.
+We’ll use NetworkX to build a graph that represents the circuit.
+From the graph we’ll generate a system of equations that represent a physical model of the circuit.
+Then we’ll solve the equations.</p>
+<p>The following function makes an empty graph and initializes the variables we’ll use to keep track of constants and unknowns.
+In this example, the constants are resistances and the unknowns are voltages and currents.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_graph</span><span class="p">():</span>
@@ -1007,6 +1118,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>The following functions create SymPy symbols to represent constants and unknowns.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_constant</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1027,6 +1139,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>The following function creates a graph that represents a voltage divider, a simple circuit that contains two resistors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_voltage_divider</span><span class="p">():</span>
@@ -1042,16 +1155,19 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>The following function traverses a graph:</p>
+<ul class="simple">
+<li><p>To every edge it adds a constant resistance and an unknown current.</p></li>
+<li><p>To every node it adds a voltage, either constant or unknown.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_symbols</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
-    <span class="c1"># add currents to edges</span>
     <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;resistance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_constant</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;current&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_unknown</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;I_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Assign voltages to nodes</span>
     <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;fixed&#39;</span><span class="p">]:</span>
             <span class="n">data</span><span class="p">[</span><span class="s1">&#39;voltage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">make_constant</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;V_</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1061,6 +1177,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Now we’ll make a graph that represents a voltage divider.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">make_voltage_divider</span><span class="p">()</span>
@@ -1068,35 +1185,27 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">draw_circuit_graph</span></code> uses NetworkX functions to draw the circuit.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">draw_graph</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
-    <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;rankdir&#39;</span><span class="p">:</span> <span class="s1">&#39;LR&#39;</span><span class="p">}</span>
-    <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">nx_agraph</span><span class="o">.</span><span class="n">graphviz_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw_circuit_graph</span>
 
-    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
-
-    <span class="n">edge_labels</span> <span class="o">=</span> <span class="p">{(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span> <span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;resistance&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
-    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">arrows</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="n">edge_labels</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="n">draw_circuit_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/3dd019c68cc5f14ecc58c4c205bafe66baa0a21208d066c1983c23d025b561af.png" src="_images/3dd019c68cc5f14ecc58c4c205bafe66baa0a21208d066c1983c23d025b561af.png" />
+<img alt="_images/03ed70b7b676d8ef90363202b91b34f6c7ee5039233f64ee3c8a40f4d19cc7ef.png" src="_images/03ed70b7b676d8ef90363202b91b34f6c7ee5039233f64ee3c8a40f4d19cc7ef.png" />
 </div>
 </div>
+<p>The node labeled <code class="docutils literal notranslate"><span class="pre">in</span></code> represents the input to the circuit, which is a known voltage.
+The node labeled <code class="docutils literal notranslate"><span class="pre">gnd</span></code> represents electrical ground, which is a known voltage usually defined to be 0.
+The node labeled <code class="docutils literal notranslate"><span class="pre">out</span></code> represents the output of the circuit, which is the unknown voltage we will compute.</p>
+<p>To write a system of equations, we will use two laws that model the behavior of electricity in a circuit.
+The first is Ohm’s law, which states that the current through a resistor, <code class="docutils literal notranslate"><span class="pre">I</span></code>, depends on its resistance, <code class="docutils literal notranslate"><span class="pre">R</span></code>, and the difference in the voltage of the nodes it’s connected to, <code class="docutils literal notranslate"><span class="pre">V1</span></code> and <code class="docutils literal notranslate"><span class="pre">V0</span></code>.
+So for each resistor in the circuit, we can write the equation <code class="docutils literal notranslate"><span class="pre">V1</span> <span class="pre">-</span> <span class="pre">V0</span> <span class="pre">=</span> <span class="pre">I</span> <span class="pre">*</span> <span class="pre">R</span></code>.</p>
+<p>The following function traverses the graph and returns a list of equations, one for each resistor.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_ohm_equations</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
@@ -1104,12 +1213,12 @@ For example, suppose the person collecting payment makes an error, and at the en
     
     <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;component&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;R&#39;</span><span class="p">:</span>
-            <span class="n">V_from</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s1">&#39;voltage&#39;</span><span class="p">]</span>
-            <span class="n">V_to</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s1">&#39;voltage&#39;</span><span class="p">]</span>
+            <span class="n">V1</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">u</span><span class="p">][</span><span class="s1">&#39;voltage&#39;</span><span class="p">]</span>
+            <span class="n">V0</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s1">&#39;voltage&#39;</span><span class="p">]</span>
             <span class="n">R</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;resistance&#39;</span><span class="p">]</span>
             <span class="n">I</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;current&#39;</span><span class="p">]</span>
             
-            <span class="n">eq</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">V_from</span> <span class="o">-</span> <span class="n">V_to</span><span class="p">,</span> <span class="n">I</span> <span class="o">*</span> <span class="n">R</span><span class="p">)</span>
+            <span class="n">eq</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">V1</span> <span class="o">-</span> <span class="n">V0</span><span class="p">,</span> <span class="n">I</span> <span class="o">*</span> <span class="n">R</span><span class="p">)</span>
             <span class="n">ohm_eqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
             
     <span class="k">return</span> <span class="n">ohm_eqs</span>
@@ -1117,6 +1226,41 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Here are the equations from the circuit divider.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ohm_eqs</span> <span class="o">=</span> <span class="n">make_ohm_equations</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll use this function to display them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">display_equations</span><span class="p">(</span><span class="n">eqs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">eqs</span><span class="p">:</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_equations</span><span class="p">(</span><span class="n">ohm_eqs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle V_{in} - V_{out} = I_{R1} R_{1}\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - V_{gnd} + V_{out} = I_{R2} R_{2}\]</div>
+</div>
+</div>
+<p>The second law we’ll use is Kirchhoff’s junction rule, which says that in any junction in a circuit – or node in our graph – the total current that flows in must equal the total current that flows out.
+The following function traverses the graph and returns a list of equations, one for each node.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_kcl_equations</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
@@ -1139,37 +1283,6 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">display_equations</span><span class="p">(</span><span class="n">eqs</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">eqn</span> <span class="ow">in</span> <span class="n">ohm_eqs</span><span class="p">:</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">eqn</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ohm_eqs</span> <span class="o">=</span> <span class="n">make_ohm_equations</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_equations</span><span class="p">(</span><span class="n">ohm_eqs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle V_{in} - V_{out} = I_{R1} R_{1}\]</div>
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle - V_{gnd} + V_{out} = I_{R2} R_{2}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kcl_eqs</span> <span class="o">=</span> <span class="n">make_kcl_equations</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 
 <span class="n">display_equations</span><span class="p">(</span><span class="n">kcl_eqs</span><span class="p">)</span>
@@ -1178,21 +1291,14 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\displaystyle V_{in} - V_{out} = I_{R1} R_{1}\]</div>
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle - V_{gnd} + V_{out} = I_{R2} R_{2}\]</div>
+\[\displaystyle I_{R1} = I_{R2}\]</div>
 </div>
 </div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">linear_eq_to_matrix</span></code> to convert this system of equations to a matrix equation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eqs</span> <span class="o">=</span> <span class="n">ohm_eqs</span> <span class="o">+</span> <span class="n">kcl_eqs</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linear_eq_to_matrix</span><span class="p">(</span><span class="n">eqs</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;unknowns&#39;</span><span class="p">])</span>
+<span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linear_eq_to_matrix</span><span class="p">(</span><span class="n">eqs</span><span class="p">,</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;unknowns&#39;</span><span class="p">])</span>
 <span class="n">A</span>
 </pre></div>
 </div>
@@ -1213,6 +1319,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 \[\begin{split}\displaystyle \left[\begin{matrix}- V_{in}\\V_{gnd}\\0\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>And we can use the solve method to solve it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution_vector</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">LUsolve</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
@@ -1221,6 +1328,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>And here’s the solution.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;unknowns&#39;</span><span class="p">]),</span> <span class="n">solution_vector</span><span class="p">)</span>
@@ -1232,6 +1340,9 @@ For example, suppose the person collecting payment makes an error, and at the en
 \[\begin{split}\displaystyle \left[\begin{matrix}I_{R1}\\I_{R2}\\V_{out}\end{matrix}\right] = \left[\begin{matrix}\frac{- V_{gnd} + V_{in}}{R_{1} + R_{2}}\\\frac{- V_{gnd} + V_{in}}{R_{1} + R_{2}}\\\frac{R_{1} V_{gnd} + R_{2} V_{in}}{R_{1} + R_{2}}\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>Because we solved the system symbolically, the results are equations that relate the unknowns on the left to the known constants on the right.</p>
+<p>If we have numerical quantities for the constants, we can substitute them into the equations to get numerical results.
+For example, suppose <span class="math notranslate nohighlight">\(R_1\)</span> and <span class="math notranslate nohighlight">\(R_2\)</span> are 1000 and 4000 ohms, and <span class="math notranslate nohighlight">\(V_{in}\)</span> and <span class="math notranslate nohighlight">\(V_{gnd}\)</span> are 5 and 0 volts.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
@@ -1245,6 +1356,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Here are the results.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">evaluated</span> <span class="o">=</span> <span class="n">solution_vector</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span>
@@ -1257,9 +1369,14 @@ For example, suppose the person collecting payment makes an error, and at the en
 \[\begin{split}\displaystyle \left[\begin{matrix}\frac{1}{1000}\\\frac{1}{1000}\\4\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>The current through both resistors is 1 milliamp, and <code class="docutils literal notranslate"><span class="pre">V_{out}</span></code> is 4 volts.
+If you have studied the analysis of circuits, you might have been able to compute these values in your head.
+So let’s try something a little more challenging.</p>
 </section>
 <section id="r2r-ladder">
-<h2>R2R Ladder<a class="headerlink" href="#r2r-ladder" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.7. </span>R2R Ladder<a class="headerlink" href="#r2r-ladder" title="Link to this heading">#</a></h2>
+<p>The following function makes a graph that represents a circuit called an R2R ladder, which can be used as a simple digital-to-analog converter – that is, it can convert an <span class="math notranslate nohighlight">\(N\)</span>-bit binary number to an analog voltage with <code class="docutils literal notranslate"><span class="pre">2^N</span></code> possible values.
+I’ll explain that more carefully below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_r2r_ladder</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
@@ -1281,41 +1398,35 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Here’s a ladder with three input values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">make_r2r_ladder</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">G2</span> <span class="o">=</span> <span class="n">make_r2r_ladder</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>And here’s a graph representation of the circuit.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">draw_circuit_graph</span><span class="p">(</span><span class="n">G2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[R, r1, R0, r2, R1, R2, V_gnd, V_D0, V_D1, V_D2]
-</pre></div>
+<img alt="_images/2204d677d69c4bf2078a230b8de665c0a8b15a72a8ebfc32a0cf5d78b43beebb.png" src="_images/2204d677d69c4bf2078a230b8de665c0a8b15a72a8ebfc32a0cf5d78b43beebb.png" />
 </div>
 </div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">D0</span></code>, <code class="docutils literal notranslate"><span class="pre">D1</span></code>, and <code class="docutils literal notranslate"><span class="pre">D2</span></code> are digital inputs, so each one is meant to be either a “high” voltage like 4 volts, or a “low” voltage like 0 volts, and nothing in between.
+Each input represents a bit of a binary number.</p>
+<p>The output of the circuit is at <code class="docutils literal notranslate"><span class="pre">n2</span></code> – at this node, the voltage can be one of eight values between 0 V and 4 V.
+If all three inputs are low, the output should be 0 V.
+If all three are high, the output should be close to 4 V.</p>
+<p>We will specify that the inputs and <code class="docutils literal notranslate"><span class="pre">gnd</span></code> are fixed nodes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;unknowns&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[I_R, I_r1, I_R0, I_r2, I_R1, I_R2, V_n0, V_n1, V_n2]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;fixed&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G2</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;fixed&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1325,22 +1436,39 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>So the voltages at these nodes are constants, along with the resistance of the resistors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">system</span><span class="w"> </span><span class="kn">import</span> <span class="n">draw_graph</span>
-
-<span class="n">draw_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">constants</span> <span class="o">=</span> <span class="n">G2</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">]</span>
+<span class="n">constants</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2204d677d69c4bf2078a230b8de665c0a8b15a72a8ebfc32a0cf5d78b43beebb.png" src="_images/2204d677d69c4bf2078a230b8de665c0a8b15a72a8ebfc32a0cf5d78b43beebb.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[R, r1, R0, r2, R1, R2, V_gnd, V_D0, V_D1, V_D2]
+</pre></div>
 </div>
 </div>
+</div>
+<p>The unknowns are the currents through the resistors and the voltages of the nodes that are not fixed.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ohm_eqs</span> <span class="o">=</span> <span class="n">make_ohm_equations</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-<span class="n">kcl_eqs</span> <span class="o">=</span> <span class="n">make_kcl_equations</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unknowns</span> <span class="o">=</span> <span class="n">G2</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;unknowns&#39;</span><span class="p">]</span>
+<span class="n">unknowns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[I_R, I_r1, I_R0, I_r2, I_R1, I_R2, V_n0, V_n1, V_n2]
+</pre></div>
+</div>
+</div>
+</div>
+<p>With that, we can write a system of equations that relates the unknowns and the constants.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ohm_eqs</span> <span class="o">=</span> <span class="n">make_ohm_equations</span><span class="p">(</span><span class="n">G2</span><span class="p">)</span>
+<span class="n">kcl_eqs</span> <span class="o">=</span> <span class="n">make_kcl_equations</span><span class="p">(</span><span class="n">G2</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">eqn</span> <span class="ow">in</span> <span class="n">ohm_eqs</span><span class="p">:</span>
     <span class="n">display</span><span class="p">(</span><span class="n">eqn</span><span class="p">)</span>
@@ -1371,19 +1499,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 \[\displaystyle I_{R2} + I_{r2} = 0\]</div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">unknowns</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;unknowns&#39;</span><span class="p">]</span>
-<span class="n">unknowns</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[I_R, I_r1, I_R0, I_r2, I_R1, I_R2, V_n0, V_n1, V_n2]
-</pre></div>
-</div>
-</div>
-</div>
+<p>And we can rewrite the system of equations as a matrix equation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eqs</span> <span class="o">=</span> <span class="n">ohm_eqs</span> <span class="o">+</span> <span class="n">kcl_eqs</span>
@@ -1408,6 +1524,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 \[\begin{split}\displaystyle \left[\begin{matrix}- V_{gnd}\\0\\- V_{D0}\\0\\- V_{D1}\\- V_{D2}\\0\\0\\0\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
+<p>We can use the <code class="docutils literal notranslate"><span class="pre">LUsolve</span></code> method to solve the matrix equation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution_vector</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">LUsolve</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
@@ -1415,9 +1532,13 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>The results are complicated. For example, here the expression for the output voltage at <code class="docutils literal notranslate"><span class="pre">n2</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solution_vector</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V_n2</span> <span class="o">=</span> <span class="n">solution_vector</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="n">N</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">V_n2</span><span class="o">.</span><span class="n">simplify</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -1426,19 +1547,10 @@ For example, suppose the person collecting payment makes an error, and at the en
 \[\displaystyle \frac{R R_{0} R_{1} V_{D2} + R R_{0} R_{2} V_{D1} + R R_{1} R_{2} V_{D0} + R_{0} R_{1} R_{2} V_{gnd} + V_{D2} r_{2} \left(R R_{0} + \left(R + R_{0}\right) \left(R_{1} + r_{1}\right)\right) + r_{1} \left(R + R_{0}\right) \left(R_{1} V_{D2} + R_{2} V_{D1}\right)}{R R_{0} R_{1} + R_{1} r_{1} \left(R + R_{0}\right) + \left(R_{2} + r_{2}\right) \left(R R_{0} + \left(R + R_{0}\right) \left(R_{1} + r_{1}\right)\right)}\]</div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">constants</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">]</span>
-<span class="n">constants</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[R, r1, R0, r2, R1, R2, V_gnd, V_D0, V_D1, V_D2]
-</pre></div>
-</div>
-</div>
-</div>
+<p>In the general case where the input voltages and resistances can have any values, the results are complicated.
+But this circuit is usually constructed with only two resistances, <code class="docutils literal notranslate"><span class="pre">r</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span></code>, where <code class="docutils literal notranslate"><span class="pre">R</span> <span class="pre">=</span> <span class="pre">2r</span></code> – hence the name R2R.
+And the input voltages are either a designated low or high value, nothing in between.</p>
+<p>The following function takes values for <code class="docutils literal notranslate"><span class="pre">r</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span></code>, and low and high voltages, and returns a dictionary we’ll use to replace the constants in the equations with numbers.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">set_values</span><span class="p">(</span><span class="n">constants</span><span class="p">,</span> <span class="o">**</span><span class="n">values</span><span class="p">):</span>
@@ -1453,6 +1565,7 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Here are the substitutions where <code class="docutils literal notranslate"><span class="pre">r</span></code> is 10,000 ohms, <code class="docutils literal notranslate"><span class="pre">R</span></code> is 20,000 ohms, ground is 0 V, and the high voltage is 4 V.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subs</span> <span class="o">=</span> <span class="n">set_values</span><span class="p">(</span><span class="n">constants</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">V_gnd</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">V_D</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -1475,18 +1588,19 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Here’s the output voltage at <code class="docutils literal notranslate"><span class="pre">n2</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">evaluated</span> <span class="o">=</span> <span class="n">solution_vector</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span>
-<span class="n">evaluated</span><span class="o">.</span><span class="n">evalf</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V_n2</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\displaystyle 3.5\]</div>
+\[\displaystyle \frac{7}{2}\]</div>
 </div>
 </div>
+<p>In general, if there are <code class="docutils literal notranslate"><span class="pre">N</span></code> inputs and all are at the high voltage, we can compute the output voltage like this.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">**</span><span class="n">N</span>
@@ -1494,67 +1608,28 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.5
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.500
 </pre></div>
 </div>
 </div>
 </div>
+<p>If you go back and run this analysis again with increasing values of <code class="docutils literal notranslate"><span class="pre">N</span></code>, you should find that the output voltage gets closer to 4 V.
+Also try it with different combinations of input voltages.</p>
+</section>
+<section id="exercises">
+<h2><span class="section-number">3.8. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <section id="exercise">
-<h3>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
-<p>Substitute values into A and b, convert them to NumPy arrays, and use the NumPy solver to solve the system numerically.</p>
+<h3><span class="section-number">3.8.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<p>If you construct the R2R ladder with larger values of <code class="docutils literal notranslate"><span class="pre">N</span></code>, you will find that it takes longer to solve and the results get complicated.</p>
+<p>Rather than analyze a circuit symbolically, and then substitute numerical values at the end, it is more efficient to substitute values into the matrix equation and solve it numerically.</p>
+<p>Substitute values into <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>, convert them to NumPy arrays, and use the NumPy solver to solve the system numerically.
+Is the solution the same, within floating-point approximation?</p>
 </section>
 <section id="id1">
-<h3>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
-<p>How big a difference is this really?</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
-
-<span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-
-<span class="n">x1</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t0</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">x1</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-<span class="n">t1</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Solve time:    </span><span class="si">{</span><span class="n">t1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> sec&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Solve time:    0.0006 sec
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t2</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
-<span class="n">A_inv</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-<span class="n">x2</span> <span class="o">=</span> <span class="n">A_inv</span> <span class="o">@</span> <span class="n">b</span>
-<span class="n">t3</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inverse time:  </span><span class="si">{</span><span class="n">t3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> sec&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Inverse time:  0.0043 sec
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="strain-gauge">
-<h2>Strain Gauge<a class="headerlink" href="#strain-gauge" title="Link to this heading">#</a></h2>
+<h3><span class="section-number">3.8.2. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>A quarter bridge is a simple circuit often used with sensitive sensors like strain gauges.
+The following function makes a graph that represents this circuit.</p>
+<p>For more on how this works, see <a class="reference external" href="https://www.ni.com/en/shop/data-acquisition/sensor-fundamentals/measuring-strain-with-strain-gages.html">Measuring Strain with Strain Gages</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_quarter_bridge</span><span class="p">():</span>
@@ -1562,10 +1637,10 @@ For example, suppose the person collecting payment makes an error, and at the en
     <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;fixed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;plus&#39;</span><span class="p">,</span> <span class="s1">&#39;minus&#39;</span><span class="p">]</span>
     
     <span class="c1"># One active strain gauge and three fixed resistors</span>
-    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s1">&#39;plus&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;R1&#39;</span><span class="p">)</span>         <span class="c1"># Strain gauge</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s1">&#39;plus&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;R1&#39;</span><span class="p">)</span>
     <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s1">&#39;minus&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;R2&#39;</span><span class="p">)</span>
-    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;R3&#39;</span><span class="p">)</span>
-    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;R4&#39;</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s1">&#39;minus&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;R3&#39;</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="s1">&#39;plus&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">component</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;R4&#39;</span><span class="p">)</span>
 
     <span class="n">add_symbols</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">G</span>
@@ -1573,54 +1648,35 @@ For example, suppose the person collecting payment makes an error, and at the en
 </div>
 </div>
 </div>
+<p>Here’s what it looks like.
+Generally <code class="docutils literal notranslate"><span class="pre">R1</span></code>, <code class="docutils literal notranslate"><span class="pre">R2</span></code>, and <code class="docutils literal notranslate"><span class="pre">R3</span></code> are the same resistance, and <code class="docutils literal notranslate"><span class="pre">R4</span></code> is a strain gauge whose resistance varies depending on the strain (stretching or compression) of a mechanical element.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">make_quarter_bridge</span><span class="p">()</span>
-<span class="n">draw_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G3</span> <span class="o">=</span> <span class="n">make_quarter_bridge</span><span class="p">()</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;plus&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;minus&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">draw_circuit_graph</span><span class="p">(</span><span class="n">G3</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/10b2c673d0a38d5b0c4194a805906a4ad7fc158005e9d6794b4f2b25cfbbd1bf.png" src="_images/10b2c673d0a38d5b0c4194a805906a4ad7fc158005e9d6794b4f2b25cfbbd1bf.png" />
+<img alt="_images/08e7ab6faced533d25379bb470e3386f5d3dd1fcaf288e13bc3c07ef2e241cdd.png" src="_images/08e7ab6faced533d25379bb470e3386f5d3dd1fcaf288e13bc3c07ef2e241cdd.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ohm_eqs</span> <span class="o">=</span> <span class="n">make_ohm_equations</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-<span class="n">kcl_eqs</span> <span class="o">=</span> <span class="n">make_kcl_equations</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
-
-<span class="n">eqs</span> <span class="o">=</span> <span class="n">ohm_eqs</span> <span class="o">+</span> <span class="n">kcl_eqs</span>
-<span class="n">unknowns</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;unknowns&#39;</span><span class="p">]</span>
-<span class="n">constants</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="s1">&#39;constants&#39;</span><span class="p">]</span>
-
-<span class="n">A</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linear_eq_to_matrix</span><span class="p">(</span><span class="n">eqs</span><span class="p">,</span> <span class="n">unknowns</span><span class="p">)</span>
-<span class="n">solution_vector</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">LUsolve</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="n">solution_vector</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \frac{R_{1} V_{minus} + R_{2} V_{plus} + R_{3} V_{minus} + R_{4} V_{plus}}{R_{1} + R_{2} + R_{3} + R_{4}}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subs</span> <span class="o">=</span> <span class="n">set_values</span><span class="p">(</span><span class="n">constants</span><span class="p">,</span> <span class="n">R2</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">R3</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">R4</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">V_plus</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">V_minus</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">evaluated</span> <span class="o">=</span> <span class="n">solution_vector</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">subs</span><span class="p">)</span>
-<span class="n">evaluated</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \frac{10000}{R_{1} + 3000}\]</div>
-</div>
-</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make_ohm_equations</span></code> and <code class="docutils literal notranslate"><span class="pre">make_kcl_equations</span></code> to construct equations that model this circuit.
+Then use <code class="docutils literal notranslate"><span class="pre">linear_eq_to_matrix</span></code> to convert the system of equations to a matrix equation, and the <code class="docutils literal notranslate"><span class="pre">LUsolve</span></code> method to solve it.</p>
+<p>Substitute in the values <code class="docutils literal notranslate"><span class="pre">R1=1000</span></code>, <code class="docutils literal notranslate"><span class="pre">R2=1000</span></code>, <code class="docutils literal notranslate"><span class="pre">R3=1000</span></code>, <code class="docutils literal notranslate"><span class="pre">V_plus=5</span></code>, and <code class="docutils literal notranslate"><span class="pre">V_minus=0</span></code>.
+Leave the value of <code class="docutils literal notranslate"><span class="pre">R4</span></code> as a symbolic constant.
+How does the output voltage depend on <code class="docutils literal notranslate"><span class="pre">R4</span></code>?</p>
 <p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
 <p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
 <p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
 <p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
 </section>
 </section>
 
@@ -1654,6 +1710,24 @@ For example, suppose the person collecting payment makes an error, and at the en
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="affine.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>To Boldly Go</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nullspace.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Null Space</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1670,15 +1744,18 @@ For example, suppose the person collecting payment makes an error, and at the en
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">Systems of Equations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">Numerical solution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">Circuit Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">R2R Ladder</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">3.1. Systems of Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-equations">3.2. Matrix Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-inversion">3.3. Matrix Inversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-decomposition">3.4. LU Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">3.5. Numerical Solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">3.6. Circuit Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">3.7. R2R Ladder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.8.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.8.2. Exercise</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strain-gauge">Strain Gauge</a></li>
 </ul>
   </nav></div>
 
