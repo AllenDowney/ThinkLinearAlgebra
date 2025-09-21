@@ -21,7 +21,20 @@ import sympy as sp
 plt.rcParams["figure.dpi"] = 75
 plt.rcParams["figure.figsize"] = [6, 3.5]
 
+def set_precision(precision=3, legacy='1.25'):
+    from IPython import get_ipython
 
+    # Register a pretty printer for floats
+    def float_printer(x, p, cycle):
+        p.text(f"{x:.{precision}f}")
+
+    formatters = get_ipython().display_formatter.formatters['text/plain']
+    formatters.for_type(float, float_printer)
+    formatters.for_type(np.float64, float_printer)
+
+    # Set display precision for NumPy and Pandas
+    np.set_printoptions(precision=precision, legacy=legacy)
+    pd.options.display.float_format = (f"{{:.{precision}f}}").format
 
 ## Linear Algebra helper functions
 
@@ -487,6 +500,31 @@ def scatter(vectors, start=0, end=None, **options):
     underride(options, s=6)
     xs, ys = vectors[start:end].transpose()
     plt.scatter(xs, ys, **options)
+
+## Circuit plotting functions
+
+def draw_circuit_graph(G, pos=None, **options):
+    """Draw a circuit graph.
+
+    Args:
+        G: A NetworkX graph.
+        pos: A dictionary of positions.
+        options: passed to nx.draw_networkx_edges.
+    """
+    underride(options, node_color='lightblue', node_size=1000)
+    G.graph['graph'] = {'rankdir': 'LR'}
+    if pos is None:
+        pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
+
+    nx.draw_networkx_nodes(G, pos, **options)
+    nx.draw_networkx_labels(G, pos)
+
+    edge_labels = {(u, v): str(d['resistance']) for u, v, d in G.edges(data=True)}
+    nx.draw_networkx_edges(G, pos, arrows=True)
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+
+    plt.axis('off')
+    plt.tight_layout()
 
 
 ## Truss plotting functions
