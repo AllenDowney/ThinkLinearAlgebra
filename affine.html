@@ -363,9 +363,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shear-and-italics">2.15.1. Shear and Italics</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asteroids">2.16. Asteroids</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.17. Asteroids</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-star-wars-crawl">2.17.1. The Star Wars Crawl</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asteroids">2.16. Asteroids</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-star-wars-crawl">2.16.1. The Star Wars Crawl</a></li>
 </ul>
 </li>
 </ul>
@@ -434,7 +433,7 @@ Then we’ll do the same operations using matrix multiplication, which makes it 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">underride</span>
 </pre></div>
 </div>
 </div>
@@ -1719,7 +1718,7 @@ I’ve chosen a value that spans one complete orbit, approximately.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0, 2.96)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0, 2.960)
 </pre></div>
 </div>
 </div>
@@ -1858,7 +1857,7 @@ I’ve scaled <code class="docutils literal notranslate"><span class="pre">v</sp
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.8477237145088483)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.848
 </pre></div>
 </div>
 </div>
@@ -2022,7 +2021,7 @@ First we’ll compute the distance the object travels in a short time, <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(3.500019137385168)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.500
 </pre></div>
 </div>
 </div>
@@ -2036,7 +2035,7 @@ First we’ll compute the distance the object travels in a short time, <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(3.499983734738075)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.500
 </pre></div>
 </div>
 </div>
@@ -2050,7 +2049,7 @@ And the standard deviation is very small, which implies that the values are almo
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(2.9843764027645233e-05)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.000
 </pre></div>
 </div>
 </div>
@@ -2291,42 +2290,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img8671c1f9cfaa407aa9fac92f29b8a53c">
+  <img id="_anim_img054f39b709094314b701f318cf2eb9d0">
   <div class="anim-controls">
-    <input id="_anim_slider8671c1f9cfaa407aa9fac92f29b8a53c" type="range" class="anim-slider"
+    <input id="_anim_slider054f39b709094314b701f318cf2eb9d0" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anim8671c1f9cfaa407aa9fac92f29b8a53c.set_frame(parseInt(this.value));">
+           oninput="anim054f39b709094314b701f318cf2eb9d0.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim054f39b709094314b701f318cf2eb9d0.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="anim054f39b709094314b701f318cf2eb9d0.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="anim054f39b709094314b701f318cf2eb9d0.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="anim054f39b709094314b701f318cf2eb9d0.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="anim054f39b709094314b701f318cf2eb9d0.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.play_animation()">
+      <button title="Play" aria-label="Play" onclick="anim054f39b709094314b701f318cf2eb9d0.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="anim054f39b709094314b701f318cf2eb9d0.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="anim054f39b709094314b701f318cf2eb9d0.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim8671c1f9cfaa407aa9fac92f29b8a53c.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="anim054f39b709094314b701f318cf2eb9d0.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select8671c1f9cfaa407aa9fac92f29b8a53c"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select054f39b709094314b701f318cf2eb9d0"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_8671c1f9cfaa407aa9fac92f29b8a53c"
+      <input type="radio" name="state" value="once" id="_anim_radio1_054f39b709094314b701f318cf2eb9d0"
              >
-      <label for="_anim_radio1_8671c1f9cfaa407aa9fac92f29b8a53c">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_8671c1f9cfaa407aa9fac92f29b8a53c"
+      <label for="_anim_radio1_054f39b709094314b701f318cf2eb9d0">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_054f39b709094314b701f318cf2eb9d0"
              checked>
-      <label for="_anim_radio2_8671c1f9cfaa407aa9fac92f29b8a53c">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_8671c1f9cfaa407aa9fac92f29b8a53c"
+      <label for="_anim_radio2_054f39b709094314b701f318cf2eb9d0">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_054f39b709094314b701f318cf2eb9d0"
              >
-      <label for="_anim_radio3_8671c1f9cfaa407aa9fac92f29b8a53c">Reflect</label>
+      <label for="_anim_radio3_054f39b709094314b701f318cf2eb9d0">Reflect</label>
     </form>
   </div>
 </div>
@@ -2336,9 +2335,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img8671c1f9cfaa407aa9fac92f29b8a53c";
-    var slider_id = "_anim_slider8671c1f9cfaa407aa9fac92f29b8a53c";
-    var loop_select_id = "_anim_loop_select8671c1f9cfaa407aa9fac92f29b8a53c";
+    var img_id = "_anim_img054f39b709094314b701f318cf2eb9d0";
+    var slider_id = "_anim_slider054f39b709094314b701f318cf2eb9d0";
+    var loop_select_id = "_anim_loop_select054f39b709094314b701f318cf2eb9d0";
     var frames = new Array(100);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAEGCAYAAAD2YZXnAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -21771,20 +21770,12 @@ iHiaglBERDxNQSgiIp72/wHPJALbfI/aHgAAAABJRU5ErkJggg==\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim8671c1f9cfaa407aa9fac92f29b8a53c = new Animation(frames, img_id, slider_id, 50.0,
+        anim054f39b709094314b701f318cf2eb9d0 = new Animation(frames, img_id, slider_id, 50.0,
                                  loop_select_id);
     }, 0);
   })()
 </script>
 </div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;../jb/enterprise.html&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_jshtml</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
 </div>
 <p>Press the play button – and I hope you are as entertained as I was, in 1987, by a much simpler version of this exercise.</p>
 </section>
@@ -21852,16 +21843,6 @@ Try it with a string that contains a variety of letter and choose a shear parame
 </section>
 <section id="asteroids">
 <h2><span class="section-number">2.16. </span>Asteroids<a class="headerlink" href="#asteroids" title="Link to this heading">#</a></h2>
-<p><em>Asteroids</em> was coin-operated video game released in 1979.
-It used vector graphics to draw a space ship and a number of lumpy-looking asteroids.
-The object of the game was to shoot the asteroids while avoiding collision.</p>
-<p>With the limited computing power available, the game was designed to generate engaging graphics as efficiently as possible.</p>
-<p>Although the shapes of the asteroids were meant to be random, there were only four different patterns, but they could be scaled to three different sizes.</p>
-<p>The code for the original game is available from <a class="reference external" href="https://6502disassembly.com/va-asteroids/Asteroids.html#SymShipDirPtrTbl">6502disassembly.com</a>.
-It includes a representation of the asteroids in SVEC format, which stands for ???.</p>
-</section>
-<section id="id1">
-<h2><span class="section-number">2.17. </span>Asteroids<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p><em>Asteroids</em> was a coin-operated arcade game released in 1979 by Atari.<br />
 It used vector graphics to draw a spaceship, flying saucers, and a collection of jagged-shaped asteroids.
 The object of the game was to shoot the asteroids while avoiding collisions.
@@ -22223,42 +22204,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img4bdee6851cf445108e144c7ef39907d2">
+  <img id="_anim_imgae763a060807443db71efdf67d35f86e">
   <div class="anim-controls">
-    <input id="_anim_slider4bdee6851cf445108e144c7ef39907d2" type="range" class="anim-slider"
+    <input id="_anim_sliderae763a060807443db71efdf67d35f86e" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anim4bdee6851cf445108e144c7ef39907d2.set_frame(parseInt(this.value));">
+           oninput="animae763a060807443db71efdf67d35f86e.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim4bdee6851cf445108e144c7ef39907d2.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="animae763a060807443db71efdf67d35f86e.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim4bdee6851cf445108e144c7ef39907d2.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="animae763a060807443db71efdf67d35f86e.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim4bdee6851cf445108e144c7ef39907d2.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="animae763a060807443db71efdf67d35f86e.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim4bdee6851cf445108e144c7ef39907d2.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="animae763a060807443db71efdf67d35f86e.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim4bdee6851cf445108e144c7ef39907d2.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="animae763a060807443db71efdf67d35f86e.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim4bdee6851cf445108e144c7ef39907d2.play_animation()">
+      <button title="Play" aria-label="Play" onclick="animae763a060807443db71efdf67d35f86e.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim4bdee6851cf445108e144c7ef39907d2.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="animae763a060807443db71efdf67d35f86e.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim4bdee6851cf445108e144c7ef39907d2.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="animae763a060807443db71efdf67d35f86e.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim4bdee6851cf445108e144c7ef39907d2.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="animae763a060807443db71efdf67d35f86e.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select4bdee6851cf445108e144c7ef39907d2"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_selectae763a060807443db71efdf67d35f86e"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_4bdee6851cf445108e144c7ef39907d2"
+      <input type="radio" name="state" value="once" id="_anim_radio1_ae763a060807443db71efdf67d35f86e"
              >
-      <label for="_anim_radio1_4bdee6851cf445108e144c7ef39907d2">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_4bdee6851cf445108e144c7ef39907d2"
+      <label for="_anim_radio1_ae763a060807443db71efdf67d35f86e">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_ae763a060807443db71efdf67d35f86e"
              checked>
-      <label for="_anim_radio2_4bdee6851cf445108e144c7ef39907d2">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_4bdee6851cf445108e144c7ef39907d2"
+      <label for="_anim_radio2_ae763a060807443db71efdf67d35f86e">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_ae763a060807443db71efdf67d35f86e"
              >
-      <label for="_anim_radio3_4bdee6851cf445108e144c7ef39907d2">Reflect</label>
+      <label for="_anim_radio3_ae763a060807443db71efdf67d35f86e">Reflect</label>
     </form>
   </div>
 </div>
@@ -22268,9 +22249,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img4bdee6851cf445108e144c7ef39907d2";
-    var slider_id = "_anim_slider4bdee6851cf445108e144c7ef39907d2";
-    var loop_select_id = "_anim_loop_select4bdee6851cf445108e144c7ef39907d2";
+    var img_id = "_anim_imgae763a060807443db71efdf67d35f86e";
+    var slider_id = "_anim_sliderae763a060807443db71efdf67d35f86e";
+    var loop_select_id = "_anim_loop_selectae763a060807443db71efdf67d35f86e";
     var frames = new Array(100);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAEGCAYAAAD2YZXnAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -34381,7 +34362,7 @@ EABgNUIIALAaIQQAWI0QAgCsRggBAFb7P2UofVW7EkUSAAAAAElFTkSuQmCC\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim4bdee6851cf445108e144c7ef39907d2 = new Animation(frames, img_id, slider_id, 50.0,
+        animae763a060807443db71efdf67d35f86e = new Animation(frames, img_id, slider_id, 50.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -34389,7 +34370,7 @@ EABgNUIIALAaIQQAWI0QAgCsRggBAFb7P2UofVW7EkUSAAAAAElFTkSuQmCC\
 </div></div>
 </div>
 <section id="the-star-wars-crawl">
-<h3><span class="section-number">2.17.1. </span>The Star Wars Crawl<a class="headerlink" href="#the-star-wars-crawl" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">2.16.1. </span>The Star Wars Crawl<a class="headerlink" href="#the-star-wars-crawl" title="Link to this heading">#</a></h3>
 <p>In the opening of <em>Star Wars</em>, text scrolls upward while shrinking toward a vanishing point. The effect is similar to a shear transform, but it is actually a <strong>projective transform</strong>, which is not an affine transform at all.</p>
 <p>However, like affine transforms, it can be implemented using a 3x3 matrix and homogeneous coordinates, plus one extra step.</p>
 <p>Here’s a function that makes the transform matrix, given a parameter, <code class="docutils literal notranslate"><span class="pre">k</span></code>.</p>
@@ -34619,9 +34600,8 @@ As optional extensions, center the lines at zero so the transform is symmetric, 
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shear-and-italics">2.15.1. Shear and Italics</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asteroids">2.16. Asteroids</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.17. Asteroids</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-star-wars-crawl">2.17.1. The Star Wars Crawl</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asteroids">2.16. Asteroids</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-star-wars-crawl">2.16.1. The Star Wars Crawl</a></li>
 </ul>
 </li>
 </ul>
