@@ -30,21 +30,29 @@ Here are the chapters that are available now. More coming soon!
 
 **Chapter 1: The Power of Linear Algebra**
 
-* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/eigenvector.ipynb)
+* [Click here to run Chapter 1 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/eigenvector.ipynb):
+Introduces matrix multiplication and eigenvectors through a network-based model of museum traffic, and implements the PageRank algorithm for quantifying the quality of web pages.
 
 
 **Chapter 5: To Boldly Go**
 
-* [Click here to run Chapter 5 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/affine.ipynb)
+* [Click here to run Chapter 5 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/affine.ipynb): 
+Uses matrices scale, rotate, shear, and translate vectors. Applies these methods to 2D compute graphics, including a reimplementation of the classic video game Asteroids.
 
+
+**Chapter 7: Systems of Equations**
+
+* [Click here to run Chapter 7 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/system.ipynb): 
+Applies LU decomposition and matrix equations to analyze electrical circuits. Shows how linear algebra solves real engineering problems.
 
 **Chapter 8: Null Space**
 
-* [Click here to run Chapter 8 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/nullspace.ipynb)
+* [Click here to run Chapter 8 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/nullspace.ipynb):
+Investigates chemical stoichiometry as a system with multiple valid solutions. Introduces concepts of rank and nullspace to describe the solution space.
 
 
 **Chapter 9: Truss In the System**
 
-* [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/truss.ipynb)
-
+* [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/truss.ipynb):
+Models structural systems where the unknowns are vector forces. Uses block matrices and rank analysis to compute internal stresses in trusses.
 
