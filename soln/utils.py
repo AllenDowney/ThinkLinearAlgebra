@@ -36,6 +36,25 @@ def set_precision(precision=3, legacy='1.25'):
     np.set_printoptions(precision=precision, legacy=legacy)
     pd.options.display.float_format = (f"{{:.{precision}f}}").format
 
+
+def value_counts(seq, **options):
+    """Make a series of values and the number of times they appear.
+
+    Returns a DataFrame because they get rendered better in Jupyter.
+
+    Args:
+        seq: sequence
+        options: passed to pd.Series.value_counts
+
+    returns: pd.Series
+    """
+    options = underride(options, dropna=False)
+    series = pd.Series(seq).value_counts(**options).sort_index()
+    series.index.name = "values"
+    series.name = "counts"
+    return pd.DataFrame(series)
+
+
 ## Linear Algebra helper functions
 
 def normalize(v):
@@ -198,32 +217,30 @@ def gram_schmidt(vectors):
     return np.array(basis)
 
 
-def polar_to_cartesian(r, theta):
-    """Convert polar coordinates (r, theta) to Cartesian (x, y).
+def pol2cart(r, phi):
+    """Convert polar coordinates to Cartesian coordinates.
     
     Args:
-        r: float
-        theta: float angle in radians
+        r: float or array of floats
+        phi: float or array of floats
 
-    Returns: tuple of floats
+    Returns: NumPy array (2,) or (N, 2)
     """
-    x = r * np.cos(theta)
-    y = r * np.sin(theta)
-    return x, y
+    return r * np.array([np.cos(phi), np.sin(phi)])
 
 
-def cartesian_to_polar(x, y):
-    """Convert Cartesian coordinates (x, y) to polar (r, theta).
+def cart2pol(v):
+    """Convert Cartesian coordinates to polar coordinates.
     
     Args:
-        x: float
-        y: float
+        v: NumPy array (2,) or (N, 2)
 
-    Returns: tuple of floats
+    Returns: tuple of floats or tuple of arrays
     """
+    x, y = np.transpose(v)
     r = np.hypot(x, y)
-    theta = np.arctan2(y, x)
-    return r, theta
+    phi = np.arctan2(y, x)
+    return r, phi
 
 
 def cartesian_to_complex(x, y):
@@ -291,17 +308,6 @@ def remove_spines():
     # Ensure ticks stay visible
     ax.xaxis.set_ticks_position("bottom")
     ax.yaxis.set_ticks_position("left")
-
-
-def value_counts(series, **options):
-    """Counts the values in a series and returns sorted.
-
-    series: pd.Series
-
-    returns: pd.Series
-    """
-    options = underride(options, dropna=False)
-    return series.value_counts(**options).sort_index()
 
 
 def underride(d, **options):
@@ -375,7 +381,7 @@ def plot_vectors(
         scale_units="xy",
         scale=1,
         color="C0",
-        alpha=0.6,
+        alpha=0.9,
     )
     if origin is None:
         origin = np.zeros_like(vectors)
@@ -469,7 +475,7 @@ def label_vector(label, vector, origin=None, label_pos=12, offset=10, **options)
         base, fig=ax.figure, x=dx*offset, y=dy*offset, units="points"
     )
 
-    underride(options, ha="center", va="center")
+    underride(options, ha="center", va="center", fontsize=12)
     plt.text(x0, y0, label, transform=offset_transform, **options)
 
 
@@ -488,6 +494,32 @@ def plot_rejection(a, b, **kwargs):
     plt.plot([start[0], end[0]], [start[1], end[1]], **kwargs)
 
 
+def plot_angle_between(a, b, radius=1, **kwargs):
+    """Plot the angle between two vectors.
+    
+    Args:
+        a: vector
+        b: vector
+        radius: float, the radius of the arc
+        kwargs: passed to plt.patches.Arc
+    """
+    underride(kwargs, color='gray')
+    
+    # Calculate the angles of a and b
+    _, angles = cart2pol([a, b])
+    
+    # Create the arc 
+    import matplotlib.patches as patches
+    arc = patches.Arc((0, 0), 
+                      width=2*radius, height=2*radius,
+                      theta1=np.degrees(angles[0]), 
+                      theta2=np.degrees(angles[1]),
+                      **kwargs)
+    
+    # Add the arc to the current axes
+    ax = plt.gca()
+    ax.add_patch(arc)
+
 def scatter(vectors, start=0, end=None, **options):
     """Plot a set of vectors.
 
@@ -500,6 +532,82 @@ def scatter(vectors, start=0, end=None, **options):
     underride(options, s=6)
     xs, ys = vectors[start:end].transpose()
     plt.scatter(xs, ys, **options)
+
+## Pool table plotting functions
+
+
+def decorate_plane(lim=None, **options):
+    """Decorate the current axes with the given options.
+
+    Args:
+        lim: tuple of floats, the limits of the plot
+        options: passed to decorate
+    """
+    underride(options, aspect='equal')
+    remove_spines()
+    if lim is not None:
+        options['xlim'] = lim
+        options['ylim'] = lim
+    decorate(**options)
+
+
+def draw_circles(vs, radius=1.125, **options):
+    underride(options, color="C1", alpha=0.8, lw=0)
+    ax = options.pop("ax", plt.gca())
+    patches = [plt.Circle((x, y), radius, **options) for x, y in vs]
+    for patch in patches:
+        ax.add_patch(patch)
+    return patches
+
+
+def draw_table(table_width=100, table_height=50, ticks=False):
+    fig, ax = plt.subplots(figsize=(5, 2.5))
+
+    ax.add_patch(plt.Rectangle((0, 0), table_width, table_height,
+                                fill='forestgreen', alpha=0.05))
+
+    xs = [0, table_height, table_width]
+    ys = [0, table_height]
+    pockets = cartesian_product([xs, ys])
+    draw_circles(pockets, radius=1.75, color="forestgreen", alpha=0.4)
+
+    # Remove spines, ticks and labels
+    remove_spines()
+    if not ticks:
+        remove_ticks()
+
+    # Set the aspect ratio and limits
+    ax.set_aspect("equal", adjustable="box")
+    ax.set_xlim(-2, table_width+2)  
+    ax.set_ylim(-2, table_height+2)
+
+    return fig, ax
+
+
+def draw_collision(t, cue, target, v1, v2, label=None):
+    """Draw a collision between a cue and a target.
+
+    Args:
+        t: float, the time of the collision
+        cue: vector, the position of the cue
+        target: vector, the position of the target
+        v1: vector, the velocity of the cue
+        v2: vector, the velocity of the target
+        label: string, the label of the collision
+    """
+    draw_table(ticks=True)
+    pos1 = cue + v1 * t
+    pos2 = target + v2 * t
+    draw_circles([pos1, pos2])
+
+
+def remove_ticks():
+    ax = plt.gca()
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+
 
 ## Circuit plotting functions
 
