@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. Systems &#8212; Think Linear Algebra</title>
+    <title>4. Systems &#8212; Think Linear Algebra</title>
   
   
   
@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'system';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Null Space" href="nullspace.html" />
-    <link rel="prev" title="2. To Boldly Go" href="affine.html" />
+    <link rel="next" title="5. Null Space" href="nullspace.html" />
+    <link rel="prev" title="3. To Boldly Go" href="affine.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,10 +178,11 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="affine.html">2. To Boldly Go</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Systems</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nullspace.html">4. Null Space</a></li>
-<li class="toctree-l1"><a class="reference internal" href="truss.html">5. Truss in the System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projection.html">2. Projection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">3. To Boldly Go</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">5. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">6. Truss in the System</a></li>
 </ul>
 
     </div>
@@ -345,16 +346,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">3.1. Systems of Equations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-equations">3.2. Matrix Equations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-inversion">3.3. Matrix Inversion</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-decomposition">3.4. LU Decomposition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">3.5. Numerical Solution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">3.6. Circuit Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">3.7. R2R Ladder</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.8.1. Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.8.2. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">4.1. Systems of Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-equations">4.2. Matrix Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-inversion">4.3. Matrix Inversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-decomposition">4.4. LU Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">4.5. Numerical Solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">4.6. Circuit Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">4.7. R2R Ladder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.8. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">4.8.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.8.2. Exercise</a></li>
 </ul>
 </li>
 </ul>
@@ -370,7 +371,7 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="systems">
-<h1><span class="section-number">3. </span>Systems<a class="headerlink" href="#systems" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">4. </span>Systems<a class="headerlink" href="#systems" title="Link to this heading">#</a></h1>
 <p>This chapter contains only the code, no text yet!</p>
 <p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/system.ipynb">Click here to run this notebook on Colab</a>.</p>
 <div class="cell tag_remove-print tag_hide-cell docutils container">
@@ -418,7 +419,7 @@ document.write(`
 </details>
 </div>
 <section id="systems-of-equations">
-<h2><span class="section-number">3.1. </span>Systems of Equations<a class="headerlink" href="#systems-of-equations" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.1. </span>Systems of Equations<a class="headerlink" href="#systems-of-equations" title="Link to this heading">#</a></h2>
 <p>If you studied algebra, you might have encountered dreaded word problems like this one:</p>
 <blockquote>
 <div><p>At a school play, 50 tickets were sold for a total of $380. Tickets were priced as follows:</p>
@@ -503,7 +504,7 @@ This equation represents the total number of tickets sold:</p>
 <p>Now let’s see how <code class="docutils literal notranslate"><span class="pre">linsolve</span></code> works.</p>
 </section>
 <section id="matrix-equations">
-<h2><span class="section-number">3.2. </span>Matrix Equations<a class="headerlink" href="#matrix-equations" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.2. </span>Matrix Equations<a class="headerlink" href="#matrix-equations" title="Link to this heading">#</a></h2>
 <p>The algorithm <code class="docutils literal notranslate"><span class="pre">linsolve</span></code> uses is Gauss-Jordan elimination.
 The first step is to write the system of equations as a matrix equation.
 SymPy provides a function that extracts from the equations a matrix of coefficients and a vector of constants.</p>
@@ -727,7 +728,7 @@ If we multiply <code class="docutils literal notranslate"><span class="pre">I</s
 Let’s look at another.</p>
 </section>
 <section id="matrix-inversion">
-<h2><span class="section-number">3.3. </span>Matrix Inversion<a class="headerlink" href="#matrix-inversion" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.3. </span>Matrix Inversion<a class="headerlink" href="#matrix-inversion" title="Link to this heading">#</a></h2>
 <p>Suppose you want to solve an equation like <span class="math notranslate nohighlight">\(ax = b\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are scalars.
 If you divide both sides by <span class="math notranslate nohighlight">\(a\)</span>, the result is <span class="math notranslate nohighlight">\(x = b/a\)</span>, which is considered a solution because we know how to do scalar division.</p>
 <p>Unfortunately, we can’t do the same thing with a matrix equation like <span class="math notranslate nohighlight">\(Ax = b\)</span> because there’s no general definition for matrix division.
@@ -841,7 +842,7 @@ One is to write the matrix equation <span class="math notranslate nohighlight">\
 <p>So that’s one way to find the inverse of a matrix, but <code class="docutils literal notranslate"><span class="pre">inv</span></code> uses a different algorithm, called LU decomposition.</p>
 </section>
 <section id="lu-decomposition">
-<h2><span class="section-number">3.4. </span>LU Decomposition<a class="headerlink" href="#lu-decomposition" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.4. </span>LU Decomposition<a class="headerlink" href="#lu-decomposition" title="Link to this heading">#</a></h2>
 <p>Let’s see what LU decomposition is, why it is useful, and how we compute it.</p>
 <p>In general, a <strong>decomposition</strong> of a matrix, <span class="math notranslate nohighlight">\(A\)</span>, is a set of matrices whose product is <span class="math notranslate nohighlight">\(A\)</span>.
 More specifically, an LU decomposition is two matrices, <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(U\)</span>, where <span class="math notranslate nohighlight">\(L U = A\)</span>, and</p>
@@ -995,7 +996,7 @@ But it is inefficient to solve large systems symbolically, as we did with SymPy.
 It is more common to solve linear systems numerically.</p>
 </section>
 <section id="numerical-solution">
-<h2><span class="section-number">3.5. </span>Numerical Solution<a class="headerlink" href="#numerical-solution" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.5. </span>Numerical Solution<a class="headerlink" href="#numerical-solution" title="Link to this heading">#</a></h2>
 <p>NumPy has a <code class="docutils literal notranslate"><span class="pre">linalg</span></code> module that provides functions related to linear algebra.
 Before we can use it, we have to convert <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> from SymPy <code class="docutils literal notranslate"><span class="pre">Matrix</span></code> objects to NumPy arrays.</p>
 <div class="cell docutils container">
@@ -1099,7 +1100,7 @@ And it returns a pivot array that represents the permutation matrix in compact f
 Let’s move on to something more interesting!</p>
 </section>
 <section id="circuit-analysis">
-<h2><span class="section-number">3.6. </span>Circuit Analysis<a class="headerlink" href="#circuit-analysis" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.6. </span>Circuit Analysis<a class="headerlink" href="#circuit-analysis" title="Link to this heading">#</a></h2>
 <p>Systems of equations are useful for more than contrived word problems.
 As an example, we’ll use them to analyze an electrical circuit.
 We’ll use NetworkX to build a graph that represents the circuit.
@@ -1374,7 +1375,7 @@ If you have studied the analysis of circuits, you might have been able to comput
 So let’s try something a little more challenging.</p>
 </section>
 <section id="r2r-ladder">
-<h2><span class="section-number">3.7. </span>R2R Ladder<a class="headerlink" href="#r2r-ladder" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.7. </span>R2R Ladder<a class="headerlink" href="#r2r-ladder" title="Link to this heading">#</a></h2>
 <p>The following function makes a graph that represents a circuit called an R2R ladder, which can be used as a simple digital-to-analog converter – that is, it can convert an <span class="math notranslate nohighlight">\(N\)</span>-bit binary number to an analog voltage with <code class="docutils literal notranslate"><span class="pre">2^N</span></code> possible values.
 I’ll explain that more carefully below.</p>
 <div class="cell docutils container">
@@ -1617,16 +1618,16 @@ And the input voltages are either a designated low or high value, nothing in bet
 Also try it with different combinations of input voltages.</p>
 </section>
 <section id="exercises">
-<h2><span class="section-number">3.8. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.8. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <section id="exercise">
-<h3><span class="section-number">3.8.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">4.8.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
 <p>If you construct the R2R ladder with larger values of <code class="docutils literal notranslate"><span class="pre">N</span></code>, you will find that it takes longer to solve and the results get complicated.</p>
 <p>Rather than analyze a circuit symbolically, and then substitute numerical values at the end, it is more efficient to substitute values into the matrix equation and solve it numerically.</p>
 <p>Substitute values into <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>, convert them to NumPy arrays, and use the NumPy solver to solve the system numerically.
 Is the solution the same, within floating-point approximation?</p>
 </section>
 <section id="id1">
-<h3><span class="section-number">3.8.2. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">4.8.2. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>A quarter bridge is a simple circuit often used with sensitive sensors like strain gauges.
 The following function makes a graph that represents this circuit.</p>
 <p>For more on how this works, see <a class="reference external" href="https://www.ni.com/en/shop/data-acquisition/sensor-fundamentals/measuring-strain-with-strain-gages.html">Measuring Strain with Strain Gages</a></p>
@@ -1716,7 +1717,7 @@ How does the output voltage depend on <code class="docutils literal notranslate"
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">2. </span>To Boldly Go</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>To Boldly Go</p>
       </div>
     </a>
     <a class="right-next"
@@ -1724,7 +1725,7 @@ How does the output voltage depend on <code class="docutils literal notranslate"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>Null Space</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Null Space</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1744,16 +1745,16 @@ How does the output voltage depend on <code class="docutils literal notranslate"
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">3.1. Systems of Equations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-equations">3.2. Matrix Equations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-inversion">3.3. Matrix Inversion</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-decomposition">3.4. LU Decomposition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">3.5. Numerical Solution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">3.6. Circuit Analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">3.7. R2R Ladder</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.8. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.8.1. Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.8.2. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#systems-of-equations">4.1. Systems of Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-equations">4.2. Matrix Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-inversion">4.3. Matrix Inversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lu-decomposition">4.4. LU Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-solution">4.5. Numerical Solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-analysis">4.6. Circuit Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#r2r-ladder">4.7. R2R Ladder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">4.8. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">4.8.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.8.2. Exercise</a></li>
 </ul>
 </li>
 </ul>
