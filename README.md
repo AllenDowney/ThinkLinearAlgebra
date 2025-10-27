@@ -22,6 +22,12 @@ Here are the chapters that are available now. More coming soon!
 Introduces matrix multiplication and eigenvectors through a network-based model of museum traffic, and implements the PageRank algorithm for quantifying the quality of web pages.
 
 
+**Chapter 4: Projection**
+
+* [Click here to run Chapter 4 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/projection.ipynb):
+Presents vector projection, vector rejection, orthogonality and the dot product, using the elastic collision of pool (billiards) balls as an example.
+
+
 **Chapter 5: To Boldly Go**
 
 * [Click here to run Chapter 5 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/affine.ipynb): 
@@ -43,6 +49,12 @@ Investigates chemical stoichiometry as a system with multiple valid solutions. I
 
 * [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/truss.ipynb):
 Models structural systems where the unknowns are vector forces. Uses block matrices and rank analysis to compute internal stresses in trusses.
+
+
+**Chapter 10: Regression**
+
+* [Click here to run Chapter 9 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/regression.ipynb):
+Computes least squares regression using QR decomposition and orthogonality equations. Uses multiple regression and data from the General Social Survey (GSS) to explore the relationship of political ideology with time, age, and year of birth.
 
 
 ## Working with the code

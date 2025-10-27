@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import matplotlib.transforms as mtransforms
+from mpl_toolkits.mplot3d import Axes3D
 
 from numpy.linalg import norm
 import networkx as nx
@@ -533,6 +534,173 @@ def scatter(vectors, start=0, end=None, **options):
     xs, ys = vectors[start:end].transpose()
     plt.scatter(xs, ys, **options)
 
+
+def setup_3D(nrows=1, ncols=1, **subplot_kw):
+    """Setup 3D subplots with configurable options.
+
+    Args:
+        nrows: number of rows of subplots
+        ncols: number of columns of subplots
+        subplot_kw: keyword arguments passed to plt.subplots (e.g., figsize, dpi)
+    
+    Returns:
+        fig, axes: matplotlib figure and axes objects
+    """
+    # Set default subplot arguments and ensure 3D projection
+    underride(subplot_kw, projection='3d')
+    
+    # Create subplots
+    fig, axes = plt.subplots(nrows, ncols, subplot_kw=subplot_kw)
+    fig.subplots_adjust(wspace=0.4)
+
+    # Handle single axis case
+    if nrows == 1 and ncols == 1:
+        axes = [axes]
+    else:
+        axes = axes.flatten()
+    
+    # Configure all axes panes
+    for ax in axes:
+        ax.xaxis.pane.fill = False
+        ax.yaxis.pane.fill = False
+        ax.zaxis.pane.fill = False
+        
+        # Set pane colors to white for better visibility
+        ax.xaxis.pane.set_edgecolor('w')
+        ax.yaxis.pane.set_edgecolor('w')
+        ax.zaxis.pane.set_edgecolor('w')
+    
+    return fig, axes
+
+
+def plot_vectors_3D(
+    vectors,
+    origin=None,
+    start=0,
+    end=None,
+    scale=1,
+    **options
+):
+    """Plot a set of vectors in 3D.
+
+    Args:
+        vectors: list of vectors or array with one row per vector (shape: (N, 3))
+        origin: list of vectors or array with one row per vector (default: all at (0,0,0))
+        start: integer slice index
+        end: integer slice index
+        scale: factor to multiply vectors
+        labels: list of string labels
+        label_pos: list of locations as integer clock positions (only for 2D)
+        options: passed to plt.quiver
+    """
+    vectors = np.asarray(vectors) * scale
+    dim = vectors.shape[1]
+    if dim != 3:
+        raise ValueError("plot_vectors_3D requires 3D vectors.")
+
+    if origin is None:
+        origin = np.zeros_like(vectors)
+    else:
+        origin = np.asarray(origin)
+
+    underride(
+        options,
+        color="C0",
+        alpha=0.9,
+        arrow_length_ratio=0.1,
+    )
+    
+    us, vs, ws = vectors[start:end].T
+    xs, ys, zs = origin[start:end].T
+
+    ax = plt.gca()
+    ax.scatter(xs, ys, zs, s=0)
+    ax.scatter(xs + us, ys + vs, zs + zs, s=0)
+    ax.quiver(xs, ys, zs, us, vs, ws, **options)
+
+
+def label_vectors_3D(labels, vectors, origins=None, offset=0.1, **options):
+    """Label 3D vectors with strings positioned near the head of each arrow.
+
+    Args:
+        labels: list of string labels
+        vectors: list of vectors or array with one row per vector (shape: (N, 3))
+        origins: list of vectors or array with one row per vector (default: all at (0,0,0))
+        offset: fraction of vector length to offset the label from the head (default: 0.1)
+        options: passed to plt.text (e.g., fontsize, color)
+    """
+    vectors = np.asarray(vectors)
+    if vectors.shape[1] != 3:
+        raise ValueError("label_vectors_3D requires 3D vectors.")
+    
+    if origins is None:
+        origins = np.zeros_like(vectors)
+    else:
+        origins = np.asarray(origins)
+    
+    if len(labels) != len(vectors):
+        raise ValueError("Number of labels must match number of vectors.")
+    
+    ax = plt.gca()
+    
+    for label, vector, origin in zip(labels, vectors, origins):
+        # Calculate the head position of the vector
+        head_pos = origin + vector
+        
+        # Calculate label position slightly offset from the head
+        # Use a small offset in the direction of the vector
+        label_offset = vector * offset
+        label_pos = head_pos + label_offset
+        
+        # Set default text options
+        underride(options,
+            fontsize=12,
+            ha='center',
+            va='center',
+            color='black'
+        )
+        
+        ax.text(label_pos[0], label_pos[1], label_pos[2], label, **options)
+
+
+def plot_plane(v1, v2, origin=None, **options):
+    """Plot a shaded plane spanned by two vectors in 3D.
+
+    Args:
+        v1: First vector defining the plane (array-like, shape (3,))
+        v2: Second vector defining the plane (array-like, shape (3,))
+        origin: Origin point of the plane (default: [0, 0, 0])
+        options: Passed to plot_surface (e.g., color, alpha)
+    """
+    v1, v2 = np.asarray(v1), np.asarray(v2)
+
+    if len(v1) != 3 or len(v2) != 3:
+        raise ValueError("plot_plane requires 3D vectors.")
+
+    if origin is None:
+        origin = np.zeros(3)
+    else:
+        origin = np.asarray(origin)
+
+    # Generate a mesh grid for the plane
+    u = [0, 1]
+    v = [0, 1]
+    U, V = np.meshgrid(u, v)
+
+    # Plane equation: P = origin + U * v1 + V * v2
+    X = origin[0] + U * v1[0] + V * v2[0]
+    Y = origin[1] + U * v1[1] + V * v2[1]
+    Z = origin[2] + U * v1[2] + V * v2[2]
+
+    underride(options, color="gray", alpha=0.3)
+
+    # Plot the plane
+    ax = plt.gca()
+    ax.plot_surface(X, Y, Z, **options)
+
+
+
+
 ## Pool table plotting functions
 
 
@@ -607,6 +775,28 @@ def remove_ticks():
     ax.set_yticks([])
     ax.set_xticklabels([])
     ax.set_yticklabels([])
+
+
+## Regression helper functions
+
+def add_constant(X):
+    """Add an intercept column of ones to a 1D or 2D array-like X.
+    
+    Args:
+        X: array-like, shape (n,) or (n, m)
+    
+    Returns:
+        array of shape (n, m+1) with a column of ones prepended
+    """
+    X = np.asarray(X)
+
+    # If X is 1D, make it a column vector
+    if X.ndim == 1:
+        X = X[:, np.newaxis]
+
+    n = X.shape[0]
+    ones = np.ones((n, 1))
+    return np.column_stack([ones, X])
 
 
 ## Circuit plotting functions
