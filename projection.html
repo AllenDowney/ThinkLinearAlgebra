@@ -183,6 +183,7 @@
 <li class="toctree-l1"><a class="reference internal" href="system.html">4. Systems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nullspace.html">5. Null Space</a></li>
 <li class="toctree-l1"><a class="reference internal" href="truss.html">6. Truss in the System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression.html">7. Least Squares Regression</a></li>
 </ul>
 
     </div>
@@ -991,7 +992,7 @@ That perpendicular is called the <strong>vector rejection</strong> because it re
 </div>
 </div>
 <p>We can see that the original vector, <code class="docutils literal notranslate"><span class="pre">a</span></code>, is the sum of the projection and rejection.
-The following function computes the vector rejection of <code class="docutils literal notranslate"><span class="pre">a</span></code> on <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
+The following function computes the vector rejection of <code class="docutils literal notranslate"><span class="pre">a</span></code> from <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vector_rejection</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
@@ -1693,7 +1694,7 @@ We can compute the projection of <code class="docutils literal notranslate"><spa
 </div>
 </div>
 </div>
-<p>Or the rejection of <code class="docutils literal notranslate"><span class="pre">v1</span></code> on <code class="docutils literal notranslate"><span class="pre">n_hat</span></code>.</p>
+<p>Or the rejection of <code class="docutils literal notranslate"><span class="pre">v1</span></code> from <code class="docutils literal notranslate"><span class="pre">n_hat</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v1_tangent</span> <span class="o">=</span> <span class="n">vector_rejection</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">n_hat</span><span class="p">)</span>

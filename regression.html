@@ -1,0 +1,2418 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. Least Squares Regression &#8212; Think Linear Algebra</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="6. Truss in the System" href="truss.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Think Linear Algebra</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Think Linear Algebra
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projection.html">2. Projection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">3. To Boldly Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">4. Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">5. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">6. Truss in the System</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Least Squares Regression</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/AllenDowney/ThinkLinearAlgebra/tree/main" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/regression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Least Squares Regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-as-minimization">7.1. Regression as Minimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">7.2. Projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qr-decomposition">7.3. QR Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthonormalization">7.4. Orthonormalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression">7.5. Multiple Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quadratic-model">7.6. A Quadratic Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#age-period-cohort">7.7. Age, Period, Cohort</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">7.8. Collinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">7.9. Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">7.10. Orthogonality Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.11. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.11.1. Exercise</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
+<section id="least-squares-regression">
+<h1><span class="section-number">7. </span>Least Squares Regression<a class="headerlink" href="#least-squares-regression" title="Link to this heading">#</a></h1>
+<p><strong>Least squares regression</strong> is a method for finding a best fit model, where “best” means that it minimizes the squared differences between the model and the data.
+We can compute a least squares fit with a conventional minimization algorithm, but linear algebra provides an efficient algorithm based on vector projection.</p>
+<p>In this chapter, I’ll present two versions of this algorithm, one based on QR decomposition and the other based on orthogonality equations – and I’ll explain what both of those mean.
+We’ll start with a simple example where we can visualize the vector projection, and move on to an example with real data from the General Social Survey.</p>
+<p>We’ll use this data to explore the relationship between political ideology – conservative, moderate, or liberal – and three predictors – time, age, and year of birth – to see whether people get more conservative as they get older.
+This example demonstrates a computation challenge for regression, <strong>multiple collinearity</strong>.</p>
+<p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/regression.ipynb">Click here to run this notebook on Colab</a>.</p>
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlretrieve</span>
+
+        <span class="n">local</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded &quot;</span> <span class="o">+</span> <span class="n">local</span><span class="p">)</span>
+
+
+<span class="n">download</span><span class="p">(</span><span class="s2">&quot;https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">underride</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<section id="regression-as-minimization">
+<h2><span class="section-number">7.1. </span>Regression as Minimization<a class="headerlink" href="#regression-as-minimization" title="Link to this heading">#</a></h2>
+<p>Before we think of regression as a linear algebra problem, let’s start with minimization.
+Specifically, we’ll start with <strong>least squares regression</strong>, which minimizes the sum of squared errors.</p>
+<p>As the small example, I’ll construct a predictor, <code class="docutils literal notranslate"><span class="pre">x</span></code>, and a response variable, <code class="docutils literal notranslate"><span class="pre">y</span></code>, with only three elements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.1</span>
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.1, 1.1, 0.1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">errors</span>
+<span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.08, 1.18, 0.88])
+</pre></div>
+</div>
+</div>
+</div>
+<p>A natural way to visualize this dataset is to plot <code class="docutils literal notranslate"><span class="pre">y</span></code> versus <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5c1c1670af52834b484fe66eadc2211209208dea90d10b3636f79c857b8250c4.png" src="_images/5c1c1670af52834b484fe66eadc2211209208dea90d10b3636f79c857b8250c4.png" />
+</div>
+</div>
+<p>There’s no line that goes through all three points, so we’ll find a line of <strong>best fit</strong>.
+First we’ll construct the <strong>design matrix</strong>, so-called because it represents the design of the regression model – that is, the choice of predictors and response variable.</p>
+<p>In this example, the fitted line has an intercept and a slope, so the design matrix has two columns: the first, which is all <code class="docutils literal notranslate"><span class="pre">1</span></code>s, corresponds to the intercept; the second, which contains the values of <code class="docutils literal notranslate"><span class="pre">x</span></code>, corresponds to the slope.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">))</span>
+<span class="n">Matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1.0 &amp; 2.1\\1.0 &amp; 1.1\\1.0 &amp; 0.1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>Now the goal is to find the vector of parameters, <code class="docutils literal notranslate"><span class="pre">beta</span></code>, that contains the intercept and slope of the line of best fit.
+For this example, we’ll start with an arbitrary guess.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To see how good that guess is, we can evaluate the fitted line at each location in <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_fit</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we can compute the <strong>residuals</strong>, which are the vertical distances between the actual values, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and the fitted line.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_fit</span>
+<span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.24, -0.26, -0.16])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what that looks like.
+The dots are the actual values, the solid line is the not-very-good fit, and the vertical dotted lines show the residuals.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_fit</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_fit</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/562128b8b4e2d00f0d464162ba5f2029994439da8bbe79aad6516e9ad612d45b.png" src="_images/562128b8b4e2d00f0d464162ba5f2029994439da8bbe79aad6516e9ad612d45b.png" />
+</div>
+</div>
+<p>To quantify the goodness of fit, can compute the <strong>residual sum of squares</strong> like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1508
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or equivalently, we can compute the dot product of the residuals.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">@</span> <span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1508
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s a function that takes a hypothetical vector of coefficients, <code class="docutils literal notranslate"><span class="pre">beta</span></code>, and returns the residual sum of squares, <code class="docutils literal notranslate"><span class="pre">rss</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">rss_func</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the result for the example.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rss_func</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1508
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can use <code class="docutils literal notranslate"><span class="pre">rss_func</span></code> with the <code class="docutils literal notranslate"><span class="pre">minimize</span></code> function from SciPy to efficiently search for the value of <code class="docutils literal notranslate"><span class="pre">beta</span></code> that minimizes <code class="docutils literal notranslate"><span class="pre">rss</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">rss_func</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="n">result</span><span class="o">.</span><span class="n">message</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Optimization terminated successfully.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is an <code class="docutils literal notranslate"><span class="pre">OptimizeResult</span></code> object; in this case, the <code class="docutils literal notranslate"><span class="pre">message</span></code> attribute indicates that the iterative search converged to a minimum.</p>
+<p>And here’s the result, which we’ll call <code class="docutils literal notranslate"><span class="pre">beta_hat</span></code> because the conventional notation for this result is <span class="math notranslate nohighlight">\(\hat{\beta}\)</span>, and the caret is almost universally called a “hat”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_hat</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">x</span>
+<span class="n">beta_hat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.72, 0.6 ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can confirm that this value of <code class="docutils literal notranslate"><span class="pre">beta</span></code> yields a lower <code class="docutils literal notranslate"><span class="pre">rss</span></code> than the initial guess.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rss_func</span><span class="p">(</span><span class="n">beta_hat</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0600
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we use <code class="docutils literal notranslate"><span class="pre">beta_hat</span></code> to compute fitted values, the result is called <code class="docutils literal notranslate"><span class="pre">y_hat</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta_hat</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s what the least squares fit looks like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5b419fb1e0dc0c84d6107ae9ed3524ef551c795f5d54aa47049826b494a6e97b.png" src="_images/5b419fb1e0dc0c84d6107ae9ed3524ef551c795f5d54aa47049826b494a6e97b.png" />
+</div>
+</div>
+<p>Again, the dotted lines represent the residuals, <code class="docutils literal notranslate"><span class="pre">r</span></code>, and the residual sum of squares is the dot product of <code class="docutils literal notranslate"><span class="pre">r</span></code> with itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y_hat</span>
+<span class="n">r</span> <span class="o">@</span> <span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0600
+</pre></div>
+</div>
+</div>
+</div>
+<p>To be honest, minimization is not a bad way to solve regression problems, and it generalizes easily to other definitions of “best” and other kinds of regression.
+But there’s another way: if we write least squares regression as a matrix equation, linear algebra provides an elegant and efficient solution.</p>
+</section>
+<section id="projection">
+<h2><span class="section-number">7.2. </span>Projection<a class="headerlink" href="#projection" title="Link to this heading">#</a></h2>
+<p>The key to linear regression is projection.
+To see what that means, we’ll pull out the columns of the design matrix, <code class="docutils literal notranslate"><span class="pre">X</span></code>, as three-dimensional vectors <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">v1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1., 1., 1.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.1, 1.1, 0.1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The linear combinations of these vector span a two dimensional plane in three dimensions.
+The following figure shows this plane.</p>
+<p>It also shows the response variable, <code class="docutils literal notranslate"><span class="pre">y</span></code>, which we can think of as a vector in three dimensions, as well as the vector of fitted values, <code class="docutils literal notranslate"><span class="pre">y_hat</span></code> – which looks like the shadow <code class="docutils literal notranslate"><span class="pre">y</span></code> casts onto the plane defined by <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code>.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_3D</span><span class="p">,</span> <span class="n">plot_vectors_3D</span><span class="p">,</span> <span class="n">label_vectors_3D</span><span class="p">,</span> <span class="n">plot_plane</span>
+
+<span class="n">setup_3D</span><span class="p">()</span>
+<span class="n">plot_plane</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+<span class="n">plot_vectors_3D</span><span class="p">([</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">label_vectors_3D</span><span class="p">([</span><span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="s1">&#39;v2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">])</span>
+
+<span class="n">plot_vectors_3D</span><span class="p">([</span><span class="n">y</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">label_vectors_3D</span><span class="p">([</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+
+<span class="n">plot_vectors_3D</span><span class="p">([</span><span class="n">y_hat</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+<span class="n">lim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">]</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">lim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">lim</span><span class="p">,</span> <span class="n">zlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/21a67826b78920bea09f3c6c6909229d41bdd920ab4b9bd128bea7dac91b88f0.png" src="_images/21a67826b78920bea09f3c6c6909229d41bdd920ab4b9bd128bea7dac91b88f0.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">y</span></code> does not fall in the plane, which means it cannot be expressed as a linear combination of the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code>.
+But <code class="docutils literal notranslate"><span class="pre">y_hat</span></code> <em>does</em> fall in the plane, because it is a combination of the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code> – specifically, <code class="docutils literal notranslate"><span class="pre">y_hat</span> <span class="pre">=</span> <span class="pre">X</span> <span class="pre">&#64;</span> <span class="pre">beta</span></code>.</p>
+<p>The difference between <code class="docutils literal notranslate"><span class="pre">y</span></code> and <code class="docutils literal notranslate"><span class="pre">y_hat</span></code> is the residual, <code class="docutils literal notranslate"><span class="pre">r</span></code>, which we can also think of as a vector in this space.
+This vector has two important properties.
+First, the length of <code class="docutils literal notranslate"><span class="pre">r</span></code>, squared, is the residual sum of squares.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+<span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0600
+</pre></div>
+</div>
+</div>
+</div>
+<p>Second, <code class="docutils literal notranslate"><span class="pre">r</span></code> is perpendicular to the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code>, which we can confirm by showing that their dot product is close to zero.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-7.9582e-09, -7.7054e-09])
+</pre></div>
+</div>
+</div>
+</div>
+<p>This result means that <code class="docutils literal notranslate"><span class="pre">y_hat</span></code>, the fitted values that minimize RSS, is the <strong>projection</strong> of <code class="docutils literal notranslate"><span class="pre">y</span></code> onto the plane defined by <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code> – that is, the vector in the plane that’s closest to <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<p>This insight is the key to an efficient way to compute <code class="docutils literal notranslate"><span class="pre">y_hat</span></code>, using QR decomposition.</p>
+</section>
+<section id="qr-decomposition">
+<h2><span class="section-number">7.3. </span>QR Decomposition<a class="headerlink" href="#qr-decomposition" title="Link to this heading">#</a></h2>
+<p>QR composition is similar to LU decomposition, which we used to solve systems of linear equations efficiently.</p>
+<ul class="simple">
+<li><p>In LU decomposition, we express a matrix, <code class="docutils literal notranslate"><span class="pre">A</span></code>, as the product of two matrices, one lower-diagonal and one upper-diagonal.</p></li>
+<li><p>In QR decomposition, we’ll express the design matrix, <code class="docutils literal notranslate"><span class="pre">X</span></code>, as the product of two matrices, one <strong>orthonormal</strong> and one upper diagonal.</p></li>
+</ul>
+<p>To explain what an orthonormal matrix is, and why it is useful, we’ll use the NumPy function <code class="docutils literal notranslate"><span class="pre">qr</span></code> to compute the decomposition.
+In the next section we’ll see how this function works.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The results are two matrices. <code class="docutils literal notranslate"><span class="pre">Q</span></code> is the same size as <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-5.7735e-01,  7.0711e-01],
+       [-5.7735e-01,  5.5511e-17],
+       [-5.7735e-01, -7.0711e-01]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And <code class="docutils literal notranslate"><span class="pre">R</span></code> has the same number of columns as <code class="docutils literal notranslate"><span class="pre">X</span></code>, but it’s square and upper triangular.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-1.7321, -1.9053],
+       [ 0.    ,  1.4142]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>First let’s confirm that <span class="math notranslate nohighlight">\(Q R = X\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Q</span> <span class="o">@</span> <span class="n">R</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now if <code class="docutils literal notranslate"><span class="pre">Q</span></code> is orthonormal, the “ortho” part means that the columns are perpendicular to each other, and the “normal” part means the norm of the columns is <code class="docutils literal notranslate"><span class="pre">1</span></code>.
+We can confirm both by computing the dot product of the columns with themselves.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Matrix</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1.0 &amp; -1.16219581322268 \cdot 10^{-16}\\-1.16219581322268 \cdot 10^{-16} &amp; 1.0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>The off-diagonal elements are close to zero, which confirms that the columns are orthogonal to each other, and the diagonal elements are 1, which confirms that their norm is 1.</p>
+<p>But also notice that the product of <span class="math notranslate nohighlight">\(Q^T\)</span> and <span class="math notranslate nohighlight">\(Q\)</span> is the identity matrix, <span class="math notranslate nohighlight">\(I\)</span>, which means that <span class="math notranslate nohighlight">\(Q^T\)</span> is the inverse of <span class="math notranslate nohighlight">\(Q\)</span>.
+That’s true in general: <strong>an orthonomal matrix is its own inverse</strong>.</p>
+<p>And that’s useful because we can solve the equation</p>
+<p><span class="math notranslate nohighlight">\(Q \beta' = y\)</span></p>
+<p>by multiplying both sides by <span class="math notranslate nohighlight">\(Q^T\)</span>, which yields</p>
+<p><span class="math notranslate nohighlight">\(Q^T Q \beta' = Q^T y\)</span>,</p>
+<p>which yields</p>
+<p><span class="math notranslate nohighlight">\(\beta' = Q^T y\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta_prime</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
+<span class="n">beta_prime</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-2.3902,  0.8485])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And why would we want to solve <span class="math notranslate nohighlight">\(Q \beta' = y\)</span>?
+Because the result is the coordinates of <span class="math notranslate nohighlight">\(\hat{y}\)</span> in the span of <span class="math notranslate nohighlight">\(Q\)</span>.
+We can confirm that by multiplying those coordinates by the columns of <span class="math notranslate nohighlight">\(Q\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">beta_prime</span>
+<span class="n">y_hat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.98, 1.38, 0.78])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is the same as the <code class="docutils literal notranslate"><span class="pre">y_hat</span></code> we computed by minimizing RSS.
+Combining the last two steps, we could have computed <code class="docutils literal notranslate"><span class="pre">y_hat</span></code> like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
+<span class="n">y_hat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.98, 1.38, 0.78])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or, instead of multiplying <code class="docutils literal notranslate"><span class="pre">y</span></code> by <code class="docutils literal notranslate"><span class="pre">Q.T</span></code> first, we could multiply <code class="docutils literal notranslate"><span class="pre">Q</span></code> and <code class="docutils literal notranslate"><span class="pre">Q.T</span></code> first.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span>
+<span class="n">P</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.8333,  0.3333, -0.1667],
+       [ 0.3333,  0.3333,  0.3333],
+       [-0.1667,  0.3333,  0.8333]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is a projection matrix that projects any vector into the span of <code class="docutils literal notranslate"><span class="pre">Q</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">P</span> <span class="o">@</span> <span class="n">y</span>
+<span class="n">y_hat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.98, 1.38, 0.78])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Normally we would not compute <code class="docutils literal notranslate"><span class="pre">P</span></code> explicitly, but it is useful for confirming an important property of <code class="docutils literal notranslate"><span class="pre">Q</span></code>, which is that it has the same span as <code class="docutils literal notranslate"><span class="pre">X</span></code>.
+We can show that by projecting the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code> onto <code class="docutils literal notranslate"><span class="pre">Q</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">@</span> <span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1. , 2.1],
+       [1. , 1.1],
+       [1. , 0.1]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And confirming that the result is <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">P</span> <span class="o">@</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Which shows that the plane spanned by <code class="docutils literal notranslate"><span class="pre">Q</span></code> is the same as the plane spanned by <code class="docutils literal notranslate"><span class="pre">X</span></code>.
+The following diagram shows two views of</p>
+<ul class="simple">
+<li><p>The columns of <code class="docutils literal notranslate"><span class="pre">X</span></code> – <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code> – and the plane they span;</p></li>
+<li><p>The columns of <code class="docutils literal notranslate"><span class="pre">Q</span></code> – <code class="docutils literal notranslate"><span class="pre">q1</span></code> and <code class="docutils literal notranslate"><span class="pre">q2</span></code> – and the plane they span.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">setup_3D</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">azimuths</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">70</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">azim</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">azimuths</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">sca</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">azim</span><span class="o">=</span><span class="n">azim</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">plot_plane</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+    <span class="n">plot_plane</span><span class="p">(</span><span class="o">-</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+    <span class="n">plot_vectors_3D</span><span class="p">([</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+    <span class="n">label_vectors_3D</span><span class="p">([</span><span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="s1">&#39;v2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">])</span>
+
+    <span class="n">plot_vectors_3D</span><span class="p">([</span><span class="o">-</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">label_vectors_3D</span><span class="p">([</span><span class="s1">&#39;q1&#39;</span><span class="p">,</span> <span class="s1">&#39;q2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">])</span>
+
+    <span class="n">lim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">decorate</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="n">lim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">zlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="n">zlabel</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="_images/5906470c0714dbd1cf699f8213fa1873fffd8a000d953bce29819092796b8dee.png" src="_images/5906470c0714dbd1cf699f8213fa1873fffd8a000d953bce29819092796b8dee.png" />
+</div>
+</div>
+<p>Because of the limitations of 3D visualization, it might not be obvious that the two shaded areas are in the same plane – but they are.</p>
+<p>This property is important because it means that projecting <code class="docutils literal notranslate"><span class="pre">y</span></code> onto <code class="docutils literal notranslate"><span class="pre">Q</span></code> is the same as projecting <code class="docutils literal notranslate"><span class="pre">y</span></code> onto <code class="docutils literal notranslate"><span class="pre">X</span></code>, which minimizes RSS. So we are almost there!</p>
+<p>The last step is to use <code class="docutils literal notranslate"><span class="pre">beta_prime</span></code>, which contains the coordinates of <code class="docutils literal notranslate"><span class="pre">y_hat</span></code> in terms of the columns of <code class="docutils literal notranslate"><span class="pre">Q</span></code>, to compute <code class="docutils literal notranslate"><span class="pre">beta</span></code>, which contains coordinates of <code class="docutils literal notranslate"><span class="pre">y_hat</span></code> in terms of the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code>.
+Let’s see how we do that.</p>
+<p>So far we have found <span class="math notranslate nohighlight">\(\beta'\)</span> such that <span class="math notranslate nohighlight">\(Q \beta' = \hat{y}\)</span>, and we want <span class="math notranslate nohighlight">\(\beta\)</span> such that <span class="math notranslate nohighlight">\(X \beta = \hat{y}\)</span>. Setting the left sides equal, we get</p>
+<p><span class="math notranslate nohighlight">\(X \beta = Q \beta'\)</span></p>
+<p>Replacing <span class="math notranslate nohighlight">\(X\)</span> with <span class="math notranslate nohighlight">\(QR\)</span> we have</p>
+<p><span class="math notranslate nohighlight">\(Q R \beta = Q \beta'\)</span></p>
+<p>If we multiply through by <span class="math notranslate nohighlight">\(Q^{-1}\)</span>, we can cancel <span class="math notranslate nohighlight">\(Q\)</span> on both sides, leaving</p>
+<p><span class="math notranslate nohighlight">\(R \beta = \beta'\)</span></p>
+<p>So we can find <span class="math notranslate nohighlight">\(\beta\)</span> by solving this equation.</p>
+<p>Since <code class="docutils literal notranslate"><span class="pre">R</span></code> is upper triangular, we can use <code class="docutils literal notranslate"><span class="pre">solve_triangular</span></code>, which is more efficient that the more general <code class="docutils literal notranslate"><span class="pre">solve</span></code> function.
+The argument <code class="docutils literal notranslate"><span class="pre">lower=False</span></code> indicates that <code class="docutils literal notranslate"><span class="pre">R</span></code> is upper triangular.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_triangular</span>
+
+<span class="n">beta_qr</span> <span class="o">=</span> <span class="n">solve_triangular</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">beta_prime</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">beta_qr</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.72, 0.6 ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the result is the same as the <code class="docutils literal notranslate"><span class="pre">beta</span></code> we computed by minimization.</p>
+<p>It took a few steps to get here, but now we can write the whole process in just two lines.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">solve_triangular</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we get the same result.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.72, 0.6 ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>SciPy provides a similar function with additional capabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
+
+<span class="n">beta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lapack_driver</span><span class="o">=</span><span class="s1">&#39;gelsy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The argument <code class="docutils literal notranslate"><span class="pre">lapack_driver='gelsy'</span></code> specifies which function to use.
+The “ge” part of the name indicates that the function works with general matrices – not necessarily symmetric, for example.
+The “ls” part means it computes a least squares fit.
+And “y” indicates the variant that uses QR decomposition.</p>
+<p>The first return value is <code class="docutils literal notranslate"><span class="pre">beta</span></code> again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.72, 0.6 ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The second and fourth return values not used by <code class="docutils literal notranslate"><span class="pre">gelsy</span></code>, so we ignore them.
+The third return value is the rank of the design matrix, which is usually the number of columns in <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rank</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the columns are dependent – that is, if some are linear combinations of others – the rank might be lower.
+We’ll see an example of that soon, but first we have a loose end to tie up: how do we compute the QR decomposition?</p>
+</section>
+<section id="orthonormalization">
+<h2><span class="section-number">7.4. </span>Orthonormalization<a class="headerlink" href="#orthonormalization" title="Link to this heading">#</a></h2>
+<p>QR decomposition provides an efficient way to compute a least squares fit.
+Now let’s see how to do the decomposition.
+The process turns out to be simpler than you might expect.</p>
+<p>We’ll start by unpacking the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span><span class="p">,</span> <span class="n">normalize</span>
+
+<span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the goal is to find two orthogonal unit vectors, <code class="docutils literal notranslate"><span class="pre">q1</span></code> and <code class="docutils literal notranslate"><span class="pre">q2</span></code>, that span the same plane as <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code>.
+To compute <code class="docutils literal notranslate"><span class="pre">q1</span></code> we’ll compute a unit vector with the same direction as <code class="docutils literal notranslate"><span class="pre">v1</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
+<span class="n">q1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.5774, 0.5774, 0.5774])
+</pre></div>
+</div>
+</div>
+</div>
+<p>To compute <code class="docutils literal notranslate"><span class="pre">q2</span></code>, we’ll subtract from <code class="docutils literal notranslate"><span class="pre">v2</span></code> the part of of <code class="docutils literal notranslate"><span class="pre">v2</span></code> parallel to <code class="docutils literal notranslate"><span class="pre">q1</span></code>, leaving only the part of <code class="docutils literal notranslate"><span class="pre">v2</span></code> perpendicular to <code class="docutils literal notranslate"><span class="pre">q1</span></code> (which you might recognize as the vector rejection).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">vector_projection</span>
+
+<span class="n">v2_perp</span> <span class="o">=</span> <span class="n">v2</span> <span class="o">-</span> <span class="n">vector_projection</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">q1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we normalize the perpendicular part.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q2</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">v2_perp</span><span class="p">)</span>
+<span class="n">q2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.7071,  0.    , -0.7071])
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we pack <code class="docutils literal notranslate"><span class="pre">q1</span></code> and <code class="docutils literal notranslate"><span class="pre">q2</span></code> into a matrix, we get the same <code class="docutils literal notranslate"><span class="pre">Q</span></code> computed by NumPy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">])</span>
+<span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.5774,  0.7071],
+       [ 0.5774,  0.    ],
+       [ 0.5774, -0.7071]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can confirm that <code class="docutils literal notranslate"><span class="pre">Q.T</span> <span class="pre">&#64;</span> <span class="pre">Q</span> <span class="pre">=</span> <span class="pre">I</span></code>, which means that <code class="docutils literal notranslate"><span class="pre">Q</span></code> is orthonormal.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 1.0000e+00, -1.7796e-17],
+       [-1.7796e-17,  1.0000e+00]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The process we just followed is called <strong>Gram-Schmidt orthonormalization</strong>.
+If there are more than two vectors we can repeat the process.
+For the third vector, we subtract off the parts parallel to <code class="docutils literal notranslate"><span class="pre">q1</span></code> and <code class="docutils literal notranslate"><span class="pre">q2</span></code>, and normalize what’s left.</p>
+<p>The following function implements this process for a matrix with any number of columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gram_schmidt</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">basis</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">vector_projection</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+        <span class="n">basis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">normalize</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can confirm it works for <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gram_schmidt</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.5774,  0.7071],
+       [ 0.5774,  0.    ],
+       [ 0.5774, -0.7071]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The previous function is meant to demonstrate the process clearly, but it only computes <code class="docutils literal notranslate"><span class="pre">Q</span></code>.
+The following function also computes <code class="docutils literal notranslate"><span class="pre">R</span></code>, so it is a little more complicated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gram_schmidt</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+            <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">@</span> <span class="n">Q</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">Q</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+            
+        <span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">Q</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">R</span></code>, the off-diagonal element <code class="docutils literal notranslate"><span class="pre">R[i,</span> <span class="pre">j]</span></code> records the scalar projection of column <code class="docutils literal notranslate"><span class="pre">j</span></code> from <code class="docutils literal notranslate"><span class="pre">X</span></code> onto column <code class="docutils literal notranslate"><span class="pre">i</span></code> from <code class="docutils literal notranslate"><span class="pre">Q</span></code>.
+And the diagonal element <code class="docutils literal notranslate"><span class="pre">R[j,</span> <span class="pre">j]</span></code> records the factor used to normalize column <code class="docutils literal notranslate"><span class="pre">j</span></code> from <code class="docutils literal notranslate"><span class="pre">Q</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">gram_schmidt</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s confirm that this function computes the same <code class="docutils literal notranslate"><span class="pre">R</span></code> we got from NumPy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1.7321, 1.9053],
+       [0.    , 1.4142]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And that <code class="docutils literal notranslate"><span class="pre">Q</span> <span class="pre">R</span> <span class="pre">=</span> <span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">Q</span> <span class="o">@</span> <span class="n">R</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>That’s it! Computing the QR decomposition is efficient and not very complicated.</p>
+<p>At this point, you might be tired of the small example we’ve been working with.
+So let’s see what we can do with real data.</p>
+</section>
+<section id="multiple-regression">
+<h2><span class="section-number">7.5. </span>Multiple Regression<a class="headerlink" href="#multiple-regression" title="Link to this heading">#</a></h2>
+<p>Do people get more conservative as they get older?
+To find out, we’ll use data from the General Social Survey (GSS) to explore the relationship between political ideology and age, also considering changes over time and differences between generations.</p>
+<p>We’ll use <strong>multiple regression</strong>, which involves more than one predictor, and we’ll see the problems that arise if the predictors are strongly correlated.</p>
+<p>The following cell downloads the data.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;https://github.com/AllenDowney/GssExtract/raw/main/data/interim/gss_extract_2024_1.hdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>I have prepared an excerpt of GSS data collected between 1974 and 2024, which we can read into a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;gss_extract_2024_1.hdf&#39;</span><span class="p">)</span>
+<span class="n">gss</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(75699, 62)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> contains one row for each of the 75,699 respondents who have participated in the GSS, and one column for each of the variables in this excerpt.</p>
+<p>We’ll select only the columns we need for this example and drop any rows with missing data in those columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;polviews&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;cohort&#39;</span><span class="p">]</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">gss</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="n">columns</span><span class="p">)[</span><span class="n">columns</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">year</span></code> column records the year each respondent was interviewed, and the <code class="docutils literal notranslate"><span class="pre">cohort</span></code> column records their year of birth (sometimes called “birth cohort”).
+So we can compute the age of each respondent when they were interviewed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subset</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">subset</span><span class="p">[</span><span class="s1">&#39;cohort&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">polviews</span></code> records responses to this question</p>
+<blockquote>
+<div><p>I’m going to show you a seven-point scale on which the political views that people might hold are arranged from extremely liberal–point 1–to extremely conservative–point 7. Where would you place yourself on this scale?</p>
+</div></blockquote>
+<p>The responses are recorded with numbers from 1 to 7 that represent these categories:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Number</p></th>
+<th class="head"><p>Political Ideology</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Extremely liberal</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Liberal</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Slightly liberal</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Moderate, middle of the road</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Slightly conservative</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Conservative</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Extremely conservative</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">describe</span></code> method computes summary statistics for these variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>polviews</th>
+      <th>year</th>
+      <th>cohort</th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>65239.0000</td>
+      <td>65239.0000</td>
+      <td>65239.0000</td>
+      <td>65239.0000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>4.1086</td>
+      <td>1999.9547</td>
+      <td>1954.8059</td>
+      <td>45.1488</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.4057</td>
+      <td>15.2522</td>
+      <td>21.9236</td>
+      <td>17.2269</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.0000</td>
+      <td>1974.0000</td>
+      <td>1885.0000</td>
+      <td>18.0000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>3.0000</td>
+      <td>1987.0000</td>
+      <td>1941.0000</td>
+      <td>31.0000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>4.0000</td>
+      <td>2000.0000</td>
+      <td>1956.0000</td>
+      <td>43.0000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>5.0000</td>
+      <td>2014.0000</td>
+      <td>1969.0000</td>
+      <td>58.0000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>7.0000</td>
+      <td>2024.0000</td>
+      <td>2006.0000</td>
+      <td>90.0000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The average of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> is 4.1, which is close to “middle of the road”.
+Higher numbers are more conservative, and lower numbers are more liberal.</p>
+<p>The range of <code class="docutils literal notranslate"><span class="pre">year</span></code> is from 1974 to 2024.
+The range of <code class="docutils literal notranslate"><span class="pre">cohort</span></code> is from 1885 to 2006.
+The range of <code class="docutils literal notranslate"><span class="pre">age</span></code> is from 18 to 90.</p>
+<p>Now we can use least squares regression to see how the responses are related to age and other variables.
+First we’ll assign the values of the response variable to <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">response</span> <span class="o">=</span> <span class="s1">&#39;polviews&#39;</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">subset</span><span class="p">[</span><span class="n">response</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the first version of the model we’ll use <code class="docutils literal notranslate"><span class="pre">age</span></code> as the only predictor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span> <span class="o">=</span> <span class="s1">&#39;age&#39;</span>
+<span class="n">means_age</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">predictor</span><span class="p">)[</span><span class="n">response</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can get a sense of the relationship between these variables by plotting the mean of the response variable in each age group.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">means_age</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">predictor</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;polviews by age&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e94d9681886a9509d607bfd09296361ef87616655de02325c4e8045818f27d41.png" src="_images/e94d9681886a9509d607bfd09296361ef87616655de02325c4e8045818f27d41.png" />
+</div>
+</div>
+<p>The average increases with age, which means that older people consider themselves more conservative.
+But the difference is not very big – the average among people in their 20s, when they were interviewed, is only slightly left of center, and people in their 90s are about halfway between “middle of the road” and “slightly conservative”, on average.</p>
+<p>Let’s fit a line to this data.
+We’ll use <code class="docutils literal notranslate"><span class="pre">add_constant</span></code> to make a design matrix, <code class="docutils literal notranslate"><span class="pre">X</span></code>, that contains the single predictor and a columns of ones.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_constant</span>
+
+<span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="n">predictor</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="n">predictors</span><span class="p">])</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(65239, 2)
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we’ll use SciPy to compute the least squares fit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lapack_driver</span><span class="o">=</span><span class="s1">&#39;gelsy&#39;</span><span class="p">)</span>
+<span class="n">rank</span><span class="p">,</span> <span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, array([3.6416, 0.0103]))
+</pre></div>
+</div>
+</div>
+</div>
+<p>The rank is <code class="docutils literal notranslate"><span class="pre">2</span></code>, which indicates that the two columns of <code class="docutils literal notranslate"><span class="pre">X</span></code> are independent.</p>
+<p>We can interpret the elements of <code class="docutils literal notranslate"><span class="pre">beta</span></code> as an intercept and slope.
+The slope is about 0.01, which means that a difference of one year in age is associated with a difference of 0.01 in the average response.
+The intercept is the value of the fitted line when <code class="docutils literal notranslate"><span class="pre">age=0</span></code>.</p>
+<p>In this example the intercept is hard to interpret because newborns don’t have political views.
+The model is more sensible if we evaluate the fitted line over the relevant range of ages, from 18 to 90.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">fit_y</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">fit_x</span><span class="p">)</span> <span class="o">@</span> <span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what the line looks like compared to the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">means_age</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_x</span><span class="p">,</span> <span class="n">fit_y</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">predictor</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;polviews by age&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7897f93de8869f96e18ad14a0fb85368cb81636fd3d7d0e4ca3ee0d235bac935.png" src="_images/7897f93de8869f96e18ad14a0fb85368cb81636fd3d7d0e4ca3ee0d235bac935.png" />
+</div>
+</div>
+<p>Based on these results, it seems like people might get more conservative as they get older, but let’s also see if there’s a relationship with year of birth – that is, <code class="docutils literal notranslate"><span class="pre">cohort</span></code>.</p>
+<p>First, let’s put the steps we just followed into a function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fit_model</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">fit_x</span><span class="p">):</span>
+    <span class="c1"># group means by the first predictor</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">predictors</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">response</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="c1"># response and design matrix</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">response</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">predictors</span><span class="p">])</span>
+
+    <span class="c1"># least squares fit</span>
+    <span class="n">beta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lapack_driver</span><span class="o">=</span><span class="s1">&#39;gelsy&#39;</span><span class="p">)</span>
+
+    <span class="c1"># fitted values for new X</span>
+    <span class="n">fit_y</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">fit_x</span><span class="p">)</span> <span class="o">@</span> <span class="n">beta</span>
+
+    <span class="c1"># condition number of design matrix</span>
+    <span class="n">cond_number</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">RegressionResult</span><span class="p">(</span><span class="n">means</span><span class="p">,</span> <span class="n">cond_number</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fit_y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">fit_model</span></code> takes as a parameters the <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>, the response variable, a list of predictors, and a range of <code class="docutils literal notranslate"><span class="pre">x</span></code> values where it should evaluate the fitted line.</p>
+<ul class="simple">
+<li><p>It uses <code class="docutils literal notranslate"><span class="pre">groupby</span></code> to compute the average of the response variable as a function of the first predictor.</p></li>
+<li><p>Then it extracts <code class="docutils literal notranslate"><span class="pre">y</span></code>, makes the design matrix, <code class="docutils literal notranslate"><span class="pre">X</span></code>, and computes the least squares fit.</p></li>
+<li><p>It evaluates the fitted line over the given range, <code class="docutils literal notranslate"><span class="pre">fit_x</span></code>.</p></li>
+<li><p>It also computes the condition number of <code class="docutils literal notranslate"><span class="pre">X</span></code>, which I’ll explain later.</p></li>
+</ul>
+<p>Finally, it returns the results in a <code class="docutils literal notranslate"><span class="pre">RegressionResult</span></code> object.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RegressionResult</span></code> is a <code class="docutils literal notranslate"><span class="pre">dataclass</span></code>, which is a Python object that contains a specified set of attributes.</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RegressionResult</span><span class="p">:</span>
+    <span class="n">means</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">cond_number</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">beta</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">fit_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Here’s how we can use this function to compute a least squares fit of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> as a function of <code class="docutils literal notranslate"><span class="pre">age</span></code>, again, and save the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_age</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="p">[</span><span class="n">predictor</span><span class="p">],</span> <span class="n">fit_x</span><span class="p">)</span>
+<span class="n">result_age</span><span class="o">.</span><span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([3.6416, 0.0103])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now here’s a least squares fit of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> as a function of <code class="docutils literal notranslate"><span class="pre">cohort</span></code>, evaluated over the range of birth years from 1880 to 2010.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span> <span class="o">=</span> <span class="s1">&#39;cohort&#39;</span>
+<span class="n">fit_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1880</span><span class="p">,</span> <span class="mi">2010</span><span class="p">)</span>
+<span class="n">result_cohort</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="p">[</span><span class="n">predictor</span><span class="p">],</span> <span class="n">fit_x</span><span class="p">)</span>
+<span class="n">result_cohort</span><span class="o">.</span><span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1.6354e+01, -6.2643e-03])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following function takes the regression results and plots the fitted line along with the data.</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;yearc&#39;</span><span class="p">:</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;cohort&#39;</span><span class="p">:</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_result</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">predictor</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">fit_x</span><span class="p">):</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">means</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_map</span><span class="p">[</span><span class="n">predictor</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_x</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">fit_y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+
+    <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">predictor</span><span class="p">,</span> 
+             <span class="n">ylabel</span><span class="o">=</span><span class="n">response</span><span class="p">,</span> 
+             <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s1"> by </span><span class="si">{</span><span class="n">predictor</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Here’s what the results look like for <code class="docutils literal notranslate"><span class="pre">polviews</span></code> as a function of <code class="docutils literal notranslate"><span class="pre">cohort</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_result</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">predictor</span><span class="p">,</span> <span class="n">result_cohort</span><span class="p">,</span> <span class="n">fit_x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/43002d7a625690ae8ccddc45586d5a637fe3f2e98f38cb3c0357ba0a07d9305e.png" src="_images/43002d7a625690ae8ccddc45586d5a637fe3f2e98f38cb3c0357ba0a07d9305e.png" />
+</div>
+</div>
+<p>The slope of the line is negative, which means that people born earlier are more likely to say they are conservative, compared to people born later.</p>
+<p>Based on the results so far, we can’t tell whether people get more conservative as they age, or whether older people are more conservative because they were born earlier.
+We’ll come back to this question, but first let’s look at the third predictor, <code class="docutils literal notranslate"><span class="pre">year</span></code>.</p>
+</section>
+<section id="a-quadratic-model">
+<h2><span class="section-number">7.6. </span>A Quadratic Model<a class="headerlink" href="#a-quadratic-model" title="Link to this heading">#</a></h2>
+<p>So far we’ve computed least squares fits with <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">cohort</span></code> as predictors.
+Now let’s do the same with <code class="docutils literal notranslate"><span class="pre">year</span></code>.
+We’ll see that a straight line doesn’t fit the data well, so we’ll fit a parabola.</p>
+<p>Here’s the least squares fit of <code class="docutils literal notranslate"><span class="pre">polviews</span></code> as a function of <code class="docutils literal notranslate"><span class="pre">year</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictor</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span>
+<span class="n">fit_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1974</span><span class="p">,</span> <span class="mi">2025</span><span class="p">)</span>
+<span class="n">result_year</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="p">[</span><span class="n">predictor</span><span class="p">],</span> <span class="n">fit_x</span><span class="p">)</span>
+<span class="n">result_year</span><span class="o">.</span><span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([3.5988e+00, 2.5495e-04])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s the fitted line along with the data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_result</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">predictor</span><span class="p">,</span> <span class="n">result_year</span><span class="p">,</span> <span class="n">fit_x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1bf005473377d3d3f95fa2bc038a0f80bbafe54d4fb6758530c1f032ced49277.png" src="_images/1bf005473377d3d3f95fa2bc038a0f80bbafe54d4fb6758530c1f032ced49277.png" />
+</div>
+</div>
+<p>The fitted line is almost flat, which suggests that there is little or no change over time, but we can see that the line does not fit the data very well.
+If there is a relationship between <code class="docutils literal notranslate"><span class="pre">polviews</span></code> and <code class="docutils literal notranslate"><span class="pre">year</span></code>, it seems to be <strong>nonlinear</strong>, increasing until some time between 1990 and 2000, and decreasing afterward.</p>
+<p>Instead of fitting a straight line to the data, we can fit a parabola.
+First we’ll compute a new column that contains the values of <code class="docutils literal notranslate"><span class="pre">year</span></code> squared.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subset</span><span class="p">[</span><span class="s1">&#39;year2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">subset</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we’ll run a regression with <code class="docutils literal notranslate"><span class="pre">year</span></code> and <code class="docutils literal notranslate"><span class="pre">year2</span></code> as predictors.
+Because we have two predictors, we’ll need <code class="docutils literal notranslate"><span class="pre">fit_X</span></code> to be a matrix with two columns:
+the first contains a range of dates from 1970 to 2024; the second contains those values squared.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit_x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1974</span><span class="p">,</span> <span class="mi">2025</span><span class="p">)</span>
+<span class="n">fit_x1</span> <span class="o">=</span> <span class="n">fit_x0</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">fit_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">fit_x1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can compute a least squares fit with two predictors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;year2&#39;</span><span class="p">]</span>
+<span class="n">result_year2</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">fit_X</span><span class="p">)</span>
+<span class="n">result_year2</span><span class="o">.</span><span class="n">rank</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<p>The rank is <code class="docutils literal notranslate"><span class="pre">3</span></code> now, because the design matrix contains two predictors and a column of ones.</p>
+<p>If we represent the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code> symbolically as <span class="math notranslate nohighlight">\(1\)</span>, <span class="math notranslate nohighlight">\(x\)</span>, and <span class="math notranslate nohighlight">\(x^2\)</span>,
+and the elements of <code class="docutils literal notranslate"><span class="pre">beta</span></code> as <span class="math notranslate nohighlight">\(\beta_0\)</span>, <span class="math notranslate nohighlight">\(\beta_1\)</span>, and <span class="math notranslate nohighlight">\(\beta_2\)</span>, we can express the dot product of <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">beta</span></code> like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;beta_0 beta_1 beta_2&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span> <span class="n">beta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \beta_{0} + \beta_{1} x + \beta_{2} x^{2}\]</div>
+</div>
+</div>
+<p>That is the equation of a parabola.
+Here are the estimated coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_year2</span><span class="o">.</span><span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-5.6547e+02,  5.6937e-01, -1.4228e-04])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The third element (the coefficient of <span class="math notranslate nohighlight">\(x^2\)</span>) is negative, which indicates that the parabola curves downward.
+And if we plot the fitted curve, we can see that it does.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_result</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">predictors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">result_year2</span><span class="p">,</span> <span class="n">fit_x0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c08528e91e48dd7c08a2132f0148904f5ba1613f6d7b9b021eaf416e5eb1864c.png" src="_images/c08528e91e48dd7c08a2132f0148904f5ba1613f6d7b9b021eaf416e5eb1864c.png" />
+</div>
+</div>
+<p>This model fits the data better than the straight line.
+It seems that people were a little more likely to consider themselves conservative in the 1990s and 2000s, but more recently that trend has reversed.</p>
+<p>In the next section we’ll get back to the question we started with – as people get older, do they get more conservative?</p>
+</section>
+<section id="age-period-cohort">
+<h2><span class="section-number">7.7. </span>Age, Period, Cohort<a class="headerlink" href="#age-period-cohort" title="Link to this heading">#</a></h2>
+<p>So far we have modeled the response variable as a function of age, time period (year), and cohort (year of birth).
+Now let’s see how these predictors interact with each other.
+This kind of modeling is called <strong>age-period-cohort</strong> analysis.</p>
+<p>First let’s try a model with <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">cohort</span></code> as predictors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;cohort&#39;</span><span class="p">]</span>
+<span class="n">fit_x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">fit_x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">fit_x0</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">fit_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">fit_x1</span><span class="p">])</span>
+
+<span class="n">result_age_cohort</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">fit_X</span><span class="p">)</span>
+<span class="n">result_age_cohort</span><span class="o">.</span><span class="n">rank</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<p>The rank of this model is 3 because the design matrix has three columns and they are independent.</p>
+<p>Because this model includes more than one predictor, it is a <strong>multiple regression</strong>, as opposed to a model with only one predictor, which is a <strong>simple regression</strong>.</p>
+<p>To visualize the results, we’ll consider three cohorts, people born in 1920, 1960, and 2000.
+For each cohort, we’ll compute a fitted line over a range of ages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cohorts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1930</span><span class="p">,</span> <span class="mi">1960</span><span class="p">,</span> <span class="mi">1990</span><span class="p">]</span>
+<span class="n">fits</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">cohort</span> <span class="ow">in</span> <span class="n">cohorts</span><span class="p">:</span>
+    <span class="n">fit_x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">cohort</span><span class="p">)</span>
+    <span class="n">fit_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">fit_x1</span><span class="p">])</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">fit_X</span><span class="p">)</span>
+    <span class="n">fits</span><span class="p">[</span><span class="n">cohort</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">fit_y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s what the lines look like for the three cohorts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">means_age</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
+<span class="n">style_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">cohorts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">]))</span>
+   
+<span class="k">for</span> <span class="n">cohort</span><span class="p">,</span> <span class="n">fit_y</span> <span class="ow">in</span> <span class="n">fits</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">fit_y</span><span class="p">,</span> <span class="n">style_map</span><span class="p">[</span><span class="n">cohort</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cohort </span><span class="si">{</span><span class="n">cohort</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">predictors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6e55eb859015f0b614531d6e9566a0eab6f0f281b6704e49bc2f3d1f2840b661.png" src="_images/6e55eb859015f0b614531d6e9566a0eab6f0f281b6704e49bc2f3d1f2840b661.png" />
+</div>
+</div>
+<p>In each cohort, it looks like older people are more conservative than younger people (or at least more likely to say they are).
+But reading the lines from top to bottom, each cohort is a little less conservative than the previous one.</p>
+<p>We can see the second effect more clearly if we make a model with <code class="docutils literal notranslate"><span class="pre">year</span></code>, <code class="docutils literal notranslate"><span class="pre">year2</span></code>, and <code class="docutils literal notranslate"><span class="pre">cohort</span></code> as predictors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;year2&#39;</span><span class="p">,</span> <span class="s1">&#39;cohort&#39;</span><span class="p">]</span>
+<span class="n">fit_x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1974</span><span class="p">,</span> <span class="mi">2025</span><span class="p">)</span>
+
+<span class="n">fits</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">cohort</span> <span class="ow">in</span> <span class="n">cohorts</span><span class="p">:</span>
+    <span class="n">fit_x1</span> <span class="o">=</span> <span class="n">fit_x0</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">fit_x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">cohort</span><span class="p">)</span>
+    <span class="n">fit_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">fit_x1</span><span class="p">,</span> <span class="n">fit_x2</span><span class="p">])</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">fit_X</span><span class="p">)</span>
+    <span class="n">fits</span><span class="p">[</span><span class="n">cohort</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">fit_y</span>
+    
+<span class="n">result</span><span class="o">.</span><span class="n">rank</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<p>The rank of the design matrix is <code class="docutils literal notranslate"><span class="pre">4</span></code> because it contains three predictors and a column of ones.</p>
+<p>Because it includes both <code class="docutils literal notranslate"><span class="pre">year</span></code> and <code class="docutils literal notranslate"><span class="pre">year2</span></code>, the fitted curves are parabolas when we plot them as a function of time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">cohort</span><span class="p">,</span> <span class="n">fit_y</span> <span class="ow">in</span> <span class="n">fits</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">fit_y</span><span class="p">,</span> <span class="n">style_map</span><span class="p">[</span><span class="n">cohort</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;cohort </span><span class="si">{</span><span class="n">cohort</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="n">predictors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ylabel</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/13076eecadf48aa8fd8e925fd38bc1a558fbe2e2b2802dbb8d404c655684baa8.png" src="_images/13076eecadf48aa8fd8e925fd38bc1a558fbe2e2b2802dbb8d404c655684baa8.png" />
+</div>
+</div>
+<p>Again, as people get older, they are more likely to say they are conservative.
+And each cohort is less conservative than the previous.
+But we should interpret this graph with caution, because it extrapolates beyond the data we have – people born in 1990 were not included in the survey until they were 18 years old in 2018.</p>
+<p>Nevertheless, we can conclude that there are two trends happening at the same time:</p>
+<ul class="simple">
+<li><p>Between cohorts, people born earlier are more conservative, and</p></li>
+<li><p>As they get older, each cohort is more likely to say they are conservative, on average.</p></li>
+</ul>
+<p>If you are curious about this topic, I explored it more deeply in Chapter 12 of <a class="reference external" href="https://probablyoverthinking.it"><em>Probably Overthinking it</em></a>.</p>
+<p>But before we go on, I have a warning about a common problem with regression models.</p>
+</section>
+<section id="collinearity">
+<h2><span class="section-number">7.8. </span>Collinearity<a class="headerlink" href="#collinearity" title="Link to this heading">#</a></h2>
+<p>When people learn about age-period-cohort analysis, they often attempt something impossible – a model that includes age, period, <em>and</em> cohort.
+To see why it’s impossible, let’s do it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;cohort&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">]</span>
+<span class="n">fit_x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">fit_x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">fit_x0</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">fit_x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">fit_x0</span><span class="p">,</span> <span class="mi">2018</span><span class="p">)</span>
+<span class="n">fit_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">fit_x0</span><span class="p">,</span> <span class="n">fit_x1</span><span class="p">,</span> <span class="n">fit_x2</span><span class="p">])</span>
+
+<span class="n">result_colinear</span> <span class="o">=</span> <span class="n">fit_model</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">predictors</span><span class="p">,</span> <span class="n">fit_X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s not obvious that something has gone wrong.
+The coefficients are similar to the ones we saw in previous models.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_colinear</span><span class="o">.</span><span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 5.3109e+00,  6.6641e-03, -3.7502e-03,  2.9139e-03])
+</pre></div>
+</div>
+</div>
+</div>
+<p>But the rank is only <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_colinear</span><span class="o">.</span><span class="n">rank</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<p>The design matrix has four columns – three predictors and a column of ones – but they are not independent.
+That’s because <code class="docutils literal notranslate"><span class="pre">age</span> <span class="pre">=</span> <span class="pre">year</span> <span class="pre">-</span> <span class="pre">cohort</span></code>.
+And that’s a problem.</p>
+<p>To see why, recall that <code class="docutils literal notranslate"><span class="pre">fit_model</span></code> uses the SciPy function <code class="docutils literal notranslate"><span class="pre">lstsq</span></code>, which uses QR factorization.
+And QR factorization uses the Gram-Schmitt process.
+So let’s see what happens when we try to orthogonalize a matrix with dependent columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">subset</span><span class="p">[</span><span class="n">response</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="n">predictors</span><span class="p">])</span>
+<span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">gram_schmidt</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Remember that the columns of <code class="docutils literal notranslate"><span class="pre">Q</span></code> are suppose to be orthogonal, so <code class="docutils literal notranslate"><span class="pre">Q.T</span> <span class="pre">&#64;</span> <span class="pre">Q</span></code> should be the identity matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Q</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 1.    ,  0.    , -0.    , -0.007 ],
+       [ 0.    ,  1.    , -0.    , -0.0019],
+       [-0.    , -0.    ,  1.    ,  1.    ],
+       [-0.007 , -0.0019,  1.    ,  1.    ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first three columns are orthogonal to each other, but in the last row and column, the off diagonal elements are not zero, as they should be – which means that the last column is not orthogonal to the others.
+In fact, the last two columns are almost identical, and their dot product is close to one.</p>
+<p>This problem is called <strong>collinearity</strong> because these columns in <code class="docutils literal notranslate"><span class="pre">Q</span></code> are co-linear – that is, they fall on the same line.</p>
+<p>When the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code> are collinear, the least squares coefficients are unreliable, because it’s impossible for the model to distinguish the effect of one predictor from another.
+This is also a problem when the columns are <em>almost</em> collinear, as we’ll see in the next section.</p>
+</section>
+<section id="condition-number">
+<h2><span class="section-number">7.9. </span>Condition Number<a class="headerlink" href="#condition-number" title="Link to this heading">#</a></h2>
+<p>When we computed the least squares fits, we also computed the <strong>condition number</strong> of the design matrix, which indicates how close the columns are to collinear.
+The following table shows the results for the models we’ve computed so far.</p>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">condition_number_table</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="n">kappas</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">cond_number</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="sa">r</span><span class="s1">&#39;$\kappa$&#39;</span><span class="p">:</span> <span class="n">kappas</span><span class="p">,</span> 
+                         <span class="sa">r</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1"> \kappa $&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">kappas</span><span class="p">)},</span> 
+                        <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">table</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">result_age</span><span class="p">,</span> <span class="n">result_cohort</span><span class="p">,</span> <span class="n">result_year</span><span class="p">,</span> 
+           <span class="n">result_age_cohort</span><span class="p">,</span> <span class="n">result_year2</span><span class="p">,</span> <span class="n">result_colinear</span><span class="p">]</span>
+<span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;cohort&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;age + cohort&#39;</span><span class="p">,</span> <span class="s1">&#39;year + year2&#39;</span><span class="p">,</span> <span class="s1">&#39;age + cohort + year&#39;</span><span class="p">]</span>
+<span class="n">condition_number_table</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>$\kappa$</th>
+      <th>$\log_{10} \kappa $</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>age</th>
+      <td>135.6059</td>
+      <td>2.1323</td>
+    </tr>
+    <tr>
+      <th>cohort</th>
+      <td>174322.2522</td>
+      <td>5.2414</td>
+    </tr>
+    <tr>
+      <th>year</th>
+      <td>262262.0771</td>
+      <td>5.4187</td>
+    </tr>
+    <tr>
+      <th>age + cohort</th>
+      <td>257102.2685</td>
+      <td>5.4101</td>
+    </tr>
+    <tr>
+      <th>year + year2</th>
+      <td>77917685753.1958</td>
+      <td>10.8916</td>
+    </tr>
+    <tr>
+      <th>age + cohort + year</th>
+      <td>9887806182996954.0000</td>
+      <td>15.9951</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>For the first model, the condition number, denoted <span class="math notranslate nohighlight">\(\kappa\)</span>, is small, which means the columns are close to orthogonal.
+As the columns are closer to colinear, the condition number increases until, for a model where the columns are dependent, it is infinite.</p>
+<p>The condition number determines how precisely we can compute the least squares coefficients. As a rule of thumb, <span class="math notranslate nohighlight">\(\log_{10} \kappa\)</span> is the number of digits of precision lost in computation.
+In double-precision floating-point arithmetic, we start with about 16 digits, so losing five or six of them is usually not a concern.</p>
+<p>Even losing 10 digits can be acceptable – in that case, the results still have 6 digits, which is more precision than we have for most things we measure in the world.</p>
+<p>But in the last example, where the columns are colinear, we lose all 16 digits, which means that in the computed coefficients, we can’t even be sure that the first digit is correct.</p>
+<p>In the next section, we’ll see one way to compute condition numbers.</p>
+</section>
+<section id="orthogonality-equation">
+<h2><span class="section-number">7.10. </span>Orthogonality Equation<a class="headerlink" href="#orthogonality-equation" title="Link to this heading">#</a></h2>
+<p>So far we’ve computed least squares coefficients with QR decomposition, which is an efficient and precise algorithm.
+There is another way to derive and compute a least squares fit, by writing and solving the <strong>orthogonality equation</strong>.
+This method is not often used in practice because it is less efficient and the results are less precise.
+But it provides another view of how linear regression works and a way to compute condition numbers.</p>
+<p>To review, the goal of a least squares fit is to find a vector of coefficients, <span class="math notranslate nohighlight">\(\beta\)</span>, that minimizes the residuals, <span class="math notranslate nohighlight">\(y - X \beta\)</span>.
+We have shown that we can minimize this residual by computing the projection the projection of <span class="math notranslate nohighlight">\(y\)</span> onto the space spanned by the columns of <span class="math notranslate nohighlight">\(X\)</span> – which means that the residual vector is orthogonal to the columns of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<p>Let’s check whether that’s true for one of the regressions we ran in a previous section, <code class="docutils literal notranslate"><span class="pre">polviews</span></code> as a  function of <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">cohort</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;cohort&#39;</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">subset</span><span class="p">[</span><span class="n">response</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="n">predictors</span><span class="p">])</span>
+<span class="n">beta</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">lapack_driver</span><span class="o">=</span><span class="s1">&#39;gelsy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the coefficients computed by QR decomposition.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 5.3109e+00,  9.5780e-03, -8.3626e-04])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are the residuals.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here are the dot products of the residuals with the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">r</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-1.7548e-10, -7.9385e-09, -3.4235e-07])
+</pre></div>
+</div>
+</div>
+</div>
+<p>They are close to zero – within the precision we expect.</p>
+<p>So we can use the orthogonality equation, <span class="math notranslate nohighlight">\(X^T (y - X \beta) = 0\)</span>, to check a given value of <span class="math notranslate nohighlight">\(\beta\)</span>.
+We can also use it to solve for <span class="math notranslate nohighlight">\(\beta\)</span>.
+Matrix multiplication is distributive, so we can write the equation</p>
+<div class="math notranslate nohighlight">
+\[ X^T y - X^T X \beta = 0 \]</div>
+<p>Or, if we rearrange terms:</p>
+<div class="math notranslate nohighlight">
+\[ X^T X \beta = X^T y \]</div>
+<p>We can solve this equation by computing the <strong>normal matrix</strong>, <span class="math notranslate nohighlight">\(X^T X\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span>
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[6.5239e+04, 2.9455e+06, 1.2753e+08],
+       [2.9455e+06, 1.5234e+08, 5.7400e+09],
+       [1.2753e+08, 5.7400e+09, 2.4933e+11]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the right hand side of the matrix equation, <span class="math notranslate nohighlight">\(X^T y\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
+<span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.6804e+05, 1.2302e+07, 5.2378e+08])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we can solve the matrix equation for <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">beta2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 5.3109e+00,  9.5780e-03, -8.3626e-04])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is the same as what we got from QR decomposition.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">beta2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>In general, the coefficients we get from QR decomposition are more precise than the ones we get by solving the orthogonality equation.
+That’s because the condition number of the normal matrix, <span class="math notranslate nohighlight">\(X^T X\)</span> is the condition number of <span class="math notranslate nohighlight">\(X\)</span> squared!</p>
+<p>Here are the logarithms of the condition numbers of <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5.4101, 10.8202)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Solving the orthogonality equation roughly doubles the loss of precision, compared to QR decomposition.</p>
+<p>Now we are just one step away from computing the condition number, which is the ratio of the largest and smallest eigenvalues of <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">eig</span>
+
+<span class="n">vals</span><span class="p">,</span> <span class="n">vecs</span> <span class="o">=</span> <span class="n">eig</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">vals</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.4946e+11+0.j, 3.7739e+00+0.j, 2.0186e+07+0.j])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here is the condition number of <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cond2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="p">))</span> <span class="o">/</span> <span class="nb">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="p">))</span>
+<span class="n">cond2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>66101576611.7772
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s square root is the condition number of <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cond2</span><span class="p">)</span>
+<span class="n">cond</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>257102.2688
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another way to find the condition number is to compute the singular values of <code class="docutils literal notranslate"><span class="pre">X</span></code>, but that’s a topic for another chapter.</p>
+</section>
+<section id="exercises">
+<h2><span class="section-number">7.11. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<section id="exercise">
+<h3><span class="section-number">7.11.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<p>In the examples in this chapter, you might have noticed that the condition number is higher in models that include <code class="docutils literal notranslate"><span class="pre">cohort</span></code> or <code class="docutils literal notranslate"><span class="pre">year</span></code>, and even larger for models that include <code class="docutils literal notranslate"><span class="pre">year2</span></code>.
+That’s because the values of those variables are so much larger than <code class="docutils literal notranslate"><span class="pre">age</span></code> and the column of ones.
+When some columns in the design matrix are much bigger than others, the condition number gets bigger.</p>
+<p>That’s why it can be beneficial to shift the predictors so their mean is close to zero, or scale them so they fall in a narrower range, or both.</p>
+<p>Add new columns to <code class="docutils literal notranslate"><span class="pre">subset</span></code>, called <code class="docutils literal notranslate"><span class="pre">age_centered</span></code> and <code class="docutils literal notranslate"><span class="pre">cohort_centered</span></code>, that contain the <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">cohort</span></code> values with their means subtracted away.
+Use these centered predictors to construct a design matrix, and compute its condition number.
+It should be substantially smaller than the one we got with <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">cohort</span></code>.</p>
+<p>Compute the coefficients of a least squares model with these predictors.
+The intercept will be different from the one in the uncentered model, but the slopes should be the same.</p>
+<p>Try dividing the centered predictors by 10.
+What effect does it have on the condition number?
+What about the slopes?</p>
+<p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
+<p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
+<p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
+<p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="truss.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Truss in the System</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-as-minimization">7.1. Regression as Minimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">7.2. Projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qr-decomposition">7.3. QR Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthonormalization">7.4. Orthonormalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression">7.5. Multiple Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quadratic-model">7.6. A Quadratic Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#age-period-cohort">7.7. Age, Period, Cohort</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">7.8. Collinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">7.9. Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">7.10. Orthogonality Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.11. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.11.1. Exercise</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Allen B. Downey
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
