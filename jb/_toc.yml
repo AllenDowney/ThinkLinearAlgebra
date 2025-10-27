@@ -5,6 +5,9 @@ parts:
   numbered: True
   chapters:
     - file: eigenvector
+    - file: projection
     - file: affine
+    - file: system
     - file: nullspace
     - file: truss
+    - file: regression

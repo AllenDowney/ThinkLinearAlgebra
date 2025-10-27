@@ -4,9 +4,12 @@
 
 # copy the notebooks
 cp ../soln/eigenvector.ipynb .
+cp ../soln/projection.ipynb .
 cp ../soln/affine.ipynb .
+cp ../soln/system.ipynb .
 cp ../soln/nullspace.ipynb .
 cp ../soln/truss.ipynb .
+cp ../soln/regression.ipynb .
 
 # add tags to hide the solutions
 python prep_notebooks.py
