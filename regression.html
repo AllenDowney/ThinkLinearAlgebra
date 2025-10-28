@@ -357,8 +357,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">7.9. Collinearity</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">7.10. Condition Number</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">7.11. Orthogonality Equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.12. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.12.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-lines">7.12. Fuzzy Lines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.13. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.13.1. Exercise</a></li>
 </ul>
 </li>
 </ul>
@@ -440,11 +441,6 @@ Specifically, we’ll start with <strong>least squares regression</strong>, whic
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.1, 1.1, 0.1])
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -457,7 +453,7 @@ Specifically, we’ll start with <strong>least squares regression</strong>, whic
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.08, 1.18, 0.88])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([2.1, 1.1, 0.1])
 </pre></div>
 </div>
 </div>
@@ -18924,10 +18920,162 @@ That’s because the condition number of the normal matrix, <span class="math no
 </div>
 <p>Another way to find the condition number is to compute the singular values of <code class="docutils literal notranslate"><span class="pre">X</span></code>, but that’s a topic for another chapter.</p>
 </section>
+<section id="fuzzy-lines">
+<h2><span class="section-number">7.12. </span>Fuzzy Lines<a class="headerlink" href="#fuzzy-lines" title="Link to this heading">#</a></h2>
+<p>The orthogonality equations provide another way to think about what we’re doing when we compute the coefficients of a least squares fit.
+To demonstrate, let’s go back to the simple example from the beginning of the chapter, with these values of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.1</span>
+<span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">errors</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll compute the design matrix, <code class="docutils literal notranslate"><span class="pre">X</span></code>, and the normal matrix, <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span>
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[3.  , 3.3 ],
+       [3.3 , 5.63]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here’s the right side of the orthogonality equation, <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
+<span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([4.14 , 5.754])
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we’ve seen, we can find the coefficients, <code class="docutils literal notranslate"><span class="pre">beta</span></code>, by solving the orthogonality equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">beta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.72, 0.6 ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can think of a matrix equation as a system of linear equations, one for each row.
+Using symbols for <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>, we make a symbolic version of the matrix equation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta0</span><span class="p">,</span> <span class="n">beta1</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;beta_0 beta_1&quot;</span><span class="p">)</span>
+<span class="n">beta_sym</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">beta0</span><span class="p">,</span> <span class="n">beta1</span><span class="p">])</span>
+
+<span class="n">A_sym</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">b_sym</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="n">lhs</span> <span class="o">=</span> <span class="n">A_sym</span> <span class="o">*</span> <span class="n">beta_sym</span>
+<span class="n">rhs</span> <span class="o">=</span> <span class="n">b_sym</span>
+
+<span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}3.0 \beta_{0} + 3.3 \beta_{1}\\3.3 \beta_{0} + 5.63 \beta_{1}\end{matrix}\right] = \left[\begin{matrix}4.14\\5.754\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>From there, we can extract one equation for each row.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eqns</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">eqns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">eqns</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 3.0 \beta_{0} + 3.3 \beta_{1} = 4.14\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 3.3 \beta_{0} + 5.63 \beta_{1} = 5.754\]</div>
+</div>
+</div>
+<p>And solve each equation for <span class="math notranslate nohighlight">\(\beta_1\)</span> as a function of <span class="math notranslate nohighlight">\(\beta_0\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solns</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="n">beta1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">eqns</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">solns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">solns</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 1.25454545454545 - 0.909090909090909 \beta_{0}\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle 1.02202486678508 - 0.586145648312611 \beta_{0}\]</div>
+</div>
+</div>
+<p>So each row of the matrix equation represents a linear relationship between <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>.
+Here’s what those lines look like.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta0_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">soln</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">solns</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">lambdify</span><span class="p">(</span><span class="n">beta0</span><span class="p">,</span> <span class="n">soln</span><span class="p">,</span> <span class="n">modules</span><span class="o">=</span><span class="s2">&quot;numpy&quot;</span><span class="p">)</span>
+    <span class="n">beta1_vals</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">beta0_vals</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">beta0_vals</span><span class="p">,</span> <span class="n">beta1_vals</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">beta0_vals</span><span class="p">,</span> <span class="n">beta1_vals</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;eqn</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+    
+<span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.9</span><span class="p">,</span> <span class="mf">4.65</span><span class="p">]:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.2</span><span class="p">,</span> <span class="mf">3.45</span><span class="p">]:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\beta_0$&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\beta_1$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a3c993b0b53fb799561e33e3b47ebaa87a4e3102d45aad2f892acefbcce44914.png" src="_images/a3c993b0b53fb799561e33e3b47ebaa87a4e3102d45aad2f892acefbcce44914.png" />
+</div>
+</div>
+<p>I’ve plotted each equation with a thin black line and a thick shaded area.</p>
+<ul class="simple">
+<li><p>The thin lines represent the mathematical ideal of the equations, which intersect at a single point, which is the precise value of the coefficients.</p></li>
+<li><p>The thick areas represent the imprecision of numerical computation, which includes floating-point approximation as well as possible uncertainty about the data, if it came from imperfect measurements.</p></li>
+</ul>
+<p>The width of the shaded areas is exaggerated in the figure to show the loss of precision when we compute the coefficients.
+The result we get could fall anywhere in the range where the shaded area overlap – the dotted lines show the range of possible values.</p>
+<p>In this example, the range of uncertainty in the results is wider than the width of the shaded areas.
+If the lines were perpendicular, the range of uncertainty would be narrower; if they were closer to parallel, the range would be even wider.</p>
+<p>The condition number of the normal matrix indicates how close to parallel these lines are.
+When they are nearly orthogonal, the condition number and loss of precision are small.
+When they are nearly parallel, the condition number and loss of precision are large.</p>
+</section>
 <section id="exercises">
-<h2><span class="section-number">7.12. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.13. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <section id="exercise">
-<h3><span class="section-number">7.12.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">7.13.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
 <p>In the examples in this chapter, you might have noticed that the condition number is higher in models that include <code class="docutils literal notranslate"><span class="pre">cohort</span></code> or <code class="docutils literal notranslate"><span class="pre">year</span></code>, and even larger for models that include <code class="docutils literal notranslate"><span class="pre">year2</span></code>.
 That’s because the values of those variables are so much larger than <code class="docutils literal notranslate"><span class="pre">age</span></code> and the column of ones.
 When some columns in the design matrix are much bigger than others, the condition number gets bigger.</p>
@@ -19014,8 +19162,9 @@ What about the slopes?</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">7.9. Collinearity</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">7.10. Condition Number</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">7.11. Orthogonality Equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.12. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.12.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-lines">7.12. Fuzzy Lines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.13. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.13.1. Exercise</a></li>
 </ul>
 </li>
 </ul>
