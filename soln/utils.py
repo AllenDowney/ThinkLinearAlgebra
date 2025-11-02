@@ -535,12 +535,13 @@ def scatter(vectors, start=0, end=None, **options):
     plt.scatter(xs, ys, **options)
 
 
-def setup_3D(nrows=1, ncols=1, **subplot_kw):
+def setup_3D(nrows=1, ncols=1, show_grid=True, **subplot_kw):
     """Setup 3D subplots with configurable options.
 
     Args:
         nrows: number of rows of subplots
         ncols: number of columns of subplots
+        show_grid: whether to show grid lines on the axes
         subplot_kw: keyword arguments passed to plt.subplots (e.g., figsize, dpi)
     
     Returns:
@@ -569,6 +570,8 @@ def setup_3D(nrows=1, ncols=1, **subplot_kw):
         ax.xaxis.pane.set_edgecolor('w')
         ax.yaxis.pane.set_edgecolor('w')
         ax.zaxis.pane.set_edgecolor('w')
+
+        ax.grid(show_grid)
     
     return fig, axes
 
@@ -619,17 +622,18 @@ def plot_vectors_3D(
     ax.quiver(xs, ys, zs, us, vs, ws, **options)
 
 
-def label_vectors_3D(labels, vectors, origins=None, offset=0.1, **options):
+def label_vectors_3D(labels, vectors, origins=None, scale=1, offset=0.1, **options):
     """Label 3D vectors with strings positioned near the head of each arrow.
 
     Args:
         labels: list of string labels
         vectors: list of vectors or array with one row per vector (shape: (N, 3))
         origins: list of vectors or array with one row per vector (default: all at (0,0,0))
+        scale: factor to multiply vectors
         offset: fraction of vector length to offset the label from the head (default: 0.1)
         options: passed to plt.text (e.g., fontsize, color)
     """
-    vectors = np.asarray(vectors)
+    vectors = np.asarray(vectors) * scale
     if vectors.shape[1] != 3:
         raise ValueError("label_vectors_3D requires 3D vectors.")
     
@@ -663,6 +667,26 @@ def label_vectors_3D(labels, vectors, origins=None, offset=0.1, **options):
         ax.text(label_pos[0], label_pos[1], label_pos[2], label, **options)
 
 
+def plot_vector_3D(v, origin=None, label=None, scale=1, **options):
+    """Draw a single 3D vector.
+
+    Args:
+        v: array-like (shape: (3,))
+        origin: array-like (shape: (3,))
+        label: string
+        scale: factor to multiply vector
+        options: passed to plt.quiver
+    """
+    if origin is None:
+        origin = np.zeros_like(v)
+    else:
+        origin = np.asarray(origin)
+
+    if label is not None:
+        label_vectors_3D([label], [v], [origin], scale=scale)
+    return plot_vectors_3D([v], [origin], scale=scale, **options)
+
+
 def plot_plane(v1, v2, origin=None, **options):
     """Plot a shaded plane spanned by two vectors in 3D.
 
@@ -688,9 +712,7 @@ def plot_plane(v1, v2, origin=None, **options):
     U, V = np.meshgrid(u, v)
 
     # Plane equation: P = origin + U * v1 + V * v2
-    X = origin[0] + U * v1[0] + V * v2[0]
-    Y = origin[1] + U * v1[1] + V * v2[1]
-    Z = origin[2] + U * v1[2] + V * v2[2]
+    X, Y, Z = [origin[i] + U * v1[i] + V * v2[i] for i in range(3)]
 
     underride(options, color="gray", alpha=0.3)
 
@@ -699,6 +721,51 @@ def plot_plane(v1, v2, origin=None, **options):
     ax.plot_surface(X, Y, Z, **options)
 
 
+## Track function
+
+import xml.etree.ElementTree as ET
+
+def clean_gpx(input_path, output_path):
+    """
+    Create a privacy-safe GPX file containing only lat/lon/elevation/time.
+    Removes metadata and extensions.
+    """
+    tree = ET.parse(input_path)
+    root = tree.getroot()
+
+    # Remove top-level metadata, routes, and waypoints
+    for tag in ["metadata", "rte", "wpt"]:
+        for elem in root.findall(f".//{tag}"):
+            root.remove(elem)
+
+    # Remove all extensions anywhere in the tree
+    for elem in root.findall(".//extensions"):
+        parent = elem.getparent() if hasattr(elem, "getparent") else None
+        if parent is not None:
+            parent.remove(elem)
+        else:
+            # fallback for stdlib ElementTree (no getparent)
+            for p in root.iter():
+                for child in list(p):
+                    if child.tag == elem.tag:
+                        p.remove(child)
+
+    # Keep only lat, lon, ele, and time for trackpoints
+    for trkpt in root.findall(".//trkpt"):
+        for child in list(trkpt):
+            if child.tag not in ["ele", "time"]:
+                trkpt.remove(child)
+
+    # Strip any namespaces from tags for simplicity
+    for elem in root.iter():
+        if "}" in elem.tag:
+            elem.tag = elem.tag.split("}", 1)[1]
+
+    # Write out clean GPX with XML declaration
+    ET.indent(tree, space="  ", level=0)
+    tree.write(output_path, encoding="utf-8", xml_declaration=True)
+
+    print(f"✅ Clean GPX written to: {output_path}")
 
 
 ## Pool table plotting functions
