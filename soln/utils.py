@@ -225,9 +225,36 @@ def pol2cart(r, phi):
         r: float or array of floats
         phi: float or array of floats
 
-    Returns: NumPy array (2,) or (N, 2)
+    Returns: NumPy array
+        Shape (2,) when all inputs are scalars, or (2, N) when inputs
+        are arrays (after NumPy broadcasting rules). The first dimension
+        is x, y coordinates; the second dimension (if present) is the
+        number of points.
     """
     return r * np.array([np.cos(phi), np.sin(phi)])
+
+
+def sph2cart(azimuth, elevation, r):
+    """Convert spherical coordinates to Cartesian coordinates.
+    
+    Compatible with MATLAB's sph2cart function signature.
+    
+    Args:
+        azimuth: float or array of floats (azimuth angle in radians, angle in x-y plane)
+        elevation: float or array of floats (elevation angle in radians, angle from x-y plane)
+        r: float or array of floats (radius)
+    
+    Returns: NumPy array
+        Shape (3,) when all inputs are scalars, or (3, N) when inputs
+        are arrays (after NumPy broadcasting rules). The first dimension
+        is x, y, z coordinates; the second dimension (if present) is
+        the number of points.
+    """
+    x = r * np.cos(elevation) * np.cos(azimuth)
+    y = r * np.cos(elevation) * np.sin(azimuth)
+    z = r * np.sin(elevation)
+    
+    return np.array([x, y, z])
 
 
 def cart2pol(v):
@@ -531,7 +558,7 @@ def scatter(vectors, start=0, end=None, **options):
         options: passed to plt.scatter
     """
     underride(options, s=6)
-    xs, ys = vectors[start:end].transpose()
+    xs, ys = np.transpose(vectors[start:end])
     plt.scatter(xs, ys, **options)
 
 
