@@ -250,11 +250,11 @@ def sph2cart(azimuth, elevation, r):
         is x, y, z coordinates; the second dimension (if present) is
         the number of points.
     """
-    x = r * np.cos(elevation) * np.cos(azimuth)
-    y = r * np.cos(elevation) * np.sin(azimuth)
-    z = r * np.sin(elevation)
+    x = np.cos(elevation) * np.cos(azimuth)
+    y = np.cos(elevation) * np.sin(azimuth)
+    z = np.sin(elevation)
     
-    return np.array([x, y, z])
+    return r * np.array([x, y, z])
 
 
 def cart2pol(v):
@@ -562,6 +562,20 @@ def scatter(vectors, start=0, end=None, **options):
     plt.scatter(xs, ys, **options)
 
 
+def trajectory(vectors, *args, start=0, end=None, **options):
+    """Plot a sequence of vectors as a trajectory.
+
+    Args:
+        vectors: array with one row per vector
+        *args: passed to plt.plot (e.g., format string like 'o-')
+        start: integer slice index (keyword-only)
+        end: integer slice index (keyword-only)
+        options: passed to plt.plot
+    """
+    xs, ys = np.transpose(vectors[start:end])
+    plt.plot(xs, ys, *args, **options)
+
+
 def setup_3D(nrows=1, ncols=1, show_grid=True, **subplot_kw):
     """Setup 3D subplots with configurable options.
 
@@ -712,6 +726,69 @@ def plot_vector_3D(v, origin=None, label=None, scale=1, **options):
     if label is not None:
         label_vectors_3D([label], [v], [origin], scale=scale)
     return plot_vectors_3D([v], [origin], scale=scale, **options)
+
+
+def draw_arc_3D(origin, v1, v2, radius=1, n=50, **kwargs):
+    """Draw an arc between two vectors in 3D.
+    
+    Args:
+        origin: center of the arc
+        v1, v2: vectors defining the arc endpoints (direction from origin)
+        radius: radius of the arc
+        n: number of points to sample along the arc
+        kwargs: passed to ax.plot
+    """
+    origin = np.asarray(origin)
+    v1 = np.asarray(v1) - origin
+    v2 = np.asarray(v2) - origin
+    v1 = v1 / norm(v1)
+    v2 = v2 / norm(v2)
+    
+    # Interpolate along the arc (spherical linear interpolation)
+    t = np.linspace(0, 1, n)[:, None]
+    points = (1 - t) * v1 + t * v2
+    points = points / norm(points, axis=1, keepdims=True) * radius
+    points = points + origin
+    
+    ax = plt.gca()
+    ax.plot(points[:, 0], points[:, 1], points[:, 2], **kwargs)
+
+
+def draw_globe(ax, R=3.0, n_lat=9, n_lon=12, alpha=0.3):
+    """Draw a globe of radius R with lines of latitude and longitude.
+    
+    Args:
+        ax: 3D axes object
+        R: radius of the globe
+        n_lat: number of latitude lines
+        n_lon: number of longitude lines
+        alpha: transparency of the grid lines
+    """
+    # Helper to convert lat/lon to Cartesian
+    def latlon_to_xyz(lat_deg, lon_deg, radius):
+        return sph2cart(np.deg2rad(lon_deg), np.deg2rad(lat_deg), radius)
+    
+    # Base surface
+    lat_grid = np.linspace(-90, 90, 60)
+    lon_grid = np.linspace(-180, 180, 120)
+    lat, lon = np.meshgrid(lat_grid, lon_grid)
+    xyz = latlon_to_xyz(lat.ravel(), lon.ravel(), radius=np.full(lat.size, R))
+    X, Y, Z = [a.reshape(lat.shape) for a in xyz]  # xyz is (3, N)
+    ax.plot_surface(X, Y, Z, color='C0', alpha=0.04, linewidth=0)
+
+    # Latitude circles
+    lats = np.linspace(-60, 60, n_lat)
+    lons = np.linspace(-180, 180, 361)
+    for lat in lats:
+        xyz = latlon_to_xyz(np.full_like(lons, lat), lons, radius=np.full_like(lons, R))
+        ax.plot(*xyz, color='k', linewidth=0.5, alpha=alpha)  # xyz is (3, N)
+
+    # Longitude lines
+    lons = np.linspace(-180, 180, n_lon, endpoint=False)
+    lats = np.linspace(-90, 90, 181)
+    for lon in lons:
+        xyz = latlon_to_xyz(lats, np.full_like(lats, lon), radius=np.full_like(lats, R))
+        ax.plot(*xyz, color='k', linewidth=0.5, alpha=alpha)  # xyz is (3, N)
 
 
 def plot_plane(v1, v2, origin=None, **options):
