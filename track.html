@@ -356,12 +356,12 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-imperfect-world">2.8. An Imperfect World</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.9. Discussion</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-flying-from-boston-to-london-with-a-jet-stream">2.12. Exercise: Flying from Boston to London with a Jet Stream</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.12.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.11.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.11.2. Exercise</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.13. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.12. Animation</a></li>
 </ul>
             </nav>
         </div>
@@ -383,7 +383,12 @@ Then we’ll use differences between successive positions to estimate velocity, 
 If you know calculus, you will recognize these steps as a form of numerical differentiation.</p>
 <p>Finally, we’ll reverse the process: we’ll add up accelerations to estimate velocity, and add up velocities to estimate position – which you might recognize as a form of numerical integration.</p>
 <p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/track.ipynb">Click here to run this notebook on Colab</a>.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># temporary hack to make autoreload work on Colab</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
@@ -394,6 +399,7 @@ If you know calculus, you will recognize these steps as a form of numerical diff
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <div class="cell tag_remove-print tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -437,7 +443,12 @@ If you know calculus, you will recognize these steps as a form of numerical diff
 </div>
 </details>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-cell tag_remove-print docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_precision</span>
 
@@ -445,6 +456,7 @@ If you know calculus, you will recognize these steps as a form of numerical diff
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <section id="vector-addition-and-subtraction">
 <h2><span class="section-number">2.1. </span>Vector Addition and Subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Link to this heading">#</a></h2>
@@ -478,7 +490,7 @@ We’ll use NumPy arrays to store the Cartesian coordinates of two vectors.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="n">plot_vector</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">plot_vector</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">plot_vector</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
 </pre></div>
@@ -734,7 +746,7 @@ But with a little geometry, we can convert latitude and longitude to distances i
 </div>
 </div>
 <p>The key is to think of latitude and longitude as spherical coordinates, where longitude is the azimuth angle, measured in the plane of the equator from the reference point where longitude is 0, and latitude is the elevation angle, measured from the plane of the equator toward the poles.
-The following figure shows how that works for the starting location.</p>
+The following figure shows the location of <code class="docutils literal notranslate"><span class="pre">start</span></code> as the vector labeled <code class="docutils literal notranslate"><span class="pre">P</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">spherical_coords_diagram</span>
@@ -966,7 +978,7 @@ We’ll put these conversion factors in an array we’ll use as a scaling vector
 <p>Let’s plot the result as a trajectory.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="s1">&#39;C2o-&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">,</span>
          <span class="n">title</span><span class="o">=</span><span class="s2">&quot;GPS Trajectory in meters&quot;</span><span class="p">)</span>
@@ -974,7 +986,7 @@ We’ll put these conversion factors in an array we’ll use as a scaling vector
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/3472c0b79fb256d49605265b07c56ddc6472ef39493874061c0a822d41480c13.png" src="_images/3472c0b79fb256d49605265b07c56ddc6472ef39493874061c0a822d41480c13.png" />
+<img alt="_images/10fa66bdf4b0e60b3055bac519c24c7ab9a8ce75a3957066a213960537142709.png" src="_images/10fa66bdf4b0e60b3055bac519c24c7ab9a8ce75a3957066a213960537142709.png" />
 </div>
 </div>
 <p>After all that, the trajectory in meters doesn’t look very different from the trajectory in degrees of longitude and latitude.
@@ -1181,13 +1193,13 @@ As an alternative, we can plot the velocity vectors with their tails at the orig
 <p>This figure shows speed over time.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">,</span> <span class="n">speeds</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">,</span> <span class="n">speeds</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Speed (m/s)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/07106af3990cde4e56866608ce96243d68e0aa1aae24fefc7a296ffbeea5c81a.png" src="_images/07106af3990cde4e56866608ce96243d68e0aa1aae24fefc7a296ffbeea5c81a.png" />
+<img alt="_images/fde59ba099c82a8db56aa8effae1e25b42543ef449e6b848e2c7653a0d35a9fb.png" src="_images/fde59ba099c82a8db56aa8effae1e25b42543ef449e6b848e2c7653a0d35a9fb.png" />
 </div>
 </div>
 <p>The results are noisy because the measurements are noisy – and taking the difference between successive measurements tends to amplify the noise.</p>
@@ -1285,13 +1297,13 @@ But this representation shows that acceleration vectors point toward the center 
 <p>Here’s the magnitude of acceleration over time.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_acc</span><span class="p">,</span> <span class="n">magnitudes_acc</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_acc</span><span class="p">,</span> <span class="n">magnitudes_acc</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Magnitude of acceleration (m/s²)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e78ba9bec95e203d5db49005cf92cb66f625a31a569a56bc5182be2c87232f3d.png" src="_images/e78ba9bec95e203d5db49005cf92cb66f625a31a569a56bc5182be2c87232f3d.png" />
+<img alt="_images/76f080f881919a55471ed405e2e1b529c94cc02dc8aeb0cb5678d5f1c38c3532.png" src="_images/76f080f881919a55471ed405e2e1b529c94cc02dc8aeb0cb5678d5f1c38c3532.png" />
 </div>
 </div>
 <p>Again, the results are noisy – in general, if the measurements are noisy, the velocities we compute are noisier, and the accelerations are even noisier.</p>
@@ -1325,61 +1337,6 @@ For this example, we’ll use the velocity we computed as a known initial value.
 </div>
 <p>Here we’re using <code class="docutils literal notranslate"><span class="pre">vstack</span></code> to add the initial velocity as the first row of the array.</p>
 <p>The velocities we get from the cumulative sum of acceleration are the same as the ones we get from differences in position, except for floating-point errors.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">velocities_from_acc</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speeds_from_acc</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">velocities_from_acc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">speeds_from_acc</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([3.3722, 2.7139, 2.8635, 3.0937, 3.4331, 4.275 , 4.1739, 3.859 ,
-       4.8334, 4.5913, 3.562 , 2.8666, 4.0327, 4.3529, 4.3795, 4.6157,
-       4.1946, 4.3592, 4.2794, 4.2556, 4.5223, 3.5745, 5.5866, 5.4694])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">,</span> <span class="n">speeds</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">,</span> <span class="n">speeds_from_acc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Computed from acceleration&#39;</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Speed (m/s)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/28852630ad8609d65bcc9ab0d164f8b0cf26e1f6a40be9ebb604b8123fb79ab3.png" src="_images/28852630ad8609d65bcc9ab0d164f8b0cf26e1f6a40be9ebb604b8123fb79ab3.png" />
-</div>
-</div>
-<p>Compare the reconstructed velocity to the measured one.
-They should be close, but not identical because of noise and numerical error.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-<span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities_from_acc</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.quiver.Quiver at 0x7f26e4544b80&gt;
-</pre></div>
-</div>
-<img alt="_images/15429e6b67dfbe028a6a6e8b4269433113df5a01a07878e16f9fbedc756167f9.png" src="_images/15429e6b67dfbe028a6a6e8b4269433113df5a01a07878e16f9fbedc756167f9.png" />
-</div>
-</div>
 <p>To get from velocity to position, the process is almost the same.
 We multiply velocities by time differences to get displacements.</p>
 <div class="cell docutils container">
@@ -1447,15 +1404,15 @@ Now we’ll use the noisy accelerations to estimate velocity.</p>
 <p>Here’s the trajectory we constructed from noisy measurements compared to the original GPS track.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;measured&quot;</span><span class="p">)</span>
-<span class="n">trajectory</span><span class="p">(</span><span class="n">positions_noisy</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;noisy reconstruction&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;measured&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C2&#39;</span><span class="p">)</span>
+<span class="n">trajectory</span><span class="p">(</span><span class="n">positions_noisy</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;noisy reconstruction&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C6&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ed44b91b9e3fdc0708ff1ca2ea084b160734793af11b8e512269be66beea4327.png" src="_images/ed44b91b9e3fdc0708ff1ca2ea084b160734793af11b8e512269be66beea4327.png" />
+<img alt="_images/a958cefebacbabfaedf591120237304194429a784e25c1c6569682b1c907f5f5.png" src="_images/a958cefebacbabfaedf591120237304194429a784e25c1c6569682b1c907f5f5.png" />
 </div>
 </div>
 <p>We can see that the two trajectories diverge. At the end, they differ by about 12 meters.</p>
@@ -1495,9 +1452,8 @@ A challenge of numerical integration is that errors accumulate, so the results a
 <li><p>Compute the absolute difference between the two distances, in meters.</p></li>
 <li><p>Compute the relative difference between the two distances, as a percentage of the great-circle distance.</p></li>
 </ol>
-</section>
-<section id="exercise-flying-from-boston-to-london-with-a-jet-stream">
-<h2><span class="section-number">2.12. </span>Exercise: Flying from Boston to London with a Jet Stream<a class="headerlink" href="#exercise-flying-from-boston-to-london-with-a-jet-stream" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3><span class="section-number">2.11.1. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>An airplane flying from Boston to London has a measured airspeed – that is, speed relative to the surrounding air – and a measured heading.
 The plan is flying in the jet stream, a river of air that flows from west to east across the Atlantic Ocean.</p>
 <p>In this exercise, you will add the velocity of the plane, relative to the air, and the velocity of the jet stream, relative to the ground, to get the velocity of the plane relative to the ground.</p>
@@ -1525,8 +1481,9 @@ Assume that the speed of the jet stream is 50 m/s, blowing toward 90° (due east
 </div>
 </div>
 </div>
-<section id="id1">
-<h3><span class="section-number">2.12.1. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+</section>
+<section id="id2">
+<h3><span class="section-number">2.11.2. </span>Exercise<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>In this chapter, we estimated velocity by taking differences between successive position measurements. Because GPS measurements are noisy, the estimated velocities that are even noisier.</p>
 <p>In this exercise, we’ll smooth the GPS track before computing velocity, and compare the results to the unsmoothed estimates.</p>
 <p>SciPy provides a function that fits a smooth 2D parametric spline to the GPS positions and measurement times.
@@ -1566,15 +1523,10 @@ The <code class="docutils literal notranslate"><span class="pre">s</span></code>
 </section>
 </section>
 <section id="animation">
-<h2><span class="section-number">2.13. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.12. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
 <p>Now let’s animate a circle following the smoothed trajectory.
 We’ll show the path building up behind the moving marker.</p>
-<div class="cell tag_remove-print tag_hide-cell docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
-</summary>
+<div class="cell tag_remove-print docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.animation</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">animation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
@@ -1606,14 +1558,8 @@ We’ll show the path building up behind the moving marker.</p>
 </pre></div>
 </div>
 </div>
-</details>
 </div>
-<div class="cell tag_remove-print tag_hide-cell docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
-</summary>
+<div class="cell tag_remove-print docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">animate_frame</span><span class="p">(</span><span class="n">frame_num</span><span class="p">):</span>
     <span class="c1"># Update the path to show trail up to current position</span>
@@ -1625,14 +1571,8 @@ We’ll show the path building up behind the moving marker.</p>
 </pre></div>
 </div>
 </div>
-</details>
 </div>
-<div class="cell tag_remove-print tag_hide-cell docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
-</summary>
+<div class="cell tag_remove-print docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_frames</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions_smooth</span><span class="p">)</span>
 <span class="n">interval</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># milliseconds between frames</span>
@@ -1646,14 +1586,8 @@ We’ll show the path building up behind the moving marker.</p>
 </pre></div>
 </div>
 </div>
-</details>
 </div>
-<div class="cell tag_remove-print tag_hide-cell docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
-</summary>
+<div class="cell tag_remove-print docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">anim</span><span class="o">.</span><span class="n">to_jshtml</span><span class="p">())</span>
 </pre></div>
@@ -1845,42 +1779,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img21cff7c9adf24924a66313b65c2de333">
+  <img id="_anim_img7d53b1a985d84967bf0d949a9b429d0f">
   <div class="anim-controls">
-    <input id="_anim_slider21cff7c9adf24924a66313b65c2de333" type="range" class="anim-slider"
+    <input id="_anim_slider7d53b1a985d84967bf0d949a9b429d0f" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anim21cff7c9adf24924a66313b65c2de333.set_frame(parseInt(this.value));">
+           oninput="anim7d53b1a985d84967bf0d949a9b429d0f.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim21cff7c9adf24924a66313b65c2de333.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim21cff7c9adf24924a66313b65c2de333.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim21cff7c9adf24924a66313b65c2de333.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim21cff7c9adf24924a66313b65c2de333.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim21cff7c9adf24924a66313b65c2de333.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim21cff7c9adf24924a66313b65c2de333.play_animation()">
+      <button title="Play" aria-label="Play" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim21cff7c9adf24924a66313b65c2de333.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim21cff7c9adf24924a66313b65c2de333.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim21cff7c9adf24924a66313b65c2de333.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select21cff7c9adf24924a66313b65c2de333"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select7d53b1a985d84967bf0d949a9b429d0f"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_21cff7c9adf24924a66313b65c2de333"
+      <input type="radio" name="state" value="once" id="_anim_radio1_7d53b1a985d84967bf0d949a9b429d0f"
              >
-      <label for="_anim_radio1_21cff7c9adf24924a66313b65c2de333">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_21cff7c9adf24924a66313b65c2de333"
+      <label for="_anim_radio1_7d53b1a985d84967bf0d949a9b429d0f">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_7d53b1a985d84967bf0d949a9b429d0f"
              checked>
-      <label for="_anim_radio2_21cff7c9adf24924a66313b65c2de333">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_21cff7c9adf24924a66313b65c2de333"
+      <label for="_anim_radio2_7d53b1a985d84967bf0d949a9b429d0f">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_7d53b1a985d84967bf0d949a9b429d0f"
              >
-      <label for="_anim_radio3_21cff7c9adf24924a66313b65c2de333">Reflect</label>
+      <label for="_anim_radio3_7d53b1a985d84967bf0d949a9b429d0f">Reflect</label>
     </form>
   </div>
 </div>
@@ -1890,9 +1824,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img21cff7c9adf24924a66313b65c2de333";
-    var slider_id = "_anim_slider21cff7c9adf24924a66313b65c2de333";
-    var loop_select_id = "_anim_loop_select21cff7c9adf24924a66313b65c2de333";
+    var img_id = "_anim_img7d53b1a985d84967bf0d949a9b429d0f";
+    var slider_id = "_anim_slider7d53b1a985d84967bf0d949a9b429d0f";
+    var loop_select_id = "_anim_loop_select7d53b1a985d84967bf0d949a9b429d0f";
     var frames = new Array(50);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAEGCAYAAAD2YZXnAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -14017,13 +13951,12 @@ O7t2rX/hhRe49tpr8fl8nDhxgjlz5vDwww8zadIkDh8+3O397HZ713W/bzrX+16MyZMnU1hYeFGv\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim21cff7c9adf24924a66313b65c2de333 = new Animation(frames, img_id, slider_id, 100.0,
+        anim7d53b1a985d84967bf0d949a9b429d0f = new Animation(frames, img_id, slider_id, 100.0,
                                  loop_select_id);
     }, 0);
   })()
 </script>
 </div></div>
-</details>
 </div>
 <p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
 <p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
@@ -14106,12 +14039,12 @@ O7t2rX/hhRe49tpr8fl8nDhxgjlz5vDwww8zadIkDh8+3O397HZ713W/bzrX+16MyZMnU1hYeFGv\
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-imperfect-world">2.8. An Imperfect World</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.9. Discussion</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-flying-from-boston-to-london-with-a-jet-stream">2.12. Exercise: Flying from Boston to London with a Jet Stream</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.12.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.11.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.11.2. Exercise</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.13. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.12. Animation</a></li>
 </ul>
   </nav></div>
 
