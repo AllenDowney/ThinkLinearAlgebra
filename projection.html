@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. Projection &#8212; Think Linear Algebra</title>
+    <title>3. Projection &#8212; Think Linear Algebra</title>
   
   
   
@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'projection';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3. To Boldly Go" href="affine.html" />
-    <link rel="prev" title="1. The Power of Linear Algebra" href="eigenvector.html" />
+    <link rel="next" title="4. To Boldly Go" href="affine.html" />
+    <link rel="prev" title="2. A Day At the Track" href="track.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,12 +178,13 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Projection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="affine.html">3. To Boldly Go</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system.html">4. Systems</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nullspace.html">5. Null Space</a></li>
-<li class="toctree-l1"><a class="reference internal" href="truss.html">6. Truss in the System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="regression.html">7. Least Squares Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="track.html">2. A Day At the Track</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Projection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">4. To Boldly Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">5. Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">6. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">7. Truss in the System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression.html">8. Least Squares Regression</a></li>
 </ul>
 
     </div>
@@ -347,20 +348,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polar-coordinates">2.1. Polar Coordinates</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-polar-coordinates">2.2. Projection With Polar Coordinates</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-cartesian-coordinates">2.3. Projection With Cartesian Coordinates</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-rejection">2.4. Vector Rejection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation">2.5. Rotation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-perpendicular">2.6. Finding a Perpendicular</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">2.7. Collisions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-prediction">2.8. Collision Prediction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-detection">2.9. Collision Detection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-collision">2.10. Elastic Collision</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.11. Animation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.12. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.12.1. Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.12.2. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polar-coordinates">3.1. Polar Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-polar-coordinates">3.2. Projection With Polar Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-cartesian-coordinates">3.3. Projection With Cartesian Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-rejection">3.4. Vector Rejection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation">3.5. Rotation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-perpendicular">3.6. Finding a Perpendicular</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">3.7. Collisions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-prediction">3.8. Collision Prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-detection">3.9. Collision Detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-collision">3.10. Elastic Collision</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">3.11. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.12. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.12.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.12.2. Exercise</a></li>
 </ul>
 </li>
 </ul>
@@ -376,7 +377,7 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="projection">
-<h1><span class="section-number">2. </span>Projection<a class="headerlink" href="#projection" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">3. </span>Projection<a class="headerlink" href="#projection" title="Link to this heading">#</a></h1>
 <p>This chapter is about one of the most important ideas in linear algebra, projection, and the operation that computes it, the dot product.</p>
 <p>To sneak up on the idea of projection, we’ll start by converting a vector from Cartesian to polar coordinates and back.
 From there, we’ll define projection geometrically and compute it with polar coordinates.
@@ -445,7 +446,7 @@ And then, to apply what we’ve learned, we’ll play pool!</p>
 </details>
 </div>
 <section id="polar-coordinates">
-<h2><span class="section-number">2.1. </span>Polar Coordinates<a class="headerlink" href="#polar-coordinates" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.1. </span>Polar Coordinates<a class="headerlink" href="#polar-coordinates" title="Link to this heading">#</a></h2>
 <p>Let’s start with a two-dimensional vector with Cartesian coordinates <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -566,7 +567,7 @@ We’ll use the following function to convert from Cartesian to polar coordinate
 <p>The polar representation makes it easier to perform certain computations – one example is projection.</p>
 </section>
 <section id="projection-with-polar-coordinates">
-<h2><span class="section-number">2.2. </span>Projection With Polar Coordinates<a class="headerlink" href="#projection-with-polar-coordinates" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.2. </span>Projection With Polar Coordinates<a class="headerlink" href="#projection-with-polar-coordinates" title="Link to this heading">#</a></h2>
 <p>We’ll start by computing the <strong>scalar projection</strong> of <code class="docutils literal notranslate"><span class="pre">a</span></code> onto the <span class="math notranslate nohighlight">\(x\)</span> axis, which you can think of as the shadow <code class="docutils literal notranslate"><span class="pre">a</span></code> would cast on the <span class="math notranslate nohighlight">\(x\)</span> axis if lighted from above.
 By the rules of trigonometry, we can compute it like this.</p>
 <div class="cell docutils container">
@@ -745,7 +746,7 @@ So the length of the adjacent side is <span class="math notranslate nohighlight"
 <p>But what if we have vectors in Cartesian coordinates?</p>
 </section>
 <section id="projection-with-cartesian-coordinates">
-<h2><span class="section-number">2.3. </span>Projection With Cartesian Coordinates<a class="headerlink" href="#projection-with-cartesian-coordinates" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.3. </span>Projection With Cartesian Coordinates<a class="headerlink" href="#projection-with-cartesian-coordinates" title="Link to this heading">#</a></h2>
 <p>If we have <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> in Cartesian coordinates, we can compute the projection of <code class="docutils literal notranslate"><span class="pre">a</span></code> on <code class="docutils literal notranslate"><span class="pre">b</span></code> by converting both to polar coordinates, subtracting their angles, and computing <span class="math notranslate nohighlight">\(\|a\| \cos \phi\)</span>
 But there’s a better way, which we’ll discover with some help from SymPy.</p>
 <p>Let’s define symbolic versions of the vectors <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p>
@@ -953,7 +954,7 @@ With some help from SymPy, we proved that we can also compute the scalar project
 <p>If <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are perpendicular, <span class="math notranslate nohighlight">\(\cos \theta = 0\)</span>, and the dot product is 0.</p>
 </section>
 <section id="vector-rejection">
-<h2><span class="section-number">2.4. </span>Vector Rejection<a class="headerlink" href="#vector-rejection" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.4. </span>Vector Rejection<a class="headerlink" href="#vector-rejection" title="Link to this heading">#</a></h2>
 <p>In some of the previous figures, I used a function called <code class="docutils literal notranslate"><span class="pre">plot_rejection</span></code> to draw a perpendicular line dropped from one vector to another.
 That perpendicular is called the <strong>vector rejection</strong> because it represents the component of the vector that’s left over (rejected) if we subtract the vector projection.</p>
 <p>In the example, we have computed the projection of <code class="docutils literal notranslate"><span class="pre">a</span></code> on <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
@@ -1004,7 +1005,7 @@ The following function computes the vector rejection of <code class="docutils li
 <p>We will use vector projection and rejection again when we get to the pool example.</p>
 </section>
 <section id="rotation">
-<h2><span class="section-number">2.5. </span>Rotation<a class="headerlink" href="#rotation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.5. </span>Rotation<a class="headerlink" href="#rotation" title="Link to this heading">#</a></h2>
 <p>In previous sections we computed the projection of one vector on another by converting to polar coordinates.
 Then we used SymPy to work out the same operation with Cartesian coordinates.
 Now we’ll use the same method to rotate a vector – and use it to find a perpendicular vector.</p>
@@ -1122,7 +1123,7 @@ Here’s the rotation matrix.</p>
 <p>We will use rotation matrices several times in later chapters.</p>
 </section>
 <section id="finding-a-perpendicular">
-<h2><span class="section-number">2.6. </span>Finding a Perpendicular<a class="headerlink" href="#finding-a-perpendicular" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.6. </span>Finding a Perpendicular<a class="headerlink" href="#finding-a-perpendicular" title="Link to this heading">#</a></h2>
 <p>We can use rotation to find a vector perpendicular to <span class="math notranslate nohighlight">\(b\)</span>, by rotating counter-clockwise by 90 degrees – or <span class="math notranslate nohighlight">\(\pi/2\)</span> radians.
 We’ll use this dictionary to substitute <span class="math notranslate nohighlight">\(\pi/2\)</span> for <code class="docutils literal notranslate"><span class="pre">theta</span></code>.</p>
 <div class="cell docutils container">
@@ -1220,7 +1221,7 @@ We’ll use this dictionary to substitute <span class="math notranslate nohighli
 <p>Now, we have everything we need for the pool example.</p>
 </section>
 <section id="collisions">
-<h2><span class="section-number">2.7. </span>Collisions<a class="headerlink" href="#collisions" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.7. </span>Collisions<a class="headerlink" href="#collisions" title="Link to this heading">#</a></h2>
 <p>If you have ever played pool (or billiards) you are familiar with the behavior of rigid bodies when they collide.
 Billiard balls on a smooth table are often described with a simple physical model of <strong>elastic collision</strong>, developed by Christian Huygens in the 1600s.</p>
 <p>But before we get to the physics, let’s set up the table.
@@ -1363,7 +1364,7 @@ We’ll use this function to compute the length of the difference between two ve
 In the next section, we’ll check whether the balls will collide and figure out their positions when they do.</p>
 </section>
 <section id="collision-prediction">
-<h2><span class="section-number">2.8. </span>Collision Prediction<a class="headerlink" href="#collision-prediction" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.8. </span>Collision Prediction<a class="headerlink" href="#collision-prediction" title="Link to this heading">#</a></h2>
 <p>To check whether the balls will collide, we’ll find the value of <code class="docutils literal notranslate"><span class="pre">t</span></code> that minimizes the distance between them.
 Then we can check whether this distance is less than one diameter – if it is, they collide.</p>
 <p>The following function takes a hypothetical value of <code class="docutils literal notranslate"><span class="pre">t</span></code>, the starting positions of the balls, and their velocities.
@@ -1517,7 +1518,7 @@ We’ll use this function to check.</p>
 <p>The minimal distance tells us whether the balls will collide, but not when they will collide. For that, we have to do one more search.</p>
 </section>
 <section id="collision-detection">
-<h2><span class="section-number">2.9. </span>Collision Detection<a class="headerlink" href="#collision-detection" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.9. </span>Collision Detection<a class="headerlink" href="#collision-detection" title="Link to this heading">#</a></h2>
 <p>To detect the instant the balls collide, we’ll search for the value if <code class="docutils literal notranslate"><span class="pre">t</span></code> where the distance between the balls is exactly one diameter, which means they are in contact.</p>
 <p>The following function takes as arguments a hypothetical time in seconds, the starting positions of the balls, their velocities, and the distance between them we are searching for.
 It returns an error, which is the difference between the computed distance and the goal distance.</p>
@@ -1617,7 +1618,7 @@ For the lower bound, we’ll use <code class="docutils literal notranslate"><spa
 <p>Now let’s figure out what happens after the collision.</p>
 </section>
 <section id="elastic-collision">
-<h2><span class="section-number">2.10. </span>Elastic Collision<a class="headerlink" href="#elastic-collision" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.10. </span>Elastic Collision<a class="headerlink" href="#elastic-collision" title="Link to this heading">#</a></h2>
 <p>In a perfectly elastic collision, total energy is conserved, but momentum is transferred from one body to another.
 In the real world, collisions are not perfectly elastic, but for rigid bodies like pool balls, it’s not a bad model.</p>
 <p>When a ball with velocity <span class="math notranslate nohighlight">\(v_1\)</span> collides with another ball with velocity <span class="math notranslate nohighlight">\(v_2\)</span>, we can figure out the velocities of both balls, after the collision, by following these steps.</p>
@@ -1832,7 +1833,7 @@ So let’s check whether the cue ball hits the pocket in the upper right corner.
 <p>As an exercise, go back and adjust the angle of <code class="docutils literal notranslate"><span class="pre">v1</span></code> and see if you can find a value that puts the target ball in the pocket and keeps the cue ball on the table.</p>
 </section>
 <section id="animation">
-<h2><span class="section-number">2.11. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.11. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
 <p>If we’re going to simulate a physical system, it would be a shame not to animate the results.
 First, let’s use <code class="docutils literal notranslate"><span class="pre">root_scale</span></code> one more time to find the time until the target ball hits the virtual ball that represents the pocket.</p>
 <div class="cell docutils container">
@@ -10882,9 +10883,9 @@ ewAAAABJRU5ErkJggg==\
 </div>
 </section>
 <section id="exercises">
-<h2><span class="section-number">2.12. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">3.12. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <section id="exercise">
-<h3><span class="section-number">2.12.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.12.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
 <p>On some coin-operated pool tables, the cue ball is heavier than the target balls, which makes it easier for the ball return mechanism to separate out the cue ball.
 But some players find that this difference affects the behavior of the balls.
 Let’s see how much.</p>
@@ -10900,7 +10901,7 @@ Compute the velocities of the balls after the collision and check to see whether
 <p>Hint: Check your solution by testing it with equal weights.</p>
 </section>
 <section id="id1">
-<h3><span class="section-number">2.12.2. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">3.12.2. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>In pool it is not legal to take a shot while any of the balls on the table are still moving, but just for fun, go back and set <code class="docutils literal notranslate"><span class="pre">v2</span></code> to a non-zero velocity, and see if you can find a value of <code class="docutils literal notranslate"><span class="pre">v1</span></code> that pockets the target ball.</p>
 <p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
 <p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
@@ -10941,12 +10942,12 @@ Compute the velocities of the balls after the collision and check to see whether
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="eigenvector.html"
+       href="track.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>The Power of Linear Algebra</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>A Day At the Track</p>
       </div>
     </a>
     <a class="right-next"
@@ -10954,7 +10955,7 @@ Compute the velocities of the balls after the collision and check to see whether
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3. </span>To Boldly Go</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>To Boldly Go</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -10974,20 +10975,20 @@ Compute the velocities of the balls after the collision and check to see whether
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polar-coordinates">2.1. Polar Coordinates</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-polar-coordinates">2.2. Projection With Polar Coordinates</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-cartesian-coordinates">2.3. Projection With Cartesian Coordinates</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-rejection">2.4. Vector Rejection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation">2.5. Rotation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-perpendicular">2.6. Finding a Perpendicular</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">2.7. Collisions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-prediction">2.8. Collision Prediction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-detection">2.9. Collision Detection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-collision">2.10. Elastic Collision</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.11. Animation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.12. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.12.1. Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.12.2. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polar-coordinates">3.1. Polar Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-polar-coordinates">3.2. Projection With Polar Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-with-cartesian-coordinates">3.3. Projection With Cartesian Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-rejection">3.4. Vector Rejection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation">3.5. Rotation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-perpendicular">3.6. Finding a Perpendicular</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collisions">3.7. Collisions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-prediction">3.8. Collision Prediction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collision-detection">3.9. Collision Detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#elastic-collision">3.10. Elastic Collision</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">3.11. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">3.12. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">3.12.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.12.2. Exercise</a></li>
 </ul>
 </li>
 </ul>

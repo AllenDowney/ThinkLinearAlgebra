@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>A Day At the Track &#8212; Think Linear Algebra, 1st edition</title>
+    <title>2. A Day At the Track &#8212; Think Linear Algebra</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]]}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'track';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Projection" href="projection.html" />
+    <link rel="prev" title="1. The Power of Linear Algebra" href="eigenvector.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +124,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -151,7 +149,7 @@
   
   
   
-    <p class="title logo__title">Think Linear Algebra, 1st edition</p>
+    <p class="title logo__title">Think Linear Algebra</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -171,14 +169,20 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="index.html">
-                    Think Linear Algebra, 1st edition
+                    Think Linear Algebra
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="nullspace.html">1. Null Space</a></li>
-<li class="toctree-l1"><a class="reference internal" href="truss.html">2. Truss in the System</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. A Day At the Track</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projection.html">3. Projection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">4. To Boldly Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">5. Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">6. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">7. Truss in the System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression.html">8. Least Squares Regression</a></li>
 </ul>
 
     </div>
@@ -342,7 +346,21 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section">Section</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">2.1. Vector Addition and Subtraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gps-data">2.2. GPS Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distances">2.3. Distances</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-coordinates">2.4. Converting Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#position-and-velocity">2.5. Position and Velocity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-velocity-to-acceleration">2.6. From Velocity to Acceleration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-acceleration-to-velocity">2.7. From Acceleration to Velocity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-imperfect-world">2.8. An Imperfect World</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.9. Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-flying-from-boston-to-london-with-a-jet-stream">2.12. Exercise: Flying from Boston to London with a Jet Stream</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.12.1. Exercise</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -356,34 +374,25 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="a-day-at-the-track">
-<h1>A Day At the Track<a class="headerlink" href="#a-day-at-the-track" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">2. </span>A Day At the Track<a class="headerlink" href="#a-day-at-the-track" title="Link to this heading">#</a></h1>
+<p>This chapter introduces vector addition and subtraction, and a few ways to represent these operations graphically.</p>
+<p>To demonstrate these operations, we’ll use GPS tracking data I collected.
+We’ll convert measurements in latitude and longitude to positions in Cartesian coordinates.
+Then we’ll use differences between successive positions to estimate velocity, and differences between velocities to estimate acceleration.
+If you know calculus, you will recognize these steps as a form of numerical differentiation.</p>
+<p>Finally, we’ll reverse the process: we’ll add up accelerations to estimate velocity, and add up velocities to estimate position – which you might recognize as a form of numerical integration.</p>
 <p><a class="reference external" href="https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/nb/track.ipynb">Click here to run this notebook on Colab</a>.</p>
-<div class="cell tag_remove-print tag_hide-cell docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell content</span>
-<span class="expanded">Hide code cell content</span>
-</summary>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> nb_black
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># temporary hack to make autoreload work on Colab</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;imp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">importlib</span>
+
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 1;
-            var nbb_formatted_code = "%load_ext nb_black";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</details>
 </div>
 <div class="cell tag_remove-print tag_hide-cell docutils container">
 <details class="hide above-input">
@@ -408,20 +417,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 2;
-            var nbb_formatted_code = "from os.path import basename, exists\n\n\ndef download(url):\n    filename = basename(url)\n    if not exists(filename):\n        from urllib.request import urlretrieve\n\n        local, _ = urlretrieve(url, filename)\n        print(\"Downloaded \" + local)\n\n\ndownload(\"https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
 </details>
 </div>
 <div class="cell tag_hide-cell tag_remove-print docutils container">
@@ -435,895 +430,1136 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">plot_vector</span><span class="p">,</span> <span class="n">plot_vectors</span><span class="p">,</span> <span class="n">scatter</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">norm</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 3;
-            var nbb_formatted_code = "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom utils import decorate";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
 </details>
 </div>
-<section id="section">
-<h2>Section<a class="headerlink" href="#section" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pint</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_precision</span>
 
-<span class="n">ureg</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">UnitRegistry</span><span class="p">()</span>
+<span class="n">set_precision</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="vector-addition-and-subtraction">
+<h2><span class="section-number">2.1. </span>Vector Addition and Subtraction<a class="headerlink" href="#vector-addition-and-subtraction" title="Link to this heading">#</a></h2>
+<p>Let’s start with the basics of adding and subtracting vectors – then we’ll see an example where these operations are useful.
+We’ll use NumPy arrays to store the Cartesian coordinates of two vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To add vectors in this representation, we add the coordinates elementwise – and since that’s what array addition does, we can perform vector addition like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">B</span>
+<span class="n">C</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.2, 1.1])
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can think of a vector as a point in the Cartesian plane, so we can draw <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, and <code class="docutils literal notranslate"><span class="pre">C</span></code> like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/49a05272c925843fff01ef2c26521f5a1a8d7058be811eb460d1356860d01e86.png" src="_images/49a05272c925843fff01ef2c26521f5a1a8d7058be811eb460d1356860d01e86.png" />
+</div>
+</div>
+<p>It is also common to represent vectors as arrows with their tails at the origin.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vector</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7072f35653bc74a88cd5d95ee1e97496642aaf71c1fbc78f8ee43494906cdde0.png" src="_images/7072f35653bc74a88cd5d95ee1e97496642aaf71c1fbc78f8ee43494906cdde0.png" />
+</div>
+</div>
+<p>But it’s not necessary to put the tail at the origin.
+For example, we could put the tail of <code class="docutils literal notranslate"><span class="pre">B</span></code> at the head of <code class="docutils literal notranslate"><span class="pre">A</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vector</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/718e22eb63e85e45329f4635fecac6d5a2b0949a722c1a82de4fc92862661ceb.png" src="_images/718e22eb63e85e45329f4635fecac6d5a2b0949a722c1a82de4fc92862661ceb.png" />
+</div>
+</div>
+<p>In this arrangement we can see that adding vectors is like lining them up head to tail.
+If we start from the origin and follow <code class="docutils literal notranslate"><span class="pre">A</span></code>, then continue from <code class="docutils literal notranslate"><span class="pre">A</span></code> and follow <code class="docutils literal notranslate"><span class="pre">B</span></code>, we arrive at their sum, <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p>
+<p>To compute the difference between two vectors, we subtract the coordinates elementwise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="o">=</span> <span class="n">B</span> <span class="o">-</span> <span class="n">A</span>
+<span class="n">D</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-1. ,  0.7])
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we plot the result, <code class="docutils literal notranslate"><span class="pre">D</span></code>, with its tail at <code class="docutils literal notranslate"><span class="pre">A</span></code>, we get a graphical representation of subtraction.
+And if we follow the arrows, we can see the inverse operation – the sum of <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">D</span></code> is <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vector</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot_vector</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5568a8833d19c44637efc830a44f8b299f8ee9d152829b2500a9dc7f695e88f5.png" src="_images/5568a8833d19c44637efc830a44f8b299f8ee9d152829b2500a9dc7f695e88f5.png" />
+</div>
+</div>
+<p>These examples show three ways to represent a vector: a point in Cartesian coordinates, an arrow with its tail at the origin, or an arrow at any other location.
+They also show the graphical representation of vector addition and subtraction.</p>
+<p>Now we’ll use these vector operations to work with GPS data.</p>
+</section>
+<section id="gps-data">
+<h2><span class="section-number">2.2. </span>GPS Data<a class="headerlink" href="#gps-data" title="Link to this heading">#</a></h2>
+<p>To prepare for this chapter, I went for a short run wearing a watch that tracked my location using the Global Positioning System (GPS).
+I downloaded the results as a GPX file, which is a standard format for storing GPS tracks.</p>
+<p>We’ll use <code class="docutils literal notranslate"><span class="pre">load_gpx</span></code> to parse the file and extract the data.</p>
+<div class="cell tag_remove-print docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gpxpy</span>
 
-<span class="n">pace</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">ureg</span><span class="o">.</span><span class="n">minute</span> <span class="o">/</span> <span class="n">ureg</span><span class="o">.</span><span class="n">mile</span>
-<span class="n">pace</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">8.0 minute/mile</div><script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 4;
-            var nbb_formatted_code = "import pint\n\nureg = pint.UnitRegistry()\n\npace = 8 * ureg.minute / ureg.mile\npace";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speed_mph</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">pace</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">ureg</span><span class="o">.</span><span class="n">mile</span> <span class="o">/</span> <span class="n">ureg</span><span class="o">.</span><span class="n">hour</span><span class="p">)</span>
-<span class="n">speed_mph</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">7.5 mile/hour</div><script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 5;
-            var nbb_formatted_code = "speed_mph = (1 / pace).to(ureg.mile / ureg.hour)\nspeed_mph";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speed_mps</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">pace</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">ureg</span><span class="o">.</span><span class="n">meter</span> <span class="o">/</span> <span class="n">ureg</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
-<span class="n">speed_mps</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html">3.3528 meter/second</div><script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 6;
-            var nbb_formatted_code = "speed_mps = (1 / pace).to(ureg.meter / ureg.second)\nspeed_mps";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">straight</span> <span class="o">=</span> <span class="mf">84.39</span>
-<span class="n">circumference</span> <span class="o">=</span> <span class="mi">400</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">straight</span><span class="p">)</span>
-<span class="n">circumference</span> <span class="o">/</span> <span class="mi">2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>115.61
-</pre></div>
-</div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 7;
-            var nbb_formatted_code = "straight = 84.39\ncircumference = 400 - (2 * straight)\ncircumference / 2";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">radius</span> <span class="o">=</span> <span class="n">circumference</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-<span class="n">radius</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>36.799805941708044
-</pre></div>
-</div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 8;
-            var nbb_formatted_code = "radius = circumference / 2 / np.pi\nradius";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_gpx</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a GPX file and return a DataFrame with lat, lon, elevation, and time.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">gpx</span> <span class="o">=</span> <span class="n">gpxpy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-<span class="n">key_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
-<span class="n">key_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">])</span>
+    <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">track</span> <span class="ow">in</span> <span class="n">gpx</span><span class="o">.</span><span class="n">tracks</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">segment</span> <span class="ow">in</span> <span class="n">track</span><span class="o">.</span><span class="n">segments</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">segment</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+                <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">point</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+                    <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">point</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span>
+                    <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">point</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span>
+                    <span class="s2">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">point</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span>
+                <span class="p">})</span>
 
-<span class="n">velocity_linear</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">key_t</span><span class="p">,</span> <span class="n">key_v</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;extrapolate&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_all</span> <span class="o">=</span> <span class="n">load_gpx</span><span class="p">(</span><span class="s2">&quot;oval_run.gpx&quot;</span><span class="p">)</span>
+<span class="n">df_all</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 9;
-            var nbb_formatted_code = "from scipy.interpolate import interp1d\n\nkey_t = np.array([0, 2, 40])\nkey_v = np.array([0, 3.8, 3.2])\n\nvelocity_linear = interp1d(key_t, key_v, kind=\"linear\", fill_value=\"extrapolate\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">41</span><span class="p">)</span>
-<span class="n">vs</span> <span class="o">=</span> <span class="n">velocity_linear</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(3.3756097560975604)
-</pre></div>
-</div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 10;
-            var nbb_formatted_code = "ts = np.arange(41)\nvs = velocity_linear(ts)\nnp.mean(vs)";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">vs</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Speed (m/s)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/42b7c83a67315aaa9a120455a6dd1d5749845bd904c50daffdd36ad03c3645f8.png" src="_images/42b7c83a67315aaa9a120455a6dd1d5749845bd904c50daffdd36ad03c3645f8.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 11;
-            var nbb_formatted_code = "plt.plot(ts, vs)\ndecorate(xlabel=\"Time (s)\", ylabel=\"Speed (m/s)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">vs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 12;
-            var nbb_formatted_code = "ds = np.cumsum(vs)";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">ds</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Distance (m)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/a140fe4837decfe1dbf31375aee63fd24d89933157c1c85d5288e80c58f0be9e.png" src="_images/a140fe4837decfe1dbf31375aee63fd24d89933157c1c85d5288e80c58f0be9e.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 13;
-            var nbb_formatted_code = "plt.plot(ts, ds)\ndecorate(xlabel=\"Time (s)\", ylabel=\"Distance (m)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">circumference</span> <span class="o">/</span> <span class="mi">2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(138.40000000000003), 115.61)
-</pre></div>
-</div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 14;
-            var nbb_formatted_code = "ds[-1], circumference / 2";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="n">ds</span> <span class="o">&lt;</span> <span class="n">circumference</span> <span class="o">/</span> <span class="mi">2</span>
-<span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 15;
-            var nbb_formatted_code = "mask = ds < circumference / 2\nts = ts[mask]\nds = ds[mask]";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">thetas</span> <span class="o">=</span> <span class="n">ds</span> <span class="o">/</span> <span class="n">radius</span>
-<span class="n">thetas</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">thetas</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(33,)
-</pre></div>
-</div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 16;
-            var nbb_formatted_code = "thetas = ds / radius\nthetas[-1]\nthetas.shape";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">thetas</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Angle (radian)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/18c63e29d167c28e1c2eba244a1d1363693e931814bc53eec15676cdb1fd5099.png" src="_images/18c63e29d167c28e1c2eba244a1d1363693e931814bc53eec15676cdb1fd5099.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 17;
-            var nbb_formatted_code = "plt.plot(ts, thetas)\ndecorate(xlabel=\"Time (s)\", ylabel=\"Angle (radian)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">polar_to_cartesian</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert polar coordinates (r, theta) to Cartesian (x, y).&quot;&quot;&quot;</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 18;
-            var nbb_formatted_code = "def polar_to_cartesian(r, theta):\n    \"\"\"Convert polar coordinates (r, theta) to Cartesian (x, y).\"\"\"\n    x = r * np.cos(theta)\n    y = r * np.sin(theta)\n    return x, y";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">position</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">])</span>
-<span class="n">position</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(33, 2)
-</pre></div>
-</div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 21;
-            var nbb_formatted_code = "position = np.column_stack([xs, ys])\nposition.shape";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">position</span><span class="p">:</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">vector</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>time</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>elevation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-11-16 16:08:09+00:00</td>
+      <td>42.2934</td>
+      <td>-71.2637</td>
+      <td>59.2000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-11-16 16:08:10+00:00</td>
+      <td>42.2935</td>
+      <td>-71.2637</td>
+      <td>59.2000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-11-16 16:08:11+00:00</td>
+      <td>42.2935</td>
+      <td>-71.2637</td>
+      <td>59.2000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-11-16 16:08:17+00:00</td>
+      <td>42.2936</td>
+      <td>-71.2637</td>
+      <td>59.3000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-11-16 16:08:18+00:00</td>
+      <td>42.2936</td>
+      <td>-71.2637</td>
+      <td>59.3000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>The result is a Pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> with one row for each measurement and columns for time, latitude and longitude in degrees, and elevation in meters above sea level.</p>
+<p>For this example, we’ll select a segment of the run starting from the 34th measurement.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df_all</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">34</span><span class="p">:]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To visualize the data, we’ll extract an array of latitude-longitude pairs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">]</span>
+<span class="n">latlon</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we can use the <code class="docutils literal notranslate"><span class="pre">trajectory</span></code> function to plot it as a set of points in the plane – with <code class="docutils literal notranslate"><span class="pre">fliplr</span></code> to flip the latitude and longitude columns so they correspond to x-y coordinates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">latlon</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">useOffset</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Longitude (degrees)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Latitude (degrees)&#39;</span><span class="p">,</span> 
+         <span class="n">title</span><span class="o">=</span><span class="s1">&#39;GPS Trajectory in degrees&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/54bae964c6ae8541a21b40930c5415d40ec17806db436b1e49334a7325f817a4.png" src="_images/54bae964c6ae8541a21b40930c5415d40ec17806db436b1e49334a7325f817a4.png" />
+</div>
+</div>
+<p>If you are curious, you can probably figure out where I ran.</p>
+<p>Working with latitude and longitude has some drawbacks: the units are in degrees rather than meters, and the relationship between these coordinates and actual distances depends on where you are on Earth.
+But with a little geometry, we can convert latitude and longitude to distances in meters.</p>
+</section>
+<section id="distances">
+<h2><span class="section-number">2.3. </span>Distances<a class="headerlink" href="#distances" title="Link to this heading">#</a></h2>
+<p>To approximate the distance between two points on the surface of the earth, we’ll convert each latitude-longitude pair to a 3D vector with its tail at the center of the earth, then compute the length of the vector difference between them.</p>
+<p>As an example, let’s extract the start and end points from the GPS trajectory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">latlon</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">start</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 42.2936, -71.2636])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">end</span> <span class="o">=</span> <span class="n">latlon</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 42.2932, -71.2642])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The key is to think of latitude and longitude as spherical coordinates, where longitude is the azimuth angle, measured in the plane of the equator from the reference point where longitude is 0, and latitude is the elevation angle, measured from the plane of the equator toward the poles.
+The following figure shows how that works for the starting location.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">spherical_coords_diagram</span>
+
+<span class="n">spherical_coords_diagram</span><span class="p">(</span><span class="o">*</span><span class="n">start</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9362bb074eca77e397a35996fab91e2aa32a4f760c33840901f215ec5ce2e4f2.png" src="_images/9362bb074eca77e397a35996fab91e2aa32a4f760c33840901f215ec5ce2e4f2.png" />
+</div>
+</div>
+<p>We can use <code class="docutils literal notranslate"><span class="pre">sph2cart()</span></code> to convert latitude and longitude to Cartesian coordinates – we just have to convert from degrees to radians, and be careful about the order of the arguments.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">sph2cart</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">latlon_to_cartesian</span><span class="p">(</span><span class="n">latlon</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">latlon</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">sph2cart</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span> <span class="n">radius</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can convert our start and end points to vectors, using the average radius of the earth in meters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r_earth</span> <span class="o">=</span> <span class="mi">6_371_000</span>
+<span class="n">start_vec</span> <span class="o">=</span> <span class="n">latlon_to_cartesian</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">r_earth</span><span class="p">)</span>
+<span class="n">start_vec</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1513777.2923, -4462926.6972,  4287237.4095])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">end_vec</span> <span class="o">=</span> <span class="n">latlon_to_cartesian</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">r_earth</span><span class="p">)</span>
+<span class="n">end_vec</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1513738.0516, -4462974.3777,  4287201.6299])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the difference between the vectors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="n">end_vec</span> <span class="o">-</span> <span class="n">start_vec</span>
+<span class="n">diff</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-39.2407, -47.6805, -35.7796])
+</pre></div>
+</div>
+</div>
+</div>
+<p>The length of this difference vector is the distance between the points.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distance</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+<span class="n">distance</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>71.3683
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s about 71 meters.</p>
+<p>This calculation assumes that the earth is a sphere, so the radius is the same everywhere.
+In fact, the earth is closer to an ellipsoid where the semi-axis from the center of the earth to the poles is about 6,357 km and the semi-axis from the center to the equator is about 6,378 km, a difference of about 0.3 percent.</p>
+<p>This calculation also assumes that the distance between two points on the surface is a straight line, not an arc.
+For small distances as in this example, the error due to this approximation is very small.
+To check, we can use the haversine formula, which computes the distance on an arc between two points.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">haversine</span><span class="w"> </span><span class="kn">import</span> <span class="n">haversine</span><span class="p">,</span> <span class="n">Unit</span>
+
+<span class="n">haversine_distance</span> <span class="o">=</span> <span class="n">haversine</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">Unit</span><span class="o">.</span><span class="n">METERS</span><span class="p">)</span>
+<span class="n">haversine_distance</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>71.3684
+</pre></div>
+</div>
+</div>
+</div>
+<p>The straight line approximation is off by only 0.0001%, which is negligible compared to the spherical approximation.</p>
+<p>Let’s encapsulate the straight-line approximation in a function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">distance_between</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">r_earth</span><span class="o">=</span><span class="mi">6_371_000</span><span class="p">):</span>
+    <span class="n">start_vec</span> <span class="o">=</span> <span class="n">latlon_to_cartesian</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">r_earth</span><span class="p">)</span>
+    <span class="n">end_vec</span> <span class="o">=</span> <span class="n">latlon_to_cartesian</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">r_earth</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">norm</span><span class="p">(</span><span class="n">end_vec</span> <span class="o">-</span> <span class="n">start_vec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have everything we need to convert from latitude-longitude pairs to distances in meters.</p>
+</section>
+<section id="converting-coordinates">
+<h2><span class="section-number">2.4. </span>Converting Coordinates<a class="headerlink" href="#converting-coordinates" title="Link to this heading">#</a></h2>
+<p>To start, we’ll compute the mean of the lat-lon pairs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">latlon_mean</span> <span class="o">=</span> <span class="n">latlon</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">latlon_mean</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 42.2935, -71.2639])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can compute the offset of each point from the center, multiplying by 1000 so the results are in millidegrees.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">latlon_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">latlon</span> <span class="o">-</span> <span class="n">latlon_mean</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+<span class="n">latlon_offset</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.1458, 0.3005],
+       [0.1758, 0.2945],
+       [0.1998, 0.2885]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>To convert them to meters, we need to know how many meters correspond to one millidegree of latitude and longitude at our location.
+We can use <code class="docutils literal notranslate"><span class="pre">distance_between</span></code> to compute this.</p>
+<p>First, we’ll create a vector that represents a location offset from <code class="docutils literal notranslate"><span class="pre">latlon_mean</span></code> by one millidegree in the direction of positive latitude, which is north.
+Then we’ll compute the distance between <code class="docutils literal notranslate"><span class="pre">latlon_mean</span></code> and this offset point.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">north</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.001</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">meters_north</span> <span class="o">=</span> <span class="n">distance_between</span><span class="p">(</span><span class="n">latlon_mean</span><span class="p">,</span> <span class="n">latlon_mean</span><span class="o">+</span><span class="n">north</span><span class="p">)</span>
+<span class="n">meters_north</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>111.1949
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we’ll do the same thing with a point offset by one millidegree in the direction of positive longitude, which is east.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">east</span> <span class="o">=</span> <span class="n">latlon_mean</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]</span>
+<span class="n">meters_east</span> <span class="o">=</span> <span class="n">distance_between</span><span class="p">(</span><span class="n">latlon_mean</span><span class="p">,</span> <span class="n">east</span><span class="p">)</span>
+<span class="n">meters_east</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>82.2518
+</pre></div>
+</div>
+</div>
+</div>
+<p>These distances tell us the number of meters per millidegree at this location.
+We’ll put these conversion factors in an array we’ll use as a scaling vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">meters_north</span><span class="p">,</span> <span class="n">meters_east</span><span class="p">])</span>
+<span class="n">scale</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([111.1949,  82.2518])
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we multiply the offsets in millidegrees by this scaling factor, the results are offsets in meters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">latlon_meters</span> <span class="o">=</span> <span class="n">latlon_offset</span> <span class="o">*</span> <span class="n">scale</span>
+<span class="n">latlon_meters</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[16.2167, 24.715 ],
+       [19.5525, 24.2215],
+       [22.2212, 23.728 ]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>As the last step, we have to reverse the order of the columns – because latitude corresponds to the <code class="docutils literal notranslate"><span class="pre">y</span></code> coordinate and longitude corresponds to the <code class="docutils literal notranslate"><span class="pre">x</span></code> coordinate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">latlon_meters</span><span class="p">)</span>
+<span class="n">positions</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[24.715 , 16.2167],
+       [24.2215, 19.5525],
+       [23.728 , 22.2212]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s plot the result as a trajectory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">,</span>
+         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;GPS Trajectory in meters&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3472c0b79fb256d49605265b07c56ddc6472ef39493874061c0a822d41480c13.png" src="_images/3472c0b79fb256d49605265b07c56ddc6472ef39493874061c0a822d41480c13.png" />
+</div>
+</div>
+<p>After all that, the trajectory in meters doesn’t look very different from the trajectory in degrees of longitude and latitude.
+But now that it is expressed in meters, we’ll use it to compute velocity and acceleration.</p>
+</section>
+<section id="position-and-velocity">
+<h2><span class="section-number">2.5. </span>Position and Velocity<a class="headerlink" href="#position-and-velocity" title="Link to this heading">#</a></h2>
+<p>At this point we have a sequence of vectors that represent offsets from a central point.
+So far we have visualized these vectors as points in space, but we can also visualize them as arrows with their tails at the origin, like this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ba1a2e6815dcf12f47c93bf14756070928300a30d75a7128d2375a3b5e6c77d2.png" src="_images/ba1a2e6815dcf12f47c93bf14756070928300a30d75a7128d2375a3b5e6c77d2.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 22;
-            var nbb_formatted_code = "for vector in position:\n    x, y = vector\n    plt.plot(x, y, \".\", color=\"C2\")\n\nplt.axis(\"equal\")\ndecorate(xlabel=\"x position (m)\", ylabel=\"y position (m)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/1a7480dc06ec57cbe4f83f57d66bd80366282925db232c1e7a1b767b7176e45f.png" src="_images/1a7480dc06ec57cbe4f83f57d66bd80366282925db232c1e7a1b767b7176e45f.png" />
 </div>
+</div>
+<p>If we compute the difference between each successive pair of vectors, the result is a sequence of vectors that represent offsets between successive locations.
+We’ll use NumPy’s <code class="docutils literal notranslate"><span class="pre">diff()</span></code> function – with the keyword <code class="docutils literal notranslate"><span class="pre">axis=0</span></code>, it computes differences between rows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">underride</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">scatter</span><span class="p">(</span><span class="n">vectors</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
-    <span class="n">underride</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
-    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">displacements</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">displacements</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 23;
-            var nbb_formatted_code = "from utils import underride\n\n\ndef scatter(vectors, start=0, end=None, **options):\n    underride(options, s=6)\n    xs, ys = vectors[start:end].transpose()\n    plt.scatter(xs, ys, **options)";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(24, 2)
+</pre></div>
 </div>
+</div>
+</div>
+<p>The result has one row fewer than <code class="docutils literal notranslate"><span class="pre">positions</span></code>.
+If we plot these differences with their tails at the corresponding locations, we can see that they connect the dots along the trajectory.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plot_vectors</span><span class="p">(</span><span class="n">displacements</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/cfcf2b815edafe745bae190b1f303704b0ebdd8917e218e3f99e3ec6d1049cd9.png" src="_images/cfcf2b815edafe745bae190b1f303704b0ebdd8917e218e3f99e3ec6d1049cd9.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 25;
-            var nbb_formatted_code = "scatter(position, end=5, s=10, color=\"C2\")\nplt.axis(\"equal\")\ndecorate(xlabel=\"x position (m)\", ylabel=\"y position (m)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/e789afa2007032659cbb518a624dbb683d4982274573a23b83311327e880c370.png" src="_images/e789afa2007032659cbb518a624dbb683d4982274573a23b83311327e880c370.png" />
 </div>
+</div>
+<p>These differences represent offsets between successive measurements.
+So we can estimate the total distance I ran by computing the lengths of these vectors and adding them up.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">quiver</span><span class="p">(</span><span class="n">vectors</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a set of vectors.</span>
-
-<span class="sd">    vectors: list of vectors or array with one row per vector</span>
-<span class="sd">    origin: list of vectors or array with one row per vector</span>
-<span class="sd">    start: integer slice index</span>
-<span class="sd">    end: integer slice index</span>
-<span class="sd">    options: passed to plt.quiver</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
-    <span class="n">underride</span><span class="p">(</span>
-        <span class="n">options</span><span class="p">,</span>
-        <span class="n">angles</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span>
-        <span class="n">scale_units</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">,</span>
-        <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
-
-    <span class="n">us</span><span class="p">,</span> <span class="n">vs</span> <span class="o">=</span> <span class="n">vectors</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">origin</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xs</span> <span class="o">+</span> <span class="n">us</span><span class="p">,</span> <span class="n">ys</span> <span class="o">+</span> <span class="n">vs</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">us</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_distance</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">displacements</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">total_distance</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 26;
-            var nbb_formatted_code = "def quiver(vectors, origin=None, start=0, end=None, **options):\n    \"\"\"Plot a set of vectors.\n\n    vectors: list of vectors or array with one row per vector\n    origin: list of vectors or array with one row per vector\n    start: integer slice index\n    end: integer slice index\n    options: passed to plt.quiver\n    \"\"\"\n    vectors = np.asarray(vectors)\n    underride(\n        options,\n        angles=\"xy\",\n        scale_units=\"xy\",\n        scale=1,\n        color=\"C0\",\n        alpha=0.6,\n    )\n    if origin is None:\n        origin = np.zeros_like(vectors)\n    else:\n        origin = np.asarray(origin)\n\n    us, vs = vectors[start:end].transpose()\n    xs, ys = origin[start:end].transpose()\n\n    plt.scatter(xs, ys, s=0)\n    plt.scatter(xs + us, ys + vs, s=0)\n    plt.quiver(xs, ys, us, vs, **options)";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>220.8934
+</pre></div>
 </div>
+</div>
+</div>
+<p>To compute elapsed time, we’ll convert the timestamps in <code class="docutils literal notranslate"><span class="pre">df[&quot;time&quot;]</span></code> to seconds since the start.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiver</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_time</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+<span class="n">ts</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/be0e01431376225243222a5df3c2fbdf3ac7e9fcd2530dbb85734b48f7e3a8ae.png" src="_images/be0e01431376225243222a5df3c2fbdf3ac7e9fcd2530dbb85734b48f7e3a8ae.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 27;
-            var nbb_formatted_code = "quiver(position, end=5, color=\"C2\")\nplt.axis(\"equal\")\ndecorate(xlabel=\"x position (m)\", ylabel=\"y position (m)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.,  1.,  2.,  4.,  5.,  6.,  7.,  9., 13., 14., 17., 21., 24.,
+       26., 28., 32., 33., 36., 37., 42., 43., 46., 52., 53., 55.])
+</pre></div>
 </div>
+</div>
+</div>
+<p>The elapsed time is the last element.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">elapsed_time</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>55.0000
+</pre></div>
+</div>
+</div>
+</div>
+<p>My average speed is total distance divided by elapsed time, which is about 4 meters per second.
+For comparison, the world record time for 200 meters is 19.19 seconds (set by Usain Bolt in 2009), which is 10.4 meters per second.
+In my defense, the route I ran has sharper turns than a standard track.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_distance</span> <span class="o">/</span> <span class="n">elapsed_time</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.0162
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s see how my velocity changed over time.</p>
+<p>To convert displacements to velocities, we have to divide through by the time between measurements.
+We can use <code class="docutils literal notranslate"><span class="pre">diff</span></code> to compute the time intervals.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
-<span class="n">velocity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">dts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-<span class="n">velocity</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">dts</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(32, 2)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1., 1., 2., 1., 1., 1., 2., 4., 1., 3., 4., 3., 2., 2., 4., 1., 3.,
+       1., 5., 1., 3., 6., 1., 2.])
 </pre></div>
 </div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 28;
-            var nbb_formatted_code = "dts = np.diff(ts)\nvelocity = np.diff(position, axis=0) / dts[:, None]\nvelocity.shape";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
 </div>
+</div>
+<p>The time between measurements is usually one second, but sometimes longer.
+We can compute velocity by dividing displacements by time differences.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiver</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
-<span class="n">quiver</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">velocities</span> <span class="o">=</span> <span class="n">displacements</span> <span class="o">/</span> <span class="n">dts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">velocities</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(24, 2)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The results are velocity vectors in meters per second.
+The following figure shows these vectors with their tails at the corresponding positions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/86da0c914bd11ea5e46eadfda933f495066b7664fc5f4ae33bd4f5a8b468e6ea.png" src="_images/86da0c914bd11ea5e46eadfda933f495066b7664fc5f4ae33bd4f5a8b468e6ea.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 29;
-            var nbb_formatted_code = "quiver(position, end=5, color=\"C2\")\nquiver(velocity, position, end=4, color=\"C1\")\nplt.axis(\"equal\")\ndecorate(xlabel=\"x position (m)\", ylabel=\"y position (m)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/737110024be3819a2e21c4670e334a79e7d320753990e7fbf700cb9d8d9eaf7f.png" src="_images/737110024be3819a2e21c4670e334a79e7d320753990e7fbf700cb9d8d9eaf7f.png" />
 </div>
+</div>
+<p>I think this is a good way to visualize position and velocity, but it is not technically correct because the position and velocity vectors are not in the same units.
+As an alternative, we can plot the velocity vectors with their tails at the origin, like this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiver</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x velocity (m/s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y velocity (m/s)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ee72954acf9ab3454d496ca96a40f042527c8d3f69513dedc08b49de0515fb86.png" src="_images/ee72954acf9ab3454d496ca96a40f042527c8d3f69513dedc08b49de0515fb86.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 30;
-            var nbb_formatted_code = "quiver(velocity, end=5, color=\"C1\")\nplt.axis(\"equal\")\ndecorate(xlabel=\"x velocity (m/s)\", ylabel=\"y velocity (m/s)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/8a7cf979569032e8f21b556ce97d87a3dd18f9634171e9cfe869ed3afbe8b20f.png" src="_images/8a7cf979569032e8f21b556ce97d87a3dd18f9634171e9cfe869ed3afbe8b20f.png" />
 </div>
+</div>
+<p>In this version, it is less clear what’s happening physically, but this representation will be useful in the next section when we compute acceleration.</p>
+<p>The magnitude of each velocity vector is the speed, which we can compute with <code class="docutils literal notranslate"><span class="pre">norm()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">numpy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
-
-<span class="n">speeds</span> <span class="o">=</span> <span class="p">[</span><span class="n">norm</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span> <span class="k">for</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">velocity</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 31;
-            var nbb_formatted_code = "from numpy.linalg import norm\n\nspeeds = [norm(vector) for vector in velocity]";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speeds</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speeds</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">speeds</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(32,)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(24,)
 </pre></div>
 </div>
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 32;
-            var nbb_formatted_code = "speeds = norm(velocity, axis=1)\nspeeds.shape";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
 </div>
+</div>
+<p>Each velocity vector is computed from two consecutive positions, so the time we associate with it is the midpoint of the two measurement times.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vs</span> <span class="o">=</span> <span class="n">velocity_linear</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Linear Interpolation&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">speeds</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;speeds&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_vel</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ts</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">ts_vel</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.5,  1.5,  3. ,  4.5,  5.5,  6.5,  8. , 11. , 13.5, 15.5, 19. ,
+       22.5, 25. , 27. , 30. , 32.5, 34.5, 36.5, 39.5, 42.5, 44.5, 49. ,
+       52.5, 54. ])
+</pre></div>
+</div>
+</div>
+</div>
+<p>This figure shows speed over time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">,</span> <span class="n">speeds</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Speed (m/s)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/98bc7b065654d298c5090238fea1ee21114ca11ace97adca2a6096ac3764798a.png" src="_images/98bc7b065654d298c5090238fea1ee21114ca11ace97adca2a6096ac3764798a.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 33;
-            var nbb_formatted_code = "vs = velocity_linear(ts)\nplt.plot(ts, vs, label=\"Linear Interpolation\")\nplt.plot(ts[:-1] + 1, speeds, \"o\", label=\"speeds\")\ndecorate(xlabel=\"Time (s)\", ylabel=\"Speed (m/s)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/07106af3990cde4e56866608ce96243d68e0aa1aae24fefc7a296ffbeea5c81a.png" src="_images/07106af3990cde4e56866608ce96243d68e0aa1aae24fefc7a296ffbeea5c81a.png" />
 </div>
+</div>
+<p>The results are noisy because the measurements are noisy – and taking the difference between successive measurements tends to amplify the noise.</p>
+</section>
+<section id="from-velocity-to-acceleration">
+<h2><span class="section-number">2.6. </span>From Velocity to Acceleration<a class="headerlink" href="#from-velocity-to-acceleration" title="Link to this heading">#</a></h2>
+<p>To get from position to velocity, we computed differences between successive positions, <code class="docutils literal notranslate"><span class="pre">displacements</span></code>, and divided by differences in measurement times, <code class="docutils literal notranslate"><span class="pre">dts</span></code>.</p>
+<p>Now to get from velocity to acceleration, we’ll compute differences between successive velocities and divide again by differences in times.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acceleration</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">dts</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dvs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">dvs</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 34;
-            var nbb_formatted_code = "acceleration = np.diff(velocity, axis=0) / dts[1:, None]";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">end</span> <span class="o">=</span> <span class="mi">7</span>
-<span class="n">quiver</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
-<span class="n">quiver</span><span class="p">(</span><span class="n">acceleration</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">)</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(23, 2)
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="_images/ced213d7f7e0963d6f08fbf567bd6d424291a2149bf57fab842b2a29eea697d1.png" src="_images/ced213d7f7e0963d6f08fbf567bd6d424291a2149bf57fab842b2a29eea697d1.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 35;
-            var nbb_formatted_code = "end = 7\nquiver(velocity, position, end=end, color=\"C1\")\nquiver(acceleration * 10, position[1:], start=1, end=end, color=\"C3\")\nplt.axis(\"equal\")\ndecorate(xlabel=\"x position (m)\", ylabel=\"y position (m)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
 </div>
+<p>Now we’ll plot these changes in velocity with their tails at the corresponding velocity vectors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiver</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
-<span class="n">quiver</span><span class="p">(</span><span class="n">acceleration</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plot_vectors</span><span class="p">(</span><span class="n">dvs</span><span class="p">,</span> <span class="n">velocities</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x velocity (m/s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y velocity (m/s)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/6e5be3311e59631a9b75dc359deaa6c69b067370554b90905836b101e1c8a45b.png" src="_images/6e5be3311e59631a9b75dc359deaa6c69b067370554b90905836b101e1c8a45b.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 36;
-            var nbb_formatted_code = "quiver(velocity, end=7, color=\"C1\")\nquiver(acceleration, velocity, end=6, color=\"C3\")\nplt.axis(\"equal\")\ndecorate(xlabel=\"x velocity (m/s)\", ylabel=\"y velocity (m/s)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/89cb665c77f6f43e6781fe93c7ee82bb7aa6bcb5f85eead7584be061f17e3459.png" src="_images/89cb665c77f6f43e6781fe93c7ee82bb7aa6bcb5f85eead7584be061f17e3459.png" />
 </div>
+</div>
+<p>To compute acceleration, we divide the velocity changes by the time intervals between velocity measurements.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-<span class="n">C</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">C</span> <span class="o">-</span> <span class="n">A</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dts_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">)</span>
+<span class="n">accelerations</span> <span class="o">=</span> <span class="n">dvs</span> <span class="o">/</span> <span class="n">dts_vel</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To visualize the results, we’ll plot each acceleration vector with its tail at the head of the corresponding velocity vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plot_vectors</span><span class="p">(</span><span class="n">accelerations</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C3&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x velocity (m/s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y velocity (m/s)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 37;
-            var nbb_formatted_code = "A = position[3]\nC = position[4]\nB = C - A";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/6b8ea771ff8741c3da52deb55f3ed006431bd457bd21c652976805d642537644.png" src="_images/6b8ea771ff8741c3da52deb55f3ed006431bd457bd21c652976805d642537644.png" />
+</div>
+</div>
+<p>Again, it’s not completely correct to plot velocity and acceleration on the same axes, because they are not in the same units.
+But this representation shows that acceleration vectors point toward the center of the curve, which is characteristic of <strong>centripetal acceleration</strong> – the acceleration needed to make an object follow a curved path.</p>
+<p>The magnitude of acceleration indicates how quickly velocity is changing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">magnitudes_acc</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">accelerations</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">magnitudes_acc</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.6672, 1.0287, 1.927 , 0.6872, 1.7867, 0.4201, 0.2415, 0.4135,
+       0.1998, 0.4436, 1.162 , 1.0639, 1.0941, 0.4713, 0.9583, 1.0604,
+       1.0308, 0.3519, 0.7383, 0.7773, 0.5059, 0.9769, 1.8297])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each acceleration vector corresponds to the midpoint of two velocity times.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts_vel</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">ts_vel</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">ts_acc</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1.  ,  2.25,  3.75,  5.  ,  6.  ,  7.25,  9.5 , 12.25, 14.5 ,
+       17.25, 20.75, 23.75, 26.  , 28.5 , 31.25, 33.5 , 35.5 , 38.  ,
+       41.  , 43.5 , 46.75, 50.75, 53.25])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the magnitude of acceleration over time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_acc</span><span class="p">,</span> <span class="n">magnitudes_acc</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Magnitude of acceleration (m/s²)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e78ba9bec95e203d5db49005cf92cb66f625a31a569a56bc5182be2c87232f3d.png" src="_images/e78ba9bec95e203d5db49005cf92cb66f625a31a569a56bc5182be2c87232f3d.png" />
+</div>
+</div>
+<p>Again, the results are noisy – in general, if the measurements are noisy, the velocities we compute are noisier, and the accelerations are even noisier.</p>
+</section>
+<section id="from-acceleration-to-velocity">
+<h2><span class="section-number">2.7. </span>From Acceleration to Velocity<a class="headerlink" href="#from-acceleration-to-velocity" title="Link to this heading">#</a></h2>
+<p>In the example so far, we started with position, used <code class="docutils literal notranslate"><span class="pre">diff()</span></code> to compute velocity, and used <code class="docutils literal notranslate"><span class="pre">diff()</span></code> again to compute acceleration.</p>
+<p>Now suppose instead using a system like GPS to measure position, we use a device like an accelerometer to measure acceleration.
+Most cell phones have an accelerometer that can be used to detect motion, orientation, and sudden changes in movement – it is used for features like screen rotation, step counting, image stabilization, and crash detection.</p>
+<p>In theory we can use a sequence of measurements from an accelerometer to estimate velocity, and use velocity to estimate position.
+In this section we’ll see how that works – but we’ll also see why it is not always a practical solution.</p>
+<p>Suppose that when I was running, I recorded acceleration in the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> directions.
+To simulate the results of this hypothetical experiment, we’ll use the acceleration vectors we just computed.</p>
+<p>To get from acceleration to velocity, we have to start from a stand-still, or a known velocity.
+For this example, we’ll use the velocity we computed as a known initial value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v0</span> <span class="o">=</span> <span class="n">velocities</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll multiply by <code class="docutils literal notranslate"><span class="pre">dts_vel</span></code> to get the changes in velocity, then use <code class="docutils literal notranslate"><span class="pre">cumsum</span></code> to compute the cumulative sum of the changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dvs_from_acc</span> <span class="o">=</span> <span class="n">accelerations</span> <span class="o">*</span> <span class="n">dts_vel</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">velocities_from_acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([[</span><span class="n">v0</span><span class="p">],</span> <span class="n">v0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">dvs_from_acc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we’re using <code class="docutils literal notranslate"><span class="pre">vstack</span></code> to add the initial velocity as the first row of the array.</p>
+<p>The velocities we get from the cumulative sum of acceleration are the same as the ones we get from differences in position, except for floating-point errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">velocities_from_acc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiver</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
-<span class="n">quiver</span><span class="p">([</span><span class="n">B</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
-<span class="n">quiver</span><span class="p">([</span><span class="n">B</span><span class="p">],</span> <span class="p">[</span><span class="n">A</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
-
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speeds_from_acc</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">velocities_from_acc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">speeds_from_acc</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([3.3722, 2.7139, 2.8635, 3.0937, 3.4331, 4.275 , 4.1739, 3.859 ,
+       4.8334, 4.5913, 3.562 , 2.8666, 4.0327, 4.3529, 4.3795, 4.6157,
+       4.1946, 4.3592, 4.2794, 4.2556, 4.5223, 3.5745, 5.5866, 5.4694])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">,</span> <span class="n">speeds</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts_vel</span><span class="p">,</span> <span class="n">speeds_from_acc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Computed from acceleration&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Speed (m/s)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/28852630ad8609d65bcc9ab0d164f8b0cf26e1f6a40be9ebb604b8123fb79ab3.png" src="_images/28852630ad8609d65bcc9ab0d164f8b0cf26e1f6a40be9ebb604b8123fb79ab3.png" />
+</div>
+</div>
+<p>Compare the reconstructed velocity to the measured one.
+They should be close, but not identical because of noise and numerical error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plot_vectors</span><span class="p">(</span><span class="n">velocities_from_acc</span><span class="p">,</span> <span class="n">positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.quiver.Quiver at 0x7f043ad93580&gt;
+</pre></div>
+</div>
+<img alt="_images/15429e6b67dfbe028a6a6e8b4269433113df5a01a07878e16f9fbedc756167f9.png" src="_images/15429e6b67dfbe028a6a6e8b4269433113df5a01a07878e16f9fbedc756167f9.png" />
+</div>
+</div>
+<p>To get from velocity to position, the process is almost the same.
+We multiply velocities by time differences to get displacements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">displacements_from_acc</span> <span class="o">=</span> <span class="n">velocities_from_acc</span> <span class="o">*</span> <span class="n">dts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, starting from a known position, we add in the cumulative sum of the displacements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">positions_from_acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([[</span><span class="n">x0</span><span class="p">],</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">displacements_from_acc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The results are the same as the positions we started with, except for floating-point errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">positions_from_acc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="an-imperfect-world">
+<h2><span class="section-number">2.8. </span>An Imperfect World<a class="headerlink" href="#an-imperfect-world" title="Link to this heading">#</a></h2>
+<p>In the previous example, we were able to get from acceleration to position with near-perfect precision.
+But in the real world, measurements are not perfect.
+To simulate measurement error, we’ll generate a random noise factor and multiply by the accelerations we computed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">noise_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">accelerations</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">accelerations_noisy</span> <span class="o">=</span> <span class="n">accelerations</span> <span class="o">*</span> <span class="n">noise_factor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The simulated measurements are off by about 1% on average.
+Now we’ll use the noisy accelerations to estimate velocity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dvs_noisy</span> <span class="o">=</span> <span class="n">accelerations_noisy</span> <span class="o">*</span> <span class="n">dts_vel</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">velocities_noisy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([[</span><span class="n">v0</span><span class="p">],</span> <span class="n">v0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">dvs_noisy</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we’ll use the estimated velocities to estimate the trajectory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">displacements_noisy</span> <span class="o">=</span> <span class="n">velocities_noisy</span> <span class="o">*</span> <span class="n">dts</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="n">positions_noisy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([[</span><span class="n">x0</span><span class="p">],</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">displacements_noisy</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s the trajectory we constructed from noisy measurements compared to the original GPS track.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;measured&quot;</span><span class="p">)</span>
+<span class="n">trajectory</span><span class="p">(</span><span class="n">positions_noisy</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;noisy reconstruction&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mf">6.2</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">27</span><span class="p">,</span> <span class="mf">11.3</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mf">10.1</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/782a2ccf5bc6e541d945f301053894b4cf63f932c5ed73ec2c2de9dd59189f93.png" src="_images/782a2ccf5bc6e541d945f301053894b4cf63f932c5ed73ec2c2de9dd59189f93.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 38;
-            var nbb_formatted_code = "quiver([A, C], color=\"C2\")\nquiver([B], color=\"C1\")\nquiver([B], [A], color=\"C1\")\n\nplt.axis(\"equal\")\nplt.text(30, 6.2, \"A\")\nplt.text(27, 11.3, \"C\")\nplt.text(0.8, 1.8, \"B\")\nplt.text(33, 10.1, \"B\")\ndecorate(xlabel=\"x position (m)\", ylabel=\"y position (m)\")";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<img alt="_images/ed44b91b9e3fdc0708ff1ca2ea084b160734793af11b8e512269be66beea4327.png" src="_images/ed44b91b9e3fdc0708ff1ca2ea084b160734793af11b8e512269be66beea4327.png" />
 </div>
-<p>TODO: Multiply by dts</p>
+</div>
+<p>We can see that the two trajectories diverge. At the end, they differ by about 12 meters.</p>
+<p>So this way of estimating position from acceleration is not accurate.
+And what we simulated is nearly the best case scenario, where the initial position and velocity are known exactly, and the measured accelerations are only off by 1%.</p>
+<p>In a real scenario, we don’t know the initial conditions precisely, and real measurements of acceleration are probably not that accurate, especially taken from a phone carried by a running person.</p>
+<p>Using an accelerometer to estimate small displacements over a short period of time might be possible in some conditions, but it is not generally practical.</p>
+</section>
+<section id="discussion">
+<h2><span class="section-number">2.9. </span>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
+<p>This chapter introduces addition and subtraction of vectors, and several ways to represent vectors graphically: as points in a Cartesian plane (or 3D space), as arrows with their tails at the origin, or as arrows with their tails at other locations.</p>
+<p>The vectors in this chapter were considered <strong>free vectors</strong>, which means that they represent a direction and magnitude, but they don’t have a particular position in space.
+In Chapter xxx, we will work with <strong>bound vectors</strong>, which have direction, magnitude, and position.</p>
+<p>As applications of addition and subtraction, we computed the distance between two points on the surface of a sphere, which we used to convert measurements of latitude and longitude to Cartesian coordinates.</p>
+<p>Then we used <code class="docutils literal notranslate"><span class="pre">diff()</span></code> to subtract successive positions to get velocity, and subtract successive velocities to get acceleration.
+If you are familiar with calculus, you might recognize these steps as a numerical form of differentiation.
+A challenge of numerical differentiation is that it amplifies measurement noise, so velocity is noisier than position and acceleration is noisier than velocity.</p>
+<p>Finally, we used <code class="docutils literal notranslate"><span class="pre">cumsum()</span></code> to add up accelerations to estimate velocity, and add up velocities to estimate positions.
+You might recognize these steps as a form of integration.
+A challenge of numerical integration is that errors accumulate, so the results are less accurate for longer trajectories.</p>
+</section>
+<section id="exercises">
+<h2><span class="section-number">2.10. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+</section>
+<section id="exercise">
+<h2><span class="section-number">2.11. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
+<p>In this chapter, we approximated the distance between nearby GPS points by converting latitude and longitude to 3D Cartesian vectors and computing the length of the difference between vectors. This works well for short distances, but for points that are far apart on the surface of the Earth, it is less accurate.</p>
+<p>In this exercise, we’ll compare the straight-line approximation to the great-circle distance between two cities.</p>
+<p>Use the following latitude and longitude coordinates (in degrees):</p>
+<ul class="simple">
+<li><p>Boston, MA: latitude 42.3601°, longitude −71.0589°</p></li>
+<li><p>London, UK: latitude 51.5074°, longitude −0.1278°</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">distance_between</span></code> function from this chapter to compute the straight-line distance between Boston and London, which would burrow through the Earth.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">haversine</span></code> function to compute the great-circle distance between the same two points. This distance corresponds to the shortest path along the surface of the Earth.</p></li>
+<li><p>Compute the absolute difference between the two distances, in meters.</p></li>
+<li><p>Compute the relative difference between the two distances, as a percentage of the great-circle distance.</p></li>
+</ol>
+</section>
+<section id="exercise-flying-from-boston-to-london-with-a-jet-stream">
+<h2><span class="section-number">2.12. </span>Exercise: Flying from Boston to London with a Jet Stream<a class="headerlink" href="#exercise-flying-from-boston-to-london-with-a-jet-stream" title="Link to this heading">#</a></h2>
+<p>An airplane flying from Boston to London has a measured airspeed – that is, speed relative to the surrounding air – and a measured heading.
+The plan is flying in the jet stream, a river of air that flows from west to east across the Atlantic Ocean.</p>
+<p>In this exercise, you will add the velocity of the plane, relative to the air, and the velocity of the jet stream, relative to the ground, to get the velocity of the plane relative to the ground.</p>
+<p>Assume the plane’s airspeed is 250 m/s and it’s heading is 60°, measured clockwise from north, as on a magnetic compass.
+Assume that the speed of the jet stream is 50 m/s, blowing toward 90° (due east).</p>
+<ol class="arabic simple">
+<li><p>Convert the speed and heading of the plane to a 2D Cartesian velocity vector.</p></li>
+<li><p>Convert the speed and heading of the jet stream to a 2D Cartesian velocity vector.</p></li>
+<li><p>Compute the sum of these velocity vectors.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">plot_vector</span></code> to plot the two velocity vectors and their sum.</p></li>
+<li><p>Convert the total velocity back to a ground speed and ground heading.</p></li>
+</ol>
+<p>Supposing that the plane intended to fly at a heading of 60°, how much is its effective heading off by?</p>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">pol2cart</span></code> and <code class="docutils literal notranslate"><span class="pre">cart2pol</span></code>, which convert between polar coordinates (speed and heading) and Cartesian coordinates (x and y components) – but note that these function expect and return headings in radians counterclockwise from the <code class="docutils literal notranslate"><span class="pre">x</span></code> axis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">C</span> <span class="o">=</span> <span class="n">position</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">velocity</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 39;
-            var nbb_formatted_code = "A = position[0]\nC = position[-1]\nD = np.sum(velocity, axis=0)";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quiver</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C2&quot;</span><span class="p">)</span>
-<span class="n">quiver</span><span class="p">([</span><span class="n">D</span><span class="p">],</span> <span class="p">[</span><span class="n">A</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Airspeed and heading (approximate Boston → London heading)</span>
+<span class="n">airspeed</span> <span class="o">=</span> <span class="mf">250.0</span>          <span class="c1"># m/s</span>
+<span class="n">heading_air_deg</span> <span class="o">=</span> <span class="mf">60.0</span>    <span class="c1"># degrees (measured clockwise from north)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span>
-<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x position (m)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y position (m)&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="c1"># Jet stream: speed and heading (direction the wind is blowing toward)</span>
+<span class="n">wind_speed</span> <span class="o">=</span> <span class="mf">50.0</span>         <span class="c1"># m/s</span>
+<span class="n">heading_wind_deg</span> <span class="o">=</span> <span class="mf">90.0</span>   <span class="c1"># degrees (east)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h3><span class="section-number">2.12.1. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>In this chapter, we estimated velocity by taking differences between successive position measurements. Because GPS measurements are noisy, the estimated velocities that are even noisier.</p>
+<p>In this exercise, we’ll smooth the GPS track before computing velocity, and compare the results to the unsmoothed estimates.</p>
+<p>SciPy provides a function that fits a smooth 2D parametric spline to the GPS positions and measurement times.
+The <code class="docutils literal notranslate"><span class="pre">s</span></code> parameter controls the smoothness of the fitted path.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">splprep</span><span class="p">,</span> <span class="n">splev</span>
+
+<span class="n">tck</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">splprep</span><span class="p">(</span><span class="n">positions</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">u</span><span class="o">=</span><span class="n">ts</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can use <code class="docutils literal notranslate"><span class="pre">splev()</span></code> to evaluate the spline at equally-spaced points in time, and I’ll put the results in an array with the same shape as position.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_equal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">xy</span> <span class="o">=</span> <span class="n">splev</span><span class="p">(</span><span class="n">ts_equal</span><span class="p">,</span> <span class="n">tck</span><span class="p">)</span>
+
+<span class="n">positions_smooth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
+<span class="n">positions_smooth</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/4dd80df26f80f8ec3e07ef6e13577addf29324de1a0664830e80a7f35cb85670.png" src="_images/4dd80df26f80f8ec3e07ef6e13577addf29324de1a0664830e80a7f35cb85670.png" />
-<script type="application/javascript">
-        setTimeout(function() {
-            var nbb_cell_id = 40;
-            var nbb_formatted_code = "quiver([A, C], color=\"C2\")\nquiver([D], [A], color=\"C1\")\n\nplt.text(30, -0.8, \"A\")\nplt.text(-30, 1.6, \"C\")\nplt.text(0, 2, \"D\")\ndecorate(xlabel=\"x position (m)\", ylabel=\"y position (m)\", ylim=[-2, 7])";
-            var nbb_cells = Jupyter.notebook.get_cells();
-            for (var i = 0; i < nbb_cells.length; ++i) {
-                if (nbb_cells[i].input_prompt_number == nbb_cell_id) {
-                    nbb_cells[i].set_text(nbb_formatted_code);
-                    break;
-                }
-            }
-        }, 500);
-        </script></div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(50, 2)
+</pre></div>
 </div>
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">trajectory()</span></code> to plot the original and smoothed trajectories and see how they compare.</p></li>
+<li><p>Use the smoothed positions to compute displacement and total distance traveled. How does the length of the smoothed trajectory compare to the original.</p></li>
+<li><p>Use the smoothed positions and <code class="docutils literal notranslate"><span class="pre">ts_equal</span></code> to estimate smoothed velocities.</p></li>
+<li><p>Compute the speed from the velocity vectors and plot speed versus time.</p></li>
+</ol>
 <p><a class="reference external" href="https://allendowney.github.io/ThinkLinearAlgebra/index.html">Think Linear Algebra</a></p>
 <p>Copyright 2025 <a class="reference external" href="https://allendowney.com">Allen B. Downey</a></p>
 <p>Code license: <a class="reference external" href="https://mit-license.org/">MIT License</a></p>
 <p>Text license: <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a></p>
+</section>
 </section>
 </section>
 
@@ -1357,6 +1593,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="eigenvector.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>The Power of Linear Algebra</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="projection.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Projection</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1373,7 +1627,21 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section">Section</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-addition-and-subtraction">2.1. Vector Addition and Subtraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gps-data">2.2. GPS Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distances">2.3. Distances</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-coordinates">2.4. Converting Coordinates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#position-and-velocity">2.5. Position and Velocity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-velocity-to-acceleration">2.6. From Velocity to Acceleration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-acceleration-to-velocity">2.7. From Acceleration to Velocity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-imperfect-world">2.8. An Imperfect World</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.9. Discussion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-flying-from-boston-to-london-with-a-jet-stream">2.12. Exercise: Flying from Boston to London with a Jet Stream</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.12.1. Exercise</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>5. Null Space &#8212; Think Linear Algebra</title>
+    <title>6. Null Space &#8212; Think Linear Algebra</title>
   
   
   
@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'nullspace';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="6. Truss in the System" href="truss.html" />
-    <link rel="prev" title="4. Systems" href="system.html" />
+    <link rel="next" title="7. Truss in the System" href="truss.html" />
+    <link rel="prev" title="5. Systems" href="system.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -178,12 +178,13 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="projection.html">2. Projection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="affine.html">3. To Boldly Go</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system.html">4. Systems</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Null Space</a></li>
-<li class="toctree-l1"><a class="reference internal" href="truss.html">6. Truss in the System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="regression.html">7. Least Squares Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="track.html">2. A Day At the Track</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projection.html">3. Projection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">4. To Boldly Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">5. Systems</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">7. Truss in the System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression.html">8. Least Squares Regression</a></li>
 </ul>
 
     </div>
@@ -347,11 +348,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stoichiometry">5.1. Stoichiometry</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-null-space-numerically">5.2. Finding a Null Space Numerically</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-spaces-with-more-dimensions">5.3. Null Spaces With More Dimensions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">5.4. Discussion</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">5.4.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stoichiometry">6.1. Stoichiometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-null-space-numerically">6.2. Finding a Null Space Numerically</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-spaces-with-more-dimensions">6.3. Null Spaces With More Dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">6.4. Discussion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">6.4.1. Exercise</a></li>
 </ul>
 </li>
 </ul>
@@ -367,7 +368,7 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="null-space">
-<h1><span class="section-number">5. </span>Null Space<a class="headerlink" href="#null-space" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">6. </span>Null Space<a class="headerlink" href="#null-space" title="Link to this heading">#</a></h1>
 <p>In the previous chapter we saw examples where a system of linear equations has a single solutions.
 In this chapter, we’ll consider an example where there are many possible solution.
 One domain where systems like this are common is conservation of atoms (and sometimes charge) in chemical reactions – that is, stoichiometry.
@@ -418,7 +419,7 @@ If you studied chemistry some time ago, or never, I’ll explain what you need t
 </details>
 </div>
 <section id="stoichiometry">
-<h2><span class="section-number">5.1. </span>Stoichiometry<a class="headerlink" href="#stoichiometry" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">6.1. </span>Stoichiometry<a class="headerlink" href="#stoichiometry" title="Link to this heading">#</a></h2>
 <p>In chemistry, a reaction equation specifies a set of chemicals that can react to form another set of chemicals.
 In this context, the chemicals are called reagents.</p>
 <p>As an example, we’ll write the reaction equation for combustion of ethanol – that is, the reaction of ethanol with molecular oxygen to form carbon dioxide and water.
@@ -736,7 +737,7 @@ So using SymPy to compute the solution symbolically is a good option.
 But we can also find null spaces numerically.</p>
 </section>
 <section id="finding-a-null-space-numerically">
-<h2><span class="section-number">5.2. </span>Finding a Null Space Numerically<a class="headerlink" href="#finding-a-null-space-numerically" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">6.2. </span>Finding a Null Space Numerically<a class="headerlink" href="#finding-a-null-space-numerically" title="Link to this heading">#</a></h2>
 <p>To find the null space of <span class="math notranslate nohighlight">\(A\)</span> numerically, we’ll convert it to a NumPy array.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -844,7 +845,7 @@ That’s because it is normalized so its magnitude is 1, within floating-point e
 </div>
 </section>
 <section id="null-spaces-with-more-dimensions">
-<h2><span class="section-number">5.3. </span>Null Spaces With More Dimensions<a class="headerlink" href="#null-spaces-with-more-dimensions" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">6.3. </span>Null Spaces With More Dimensions<a class="headerlink" href="#null-spaces-with-more-dimensions" title="Link to this heading">#</a></h2>
 <p>Let’s consider a more complex example, the oxidation of hydrogen peroxide (<span class="math notranslate nohighlight">\(H_2O_2\)</span>) by potassium permanganate (<span class="math notranslate nohighlight">\(K \mathit{Mn} O_4\)</span>).
 This reaction is a classic demonstration in chemistry classes because the color of the solution changes dramatically.
 It is also used in oxidative treatment of wastewater.</p>
@@ -1041,7 +1042,7 @@ And there are many more combinations that are theoretically possible, but also u
 <p>So this is an example where balance of atoms and charge can tell us which reactions are theoretically possible, but stoichiometry alone is not enough to tell us which reactions are thermodynamically likely.</p>
 </section>
 <section id="discussion">
-<h2><span class="section-number">5.4. </span>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">6.4. </span>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
 <p>This chapter presents underdetermined systems, where the number of unknowns is greater than the number of equations.
 These systems often have many solutions.</p>
 <p>The set of solutions forms a <strong>null space</strong>, which is defined by a set of basis vectors.
@@ -1058,7 +1059,7 @@ The rank tells us how many independent constraints the equations impose.
 The nullity tells us how many degrees of freedom remain.</p>
 <p>In the next chapter we consider overdetermined systems with no solutions – so we will try to find the best of the non-solutions.</p>
 <section id="exercise">
-<h3><span class="section-number">5.4.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">6.4.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
 <p>Balance the equation for the combustion of methanol.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1239,7 +1240,7 @@ The nullity tells us how many degrees of freedom remain.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>Systems</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Systems</p>
       </div>
     </a>
     <a class="right-next"
@@ -1247,7 +1248,7 @@ The nullity tells us how many degrees of freedom remain.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">6. </span>Truss in the System</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Truss in the System</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1267,11 +1268,11 @@ The nullity tells us how many degrees of freedom remain.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stoichiometry">5.1. Stoichiometry</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-null-space-numerically">5.2. Finding a Null Space Numerically</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-spaces-with-more-dimensions">5.3. Null Spaces With More Dimensions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">5.4. Discussion</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">5.4.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stoichiometry">6.1. Stoichiometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-a-null-space-numerically">6.2. Finding a Null Space Numerically</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#null-spaces-with-more-dimensions">6.3. Null Spaces With More Dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">6.4. Discussion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">6.4.1. Exercise</a></li>
 </ul>
 </li>
 </ul>

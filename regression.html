@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>7. Least Squares Regression &#8212; Think Linear Algebra</title>
+    <title>8. Least Squares Regression &#8212; Think Linear Algebra</title>
   
   
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'regression';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="6. Truss in the System" href="truss.html" />
+    <link rel="prev" title="7. Truss in the System" href="truss.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -177,12 +177,13 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="eigenvector.html">1. The Power of Linear Algebra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="projection.html">2. Projection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="affine.html">3. To Boldly Go</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system.html">4. Systems</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nullspace.html">5. Null Space</a></li>
-<li class="toctree-l1"><a class="reference internal" href="truss.html">6. Truss in the System</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Least Squares Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="track.html">2. A Day At the Track</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projection.html">3. Projection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="affine.html">4. To Boldly Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="system.html">5. Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nullspace.html">6. Null Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="truss.html">7. Truss in the System</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Least Squares Regression</a></li>
 </ul>
 
     </div>
@@ -346,20 +347,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-as-minimization">7.1. Regression as Minimization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">7.2. Projection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qr-decomposition">7.3. QR Decomposition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthonormalization">7.4. Orthonormalization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">7.5. Animation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression">7.6. Multiple Regression</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quadratic-model">7.7. A Quadratic Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#age-period-cohort">7.8. Age, Period, Cohort</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">7.9. Collinearity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">7.10. Condition Number</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">7.11. Orthogonality Equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-lines">7.12. Fuzzy Lines</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.13. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.13.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-as-minimization">8.1. Regression as Minimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">8.2. Projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qr-decomposition">8.3. QR Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthonormalization">8.4. Orthonormalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">8.5. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression">8.6. Multiple Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quadratic-model">8.7. A Quadratic Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#age-period-cohort">8.8. Age, Period, Cohort</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">8.9. Collinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">8.10. Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">8.11. Orthogonality Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-lines">8.12. Fuzzy Lines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">8.13. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">8.13.1. Exercise</a></li>
 </ul>
 </li>
 </ul>
@@ -375,7 +376,7 @@ document.write(`
                   
   <p><em>Think Linear Algebra</em> is not for sale yet, but if you would like to support this project, you can <a class="reference external" href="https://buymeacoffee.com/allendowney">buy me a coffee</a>.</p>
 <section id="least-squares-regression">
-<h1><span class="section-number">7. </span>Least Squares Regression<a class="headerlink" href="#least-squares-regression" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">8. </span>Least Squares Regression<a class="headerlink" href="#least-squares-regression" title="Link to this heading">#</a></h1>
 <p><strong>Least squares regression</strong> is a method for finding a best fit model, where “best” means that it minimizes the squared differences between the model and the data.
 We can compute a least squares fit with a conventional minimization algorithm, but linear algebra provides an efficient algorithm based on vector projection.</p>
 <p>In this chapter, I’ll present two versions of this algorithm, one based on QR decomposition and the other based on orthogonality equations – and I’ll explain what both of those mean.
@@ -430,7 +431,7 @@ This example demonstrates a computation challenge for regression, <strong>multip
 </details>
 </div>
 <section id="regression-as-minimization">
-<h2><span class="section-number">7.1. </span>Regression as Minimization<a class="headerlink" href="#regression-as-minimization" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.1. </span>Regression as Minimization<a class="headerlink" href="#regression-as-minimization" title="Link to this heading">#</a></h2>
 <p>Before we think of regression as a linear algebra problem, let’s start with minimization.
 Specifically, we’ll start with <strong>least squares regression</strong>, which minimizes the sum of squared errors.</p>
 <p>As the small example, I’ll construct a predictor, <code class="docutils literal notranslate"><span class="pre">x</span></code>, and a response variable, <code class="docutils literal notranslate"><span class="pre">y</span></code>, with only three elements.</p>
@@ -666,7 +667,7 @@ The dots are the actual values, the solid line is the not-very-good fit, and the
 But there’s another way: if we write least squares regression as a matrix equation, linear algebra provides an elegant and efficient solution.</p>
 </section>
 <section id="projection">
-<h2><span class="section-number">7.2. </span>Projection<a class="headerlink" href="#projection" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.2. </span>Projection<a class="headerlink" href="#projection" title="Link to this heading">#</a></h2>
 <p>The key to linear regression is projection.
 To see what that means, we’ll pull out the columns of the design matrix, <code class="docutils literal notranslate"><span class="pre">X</span></code>, as three-dimensional vectors <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code>.</p>
 <div class="cell docutils container">
@@ -762,7 +763,7 @@ First, the length of <code class="docutils literal notranslate"><span class="pre
 <p>This insight is the key to an efficient way to compute <code class="docutils literal notranslate"><span class="pre">y_hat</span></code>, using QR decomposition.</p>
 </section>
 <section id="qr-decomposition">
-<h2><span class="section-number">7.3. </span>QR Decomposition<a class="headerlink" href="#qr-decomposition" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.3. </span>QR Decomposition<a class="headerlink" href="#qr-decomposition" title="Link to this heading">#</a></h2>
 <p>QR composition is similar to LU decomposition, which we used to solve systems of linear equations efficiently.</p>
 <ul class="simple">
 <li><p>In LU decomposition, we express a matrix, <code class="docutils literal notranslate"><span class="pre">A</span></code>, as the product of two matrices, one lower-diagonal and one upper-diagonal.</p></li>
@@ -1099,7 +1100,7 @@ The third return value is the rank of the design matrix, which is usually the nu
 We’ll see an example of that soon, but first we have a loose end to tie up: how do we compute the QR decomposition?</p>
 </section>
 <section id="orthonormalization">
-<h2><span class="section-number">7.4. </span>Orthonormalization<a class="headerlink" href="#orthonormalization" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.4. </span>Orthonormalization<a class="headerlink" href="#orthonormalization" title="Link to this heading">#</a></h2>
 <p>QR decomposition provides an efficient way to compute a least squares fit.
 Now let’s see how to do the decomposition.
 The process turns out to be simpler than you might expect.</p>
@@ -1114,7 +1115,7 @@ The process turns out to be simpler than you might expect.</p>
 </div>
 </div>
 <p>Now the goal is to find two orthogonal unit vectors, <code class="docutils literal notranslate"><span class="pre">q1</span></code> and <code class="docutils literal notranslate"><span class="pre">q2</span></code>, that span the same plane as <code class="docutils literal notranslate"><span class="pre">v1</span></code> and <code class="docutils literal notranslate"><span class="pre">v2</span></code>.
-To compute <code class="docutils literal notranslate"><span class="pre">q1</span></code> we’ll compute a unit vector with the same direction as <code class="docutils literal notranslate"><span class="pre">v1</span></code>.</p>
+For <code class="docutils literal notranslate"><span class="pre">q1</span></code> we’ll choose a unit vector with the same direction as <code class="docutils literal notranslate"><span class="pre">v1</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
@@ -1128,7 +1129,7 @@ To compute <code class="docutils literal notranslate"><span class="pre">q1</span
 </div>
 </div>
 </div>
-<p>To compute <code class="docutils literal notranslate"><span class="pre">q2</span></code>, we’ll subtract from <code class="docutils literal notranslate"><span class="pre">v2</span></code> the part of of <code class="docutils literal notranslate"><span class="pre">v2</span></code> parallel to <code class="docutils literal notranslate"><span class="pre">q1</span></code>, leaving only the part of <code class="docutils literal notranslate"><span class="pre">v2</span></code> perpendicular to <code class="docutils literal notranslate"><span class="pre">q1</span></code> (which you might recognize as the vector rejection).</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">q2</span></code>, we’ll subtract from <code class="docutils literal notranslate"><span class="pre">v2</span></code> the part of of <code class="docutils literal notranslate"><span class="pre">v2</span></code> parallel to <code class="docutils literal notranslate"><span class="pre">q1</span></code>, leaving only the part of <code class="docutils literal notranslate"><span class="pre">v2</span></code> perpendicular to <code class="docutils literal notranslate"><span class="pre">q1</span></code> (which you might recognize as the vector rejection).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">vector_projection</span>
@@ -1278,9 +1279,14 @@ And the diagonal element <code class="docutils literal notranslate"><span class=
 So let’s see what we can do with real data.</p>
 </section>
 <section id="animation">
-<h2><span class="section-number">7.5. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.5. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
 <p>This section creates an animation intended to make it visually clearer that the columns of <code class="docutils literal notranslate"><span class="pre">Q</span></code> are in the same plane as the columns of <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
-<div class="cell tag_remove-print docutils container">
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">[</span><span class="n">ax</span><span class="p">]</span> <span class="o">=</span> <span class="n">setup_3D</span><span class="p">()</span>
 
@@ -1291,8 +1297,14 @@ So let’s see what we can do with real data.</p>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<div class="cell tag_remove-print docutils container">
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pingpong_ease</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Easing function from start → end → start.&quot;&quot;&quot;</span>
@@ -1303,8 +1315,14 @@ So let’s see what we can do with real data.</p>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<div class="cell tag_remove-print docutils container">
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_frames</span> <span class="o">=</span> <span class="mi">30</span>
 
@@ -1316,8 +1334,14 @@ So let’s see what we can do with real data.</p>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<div class="cell tag_remove-print docutils container">
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.animation</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">animation</span>
 
@@ -1326,8 +1350,14 @@ So let’s see what we can do with real data.</p>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-<div class="cell tag_remove-print docutils container">
+<div class="cell tag_remove-print tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
 
@@ -17912,17 +17942,11 @@ CAkEAoEwqiHtEwQCgUAY1fz/h0Leo67V6p4AAAAASUVORK5CYII=\
   })()
 </script>
 </div></div>
-</div>
-<div class="cell tag_remove-print docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;coplanar.gif&quot;</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="s2">&quot;pillow&quot;</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1000</span><span class="o">/</span><span class="n">interval</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
+</details>
 </div>
 </section>
 <section id="multiple-regression">
-<h2><span class="section-number">7.6. </span>Multiple Regression<a class="headerlink" href="#multiple-regression" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.6. </span>Multiple Regression<a class="headerlink" href="#multiple-regression" title="Link to this heading">#</a></h2>
 <p>Do people get more conservative as they get older?
 To find out, we’ll use data from the General Social Survey (GSS) to explore the relationship between political ideology and age, also considering changes over time and differences between generations.</p>
 <p>We’ll use <strong>multiple regression</strong>, which involves more than one predictor, and we’ll see the problems that arise if the predictors are strongly correlated.</p>
@@ -18323,7 +18347,7 @@ The model is more sensible if we evaluate the fitted line over the relevant rang
 We’ll come back to this question, but first let’s look at the third predictor, <code class="docutils literal notranslate"><span class="pre">year</span></code>.</p>
 </section>
 <section id="a-quadratic-model">
-<h2><span class="section-number">7.7. </span>A Quadratic Model<a class="headerlink" href="#a-quadratic-model" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.7. </span>A Quadratic Model<a class="headerlink" href="#a-quadratic-model" title="Link to this heading">#</a></h2>
 <p>So far we’ve computed least squares fits with <code class="docutils literal notranslate"><span class="pre">age</span></code> and <code class="docutils literal notranslate"><span class="pre">cohort</span></code> as predictors.
 Now let’s do the same with <code class="docutils literal notranslate"><span class="pre">year</span></code>.
 We’ll see that a straight line doesn’t fit the data well, so we’ll fit a parabola.</p>
@@ -18442,7 +18466,7 @@ It seems that people were a little more likely to consider themselves conservati
 <p>In the next section we’ll get back to the question we started with – as people get older, do they get more conservative?</p>
 </section>
 <section id="age-period-cohort">
-<h2><span class="section-number">7.8. </span>Age, Period, Cohort<a class="headerlink" href="#age-period-cohort" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.8. </span>Age, Period, Cohort<a class="headerlink" href="#age-period-cohort" title="Link to this heading">#</a></h2>
 <p>So far we have modeled the response variable as a function of age, time period (year), and cohort (year of birth).
 Now let’s see how these predictors interact with each other.
 This kind of modeling is called <strong>age-period-cohort</strong> analysis.</p>
@@ -18555,7 +18579,7 @@ But we should interpret this graph with caution, because it extrapolates beyond 
 <p>But before we go on, I have a warning about a common problem with regression models.</p>
 </section>
 <section id="collinearity">
-<h2><span class="section-number">7.9. </span>Collinearity<a class="headerlink" href="#collinearity" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.9. </span>Collinearity<a class="headerlink" href="#collinearity" title="Link to this heading">#</a></h2>
 <p>When people learn about age-period-cohort analysis, they often attempt something impossible – a model that includes age, period, <em>and</em> cohort.
 To see why it’s impossible, let’s do it.</p>
 <div class="cell docutils container">
@@ -18636,7 +18660,7 @@ In fact, the last two columns are almost identical, and their dot product is clo
 This is also a problem when the columns are <em>almost</em> collinear, as we’ll see in the next section.</p>
 </section>
 <section id="condition-number">
-<h2><span class="section-number">7.10. </span>Condition Number<a class="headerlink" href="#condition-number" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.10. </span>Condition Number<a class="headerlink" href="#condition-number" title="Link to this heading">#</a></h2>
 <p>When we computed the least squares fits, we also computed the <strong>condition number</strong> of the design matrix, which indicates how close the columns are to collinear.
 The following table shows the results for the models we’ve computed so far.</p>
 <div class="cell tag_hide-cell docutils container">
@@ -18740,7 +18764,7 @@ In double-precision floating-point arithmetic, we start with about 16 digits, so
 <p>In the next section, we’ll see one way to compute condition numbers.</p>
 </section>
 <section id="orthogonality-equation">
-<h2><span class="section-number">7.11. </span>Orthogonality Equation<a class="headerlink" href="#orthogonality-equation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.11. </span>Orthogonality Equation<a class="headerlink" href="#orthogonality-equation" title="Link to this heading">#</a></h2>
 <p>So far we’ve computed least squares coefficients with QR decomposition, which is an efficient and precise algorithm.
 There is another way to derive and compute a least squares fit, by writing and solving the <strong>orthogonality equation</strong>.
 This method is not often used in practice because it is less efficient and the results are less precise.
@@ -18921,7 +18945,7 @@ That’s because the condition number of the normal matrix, <span class="math no
 <p>Another way to find the condition number is to compute the singular values of <code class="docutils literal notranslate"><span class="pre">X</span></code>, but that’s a topic for another chapter.</p>
 </section>
 <section id="fuzzy-lines">
-<h2><span class="section-number">7.12. </span>Fuzzy Lines<a class="headerlink" href="#fuzzy-lines" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.12. </span>Fuzzy Lines<a class="headerlink" href="#fuzzy-lines" title="Link to this heading">#</a></h2>
 <p>The orthogonality equations provide another way to think about what we’re doing when we compute the coefficients of a least squares fit.
 To demonstrate, let’s go back to the simple example from the beginning of the chapter, with these values of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 <div class="cell docutils container">
@@ -19020,21 +19044,26 @@ Using symbols for <span class="math notranslate nohighlight">\(\beta_0\)</span> 
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">solns</span> <span class="o">=</span> <span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="n">beta1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">eqns</span><span class="p">]</span>
-<span class="n">display</span><span class="p">(</span><span class="n">solns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">display</span><span class="p">(</span><span class="n">solns</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">beta1</span><span class="p">,</span> <span class="n">solns</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">beta1</span><span class="p">,</span> <span class="n">solns</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\displaystyle 1.25454545454545 - 0.909090909090909 \beta_{0}\]</div>
+\[\displaystyle \beta_{1} = 1.25454545454545 - 0.909090909090909 \beta_{0}\]</div>
 <div class="output text_latex math notranslate nohighlight">
-\[\displaystyle 1.02202486678508 - 0.586145648312611 \beta_{0}\]</div>
+\[\displaystyle \beta_{1} = 1.02202486678508 - 0.586145648312611 \beta_{0}\]</div>
 </div>
 </div>
 <p>So each row of the matrix equation represents a linear relationship between <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>.
 Here’s what those lines look like.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta0_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
 
@@ -19055,6 +19084,7 @@ Here’s what those lines look like.</p>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <img alt="_images/a3c993b0b53fb799561e33e3b47ebaa87a4e3102d45aad2f892acefbcce44914.png" src="_images/a3c993b0b53fb799561e33e3b47ebaa87a4e3102d45aad2f892acefbcce44914.png" />
 </div>
@@ -19073,9 +19103,9 @@ When they are nearly orthogonal, the condition number and loss of precision are 
 When they are nearly parallel, the condition number and loss of precision are large.</p>
 </section>
 <section id="exercises">
-<h2><span class="section-number">7.13. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">8.13. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
 <section id="exercise">
-<h3><span class="section-number">7.13.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<h3><span class="section-number">8.13.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
 <p>In the examples in this chapter, you might have noticed that the condition number is higher in models that include <code class="docutils literal notranslate"><span class="pre">cohort</span></code> or <code class="docutils literal notranslate"><span class="pre">year</span></code>, and even larger for models that include <code class="docutils literal notranslate"><span class="pre">year2</span></code>.
 That’s because the values of those variables are so much larger than <code class="docutils literal notranslate"><span class="pre">age</span></code> and the column of ones.
 When some columns in the design matrix are much bigger than others, the condition number gets bigger.</p>
@@ -19132,7 +19162,7 @@ What about the slopes?</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">6. </span>Truss in the System</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Truss in the System</p>
       </div>
     </a>
 </div>
@@ -19151,20 +19181,20 @@ What about the slopes?</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-as-minimization">7.1. Regression as Minimization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">7.2. Projection</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qr-decomposition">7.3. QR Decomposition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthonormalization">7.4. Orthonormalization</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">7.5. Animation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression">7.6. Multiple Regression</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quadratic-model">7.7. A Quadratic Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#age-period-cohort">7.8. Age, Period, Cohort</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">7.9. Collinearity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">7.10. Condition Number</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">7.11. Orthogonality Equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-lines">7.12. Fuzzy Lines</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">7.13. Exercises</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">7.13.1. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-as-minimization">8.1. Regression as Minimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection">8.2. Projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qr-decomposition">8.3. QR Decomposition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthonormalization">8.4. Orthonormalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">8.5. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-regression">8.6. Multiple Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quadratic-model">8.7. A Quadratic Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#age-period-cohort">8.8. Age, Period, Cohort</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collinearity">8.9. Collinearity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">8.10. Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonality-equation">8.11. Orthogonality Equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzzy-lines">8.12. Fuzzy Lines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">8.13. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">8.13.1. Exercise</a></li>
 </ul>
 </li>
 </ul>
