@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import matplotlib.transforms as mtransforms
+from mpl_toolkits.mplot3d import Axes3D
 
 from numpy.linalg import norm
 import networkx as nx
@@ -35,6 +36,25 @@ def set_precision(precision=3, legacy='1.25'):
     # Set display precision for NumPy and Pandas
     np.set_printoptions(precision=precision, legacy=legacy)
     pd.options.display.float_format = (f"{{:.{precision}f}}").format
+
+
+def value_counts(seq, **options):
+    """Make a series of values and the number of times they appear.
+
+    Returns a DataFrame because they get rendered better in Jupyter.
+
+    Args:
+        seq: sequence
+        options: passed to pd.Series.value_counts
+
+    returns: pd.Series
+    """
+    options = underride(options, dropna=False)
+    series = pd.Series(seq).value_counts(**options).sort_index()
+    series.index.name = "values"
+    series.name = "counts"
+    return pd.DataFrame(series)
+
 
 ## Linear Algebra helper functions
 
@@ -198,32 +218,57 @@ def gram_schmidt(vectors):
     return np.array(basis)
 
 
-def polar_to_cartesian(r, theta):
-    """Convert polar coordinates (r, theta) to Cartesian (x, y).
+def pol2cart(r, phi):
+    """Convert polar coordinates to Cartesian coordinates.
     
     Args:
-        r: float
-        theta: float angle in radians
+        r: float or array of floats
+        phi: float or array of floats
 
-    Returns: tuple of floats
+    Returns: NumPy array
+        Shape (2,) when all inputs are scalars, or (2, N) when inputs
+        are arrays (after NumPy broadcasting rules). The first dimension
+        is x, y coordinates; the second dimension (if present) is the
+        number of points.
     """
-    x = r * np.cos(theta)
-    y = r * np.sin(theta)
-    return x, y
+    return r * np.array([np.cos(phi), np.sin(phi)])
 
 
-def cartesian_to_polar(x, y):
-    """Convert Cartesian coordinates (x, y) to polar (r, theta).
+def sph2cart(azimuth, elevation, r):
+    """Convert spherical coordinates to Cartesian coordinates.
+    
+    Compatible with MATLAB's sph2cart function signature.
     
     Args:
-        x: float
-        y: float
-
-    Returns: tuple of floats
+        azimuth: float or array of floats (azimuth angle in radians, angle in x-y plane)
+        elevation: float or array of floats (elevation angle in radians, angle from x-y plane)
+        r: float or array of floats (radius)
+    
+    Returns: NumPy array
+        Shape (3,) when all inputs are scalars, or (3, N) when inputs
+        are arrays (after NumPy broadcasting rules). The first dimension
+        is x, y, z coordinates; the second dimension (if present) is
+        the number of points.
     """
+    x = np.cos(elevation) * np.cos(azimuth)
+    y = np.cos(elevation) * np.sin(azimuth)
+    z = np.sin(elevation)
+    
+    return r * np.array([x, y, z])
+
+
+def cart2pol(v):
+    """Convert Cartesian coordinates to polar coordinates.
+    
+    Args:
+        v: NumPy array (2,) or (N, 2)
+
+    Returns: tuple of floats or tuple of arrays
+    """
+    x, y = np.transpose(v)
     r = np.hypot(x, y)
-    theta = np.arctan2(y, x)
-    return r, theta
+    phi = np.arctan2(y, x)
+    return r, phi
 
 
 def cartesian_to_complex(x, y):
@@ -291,17 +336,6 @@ def remove_spines():
     # Ensure ticks stay visible
     ax.xaxis.set_ticks_position("bottom")
     ax.yaxis.set_ticks_position("left")
-
-
-def value_counts(series, **options):
-    """Counts the values in a series and returns sorted.
-
-    series: pd.Series
-
-    returns: pd.Series
-    """
-    options = underride(options, dropna=False)
-    return series.value_counts(**options).sort_index()
 
 
 def underride(d, **options):
@@ -375,7 +409,7 @@ def plot_vectors(
         scale_units="xy",
         scale=1,
         color="C0",
-        alpha=0.6,
+        alpha=0.9,
     )
     if origin is None:
         origin = np.zeros_like(vectors)
@@ -469,7 +503,7 @@ def label_vector(label, vector, origin=None, label_pos=12, offset=10, **options)
         base, fig=ax.figure, x=dx*offset, y=dy*offset, units="points"
     )
 
-    underride(options, ha="center", va="center")
+    underride(options, ha="center", va="center", fontsize=12)
     plt.text(x0, y0, label, transform=offset_transform, **options)
 
 
@@ -488,6 +522,32 @@ def plot_rejection(a, b, **kwargs):
     plt.plot([start[0], end[0]], [start[1], end[1]], **kwargs)
 
 
+def plot_angle_between(a, b, radius=1, **kwargs):
+    """Plot the angle between two vectors.
+    
+    Args:
+        a: vector
+        b: vector
+        radius: float, the radius of the arc
+        kwargs: passed to plt.patches.Arc
+    """
+    underride(kwargs, color='gray')
+    
+    # Calculate the angles of a and b
+    _, angles = cart2pol([a, b])
+    
+    # Create the arc 
+    import matplotlib.patches as patches
+    arc = patches.Arc((0, 0), 
+                      width=2*radius, height=2*radius,
+                      theta1=np.degrees(angles[0]), 
+                      theta2=np.degrees(angles[1]),
+                      **kwargs)
+    
+    # Add the arc to the current axes
+    ax = plt.gca()
+    ax.add_patch(arc)
+
 def scatter(vectors, start=0, end=None, **options):
     """Plot a set of vectors.
 
@@ -498,8 +558,459 @@ def scatter(vectors, start=0, end=None, **options):
         options: passed to plt.scatter
     """
     underride(options, s=6)
-    xs, ys = vectors[start:end].transpose()
+    xs, ys = np.transpose(vectors[start:end])
     plt.scatter(xs, ys, **options)
+
+
+def trajectory(vectors, *args, start=0, end=None, **options):
+    """Plot a sequence of vectors as a trajectory.
+
+    Args:
+        vectors: array with one row per vector
+        *args: passed to plt.plot (e.g., format string like 'o-')
+        start: integer slice index (keyword-only)
+        end: integer slice index (keyword-only)
+        options: passed to plt.plot
+    """
+    xs, ys = np.transpose(vectors[start:end])
+    plt.plot(xs, ys, *args, **options)
+
+
+def setup_3D(nrows=1, ncols=1, show_grid=True, **subplot_kw):
+    """Setup 3D subplots with configurable options.
+
+    Args:
+        nrows: number of rows of subplots
+        ncols: number of columns of subplots
+        show_grid: whether to show grid lines on the axes
+        subplot_kw: keyword arguments passed to plt.subplots (e.g., figsize, dpi)
+    
+    Returns:
+        fig, axes: matplotlib figure and axes objects
+    """
+    # Set default subplot arguments and ensure 3D projection
+    underride(subplot_kw, projection='3d')
+    
+    # Create subplots
+    fig, axes = plt.subplots(nrows, ncols, subplot_kw=subplot_kw)
+    fig.subplots_adjust(wspace=0.4)
+
+    # Handle single axis case
+    if nrows == 1 and ncols == 1:
+        axes = [axes]
+    else:
+        axes = axes.flatten()
+    
+    # Configure all axes panes
+    for ax in axes:
+        ax.xaxis.pane.fill = False
+        ax.yaxis.pane.fill = False
+        ax.zaxis.pane.fill = False
+        
+        # Set pane colors to white for better visibility
+        ax.xaxis.pane.set_edgecolor('w')
+        ax.yaxis.pane.set_edgecolor('w')
+        ax.zaxis.pane.set_edgecolor('w')
+
+        ax.grid(show_grid)
+    
+    return fig, axes
+
+
+def plot_vectors_3D(
+    vectors,
+    origin=None,
+    start=0,
+    end=None,
+    scale=1,
+    **options
+):
+    """Plot a set of vectors in 3D.
+
+    Args:
+        vectors: list of vectors or array with one row per vector (shape: (N, 3))
+        origin: list of vectors or array with one row per vector (default: all at (0,0,0))
+        start: integer slice index
+        end: integer slice index
+        scale: factor to multiply vectors
+        labels: list of string labels
+        label_pos: list of locations as integer clock positions (only for 2D)
+        options: passed to plt.quiver
+    """
+    vectors = np.asarray(vectors) * scale
+    dim = vectors.shape[1]
+    if dim != 3:
+        raise ValueError("plot_vectors_3D requires 3D vectors.")
+
+    if origin is None:
+        origin = np.zeros_like(vectors)
+    else:
+        origin = np.asarray(origin)
+
+    underride(
+        options,
+        color="C0",
+        alpha=0.9,
+        arrow_length_ratio=0.1,
+    )
+    
+    us, vs, ws = vectors[start:end].T
+    xs, ys, zs = origin[start:end].T
+
+    ax = plt.gca()
+    ax.scatter(xs, ys, zs, s=0)
+    ax.scatter(xs + us, ys + vs, zs + zs, s=0)
+    ax.quiver(xs, ys, zs, us, vs, ws, **options)
+
+
+def label_vectors_3D(labels, vectors, origins=None, scale=1, offset=0.1, **options):
+    """Label 3D vectors with strings positioned near the head of each arrow.
+
+    Args:
+        labels: list of string labels
+        vectors: list of vectors or array with one row per vector (shape: (N, 3))
+        origins: list of vectors or array with one row per vector (default: all at (0,0,0))
+        scale: factor to multiply vectors
+        offset: fraction of vector length to offset the label from the head (default: 0.1)
+        options: passed to plt.text (e.g., fontsize, color)
+    """
+    vectors = np.asarray(vectors) * scale
+    if vectors.shape[1] != 3:
+        raise ValueError("label_vectors_3D requires 3D vectors.")
+    
+    if origins is None:
+        origins = np.zeros_like(vectors)
+    else:
+        origins = np.asarray(origins)
+    
+    if len(labels) != len(vectors):
+        raise ValueError("Number of labels must match number of vectors.")
+    
+    ax = plt.gca()
+    
+    for label, vector, origin in zip(labels, vectors, origins):
+        # Calculate the head position of the vector
+        head_pos = origin + vector
+        
+        # Calculate label position slightly offset from the head
+        # Use a small offset in the direction of the vector
+        label_offset = vector * offset
+        label_pos = head_pos + label_offset
+        
+        # Set default text options
+        underride(options,
+            fontsize=12,
+            ha='center',
+            va='center',
+            color='black'
+        )
+        
+        ax.text(label_pos[0], label_pos[1], label_pos[2], label, **options)
+
+
+def plot_vector_3D(v, origin=None, label=None, scale=1, **options):
+    """Draw a single 3D vector.
+
+    Args:
+        v: array-like (shape: (3,))
+        origin: array-like (shape: (3,))
+        label: string
+        scale: factor to multiply vector
+        options: passed to plt.quiver
+    """
+    if origin is None:
+        origin = np.zeros_like(v)
+    else:
+        origin = np.asarray(origin)
+
+    if label is not None:
+        label_vectors_3D([label], [v], [origin], scale=scale)
+    return plot_vectors_3D([v], [origin], scale=scale, **options)
+
+
+def draw_arc_3D(origin, v1, v2, radius=1, n=50, **kwargs):
+    """Draw an arc between two vectors in 3D.
+    
+    Args:
+        origin: center of the arc
+        v1, v2: vectors defining the arc endpoints (direction from origin)
+        radius: radius of the arc
+        n: number of points to sample along the arc
+        kwargs: passed to ax.plot
+    """
+    origin = np.asarray(origin)
+    v1 = np.asarray(v1) - origin
+    v2 = np.asarray(v2) - origin
+    v1 = v1 / norm(v1)
+    v2 = v2 / norm(v2)
+    
+    # Interpolate along the arc (spherical linear interpolation)
+    t = np.linspace(0, 1, n)[:, None]
+    points = (1 - t) * v1 + t * v2
+    points = points / norm(points, axis=1, keepdims=True) * radius
+    points = points + origin
+    
+    ax = plt.gca()
+    ax.plot(points[:, 0], points[:, 1], points[:, 2], **kwargs)
+
+
+def draw_globe(ax, R=3.0, n_lat=9, n_lon=12, alpha=0.3):
+    """Draw a globe of radius R with lines of latitude and longitude.
+    
+    Args:
+        ax: 3D axes object
+        R: radius of the globe
+        n_lat: number of latitude lines
+        n_lon: number of longitude lines
+        alpha: transparency of the grid lines
+    """
+    # Helper to convert lat/lon to Cartesian
+    def latlon_to_xyz(lat_deg, lon_deg, radius):
+        return sph2cart(np.deg2rad(lon_deg), np.deg2rad(lat_deg), radius)
+    
+    # Base surface
+    lat_grid = np.linspace(-90, 90, 60)
+    lon_grid = np.linspace(-180, 180, 120)
+    lat, lon = np.meshgrid(lat_grid, lon_grid)
+    xyz = latlon_to_xyz(lat.ravel(), lon.ravel(), radius=np.full(lat.size, R))
+    X, Y, Z = [a.reshape(lat.shape) for a in xyz]  # xyz is (3, N)
+    ax.plot_surface(X, Y, Z, color='C0', alpha=0.04, linewidth=0)
+
+    # Latitude circles
+    lats = np.linspace(-60, 60, n_lat)
+    lons = np.linspace(-180, 180, 361)
+    for lat in lats:
+        xyz = latlon_to_xyz(np.full_like(lons, lat), lons, radius=np.full_like(lons, R))
+        ax.plot(*xyz, color='k', linewidth=0.5, alpha=alpha)  # xyz is (3, N)
+
+    # Longitude lines
+    lons = np.linspace(-180, 180, n_lon, endpoint=False)
+    lats = np.linspace(-90, 90, 181)
+    for lon in lons:
+        xyz = latlon_to_xyz(lats, np.full_like(lats, lon), radius=np.full_like(lats, R))
+        ax.plot(*xyz, color='k', linewidth=0.5, alpha=alpha)  # xyz is (3, N)
+
+
+def spherical_coords_diagram(lat, lon, R=1):
+    """Draw a diagram showing spherical coordinates (lat/lon) on a globe.
+    
+    Args:
+        lat: latitude in degrees
+        lon: longitude in degrees
+        R: radius of the globe
+    """
+    fig, [ax] = setup_3D(show_grid=False)
+    ax.view_init(elev=15, azim=-30, roll=0)
+
+    draw_globe(ax, R, alpha=0.1)
+
+    # Draw the reference point
+    point = sph2cart(np.deg2rad(lon), np.deg2rad(lat), R)
+    plot_vector_3D(point, color='C1')
+    ax.text(*point * 1.1, 'P', fontsize=12, ha='center')
+
+    # Draw reference vectors
+    ref_lon0 = np.array([R, 0, 0])  # lon=0° on equator
+    plot_vector_3D(ref_lon0, scale=1.2, color='gray', alpha=0.7)
+    ax.text(*ref_lon0 * 1.25, 'lon=0°', fontsize=12)
+    
+    ref_equator = normalize([point[0], point[1], 0])
+    plot_vector_3D(ref_equator, scale=1.2, color='gray', alpha=0.7)
+
+    # Draw longitude arc in equatorial plane
+    draw_arc_3D([0, 0, 0], ref_lon0, ref_equator, radius=1, color='C2')
+    mid_lon = (ref_lon0 + ref_equator) / 2
+    ax.text(*mid_lon, 'lon', fontsize=12, color='C2')
+    
+    # Draw latitude arc from equator to point
+    draw_arc_3D([0, 0, 0], ref_equator, point, radius=1, color='C0')
+    point_norm = point / norm(point)
+    mid_lat = (ref_equator + point_norm) / 2
+    ax.text(*mid_lat, 'lat', fontsize=12, color='C0')
+
+    lim = [-R, R]
+    decorate(xlabel='x', ylabel='y', zlabel='z', 
+             xlim=lim, ylim=lim, zlim=lim, aspect='equal')
+
+
+def plot_plane(v1, v2, origin=None, **options):
+    """Plot a shaded plane spanned by two vectors in 3D.
+
+    Args:
+        v1: First vector defining the plane (array-like, shape (3,))
+        v2: Second vector defining the plane (array-like, shape (3,))
+        origin: Origin point of the plane (default: [0, 0, 0])
+        options: Passed to plot_surface (e.g., color, alpha)
+    """
+    v1, v2 = np.asarray(v1), np.asarray(v2)
+
+    if len(v1) != 3 or len(v2) != 3:
+        raise ValueError("plot_plane requires 3D vectors.")
+
+    if origin is None:
+        origin = np.zeros(3)
+    else:
+        origin = np.asarray(origin)
+
+    # Generate a mesh grid for the plane
+    u = [0, 1]
+    v = [0, 1]
+    U, V = np.meshgrid(u, v)
+
+    # Plane equation: P = origin + U * v1 + V * v2
+    X, Y, Z = [origin[i] + U * v1[i] + V * v2[i] for i in range(3)]
+
+    underride(options, color="gray", alpha=0.3)
+
+    # Plot the plane
+    ax = plt.gca()
+    ax.plot_surface(X, Y, Z, **options)
+
+
+## Track function
+
+import xml.etree.ElementTree as ET
+
+def clean_gpx(input_path, output_path):
+    """
+    Create a privacy-safe GPX file containing only lat/lon/elevation/time.
+    Removes metadata and extensions.
+    """
+    tree = ET.parse(input_path)
+    root = tree.getroot()
+
+    # Remove top-level metadata, routes, and waypoints
+    for tag in ["metadata", "rte", "wpt"]:
+        for elem in root.findall(f".//{tag}"):
+            root.remove(elem)
+
+    # Remove all extensions anywhere in the tree
+    for elem in root.findall(".//extensions"):
+        parent = elem.getparent() if hasattr(elem, "getparent") else None
+        if parent is not None:
+            parent.remove(elem)
+        else:
+            # fallback for stdlib ElementTree (no getparent)
+            for p in root.iter():
+                for child in list(p):
+                    if child.tag == elem.tag:
+                        p.remove(child)
+
+    # Keep only lat, lon, ele, and time for trackpoints
+    for trkpt in root.findall(".//trkpt"):
+        for child in list(trkpt):
+            if child.tag not in ["ele", "time"]:
+                trkpt.remove(child)
+
+    # Strip any namespaces from tags for simplicity
+    for elem in root.iter():
+        if "}" in elem.tag:
+            elem.tag = elem.tag.split("}", 1)[1]
+
+    # Write out clean GPX with XML declaration
+    ET.indent(tree, space="  ", level=0)
+    tree.write(output_path, encoding="utf-8", xml_declaration=True)
+
+    print(f"✅ Clean GPX written to: {output_path}")
+
+
+## Pool table plotting functions
+
+
+def decorate_plane(lim=None, **options):
+    """Decorate the current axes with the given options.
+
+    Args:
+        lim: tuple of floats, the limits of the plot
+        options: passed to decorate
+    """
+    underride(options, aspect='equal')
+    remove_spines()
+    if lim is not None:
+        options['xlim'] = lim
+        options['ylim'] = lim
+    decorate(**options)
+
+
+def draw_circles(vs, radius=1.125, **options):
+    underride(options, color="C1", alpha=0.8, lw=0)
+    ax = options.pop("ax", plt.gca())
+    patches = [plt.Circle((x, y), radius, **options) for x, y in vs]
+    for patch in patches:
+        ax.add_patch(patch)
+    return patches
+
+
+def draw_table(table_width=100, table_height=50, ticks=False):
+    fig, ax = plt.subplots(figsize=(5, 2.5))
+
+    ax.add_patch(plt.Rectangle((0, 0), table_width, table_height,
+                                fill='forestgreen', alpha=0.05))
+
+    xs = [0, table_height, table_width]
+    ys = [0, table_height]
+    pockets = cartesian_product([xs, ys])
+    draw_circles(pockets, radius=1.75, color="forestgreen", alpha=0.4)
+
+    # Remove spines, ticks and labels
+    remove_spines()
+    if not ticks:
+        remove_ticks()
+
+    # Set the aspect ratio and limits
+    ax.set_aspect("equal", adjustable="box")
+    ax.set_xlim(-2, table_width+2)  
+    ax.set_ylim(-2, table_height+2)
+
+    return fig, ax
+
+
+def draw_collision(t, cue, target, v1, v2, label=None):
+    """Draw a collision between a cue and a target.
+
+    Args:
+        t: float, the time of the collision
+        cue: vector, the position of the cue
+        target: vector, the position of the target
+        v1: vector, the velocity of the cue
+        v2: vector, the velocity of the target
+        label: string, the label of the collision
+    """
+    draw_table(ticks=True)
+    pos1 = cue + v1 * t
+    pos2 = target + v2 * t
+    draw_circles([pos1, pos2])
+
+
+def remove_ticks():
+    ax = plt.gca()
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+
+
+## Regression helper functions
+
+def add_constant(X):
+    """Add an intercept column of ones to a 1D or 2D array-like X.
+    
+    Args:
+        X: array-like, shape (n,) or (n, m)
+    
+    Returns:
+        array of shape (n, m+1) with a column of ones prepended
+    """
+    X = np.asarray(X)
+
+    # If X is 1D, make it a column vector
+    if X.ndim == 1:
+        X = X[:, np.newaxis]
+
+    n = X.shape[0]
+    ones = np.ones((n, 1))
+    return np.column_stack([ones, X])
+
 
 ## Circuit plotting functions
 
