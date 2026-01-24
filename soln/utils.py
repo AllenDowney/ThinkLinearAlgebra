@@ -791,6 +791,48 @@ def draw_globe(ax, R=3.0, n_lat=9, n_lon=12, alpha=0.3):
         ax.plot(*xyz, color='k', linewidth=0.5, alpha=alpha)  # xyz is (3, N)
 
 
+def spherical_coords_diagram(lat, lon, R=1):
+    """Draw a diagram showing spherical coordinates (lat/lon) on a globe.
+    
+    Args:
+        lat: latitude in degrees
+        lon: longitude in degrees
+        R: radius of the globe
+    """
+    fig, [ax] = setup_3D(show_grid=False)
+    ax.view_init(elev=15, azim=-30, roll=0)
+
+    draw_globe(ax, R, alpha=0.1)
+
+    # Draw the reference point
+    point = sph2cart(np.deg2rad(lon), np.deg2rad(lat), R)
+    plot_vector_3D(point, color='C1')
+    ax.text(*point * 1.1, 'P', fontsize=12, ha='center')
+
+    # Draw reference vectors
+    ref_lon0 = np.array([R, 0, 0])  # lon=0° on equator
+    plot_vector_3D(ref_lon0, scale=1.2, color='gray', alpha=0.7)
+    ax.text(*ref_lon0 * 1.25, 'lon=0°', fontsize=12)
+    
+    ref_equator = normalize([point[0], point[1], 0])
+    plot_vector_3D(ref_equator, scale=1.2, color='gray', alpha=0.7)
+
+    # Draw longitude arc in equatorial plane
+    draw_arc_3D([0, 0, 0], ref_lon0, ref_equator, radius=1, color='C2')
+    mid_lon = (ref_lon0 + ref_equator) / 2
+    ax.text(*mid_lon, 'lon', fontsize=12, color='C2')
+    
+    # Draw latitude arc from equator to point
+    draw_arc_3D([0, 0, 0], ref_equator, point, radius=1, color='C0')
+    point_norm = point / norm(point)
+    mid_lat = (ref_equator + point_norm) / 2
+    ax.text(*mid_lat, 'lat', fontsize=12, color='C0')
+
+    lim = [-R, R]
+    decorate(xlabel='x', ylabel='y', zlabel='z', 
+             xlim=lim, ylim=lim, zlim=lim, aspect='equal')
+
+
 def plot_plane(v1, v2, origin=None, **options):
     """Plot a shaded plane spanned by two vectors in 3D.
 
