@@ -507,6 +507,33 @@ def label_vector(label, vector, origin=None, label_pos=12, offset=10, **options)
     plt.text(x0, y0, label, transform=offset_transform, **options)
 
 
+def label_point(label, point, label_pos=12, offset=10, **options):
+    """Label a point with a string at a given clock-face position.
+
+    Args:
+        label: string
+        point: array-like (x, y) coordinates
+        label_pos: integer clock position (12=above, 3=right, 6=below, 9=left)
+        offset: distance of the label from the point, in points
+    """
+    point = np.asarray(point)
+    x0, y0 = point
+
+    # Clock position to angle: 12=up (90°), 3=right (0°), 6=down (-90°), 9=left (180°)
+    i = label_pos % 12
+    angle = np.pi / 2 - i * (2 * np.pi / 12)
+    dx, dy = pol2cart(offset, angle)
+
+    ax = plt.gca()
+    base = ax.transData
+    offset_transform = mtransforms.offset_copy(
+        base, fig=ax.figure, x=dx, y=dy, units="points"
+    )
+
+    underride(options, ha="center", va="center", fontsize=12)
+    plt.text(x0, y0, label, transform=offset_transform, **options)
+
+
 def plot_rejection(a, b, **kwargs):
     """Draw the rejection of vector a from b (the component of a perpendicular to b).
 
