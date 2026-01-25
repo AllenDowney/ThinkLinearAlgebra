@@ -355,13 +355,14 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-acceleration-to-velocity">2.7. From Acceleration to Velocity</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-imperfect-world">2.8. An Imperfect World</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.9. Discussion</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.11.1. Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.11.2. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.10.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.10.2. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.10.3. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.10.4. Exercise</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.12. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.11. Animation</a></li>
 </ul>
             </nav>
         </div>
@@ -437,7 +438,7 @@ If you know calculus, you will recognize these steps as a form of numerical diff
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">plot_vector</span><span class="p">,</span> <span class="n">plot_vectors</span><span class="p">,</span> <span class="n">scatter</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">norm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">decorate</span><span class="p">,</span> <span class="n">plot_vector</span><span class="p">,</span> <span class="n">plot_vectors</span><span class="p">,</span> <span class="n">scatter</span><span class="p">,</span> <span class="n">trajectory</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">label_point</span>
 </pre></div>
 </div>
 </div>
@@ -488,16 +489,16 @@ We’ll use NumPy arrays to store the Cartesian coordinates of two vectors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<span class="n">plot_vector</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">plot_vector</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">plot_vector</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">label_point</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">label_point</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">label_point</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
 <span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/49a05272c925843fff01ef2c26521f5a1a8d7058be811eb460d1356860d01e86.png" src="_images/49a05272c925843fff01ef2c26521f5a1a8d7058be811eb460d1356860d01e86.png" />
+<img alt="_images/fad1a2c4c0252db65adecc18e6f6791cd4e882586f843f97eebb475dc52d2391.png" src="_images/fad1a2c4c0252db65adecc18e6f6791cd4e882586f843f97eebb475dc52d2391.png" />
 </div>
 </div>
 <p>It is also common to represent vectors as arrows with their tails at the origin.</p>
@@ -1436,9 +1437,50 @@ A challenge of numerical integration is that errors accumulate, so the results a
 </section>
 <section id="exercises">
 <h2><span class="section-number">2.10. </span>Exercises<a class="headerlink" href="#exercises" title="Link to this heading">#</a></h2>
-</section>
 <section id="exercise">
-<h2><span class="section-number">2.11. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
+<h3><span class="section-number">2.10.1. </span>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<p>A <a class="reference external" href="https://www.pnas.org/eprint/RUDKWR7KYHM2Z87SMKWI/full">paper in the Proceedings of the National Academy of Sciences (PNAS)</a> investigates whether honeybees can navigate in a “map-like” way.
+Here’s the key question: if a bee knows how to fly from the hive to location <code class="docutils literal notranslate"><span class="pre">A</span></code>, and from the hive to location <code class="docutils literal notranslate"><span class="pre">B</span></code>, can it navigate a direct path from <code class="docutils literal notranslate"><span class="pre">A</span></code> to <code class="docutils literal notranslate"><span class="pre">B</span></code> without first returning to the hive?</p>
+<p>There are two possible navigation strategies:</p>
+<ul class="simple">
+<li><p>Origin-based navigation: The bee flies from <code class="docutils literal notranslate"><span class="pre">A</span></code> back to the hive, then from the hive to <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p></li>
+<li><p>Map-like navigation: The bee computes the displacement from <code class="docutils literal notranslate"><span class="pre">A</span></code> to <code class="docutils literal notranslate"><span class="pre">B</span></code>, and flies to <code class="docutils literal notranslate"><span class="pre">B</span></code> directly, without going back to the hive.</p></li>
+</ul>
+<p>Surprisingly, the paper reports some evidence that bees are capable of map-like navigation.</p>
+<p>Let’s explore this with the vectors <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> from the beginning of this chapter – and we’ll put the hive at the origin, labeled <code class="docutils literal notranslate"><span class="pre">H</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following figure shows the hive and locations A and B.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span><span class="p">([</span><span class="n">H</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">label_point</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">label_point</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">label_point</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">label_pos</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">decorate</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/64f16802eb8702fc68c6246858fa75afeba71aef53ee85ff85d5af676de6e0ea.png" src="_images/64f16802eb8702fc68c6246858fa75afeba71aef53ee85ff85d5af676de6e0ea.png" />
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Plot the origin-based route from <code class="docutils literal notranslate"><span class="pre">A</span></code> to <code class="docutils literal notranslate"><span class="pre">B</span></code>: draw an arrow from <code class="docutils literal notranslate"><span class="pre">A</span></code> to <code class="docutils literal notranslate"><span class="pre">H</span></code>, and an arrow from <code class="docutils literal notranslate"><span class="pre">H</span></code> to <code class="docutils literal notranslate"><span class="pre">B</span></code>. Hint, you can reverse a vector by computing <code class="docutils literal notranslate"><span class="pre">-A</span></code>.</p></li>
+<li><p>On the same plot, draw the direct route from <code class="docutils literal notranslate"><span class="pre">A</span></code> to <code class="docutils literal notranslate"><span class="pre">B</span></code>.</p></li>
+</ol>
+<p>You should be able to confirm that <code class="docutils literal notranslate"><span class="pre">-A</span></code> followed by <code class="docutils literal notranslate"><span class="pre">B</span></code> adds up to <code class="docutils literal notranslate"><span class="pre">B-A</span></code>.</p>
+</section>
+<section id="id1">
+<h3><span class="section-number">2.10.2. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>In this chapter, we approximated the distance between nearby GPS points by converting latitude and longitude to 3D Cartesian vectors and computing the length of the difference between vectors. This works well for short distances, but for points that are far apart on the surface of the Earth, it is less accurate.</p>
 <p>In this exercise, we’ll compare the straight-line approximation to the great-circle distance between two cities.</p>
 <p>Use the following latitude and longitude coordinates (in degrees):</p>
@@ -1452,8 +1494,9 @@ A challenge of numerical integration is that errors accumulate, so the results a
 <li><p>Compute the absolute difference between the two distances, in meters.</p></li>
 <li><p>Compute the relative difference between the two distances, as a percentage of the great-circle distance.</p></li>
 </ol>
-<section id="id1">
-<h3><span class="section-number">2.11.1. </span>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+</section>
+<section id="id2">
+<h3><span class="section-number">2.10.3. </span>Exercise<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>An airplane flying from Boston to London has a measured airspeed – that is, speed relative to the surrounding air – and a measured heading.
 The plan is flying in the jet stream, a river of air that flows from west to east across the Atlantic Ocean.</p>
 <p>In this exercise, you will add the velocity of the plane, relative to the air, and the velocity of the jet stream, relative to the ground, to get the velocity of the plane relative to the ground.</p>
@@ -1482,8 +1525,8 @@ Assume that the speed of the jet stream is 50 m/s, blowing toward 90° (due east
 </div>
 </div>
 </section>
-<section id="id2">
-<h3><span class="section-number">2.11.2. </span>Exercise<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<section id="id3">
+<h3><span class="section-number">2.10.4. </span>Exercise<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>In this chapter, we estimated velocity by taking differences between successive position measurements. Because GPS measurements are noisy, the estimated velocities that are even noisier.</p>
 <p>In this exercise, we’ll smooth the GPS track before computing velocity, and compare the results to the unsmoothed estimates.</p>
 <p>SciPy provides a function that fits a smooth 2D parametric spline to the GPS positions and measurement times.
@@ -1523,7 +1566,7 @@ The <code class="docutils literal notranslate"><span class="pre">s</span></code>
 </section>
 </section>
 <section id="animation">
-<h2><span class="section-number">2.12. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">2.11. </span>Animation<a class="headerlink" href="#animation" title="Link to this heading">#</a></h2>
 <p>Now let’s animate a circle following the smoothed trajectory.
 We’ll show the path building up behind the moving marker.</p>
 <div class="cell tag_remove-print docutils container">
@@ -1779,42 +1822,42 @@ input[type=range].anim-slider {
 </style>
 
 <div class="animation">
-  <img id="_anim_img7d53b1a985d84967bf0d949a9b429d0f">
+  <img id="_anim_img5d3addeaa57b42aab931e1e682b2597a">
   <div class="anim-controls">
-    <input id="_anim_slider7d53b1a985d84967bf0d949a9b429d0f" type="range" class="anim-slider"
+    <input id="_anim_slider5d3addeaa57b42aab931e1e682b2597a" type="range" class="anim-slider"
            name="points" min="0" max="1" step="1" value="0"
-           oninput="anim7d53b1a985d84967bf0d949a9b429d0f.set_frame(parseInt(this.value));">
+           oninput="anim5d3addeaa57b42aab931e1e682b2597a.set_frame(parseInt(this.value));">
     <div class="anim-buttons">
-      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.slower()">
+      <button title="Decrease speed" aria-label="Decrease speed" onclick="anim5d3addeaa57b42aab931e1e682b2597a.slower()">
           <i class="fa fa-minus"></i></button>
-      <button title="First frame" aria-label="First frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.first_frame()">
+      <button title="First frame" aria-label="First frame" onclick="anim5d3addeaa57b42aab931e1e682b2597a.first_frame()">
         <i class="fa fa-fast-backward"></i></button>
-      <button title="Previous frame" aria-label="Previous frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.previous_frame()">
+      <button title="Previous frame" aria-label="Previous frame" onclick="anim5d3addeaa57b42aab931e1e682b2597a.previous_frame()">
           <i class="fa fa-step-backward"></i></button>
-      <button title="Play backwards" aria-label="Play backwards" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.reverse_animation()">
+      <button title="Play backwards" aria-label="Play backwards" onclick="anim5d3addeaa57b42aab931e1e682b2597a.reverse_animation()">
           <i class="fa fa-play fa-flip-horizontal"></i></button>
-      <button title="Pause" aria-label="Pause" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.pause_animation()">
+      <button title="Pause" aria-label="Pause" onclick="anim5d3addeaa57b42aab931e1e682b2597a.pause_animation()">
           <i class="fa fa-pause"></i></button>
-      <button title="Play" aria-label="Play" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.play_animation()">
+      <button title="Play" aria-label="Play" onclick="anim5d3addeaa57b42aab931e1e682b2597a.play_animation()">
           <i class="fa fa-play"></i></button>
-      <button title="Next frame" aria-label="Next frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.next_frame()">
+      <button title="Next frame" aria-label="Next frame" onclick="anim5d3addeaa57b42aab931e1e682b2597a.next_frame()">
           <i class="fa fa-step-forward"></i></button>
-      <button title="Last frame" aria-label="Last frame" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.last_frame()">
+      <button title="Last frame" aria-label="Last frame" onclick="anim5d3addeaa57b42aab931e1e682b2597a.last_frame()">
           <i class="fa fa-fast-forward"></i></button>
-      <button title="Increase speed" aria-label="Increase speed" onclick="anim7d53b1a985d84967bf0d949a9b429d0f.faster()">
+      <button title="Increase speed" aria-label="Increase speed" onclick="anim5d3addeaa57b42aab931e1e682b2597a.faster()">
           <i class="fa fa-plus"></i></button>
     </div>
-    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select7d53b1a985d84967bf0d949a9b429d0f"
+    <form title="Repetition mode" aria-label="Repetition mode" action="#n" name="_anim_loop_select5d3addeaa57b42aab931e1e682b2597a"
           class="anim-state">
-      <input type="radio" name="state" value="once" id="_anim_radio1_7d53b1a985d84967bf0d949a9b429d0f"
+      <input type="radio" name="state" value="once" id="_anim_radio1_5d3addeaa57b42aab931e1e682b2597a"
              >
-      <label for="_anim_radio1_7d53b1a985d84967bf0d949a9b429d0f">Once</label>
-      <input type="radio" name="state" value="loop" id="_anim_radio2_7d53b1a985d84967bf0d949a9b429d0f"
+      <label for="_anim_radio1_5d3addeaa57b42aab931e1e682b2597a">Once</label>
+      <input type="radio" name="state" value="loop" id="_anim_radio2_5d3addeaa57b42aab931e1e682b2597a"
              checked>
-      <label for="_anim_radio2_7d53b1a985d84967bf0d949a9b429d0f">Loop</label>
-      <input type="radio" name="state" value="reflect" id="_anim_radio3_7d53b1a985d84967bf0d949a9b429d0f"
+      <label for="_anim_radio2_5d3addeaa57b42aab931e1e682b2597a">Loop</label>
+      <input type="radio" name="state" value="reflect" id="_anim_radio3_5d3addeaa57b42aab931e1e682b2597a"
              >
-      <label for="_anim_radio3_7d53b1a985d84967bf0d949a9b429d0f">Reflect</label>
+      <label for="_anim_radio3_5d3addeaa57b42aab931e1e682b2597a">Reflect</label>
     </form>
   </div>
 </div>
@@ -1824,9 +1867,9 @@ input[type=range].anim-slider {
   /* Instantiate the Animation class. */
   /* The IDs given should match those used in the template above. */
   (function() {
-    var img_id = "_anim_img7d53b1a985d84967bf0d949a9b429d0f";
-    var slider_id = "_anim_slider7d53b1a985d84967bf0d949a9b429d0f";
-    var loop_select_id = "_anim_loop_select7d53b1a985d84967bf0d949a9b429d0f";
+    var img_id = "_anim_img5d3addeaa57b42aab931e1e682b2597a";
+    var slider_id = "_anim_slider5d3addeaa57b42aab931e1e682b2597a";
+    var loop_select_id = "_anim_loop_select5d3addeaa57b42aab931e1e682b2597a";
     var frames = new Array(50);
     
   frames[0] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAEGCAYAAAD2YZXnAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90\
@@ -13951,7 +13994,7 @@ O7t2rX/hhRe49tpr8fl8nDhxgjlz5vDwww8zadIkDh8+3O397HZ713W/bzrX+16MyZMnU1hYeFGv\
     /* set a timeout to make sure all the above elements are created before
        the object is initialized. */
     setTimeout(function() {
-        anim7d53b1a985d84967bf0d949a9b429d0f = new Animation(frames, img_id, slider_id, 100.0,
+        anim5d3addeaa57b42aab931e1e682b2597a = new Animation(frames, img_id, slider_id, 100.0,
                                  loop_select_id);
     }, 0);
   })()
@@ -14038,13 +14081,14 @@ O7t2rX/hhRe49tpr8fl8nDhxgjlz5vDwww8zadIkDh8+3O397HZ713W/bzrX+16MyZMnU1hYeFGv\
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-acceleration-to-velocity">2.7. From Acceleration to Velocity</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-imperfect-world">2.8. An Imperfect World</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion">2.9. Discussion</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.11. Exercise</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.11.1. Exercise</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.11.2. Exercise</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercises">2.10. Exercises</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">2.10.1. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.10.2. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2.10.3. Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.10.4. Exercise</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.12. Animation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#animation">2.11. Animation</a></li>
 </ul>
   </nav></div>
 
