@@ -1,0 +1,12 @@
+jupyter
+networkx
+numpy
+matplotlib
+pandas
+seaborn
+scipy
+scikit-learn
+statsmodels
+sympy
+tables
+

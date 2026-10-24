@@ -34,6 +34,12 @@ Here are the chapters that are available now. More coming soon!
 Introduces matrix multiplication and eigenvectors through a network-based model of museum traffic, and implements the PageRank algorithm for quantifying the quality of web pages.
 
 
+**Chapter 2: A Day At the Track**
+
+* [Click here to run Chapter 2 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/track.ipynb):
+Introduces vector addition and subtraction using GPS tracking data. Estimates velocity and acceleration through numerical differentiation, and explores the challenges of reconstructing position from noisy acceleration data.
+
+
 **Chapter 4: Projection**
 
 * [Click here to run Chapter 4 on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/projection.ipynb):

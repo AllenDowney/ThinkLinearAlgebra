@@ -4,6 +4,7 @@
 
 # copy the notebooks
 cp ../soln/eigenvector.ipynb .
+cp ../soln/track.ipynb .
 cp ../soln/projection.ipynb .
 cp ../soln/affine.ipynb .
 cp ../soln/system.ipynb .

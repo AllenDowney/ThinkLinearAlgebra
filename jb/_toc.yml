@@ -5,6 +5,7 @@ parts:
   numbered: True
   chapters:
     - file: eigenvector
+    - file: track
     - file: projection
     - file: affine
     - file: system
