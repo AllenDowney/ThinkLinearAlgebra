@@ -143,7 +143,7 @@ Problems found while looking into this (2026-10-24):
 
 - [x] Add `%pip install` cells (hidden in the book) for packages Colab lacks: track and truss
 - [x] Script that builds a pinned requirements file (`ci/colab_requirements.py` → `ci/requirements-colab.txt`) from Colab's `pip-freeze.txt`, limited to the packages the book uses, so CI installs only what Colab has
-- [x] GitHub Actions workflow (`.github/workflows/notebooks.yml`, `ci/run_notebooks.sh`, `make colab-test`): Ubuntu 24.04, Python 3.12, Graphviz, and those pins. It runs each chapter in `jb/_toc.yml` (from `soln/`) and the prototypes, each in a fresh directory with nbmake. Data files are downloaded from GitHub; `utils.py` is copied from the commit being tested. All 9 notebooks pass locally.
+- [x] GitHub Actions workflow (`.github/workflows/notebooks.yml`, `ci/run_notebooks.sh`, `make colab-test`): Ubuntu 24.04, Python 3.12, Graphviz, and those pins. It runs each chapter in `jb/_toc.yml` (from `soln/`) and the prototypes, each in a fresh directory with nbmake. Data files are downloaded from GitHub; `utils.py` is copied from the commit being tested. All 9 notebooks pass locally and on GitHub Actions (run 40146678495, after adding ffmpeg, which Colab has and the runner lacked).
 - [ ] Optional: a local `make colab-test` using Google's Colab CPU runtime Docker image (the closest match, but very large)
 - [ ] Run notebooks on real Colab from this machine with the Colab CLI (`colab exec`). Installed in `~/.local/share/colab-cli-venv` (v0.7.5); Allen has to sign in once
 - [ ] Decide on solutions in `chapters/`: `chapters/prep_notebooks.py` only matches `chap*.ipynb`, so the student notebooks still contain all the solutions
