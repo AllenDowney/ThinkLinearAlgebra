@@ -1222,7 +1222,7 @@ def draw_circuit_graph(G, pos=None, **options):
     underride(options, node_color='lightblue', node_size=1000)
     G.graph['graph'] = {'rankdir': 'LR'}
     if pos is None:
-        pos = nx.nx_agraph.graphviz_layout(G, prog='dot')
+        pos = nx.nx_pydot.graphviz_layout(G, prog='dot')
 
     nx.draw_networkx_nodes(G, pos, **options)
     nx.draw_networkx_labels(G, pos)

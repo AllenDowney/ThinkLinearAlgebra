@@ -20,3 +20,8 @@ clean:
 
 tests:
 	cd soln; pytest --nbmake *.ipynb
+
+
+## Run notebooks Colab-style, each in a fresh directory (see ci/)
+colab-test:
+	bash ci/run_notebooks.sh

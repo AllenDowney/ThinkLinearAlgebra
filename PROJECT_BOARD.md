@@ -128,3 +128,27 @@ The result is `inventory.md`: per-chapter concepts, applications, and tools (§1
 - [ ] Rewrite `Frame.py` on the shared `Vector` class (Task 7), with NetworkX and derived-edge caching; fix the sign bug in `Rotation.from_axis`
 - [ ] Prototype the animated linkage
 - [ ] Draft the chapter outline
+
+---
+
+## Task 9: Test notebooks in a Colab-like environment
+
+**Status:** In progress (CI added 2026-10-24)
+
+**Context:** We can't run notebooks in Colab automatically from CI. Google's new official [Colab CLI](https://github.com/googlecolab/google-colab-cli) has `colab exec` for running a notebook on a Colab runtime, but it isn't yet clear how it authenticates from CI, and it uses Colab compute quota. The partial fix is CI that copies Colab's environment as closely as practical. Google publishes Colab's package versions in [googlecolab/backend-info](https://github.com/googlecolab/backend-info). As of 2026-10-24: Python 3.12.13, numpy 2.1.3, scipy 1.16.3, matplotlib 3.10.0, pandas 2.2.3, sympy 1.14.0, networkx 3.7, scikit-image 0.25.2, shapely 2.2.0, IPython 7.34.0, ipykernel 6.17.1.
+
+Problems found while looking into this (2026-10-24):
+- The root `utils.py` (the copy that notebooks download) lacked `label_point`, which the track chapter imports. Fixed: the root `utils.py` is now the only copy, and `soln/` and `chapters/` have symlinks to it.
+- **Colab doesn't have `gpxpy` or `haversine` (needed by track) or `pint` (needed by truss), and those chapters don't install them.** They probably fail on Colab.
+
+- [x] Add `%pip install` cells (hidden in the book) for packages Colab lacks: track and truss
+- [x] Script that builds a pinned requirements file (`ci/colab_requirements.py` → `ci/requirements-colab.txt`) from Colab's `pip-freeze.txt`, limited to the packages the book uses, so CI installs only what Colab has
+- [x] GitHub Actions workflow (`.github/workflows/notebooks.yml`, `ci/run_notebooks.sh`, `make colab-test`): Ubuntu 24.04, Python 3.12, Graphviz, and those pins. It runs each chapter in `jb/_toc.yml` (from `soln/`) and the prototypes, each in a fresh directory with nbmake. Data files are downloaded from GitHub; `utils.py` is copied from the commit being tested. All 9 notebooks pass locally.
+- [ ] Optional: a local `make colab-test` using Google's Colab CPU runtime Docker image (the closest match, but very large)
+- [ ] Run notebooks on real Colab from this machine with the Colab CLI (`colab exec`). Installed in `~/.local/share/colab-cli-venv` (v0.7.5); Allen has to sign in once
+- [ ] Decide on solutions in `chapters/`: `chapters/prep_notebooks.py` only matches `chap*.ipynb`, so the student notebooks still contain all the solutions
+
+More problems found by the first Colab-like run (2026-10-24), now fixed:
+- projection: `%load_ext autoreload` fails on Colab (Python 3.12 + IPython 7.34 imports the removed `imp` module). It now has the same workaround cell as the other chapters.
+- system: `draw_circuit_graph` needed `pygraphviz`, which Colab lacks. It now uses `nx.nx_pydot.graphviz_layout` (Colab has `pydot` and the Graphviz `dot` program), with identical layouts.
+- `requirements.txt` was missing gpxpy, haversine, pint, pydot, scikit-image and shapely.

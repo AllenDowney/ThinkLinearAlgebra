@@ -1,0 +1,33 @@
+# Run the notebooks in an environment close to Colab's:
+# Colab's Python version and Colab's versions of the packages the book uses
+# (ci/requirements-colab.txt, made by ci/colab_requirements.py), and nothing
+# else, so a notebook that needs another package has to install it itself.
+
+name: notebooks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  colab-like:
+    runs-on: ubuntu-24.04   # Colab runs Ubuntu 24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ci/requirements-colab.txt
+
+      - name: Install Graphviz (Colab has it; draw_circuit_graph uses dot)
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Install Colab's versions of the book's packages
+        run: pip install -r ci/requirements-colab.txt nbmake pytest
+
+      - name: Run the notebooks
+        run: bash ci/run_notebooks.sh
