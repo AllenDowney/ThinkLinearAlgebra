@@ -125,7 +125,7 @@ Vectors and their operations, norm, dot product and projection, orthogonality, l
 
 - **Linear combinations, span, basis, linear independence.** These ideas are used throughout but never get a section of their own. "Span" first appears in Ch 10. Linear independence comes up only as rank.
 - **Matrix-vector product, column picture.** Ch 1 gives the row picture (dot products). Ch 5 hints at the column picture (rotation matrix columns are where the basis vectors land) but doesn't name it.
-- **Change of basis / coordinate systems.** Ch 5's rotation matrix is close. The archived `geography` notebook has an East-North-Up basis built with cross products.
+- **Change of basis / coordinate systems.** Ch 5's rotation matrix is close. The archived `geography` notebook has an East-North-Up basis built with cross products, and `soln/Frame.py` implements vectors tagged with frames, plus transforms between frames.
 - **Eigenvectors after Ch 1.** Ch 1 introduces them quickly and promises to come back. Nothing returns to them: no eigendecomposition, no diagonalization, no symmetric matrices, no "why power iteration works" beyond the linearity sketch.
 
 ### Missing
@@ -166,6 +166,7 @@ These are probably out of scope by design: abstract vector spaces, proofs, compl
 | **cross** | Placeholder: one 3D cross-product plot and a 2D angle-between using cross plus dot. | Cross product. | Slot 3 (if it covers cross product / determinant). |
 | **trilateration** | Code only: linearized least squares, then Gauss-Newton refinement. | Least squares, Jacobian, normal equations. | After Ch 10 (needs least squares), or as a Ch 10 exercise. |
 | **geography** (archival) | Leftovers from Ch 2: ENU local basis by cross products, projection onto a basis, OpenSky flights. | Change of basis, 3D cross product, orthonormal basis. | Source material for a change-of-basis section. |
+| **Frame.py** (copied 2026-10-24 from `~/ThinkPython2/python_thinking/Frame.py`, written 2012) | Runs under Python 3; 311 lines, no prose. Classes `Vector` (coordinates plus a frame of reference; only `+`, which raises `FrameError` for mismatched frames), `Rotation` (axis-angle to matrix; inverse = transpose), `Transform` (rotation plus origin offset, from a source frame to a destination; apply, compose, invert), `Frame` (named, with a dict of known transforms), plus a shortest-path search over the graph of frames. Notation follows Craig's robotics text (${}^{A}p$, ${}^{A}_{B}T$). Licensed GPLv3, while the book's code is MIT. | Change of basis, coordinate frames, 3D rotation (Rodrigues formula), orthogonal matrices (inverse = transpose), rigid transforms and their composition and inverse, graph of frames (like ROS `tf`). | Slot 6, or a later chapter on frames; shares a `Vector` class with Boids. |
 | **pagerank** (archival) | Absorbed into Ch 1. | — | — |
 
 ---

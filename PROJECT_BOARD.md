@@ -79,8 +79,52 @@ The result is `inventory.md`: per-chapter concepts, applications, and tools (§1
 - **Slot 3:** linear combinations, span, basis; 2D cross product / determinant as signed area (Chapter 5 uses `cross2d` with no introduction). Boids is a natural application (a Boid's goal is a weighted sum of vectors). Correlation as a dot product (penguins) could also go here, or extend Chapter 4.
 - **Slot 6:** undoing and finding transformations: inverse, determinant as area scaling and an invertibility test, solving for the transform that maps one set of points to another. This leads into Chapter 7.
 - **After 10:** eigendecomposition, SVD, PCA with ANSUR or penguins data (`correlation`, `penguins`).
+- **Decided (Allen, 2026-10-24): Frames is Chapter 6** (`soln/Frame.py`): vectors tagged with a frame of reference, 3D rotations, rigid transforms between frames. Use NetworkX for the graph of frames. Keep the caching of composed and inverse transforms as edges, but mark them as derived edges and invalidate them when a primary transform changes. It shares a `Vector` class with the Boids chapter (Task 7).
 
+- [ ] Explore Boids for slot 3 (Task 7)
 - [ ] Decide the number of chapters (10 or 11) and what goes in each open slot
 - [ ] Write a planning doc for each chosen chapter: goal, concepts, application and data, outline, exercises, dependencies on neighboring chapters, source notebooks
 - [ ] Add a board task for writing each chosen chapter
 - [ ] Update `plan.md` to match
+
+---
+
+## Task 6: Design goals document
+
+**Status:** In progress (draft done 2026-10-24; Allen to revise)
+
+**Context:** Record the book's design goals, so that new chapters (Task 5) stay consistent with the existing ones. `design.md` was inferred from the eight published chapters, the README and `jb/index.md`. It ends with open questions for Allen.
+
+- [x] Draft `design.md`
+- [ ] Allen revises it and answers the open questions (§6)
+- [ ] Use it as the checklist when planning and reviewing new chapters
+
+---
+
+## Task 7: Explore a Chapter 3 built around Boids
+
+**Status:** In progress (planning doc started 2026-10-24)
+
+**Context:** Part of Task 5 (choosing the remaining chapters). Boids (Reynolds 1987; the existing code is from *Think Complexity* and uses VPython) is a candidate centerpiece for slot 3. Its steering rule is a weighted sum of vectors, so it naturally teaches scalar multiplication and linear combinations. The planning doc is `plans/chapter3_boids.md`. It outlines the existing code and its bugs, the topics Boids can demonstrate, the prep the chapter needs, and tools for running in Colab. The recommendation is a small `Vector` class of our own plus Matplotlib 3D animation, because VPython doesn't run in Colab yet.
+
+- [x] Start the planning doc: code outline, topics, prep, tools, recommendation
+- [ ] Allen decides on the doc's open questions (§5)
+- [x] Prototype 3D Boids with a `Vector` class and a Matplotlib animation (`plans/prototypes/boids3d.md` and `.ipynb`, built on `Vector` in `soln/utils.py`, 2026-10-24); Allen asked for 3D and vector objects
+- [x] Write the shared `Vector` class in `soln/utils.py`, with tests in `tests/test_utils.py`
+- [ ] Test the prototype in Colab (needs `utils.py` with `Vector` pushed to the root); tune arrows, frame count and file size
+- [ ] Draft the chapter outline
+- [ ] List the edits needed in Ch 4 and Ch 5
+
+---
+
+## Task 8: Chapter 6, Frames of Reference
+
+**Status:** In progress (planning doc started 2026-10-24)
+
+**Context:** Allen decided on 2026-10-24 that Frames is Chapter 6 (Task 5). It's based on `soln/Frame.py` (from ThinkPython2, 2012): vectors tagged with a frame, 3D rotations, rigid transforms, and a graph of frames, now to use NetworkX. Composed transforms are cached as derived edges and cleared when a primary transform changes. That's needed because the main example is likely an animated linkage whose frames move. The planning doc is `plans/chapter6_frames.md`.
+
+- [x] Start the planning doc
+- [ ] Allen decides on the doc's open questions (§6)
+- [ ] Rewrite `Frame.py` on the shared `Vector` class (Task 7), with NetworkX and derived-edge caching; fix the sign bug in `Rotation.from_axis`
+- [ ] Prototype the animated linkage
+- [ ] Draft the chapter outline

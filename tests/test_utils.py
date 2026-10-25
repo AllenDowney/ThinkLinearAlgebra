@@ -385,3 +385,70 @@ def test_sph2cart():
     assert result.shape == (3, 2), f"Mixed inputs should return (3, 2), got {result.shape}" 
 
 
+
+
+# ---- Vector class ----
+
+from soln.utils import Vector, FrameError
+
+
+def test_vector_construction():
+    assert Vector(1, 2, 3) == Vector([1, 2, 3])
+    assert len(Vector(1, 2)) == 2
+    assert Vector.zero(2) == Vector(0, 0)
+    with pytest.raises(ValueError):
+        Vector(1, 2, 3, 4)
+
+
+def test_vector_arithmetic():
+    v = Vector(1, 2, 2)
+    w = Vector(0, 1, 0)
+    assert v + w == Vector(1, 3, 2)
+    assert v - w == Vector(1, 1, 2)
+    assert -v == Vector(-1, -2, -2)
+    assert 2 * v == v * 2 == Vector(2, 4, 4)
+    assert v / 2 == Vector(0.5, 1, 1)
+    assert sum([v, w, w]) == Vector(1, 4, 2)
+
+
+def test_vector_disallowed_operations():
+    v = Vector(1, 2, 2)
+    with pytest.raises(TypeError):
+        v * v
+    with pytest.raises(TypeError):
+        v + 1
+    with pytest.raises(ValueError):
+        v + Vector(1, 2)
+
+
+def test_vector_products_and_magnitude():
+    v = Vector(1, 2, 2)
+    w = Vector(0, 1, 0)
+    assert v.dot(w) == 2
+    assert v.cross(w) == Vector(-2, 0, 1)
+    assert Vector(1, 0).cross(Vector(0, 1)) == 1
+    assert v.mag == 3
+    assert v.hat().isclose(Vector(1 / 3, 2 / 3, 2 / 3))
+    assert Vector.zero().hat() == Vector.zero()
+    assert v.limit(1).mag == pytest.approx(1)
+    assert w.limit(5) == w
+    assert Vector(1, 0).angle(Vector(0, 2)) == pytest.approx(np.pi / 2)
+
+
+def test_vector_numpy_interop():
+    v = Vector(1, 2, 3)
+    assert np.array_equal(np.asarray(v), [1, 2, 3])
+    assert np.array([v, v]).shape == (2, 3)
+    x, y, z = v
+    assert (x, y, z) == (v.x, v.y, v.z) == (1, 2, 3)
+
+
+def test_vector_frames():
+    a = Vector(1, 0, 0, frame="A")
+    b = Vector(0, 1, 0, frame="B")
+    with pytest.raises(FrameError):
+        a + b
+    with pytest.raises(FrameError):
+        a.dot(b)
+    assert (2 * a).frame == "A"
+    assert (a + Vector(0, 1, 0, frame="A")).frame == "A"

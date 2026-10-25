@@ -21,7 +21,7 @@ python prep_notebooks.py
 # pytest --nbmake chap*.ipynb
 
 # update the utils file
-cp ../soln/utils.py .
+# utils.py is a symlink to ../utils.py, the canonical copy
 
 # commit the changes
 git add *.ipynb utils.py

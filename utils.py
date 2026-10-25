@@ -218,6 +218,176 @@ def gram_schmidt(vectors):
     return np.array(basis)
 
 
+## Vector class
+
+class FrameError(ValueError):
+    """Raised when vectors in different frames of reference are combined."""
+
+
+class Vector:
+    """A 2D or 3D vector that supports only vector operations.
+
+    Supported: v + w, v - w, -v, k * v, v * k, v / k, v.dot(w), v.cross(w),
+    v.mag, v.hat(), v.angle(w). Multiplying two vectors with * is an error;
+    use dot or cross.
+
+    A vector can have a frame of reference; combining vectors in different
+    frames raises FrameError. The default frame is None.
+    """
+
+    def __init__(self, *coords, frame=None):
+        """Make a vector from coordinates.
+
+        Args:
+            coords: two or three numbers, or one sequence of them
+            frame: frame of reference (any object), or None
+        """
+        if len(coords) == 1:
+            coords = coords[0]
+        self.coords = np.array(coords, dtype=float)
+        if self.coords.shape not in [(2,), (3,)]:
+            raise ValueError("A Vector has 2 or 3 coordinates.")
+        self.frame = frame
+
+    @staticmethod
+    def zero(dim=3, frame=None):
+        """Make a zero vector.
+
+        Args:
+            dim: number of coordinates
+            frame: frame of reference
+
+        Returns: Vector
+        """
+        return Vector(np.zeros(dim), frame=frame)
+
+    def _check(self, other):
+        """Check that other is a Vector in the same frame with the same dimension."""
+        if not isinstance(other, Vector):
+            raise TypeError(f"Expected a Vector, got {type(other).__name__}")
+        if other.frame != self.frame:
+            raise FrameError(f"Frames differ: {self.frame} and {other.frame}")
+        if len(self) != len(other):
+            raise ValueError("Vectors have different dimensions.")
+
+    def __add__(self, other):
+        self._check(other)
+        return Vector(self.coords + other.coords, frame=self.frame)
+
+    def __radd__(self, other):
+        # Allows sum(vectors), which starts from 0
+        if isinstance(other, (int, float)) and other == 0:
+            return self
+        return NotImplemented
+
+    def __sub__(self, other):
+        self._check(other)
+        return Vector(self.coords - other.coords, frame=self.frame)
+
+    def __neg__(self):
+        return Vector(-self.coords, frame=self.frame)
+
+    def __mul__(self, k):
+        if isinstance(k, Vector):
+            raise TypeError("Can't multiply two vectors with *; use dot or cross.")
+        if not np.isscalar(k):
+            return NotImplemented
+        return Vector(self.coords * k, frame=self.frame)
+
+    __rmul__ = __mul__
+
+    def __truediv__(self, k):
+        if not np.isscalar(k):
+            return NotImplemented
+        return Vector(self.coords / k, frame=self.frame)
+
+    def dot(self, other):
+        """Dot product.
+
+        Returns: float
+        """
+        self._check(other)
+        return float(np.dot(self.coords, other.coords))
+
+    def cross(self, other):
+        """Cross product.
+
+        Returns: Vector (3D) or float (2D: the z component)
+        """
+        self._check(other)
+        if len(self) == 2:
+            return float(cross2d(self.coords, other.coords))
+        return Vector(np.cross(self.coords, other.coords), frame=self.frame)
+
+    @property
+    def mag(self):
+        """Magnitude (length) of the vector."""
+        return float(np.sqrt(np.dot(self.coords, self.coords)))
+
+    def hat(self):
+        """Unit vector in the same direction (the zero vector stays zero).
+
+        Returns: Vector
+        """
+        mag = self.mag
+        return self / mag if mag > 0 else self
+
+    def limit(self, max_mag=1):
+        """Scale down to max_mag if the vector is longer.
+
+        Returns: Vector
+        """
+        mag = self.mag
+        return self * (max_mag / mag) if mag > max_mag else self
+
+    def angle(self, other):
+        """Angle between two vectors in radians, from 0 to pi.
+
+        Returns: float
+        """
+        cos = self.dot(other) / (self.mag * other.mag)
+        return float(np.arccos(np.clip(cos, -1, 1)))
+
+    @property
+    def x(self):
+        return float(self.coords[0])
+
+    @property
+    def y(self):
+        return float(self.coords[1])
+
+    @property
+    def z(self):
+        return float(self.coords[2])
+
+    def __len__(self):
+        return len(self.coords)
+
+    def __iter__(self):
+        return iter(self.coords)
+
+    def __array__(self, dtype=None, copy=None):
+        # Lets NumPy and Matplotlib functions accept a Vector
+        return self.coords if dtype is None else self.coords.astype(dtype)
+
+    def __eq__(self, other):
+        return (isinstance(other, Vector) and other.frame == self.frame
+                and np.array_equal(self.coords, other.coords))
+
+    def isclose(self, other, **options):
+        """Check whether two vectors are equal within floating-point error.
+
+        Returns: bool
+        """
+        self._check(other)
+        return bool(np.allclose(self.coords, other.coords, **options))
+
+    def __repr__(self):
+        coords = ", ".join(f"{c:.4g}" for c in self.coords)
+        frame = "" if self.frame is None else f", frame={self.frame!r}"
+        return f"Vector({coords}{frame})"
+
+
 def pol2cart(r, phi):
     """Convert polar coordinates to Cartesian coordinates.
     
@@ -501,6 +671,33 @@ def label_vector(label, vector, origin=None, label_pos=12, offset=10, **options)
     base = ax.transData
     offset_transform = mtransforms.offset_copy(
         base, fig=ax.figure, x=dx*offset, y=dy*offset, units="points"
+    )
+
+    underride(options, ha="center", va="center", fontsize=12)
+    plt.text(x0, y0, label, transform=offset_transform, **options)
+
+
+def label_point(label, point, label_pos=12, offset=10, **options):
+    """Label a point with a string at a given clock-face position.
+
+    Args:
+        label: string
+        point: array-like (x, y) coordinates
+        label_pos: integer clock position (12=above, 3=right, 6=below, 9=left)
+        offset: distance of the label from the point, in points
+    """
+    point = np.asarray(point)
+    x0, y0 = point
+
+    # Clock position to angle: 12=up (90°), 3=right (0°), 6=down (-90°), 9=left (180°)
+    i = label_pos % 12
+    angle = np.pi / 2 - i * (2 * np.pi / 12)
+    dx, dy = pol2cart(offset, angle)
+
+    ax = plt.gca()
+    base = ax.transData
+    offset_transform = mtransforms.offset_copy(
+        base, fig=ax.figure, x=dx, y=dy, units="points"
     )
 
     underride(options, ha="center", va="center", fontsize=12)
