@@ -25,7 +25,7 @@ Each bird is described by two vectors, its position and velocity.
 At each step, it decides where to go by computing a few vectors -- one that points toward its neighbors, one that points away from birds that are too close, and so on -- and combining them.
 With a few simple rules, a crowd of independent birds becomes a flock.
 
-Along the way, we'll compute the length of a vector, scale a vector to a given length, find the average of a set of vectors, and interpolate between two vectors.
+Along the way, we'll compute the dot product of two vectors, use it to find the length of a vector, scale a vector to a given length, find the average of a set of vectors, and interpolate between two vectors.
 
 <!-- #region tags=["remove-print"] -->
 [Click here to run this notebook on Colab](https://colab.research.google.com/github/AllenDowney/ThinkLinearAlgebra/blob/main/chapters/boids.ipynb).
@@ -134,6 +134,84 @@ But if we try to multiply two vectors, we get an error.
 v * w
 ```
 
+But there are ways to multiply vectors that do make sense.
+One of them is the **dot product**, which multiplies the corresponding coordinates of two vectors and adds up the products.
+
+```python
+v.dot(w)
+```
+
+For `v = (1, 2, 2)` and `w = (0, 1, 0)`, the products are 0, 2, and 0, so the dot product is 2.
+The result is a scalar, not a vector.
+
+In Python, the `@` operator is used for matrix multiplication, and for NumPy arrays it computes the dot product -- which is the simplest case of matrix multiplication.
+`Vector` uses it the same way.
+
+```python
+v @ w
+```
+
+The dot product of a vector with itself is the sum of the squares of its coordinates.
+
+```python
+v @ v
+```
+
+And that turns out to be the square of the length of the vector.
+To see why, consider the following diagram, which shows `v` as an arrow from the origin to the point `(1, 2, 2)`, along with a path that gets to the same point one coordinate at a time.
+
+```python tags=["hide-input"]
+def decorate_3D(xlim, ylim, zlim, elev=20, azim=-60):
+    """Set the limits, labels, and point of view of a 3D diagram."""
+    plt.gca().view_init(elev=elev, azim=azim, roll=0)
+    decorate(xlim=xlim, ylim=ylim, zlim=zlim, xlabel="x", ylabel="y", zlabel="z", aspect="equal")
+
+
+def decorate_plane(xlim, ylim):
+    """Set the limits and labels of a 2D diagram."""
+    decorate(xlim=xlim, ylim=ylim, aspect="equal", xlabel="x", ylabel="y")
+```
+
+```python tags=["hide-input"]
+def plot_segment_3D(start, end, label=None, **options):
+    """Draw a line segment in 3D, with an optional label at its midpoint."""
+    ax = plt.gca()
+    ax.plot(*np.transpose([start, end]), **options)
+    if label is not None:
+        ax.text(*(np.add(start, end) / 2), "  " + label, fontsize=12)
+
+
+x, y, z = v
+setup_3D(figsize=(5, 4))
+plot_vector_3D(v, label="v", color="C1")
+plot_segment_3D([0, 0, 0], [x, 0, 0], "x", color="gray")
+plot_segment_3D([x, 0, 0], [x, y, 0], "y", color="gray")
+plot_segment_3D([x, y, 0], [x, y, z], "z", color="gray")
+plot_segment_3D([0, 0, 0], [x, y, 0], color="gray", ls=":")
+decorate_3D(xlim=[0, 2.2], ylim=[0, 2.2], zlim=[0, 2.2], azim=-50)
+plt.gca().set(xlabel="", ylabel="", zlabel="")
+```
+
+The sides labeled `x` and `y` are perpendicular, so by the Pythagorean theorem, the dotted diagonal in the bottom plane has length $\sqrt{x^2 + y^2}$.
+That diagonal is perpendicular to the side labeled `z`, so they form another right triangle, and `v` is its hypotenuse.
+By the Pythagorean theorem again, the square of the length of `v` is $x^2 + y^2 + z^2$, which is the dot product of `v` with itself.
+
+The length of a vector is called its **magnitude**, which we can compute by taking the square root of the dot product of the vector with itself.
+That's what the `mag` property does.
+
+```python
+show_code(Vector.mag)
+```
+
+Raising a number to the power 0.5 computes its square root.
+Here's the magnitude of `v`.
+
+```python
+v.mag
+```
+
+The sum of the squares is 1 + 4 + 4 = 9, so the magnitude is 3.
+
 A `Vector` can have two coordinates or three.
 In this chapter we'll work in three dimensions, but the code we write will work in two dimensions as well.
 
@@ -157,22 +235,12 @@ vel = Vector(2, 1, 2)
 boid = Boid(pos, vel)
 ```
 
-The length of a vector is called its **magnitude**.
 The magnitude of the velocity vector is the speed of the Boid.
 
 ```python
 boid.vel.mag
 ```
 
-Here's how `mag` is computed.
-
-```python
-show_code(Vector.mag)
-```
-
-`self.coords` is a NumPy array that contains the coordinates of the vector.
-`np.dot` computes the sum of the squares of the coordinates, and the square root of the sum is the magnitude.
-In two dimensions, that's the Pythagorean theorem, and in three dimensions it's the same idea with one more coordinate.
 For this velocity, the sum of the squares is 4 + 1 + 4 = 9, so the speed is 3.
 
 In this simulation, we'll keep the speed of each Boid constant, so its velocity indicates the direction it's moving but not how fast.
@@ -207,18 +275,6 @@ new_pos
 
 The following diagram shows the position as a point, the velocity as an arrow with its tail at the position, and the new position at the head of the scaled velocity vector.
 The dotted lines drop from each point to the floor of the diagram, which makes it easier to see where the points are in three dimensions.
-
-```python tags=["hide-input"]
-def decorate_3D(xlim, ylim, zlim, elev=20, azim=-60):
-    """Set the limits, labels, and point of view of a 3D diagram."""
-    plt.gca().view_init(elev=elev, azim=azim, roll=0)
-    decorate(xlim=xlim, ylim=ylim, zlim=zlim, xlabel="x", ylabel="y", zlabel="z", aspect="equal")
-
-
-def decorate_plane(xlim, ylim):
-    """Set the limits and labels of a 2D diagram."""
-    decorate(xlim=xlim, ylim=ylim, aspect="equal", xlabel="x", ylabel="y")
-```
 
 ```python tags=["hide-input"]
 setup_3D(figsize=(5, 4))
@@ -375,8 +431,7 @@ def neighbors(boid, others, radius, angle):
 show_code(Vector.angle)
 ```
 
-It uses the dot product, which is the sum of the products of the corresponding coordinates.
-Dividing the dot product by the product of the magnitudes yields the cosine of the angle between the vectors, and `arccos` converts the cosine to an angle, from 0 to $\pi$.
+It uses the dot product again: dividing the dot product of two vectors by the product of their magnitudes yields the cosine of the angle between them, and `arccos` converts the cosine to an angle, from 0 to $\pi$.
 (`np.clip` makes sure the cosine is between -1 and 1, in case floating-point error pushes it slightly outside.)
 Why this works takes a little geometry, which we'll leave for another time -- for now, the important part is that `angle` computes the angle between two vectors.
 

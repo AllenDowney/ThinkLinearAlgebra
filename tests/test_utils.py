@@ -425,6 +425,8 @@ def test_vector_products_and_magnitude():
     v = Vector(1, 2, 2)
     w = Vector(0, 1, 0)
     assert v.dot(w) == 2
+    assert v @ w == v.dot(w)
+    assert v @ v == v.mag ** 2
     assert v.cross(w) == Vector(-2, 0, 1)
     assert Vector(1, 0).cross(Vector(0, 1)) == 1
     assert v.mag == 3

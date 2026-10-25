@@ -300,9 +300,9 @@ class FrameError(ValueError):
 class Vector:
     """A 2D or 3D vector that supports only vector operations.
 
-    Supported: v + w, v - w, -v, k * v, v * k, v / k, v.dot(w), v.cross(w),
-    v.mag, v.hat(), v.angle(w). Multiplying two vectors with * is an error;
-    use dot or cross.
+    Supported: v + w, v - w, -v, k * v, v * k, v / k, v.dot(w) or v @ w,
+    v.cross(w), v.mag, v.hat(), v.angle(w). Multiplying two vectors with *
+    is an error; use dot (or @) or cross.
 
     A vector can have a frame of reference; combining vectors in different
     frames raises FrameError. The default frame is None.
@@ -375,12 +375,18 @@ class Vector:
         return Vector(self.coords / k, frame=self.frame)
 
     def dot(self, other):
-        """Dot product.
+        """Dot product: the sum of the products of corresponding coordinates.
 
         Returns: float
         """
         self._check(other)
         return float(np.dot(self.coords, other.coords))
+
+    def __matmul__(self, other):
+        # v @ w is the dot product, as it is for NumPy arrays
+        if not isinstance(other, Vector):
+            return NotImplemented
+        return self.dot(other)
 
     def cross(self, other):
         """Cross product.
@@ -395,7 +401,7 @@ class Vector:
     @property
     def mag(self):
         """Magnitude (length) of the vector."""
-        return float(np.sqrt(np.dot(self.coords, self.coords)))
+        return self.dot(self) ** 0.5
 
     def hat(self):
         """Unit vector in the same direction (the zero vector stays zero).
