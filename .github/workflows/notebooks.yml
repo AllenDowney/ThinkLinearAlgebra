@@ -1,4 +1,6 @@
 # Run the notebooks in an environment close to Colab's:
+# (Google's backend-info list can lag; check the live runtime with the
+# colab-run skill's --versions option.)
 # Colab's Python version and Colab's versions of the packages the book uses
 # (ci/requirements-colab.txt, made by ci/colab_requirements.py), and nothing
 # else, so a notebook that needs another package has to install it itself.
@@ -19,7 +21,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"   # Colab runtime, checked with colab exec 2026-10-24
           cache: pip
           cache-dependency-path: ci/requirements-colab.txt
 
