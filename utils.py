@@ -25,7 +25,7 @@ plt.rcParams["figure.figsize"] = [6, 3.5]
 # Print NumPy scalars the old way, like 3.0 rather than np.float64(3.0)
 np.set_printoptions(legacy="1.25")
 
-def set_precision(precision=3, legacy='1.25'):
+def set_precision(precision=3):
     from IPython import get_ipython
 
     # Register a pretty printer for floats
@@ -37,7 +37,7 @@ def set_precision(precision=3, legacy='1.25'):
     formatters.for_type(np.float64, float_printer)
 
     # Set display precision for NumPy and Pandas
-    np.set_printoptions(precision=precision, legacy=legacy)
+    np.set_printoptions(precision=precision)
     pd.options.display.float_format = (f"{{:.{precision}f}}").format
 
 
