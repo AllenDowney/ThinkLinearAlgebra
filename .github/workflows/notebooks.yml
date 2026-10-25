@@ -23,8 +23,8 @@ jobs:
           cache: pip
           cache-dependency-path: ci/requirements-colab.txt
 
-      - name: Install Graphviz (Colab has it; draw_circuit_graph uses dot)
-        run: sudo apt-get update && sudo apt-get install -y graphviz
+      - name: Install system packages Colab has (dot for draw_circuit_graph, ffmpeg for MP4)
+        run: sudo apt-get update && sudo apt-get install -y graphviz ffmpeg
 
       - name: Install Colab's versions of the book's packages
         run: pip install -r ci/requirements-colab.txt nbmake pytest
