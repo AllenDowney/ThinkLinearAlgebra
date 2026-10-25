@@ -187,7 +187,11 @@ The name `hat` comes from the conventional notation for a unit vector, which put
 
 ```python
 boid.vel = boid.vel.hat()
-boid.vel, boid.vel.mag
+boid.vel
+```
+
+```python
+boid.vel.mag
 ```
 
 ## Taking a Step
@@ -246,7 +250,11 @@ Here's an example with the carrot at `(2.5, 0.5)`.
 ```python
 carrot = Vector(2.5, 0.5)
 toward_carrot = love(boid, carrot)
-toward_carrot, toward_carrot.mag
+toward_carrot
+```
+
+```python
+toward_carrot.mag
 ```
 
 ```python tags=["hide-input"]
@@ -308,7 +316,9 @@ def move(boid, goal, mu=0.1, dt=0.1):
 If we move the Boid repeatedly, using `love` to compute the goal, we can see the path it follows.
 
 ```python
-boid = Boid(Vector(1, 1), Vector(2, 1).hat())
+pos = Vector(1, 1)
+vel = Vector(2, 1).hat()
+boid = Boid(pos, vel)
 carrot = Vector(2.5, 0.5)
 
 path = [boid.pos]
@@ -363,10 +373,15 @@ Why this works takes a little geometry, which we'll leave for another time -- fo
 To demonstrate, let's make a Boid at the origin, heading right, and a few other Boids scattered around it.
 
 ```python
-boid = Boid(Vector(0, 0), Vector(1, 0))
+pos = Vector(0, 0)
+vel = Vector(1, 0)
+boid = Boid(pos, vel)
+```
 
+```python
 positions = [(0.6, 0.3), (0.9, -0.5), (-0.5, 0.2), (0.3, -0.2), (1.8, 0.4), (0.2, 0.8)]
-others = [Boid(Vector(p), Vector(1, 0)) for p in positions]
+heading = Vector(1, 0)
+others = [Boid(Vector(p), heading) for p in positions]
 ```
 
 Here are the ones within distance 1.5 and angle 1 radian (about 57 degrees) of the Boid's heading.
@@ -461,8 +476,12 @@ For this behavior, a Boid considers objects in all directions, so we'll call `ne
 
 ```python
 too_close = neighbors(boid, others, radius=0.5, angle=np.pi)
+[b.pos for b in too_close]
+```
+
+```python
 away = avoid(boid, too_close)
-[b.pos for b in too_close], away
+away
 ```
 
 The only object within 0.5 is the Boid at `(0.3, -0.2)`, so the result points directly away from it.
@@ -617,7 +636,9 @@ The following class represents the world, which contains the Boids and the carro
 class World:
     def __init__(self, params, n=20):
         self.boids = [make_boid() for _ in range(n)]
-        self.carrot = Boid(Vector(2, 0, 0), Vector(0, 1, 0))
+        carrot_pos = Vector(2, 0, 0)
+        carrot_vel = Vector(0, 1, 0)
+        self.carrot = Boid(carrot_pos, carrot_vel)
         self.params = params
 
     def step(self):
@@ -816,7 +837,13 @@ def count_neighbors(params, num_steps=300, seed=17):
 ```python
 # Solution
 
-count_neighbors(original), count_neighbors(params)
+count_neighbors(original)
+```
+
+```python
+# Solution
+
+count_neighbors(params)
 ```
 
 ```python
@@ -848,7 +875,9 @@ def random_vector(low, high):
 
 rng = np.random.default_rng(17)
 world = World(params)
-world.carrot = Boid(Vector(2, 0), Vector(0, 1))
+carrot_pos = Vector(2, 0)
+carrot_vel = Vector(0, 1)
+world.carrot = Boid(carrot_pos, carrot_vel)
 polarizations_2d = []
 for _ in range(300):
     world.step()
