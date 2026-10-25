@@ -846,23 +846,20 @@ def trajectory(vectors, *args, start=0, end=None, **options):
     plt.plot(xs, ys, *args, **options)
 
 
-def setup_3D(nrows=1, ncols=1, show_grid=True, **subplot_kw):
+def setup_3D(nrows=1, ncols=1, show_grid=True, **fig_kw):
     """Setup 3D subplots with configurable options.
 
     Args:
         nrows: number of rows of subplots
         ncols: number of columns of subplots
         show_grid: whether to show grid lines on the axes
-        subplot_kw: keyword arguments passed to plt.subplots (e.g., figsize, dpi)
+        fig_kw: keyword arguments passed to plt.subplots (e.g., figsize, dpi)
     
     Returns:
         fig, axes: matplotlib figure and axes objects
     """
-    # Set default subplot arguments and ensure 3D projection
-    underride(subplot_kw, projection='3d')
-    
-    # Create subplots
-    fig, axes = plt.subplots(nrows, ncols, subplot_kw=subplot_kw)
+    # Create subplots with 3D projection
+    fig, axes = plt.subplots(nrows, ncols, subplot_kw=dict(projection='3d'), **fig_kw)
     fig.subplots_adjust(wspace=0.4)
 
     # Handle single axis case
@@ -929,7 +926,7 @@ def plot_vectors_3D(
 
     ax = plt.gca()
     ax.scatter(xs, ys, zs, s=0)
-    ax.scatter(xs + us, ys + vs, zs + zs, s=0)
+    ax.scatter(xs + us, ys + vs, zs + ws, s=0)
     ax.quiver(xs, ys, zs, us, vs, ws, **options)
 
 
@@ -996,6 +993,60 @@ def plot_vector_3D(v, origin=None, label=None, scale=1, **options):
     if label is not None:
         label_vectors_3D([label], [v], [origin], scale=scale)
     return plot_vectors_3D([v], [origin], scale=scale, **options)
+
+
+def plot_point_3D(point, label=None, drop=False, **options):
+    """Draw a point in 3D, with an optional label and drop line.
+
+    Args:
+        point: array-like (shape: (3,))
+        label: string
+        drop: whether to draw a dotted line down to z=0, which helps show depth
+        options: passed to ax.plot (e.g., color, markerfacecolor)
+    """
+    x, y, z = np.asarray(point, dtype=float)
+    ax = plt.gca()
+    underride(options, color="C0", marker="o", linestyle="")
+    ax.plot([x], [y], [z], **options)
+
+    if drop:
+        ax.plot([x, x], [y, y], [0, z], ":", color="gray", lw=1)
+        ax.plot([x], [y], [0], ".", color="gray", ms=3)
+
+    if label is not None:
+        ax.text(x, y, z, "  " + label, fontsize=12, va="center")
+
+
+def plot_cone_3D(apex, axis, angle, length, n=40, **options):
+    """Draw a cone, like a field of view, as a rim and a few lines from the apex.
+
+    Args:
+        apex: array-like (shape: (3,)), the tip of the cone
+        axis: array-like (shape: (3,)), the direction the cone opens toward
+        angle: angle between the axis and the side of the cone, in radians
+        length: distance from the apex to the rim, along the side
+        n: number of points on the rim
+        options: passed to ax.plot (e.g., color, alpha)
+    """
+    apex = np.asarray(apex, dtype=float)
+    axis = normalize(axis)
+
+    # two unit vectors perpendicular to the axis
+    helper = np.array([0, 0, 1.0]) if abs(axis[2]) < 0.9 else np.array([1.0, 0, 0])
+    u = normalize(np.cross(axis, helper))
+    w = np.cross(axis, u)
+
+    thetas = np.linspace(0, 2 * np.pi, n)
+    center = apex + length * np.cos(angle) * axis
+    r = length * np.sin(angle)
+    rim = center + r * (np.outer(np.cos(thetas), u) + np.outer(np.sin(thetas), w))
+
+    ax = plt.gca()
+    underride(options, color="C0", alpha=0.4, lw=1)
+    ax.plot(*rim.T, **options)
+    for theta in np.linspace(0, 2 * np.pi, 8, endpoint=False):
+        edge = center + r * (np.cos(theta) * u + np.sin(theta) * w)
+        ax.plot(*np.transpose([apex, edge]), **options)
 
 
 def draw_arc_3D(origin, v1, v2, radius=1, n=50, **kwargs):

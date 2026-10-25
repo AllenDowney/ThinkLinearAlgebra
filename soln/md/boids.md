@@ -60,7 +60,8 @@ download("https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py")
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils import decorate, plot_vector, label_point, show_code, Vector
+from utils import decorate, plot_vector, show_code, Vector
+from utils import setup_3D, plot_vector_3D, plot_vectors_3D, plot_point_3D, plot_cone_3D
 ```
 
 ```python tags=["remove-cell"]
@@ -134,8 +135,7 @@ v * w
 ```
 
 A `Vector` can have two coordinates or three.
-In this chapter, we'll draw diagrams in two dimensions, because they are easier to see, and then simulate a flock in three dimensions.
-The code we write will work either way.
+In this chapter we'll work in three dimensions, but the code we write will work in two dimensions as well.
 
 ## A Boid
 
@@ -149,11 +149,11 @@ class Boid:
         self.vel = vel
 ```
 
-And here's a Boid in two dimensions, at position `(1, 1)` and moving up and to the right.
+And here's a Boid at position `(1, 1, 1)`, moving forward, to the side, and up.
 
 ```python
-pos = Vector(1, 1)
-vel = Vector(2, 1)
+pos = Vector(1, 1, 1)
+vel = Vector(2, 1, 2)
 boid = Boid(pos, vel)
 ```
 
@@ -172,7 +172,8 @@ show_code(Vector.mag)
 
 `self.coords` is a NumPy array that contains the coordinates of the vector.
 `np.dot` computes the sum of the squares of the coordinates, and the square root of the sum is the magnitude.
-In two dimensions, that's the Pythagorean theorem.
+In two dimensions, that's the Pythagorean theorem, and in three dimensions it's the same idea with one more coordinate.
+For this velocity, the sum of the squares is 4 + 1 + 4 = 9, so the speed is 3.
 
 In this simulation, we'll keep the speed of each Boid constant, so its velocity indicates the direction it's moving but not how fast.
 A vector that indicates direction only is often represented by a **unit vector**, which is a vector with magnitude 1.
@@ -205,20 +206,27 @@ new_pos
 ```
 
 The following diagram shows the position as a point, the velocity as an arrow with its tail at the position, and the new position at the head of the scaled velocity vector.
+The dotted lines drop from each point to the floor of the diagram, which makes it easier to see where the points are in three dimensions.
 
 ```python tags=["hide-input"]
+def decorate_3D(xlim, ylim, zlim, elev=20, azim=-60):
+    """Set the limits, labels, and point of view of a 3D diagram."""
+    plt.gca().view_init(elev=elev, azim=azim, roll=0)
+    decorate(xlim=xlim, ylim=ylim, zlim=zlim, xlabel="x", ylabel="y", zlabel="z", aspect="equal")
+
+
 def decorate_plane(xlim, ylim):
+    """Set the limits and labels of a 2D diagram."""
     decorate(xlim=xlim, ylim=ylim, aspect="equal", xlabel="x", ylabel="y")
 ```
 
 ```python tags=["hide-input"]
-plt.plot(*boid.pos, "o", color="C0")
-label_point("pos", boid.pos, label_pos=9)
-plot_vector(boid.vel, boid.pos, color="C1", label="vel", label_pos=11)
-plot_vector(dt * boid.vel, boid.pos, color="C2")
-plt.plot(*new_pos, "o", color="C2")
-label_point("new pos", new_pos, label_pos=6)
-decorate_plane(xlim=[0.5, 2.5], ylim=[0.5, 2])
+setup_3D(figsize=(5, 4))
+plot_point_3D(boid.pos, "pos", drop=True)
+plot_vector_3D(boid.vel, boid.pos, label="vel", color="C1")
+plot_vector_3D(dt * boid.vel, boid.pos, color="C2")
+plot_point_3D(new_pos, "new pos", drop=True, color="C2")
+decorate_3D(xlim=[0.5, 2], ylim=[0.5, 2], zlim=[0, 1.8])
 ```
 
 Because `dt` is less than 1, the step is shorter than the velocity vector -- scalar multiplication changed the length of the vector but not its direction.
@@ -245,10 +253,10 @@ show_code(Vector.limit)
 
 If the vector is longer than `max_mag`, it multiplies by `max_mag / mag`, which scales the vector down to length `max_mag` -- otherwise it returns the vector unchanged.
 
-Here's an example with the carrot at `(2.5, 0.5)`.
+Here's an example with the carrot at `(2.5, 1.5, 0.5)`.
 
 ```python
-carrot = Vector(2.5, 0.5)
+carrot = Vector(2.5, 1.5, 0.5)
 toward_carrot = love(boid, carrot)
 toward_carrot
 ```
@@ -258,15 +266,15 @@ toward_carrot.mag
 ```
 
 ```python tags=["hide-input"]
-plt.plot(*boid.pos, "o", color="C0")
-plt.plot(*carrot, "o", color="C3")
-label_point("carrot", carrot, label_pos=3)
-plot_vector(boid.vel, boid.pos, color="C1", label="vel", label_pos=11)
-plot_vector(toward_carrot, boid.pos, color="C3", label="love", label_pos=1)
-decorate_plane(xlim=[0.5, 3], ylim=[0, 2])
+setup_3D(figsize=(5, 4))
+plot_point_3D(boid.pos, drop=True)
+plot_point_3D(carrot, "carrot", drop=True, color="C3")
+plot_vector_3D(boid.vel, boid.pos, label="vel", color="C1")
+plot_vector_3D(toward_carrot, boid.pos, label="love", color="C3")
+decorate_3D(xlim=[0.5, 3], ylim=[0.5, 2], zlim=[0, 1.8])
 ```
 
-The Boid is heading up and to the right, but the carrot is below and to the right.
+The Boid is climbing, but the carrot is ahead and below.
 So it has to turn.
 
 ## Turning
@@ -290,14 +298,16 @@ combos = [(1 - mu) * boid.vel + mu * goal for mu in mus]
 ```
 
 ```python tags=["hide-input"]
-plot_vector(boid.vel, boid.pos, color="C1", label="vel", label_pos=11)
-plot_vector(goal, boid.pos, color="C3", label="goal", label_pos=1)
-for combo in combos:
-    plot_vector(combo, boid.pos, color="gray", alpha=0.5)
-xs, ys = np.transpose([boid.pos + boid.vel, boid.pos + goal])
-plt.plot(xs, ys, ":", color="gray")
-decorate_plane(xlim=[0.8, 2.2], ylim=[0.4, 1.8])
+setup_3D(figsize=(5, 4))
+plot_vector_3D(boid.vel, boid.pos, label="vel", color="C1")
+plot_vector_3D(goal, boid.pos, label="goal", color="C3")
+plot_vectors_3D(combos, [boid.pos] * len(combos), color="gray", alpha=0.5)
+heads = np.array([boid.pos + boid.vel, boid.pos + goal])
+plt.gca().plot(*heads.T, ":", color="gray")
+decorate_3D(xlim=[0.8, 2.2], ylim=[0.5, 1.9], zlim=[0.3, 1.9], elev=10, azim=-100)
 ```
+
+The point of view of this diagram is chosen so we're looking at the plane that contains `vel` and `goal`.
 
 The heads of the combinations fall on the line segment between the heads of `vel` and `goal`.
 That's what a convex combination is: a point on the segment between two points.
@@ -316,10 +326,10 @@ def move(boid, goal, mu=0.1, dt=0.1):
 If we move the Boid repeatedly, using `love` to compute the goal, we can see the path it follows.
 
 ```python
-pos = Vector(1, 1)
-vel = Vector(2, 1).hat()
+pos = Vector(1, 1, 1)
+vel = Vector(2, 1, 2).hat()
 boid = Boid(pos, vel)
-carrot = Vector(2.5, 0.5)
+carrot = Vector(2.5, 1.5, 0.5)
 
 path = [boid.pos]
 for _ in range(150):
@@ -329,11 +339,11 @@ for _ in range(150):
 ```
 
 ```python tags=["hide-input"]
-plt.plot(*np.transpose(path), color="C0", alpha=0.5)
-plt.plot(*path[0], "o", color="C0")
-plt.plot(*carrot, "o", color="C3")
-label_point("carrot", carrot, label_pos=3)
-decorate_plane(xlim=[0.5, 3.5], ylim=[-0.5, 2])
+setup_3D(figsize=(5, 4))
+plt.gca().plot(*np.transpose(path), color="C0", alpha=0.6)
+plot_point_3D(path[0], "start", drop=True)
+plot_point_3D(carrot, "carrot", drop=True, color="C3")
+decorate_3D(xlim=[0.5, 3.5], ylim=[0, 3], zlim=[0, 2])
 ```
 
 The Boid turns toward the carrot, but it can't turn sharply enough to stop at the carrot, so it overshoots, turns around, and settles into an orbit.
@@ -370,17 +380,24 @@ Dividing the dot product by the product of the magnitudes yields the cosine of t
 (`np.clip` makes sure the cosine is between -1 and 1, in case floating-point error pushes it slightly outside.)
 Why this works takes a little geometry, which we'll leave for another time -- for now, the important part is that `angle` computes the angle between two vectors.
 
-To demonstrate, let's make a Boid at the origin, heading right, and a few other Boids scattered around it.
+To demonstrate, let's make a Boid at `(0, 0, 1)`, heading in the `x` direction, and a few other Boids scattered around it.
 
 ```python
-pos = Vector(0, 0)
-vel = Vector(1, 0)
+pos = Vector(0, 0, 1)
+vel = Vector(1, 0, 0)
 boid = Boid(pos, vel)
 ```
 
 ```python
-positions = [(0.6, 0.3), (0.9, -0.5), (-0.5, 0.2), (0.3, -0.2), (1.8, 0.4), (0.2, 0.8)]
-heading = Vector(1, 0)
+positions = [
+    (0.6, 0.3, 1.2),
+    (0.9, -0.5, 0.7),
+    (-0.5, 0.2, 1.1),
+    (0.3, -0.2, 0.9),
+    (1.8, 0.4, 1.0),
+    (0.2, 0.8, 1.3),
+]
+heading = Vector(1, 0, 0)
 others = [Boid(Vector(p), heading) for p in positions]
 ```
 
@@ -392,20 +409,17 @@ seen = neighbors(boid, others, radius, angle)
 [b.pos for b in seen]
 ```
 
-In the following diagram, the shaded wedge is the Boid's field of view, the filled circles are the neighbors it can see, and the open circles are the others.
+In three dimensions, the Boid's field of view is a cone.
+In the following diagram, the cone is outlined in blue, the filled circles are the neighbors it can see, and the open circles are the others.
 
 ```python tags=["hide-input"]
-from matplotlib.patches import Wedge
-
-degrees = np.rad2deg(angle)
-wedge = Wedge((0, 0), radius, -degrees, degrees, color="C0", alpha=0.1)
-plt.gca().add_patch(wedge)
-
-plot_vector(boid.vel, boid.pos, color="C1", label="vel", label_pos=12)
+setup_3D(figsize=(5, 4))
+plot_cone_3D(boid.pos, boid.vel, angle, radius)
+plot_vector_3D(boid.vel, boid.pos, label="vel", color="C1")
 for other in others:
     fill = "C0" if other in seen else "none"
-    plt.plot(*other.pos, "o", color="C0", markerfacecolor=fill)
-decorate_plane(xlim=[-1, 2.5], ylim=[-1.6, 1.6])
+    plot_point_3D(other.pos, drop=True, markerfacecolor=fill)
+decorate_3D(xlim=[-1, 2], ylim=[-1.5, 1.5], zlim=[0, 2])
 ```
 
 The Boid behind it, the Boid off to the side, and the Boid that's too far away are not neighbors.
@@ -451,13 +465,15 @@ toward_center
 
 ```python tags=["hide-input"]
 centroid = mean([b.pos for b in seen])
+
+setup_3D(figsize=(5, 4))
 for other in seen:
-    plt.plot(*other.pos, "o", color="C0")
-plt.plot(*centroid, "x", color="C2", markersize=10)
-label_point("center", centroid, label_pos=3)
-plot_vector(boid.vel, boid.pos, color="C1", label="vel", label_pos=12)
-plot_vector(toward_center, boid.pos, color="C2")
-decorate_plane(xlim=[-0.25, 1.25], ylim=[-0.75, 0.75])
+    plot_point_3D(other.pos, drop=True)
+plot_point_3D(centroid, drop=True, color="C2", marker="x", markersize=10)
+plt.gca().text(*centroid, "center  ", fontsize=12, ha="right", va="center")
+plot_vector_3D(boid.vel, boid.pos, label="vel", color="C1")
+plot_vector_3D(toward_center, boid.pos, color="C2")
+decorate_3D(xlim=[-0.25, 1.25], ylim=[-0.75, 0.75], zlim=[0.25, 1.75])
 ```
 
 ## Keeping Your Distance
@@ -484,7 +500,7 @@ away = avoid(boid, too_close)
 away
 ```
 
-The only object within 0.5 is the Boid at `(0.3, -0.2)`, so the result points directly away from it.
+The only object within 0.5 is the Boid at `(0.3, -0.2, 0.9)`, so the result points directly away from it.
 
 ## Matching Velocity
 
@@ -504,7 +520,7 @@ The difference is that `center` works with positions and `align` works with velo
 To demonstrate, let's give the neighbors different velocities.
 
 ```python
-velocities = [(0.8, 0.6), (0.6, 0.8), (1, 0)]
+velocities = [(0.8, 0.6, 0), (0.6, 0, 0.8), (1, 0, 0)]
 for b, v in zip(seen, velocities):
     b.vel = Vector(v)
 
@@ -513,16 +529,19 @@ match
 ```
 
 In the following diagram, the velocities are drawn with their tails at the origin, so we can compare their directions.
-The mean velocity of the neighbors is up and to the right of the Boid's velocity, so `align` points up and to the left -- the change in velocity that would make the Boid match its neighbors.
+Compared to the Boid's velocity, the mean velocity of the neighbors points a little to the side and up, so `align` points from the head of `vel` to the head of the mean -- it's the change in velocity that would make the Boid match its neighbors.
 
 ```python tags=["hide-input"]
-for b in seen:
-    plot_vector(b.vel, color="C0", alpha=0.3)
 mean_vel = mean([b.vel for b in seen])
-plot_vector(mean_vel, color="C0", label="mean", label_pos=11)
-plot_vector(boid.vel, color="C1", label="vel", label_pos=12)
-plot_vector(match, boid.vel, color="C2", label="align", label_pos=3)
-decorate_plane(xlim=[-0.1, 1.1], ylim=[-0.1, 1.1])
+
+setup_3D(figsize=(5, 4))
+for b in seen:
+    plot_vector_3D(b.vel, color="C0", alpha=0.3)
+plot_vector_3D(mean_vel, label="mean", color="C0")
+plot_vector_3D(boid.vel, label="vel", color="C1")
+plot_vector_3D(match, boid.vel, color="C2")
+plt.gca().text(*(boid.vel + match / 2), "  align", fontsize=12)
+decorate_3D(xlim=[-0.1, 1.1], ylim=[-0.1, 1.1], zlim=[-0.1, 1.1], elev=15, azim=-30)
 ```
 
 ## Arbitration
@@ -588,19 +607,21 @@ def perpendicular(v):
 ```
 
 To turn the carrot gradually, its goal will be a linear combination of its velocity and the perpendicular vector, with a small weight on the perpendicular.
-The following diagram shows the idea in two dimensions, with a weight of 0.5 to make the turn easier to see.
+The following diagram shows the idea, with a weight of 0.5 to make the turn easier to see.
+The carrot flies horizontally, so all three vectors are in the horizontal plane.
 
 ```python
-vel = Vector(2, 1).hat()
+vel = Vector(2, 1, 0).hat()
 left = perpendicular(vel)
 goal = (vel + 0.5 * left).hat()
 ```
 
 ```python tags=["hide-input"]
-plot_vector(vel, color="C1", label="vel", label_pos=12)
-plot_vector(left, color="C0", label="left", label_pos=12)
-plot_vector(goal, color="C3", label="goal", label_pos=12)
-decorate_plane(xlim=[-0.6, 1.2], ylim=[-0.1, 1.2])
+setup_3D(figsize=(5, 4))
+plot_vector_3D(vel, label="vel", color="C1")
+plot_vector_3D(left, label="left", color="C0")
+plot_vector_3D(goal, label="goal", color="C3")
+decorate_3D(xlim=[-0.6, 1.2], ylim=[-0.2, 1.2], zlim=[-0.5, 0.5], elev=55, azim=-70)
 ```
 
 At every step, the carrot turns partway toward a goal that is a little to the left of its velocity, so it turns by the same angle each time, which makes it go in a circle.
