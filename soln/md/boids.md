@@ -110,7 +110,11 @@ w = Vector(0, 1, 0)
 We can add and subtract vectors, which adds and subtracts their coordinates.
 
 ```python
-v + w, v - w
+v + w
+```
+
+```python
+v - w
 ```
 
 And we can multiply a vector by a number, which multiplies each coordinate.
@@ -124,22 +128,10 @@ In the context of linear algebra, a number is often called a **scalar**, and mul
 But if we try to multiply two vectors, we get an error.
 
 ```python
-try:
-    v * w
-except TypeError as e:
-    print(e)
+%%expect TypeError
+
+v * w
 ```
-
-Here's the method that implements multiplication.
-
-```python
-show_code(Vector.__mul__)
-```
-
-If the other operand is a `Vector`, it raises an exception.
-Otherwise it multiplies the coordinates by `k` and returns a new `Vector`.
-
-There are two ways to multiply vectors, the dot product and the cross product, but we won't need them in this chapter.
 
 A `Vector` can have two coordinates or three.
 In this chapter, we'll draw diagrams in two dimensions, because they are easier to see, and then simulate a flock in three dimensions.
@@ -160,7 +152,9 @@ class Boid:
 And here's a Boid in two dimensions, at position `(1, 1)` and moving up and to the right.
 
 ```python
-boid = Boid(Vector(1, 1), Vector(2, 1))
+pos = Vector(1, 1)
+vel = Vector(2, 1)
+boid = Boid(pos, vel)
 ```
 
 The length of a vector is called its **magnitude**.

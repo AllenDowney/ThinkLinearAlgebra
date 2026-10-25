@@ -235,6 +235,62 @@ def show_code(obj):
     return Code(dedent(getsource(obj)), language="python")
 
 
+## Cell magics for cells that are expected to raise an exception
+
+def _register_magics():
+    """Define %%expect and %%expect_error, if running in IPython.
+
+    %%expect ExceptionName runs the cell and shows the exception it raises,
+    as a one-line message on stderr, without stopping the notebook or
+    marking the cell as failed. It prints a warning if the cell doesn't
+    raise that exception. (Other exceptions propagate normally.)
+
+    %%expect_error does the same for any exception.
+    """
+    import sys
+
+    try:
+        from IPython import get_ipython
+        from IPython.core.magic import register_cell_magic
+        from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
+    except ImportError:
+        return
+
+    ip = get_ipython()
+    if ip is None:
+        return
+
+    def run_expecting(cell, exception):
+        """Run the cell; if it raises exception, show a one-line traceback.
+
+        Returns True if the cell raised the expected exception.
+        """
+        try:
+            exec(compile(cell, "<cell>", "exec"), ip.user_ns)
+        except exception as e:
+            # stderr, so it looks like an error but doesn't mark the cell as failed
+            print(f"{type(e).__name__}: {e}", file=sys.stderr)
+            return True
+        return False
+
+    @magic_arguments()
+    @argument("exception", help="name of the exception the cell should raise")
+    @register_cell_magic
+    def expect(line, cell):
+        args = parse_argstring(expect, line)
+        exception = eval(args.exception, ip.user_ns)
+        if not run_expecting(cell, exception):
+            print(f"Warning: expected {args.exception}, but the cell ran without it")
+
+    @register_cell_magic
+    def expect_error(line, cell):
+        if not run_expecting(cell, Exception):
+            print("Warning: expected an exception, but the cell ran without one")
+
+
+_register_magics()
+
+
 ## Vector class
 
 class FrameError(ValueError):
