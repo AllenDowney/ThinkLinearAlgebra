@@ -25,3 +25,8 @@ tests:
 ## Run notebooks Colab-style, each in a fresh directory (see ci/)
 colab-test:
 	bash ci/run_notebooks.sh
+
+
+## Update notebooks in soln/ from the canonical markdown in soln/md/
+notebooks:
+	python soln/md_to_ipynb.py

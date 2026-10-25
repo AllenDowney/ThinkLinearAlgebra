@@ -172,9 +172,6 @@ soln/credentials.json
 jb/_build/
 jb/*.ipynb
 
-# Markdown versions of notebooks (regenerate with soln/convert_to_md.py)
-soln/md/
-
 # Working copies of data in soln/ (published data lives in data/)
 soln/*.csv
 soln/*.gpx
