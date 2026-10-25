@@ -26,9 +26,8 @@ failed=()
 
 for notebook in "${notebooks[@]}"; do
     name=$(basename "$notebook" .ipynb)
-    dir="$work/$name/nb"
-    # affine writes ../jb/enterprise.html, so give it somewhere to write
-    mkdir -p "$dir" "$work/$name/jb"
+    dir="$work/$name"
+    mkdir -p "$dir"
     cp "$notebook" "$dir/"
     cp "$repo/utils.py" "$dir/"
 

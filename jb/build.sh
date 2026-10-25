@@ -12,6 +12,9 @@ cp ../soln/nullspace.ipynb .
 cp ../soln/truss.ipynb .
 cp ../soln/regression.ipynb .
 
+# copy files the notebooks generate
+cp ../soln/enterprise.html .
+
 # add tags to hide the solutions
 python prep_notebooks.py
 

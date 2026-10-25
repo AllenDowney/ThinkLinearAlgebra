@@ -189,7 +189,7 @@ soln/download?id=*
 # Generated animations
 soln/*.gif
 soln/*.mp4
-jb/asteroid.html
+soln/*.html
 
 # Reference papers (PDFs)
 papers/
