@@ -92,6 +92,8 @@ The chapter would start with these, then build Boids from them:
 ### Effects on other chapters
 
 - **Ch 4 (Projection):** it currently defines `norm`, unit vectors, and polar conversion. If Ch 3 takes norm and unit vectors, Ch 4 needs small edits.
+  - Unit vectors and the "hat" notation are introduced in Ch 4 too (`b_hat = b / norm(b)`). The Ch 3 draft introduces them (`Vector.hat`). Following G11 in `design.md`, Ch 4 keeps its own explanation, maybe shortened, rather than pointing back.
+  - Perpendicular vectors: Ch 3 now uses the swap-and-negate rule for the carrot, with a short geometric explanation (rotate the right triangle a quarter turn). Ch 4 keeps its derivation from the rotation matrix.
 - **Ch 5 (Affine):** it could drop or shorten its broadcasting section, and gains an earlier introduction of `cross2d` if Ch 3 covers the cross product.
 - **Ch 1:** if Ch 3 uses the neighbor-matrix formulation, it can refer back to adjacency matrices.
 

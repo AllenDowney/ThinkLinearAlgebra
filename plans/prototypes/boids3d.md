@@ -98,6 +98,22 @@ def toward_mean(vectors, ref):
     return (mean(vectors) - ref).limit(1)
 ```
 
+The behavior depends on the weights of the four rules, and on how far and how wide each Boid can see.
+Here are the parameters from `Boids7.py`, and a version that weakens the carrot, strengthens alignment, and widens the field of view.
+With the original parameters, the neighbor rules rarely see anyone, so each Boid orbits the carrot on its own.
+
+```python
+original = dict(
+    w_center=3, w_avoid=10, w_align=1, w_love=10,
+    center_radius=1, align_radius=0.5, avoid_radius=0.3, view_angle=1,
+)
+
+flock = dict(
+    w_center=3, w_avoid=10, w_align=5, w_love=3,
+    center_radius=2, align_radius=1, avoid_radius=0.3, view_angle=2,
+)
+```
+
 ```python
 class Boid:
     def __init__(self):
@@ -115,17 +131,17 @@ class Boid:
                 result.append(obj)
         return result
 
-    def center(self, boids, radius=1, angle=1):
+    def center(self, boids, radius, angle):
         """Toward the center of the neighbors we can see."""
         neighbors = self.neighbors(boids, radius, angle)
         return toward_mean([b.pos for b in neighbors], self.pos)
 
-    def avoid(self, objects, radius=0.3, angle=np.pi):
-        """Away from the center of anything too close."""
+    def avoid(self, objects, radius, angle=np.pi):
+        """Away from the center of anything too close, in any direction."""
         neighbors = self.neighbors(objects, radius, angle)
         return -toward_mean([b.pos for b in neighbors], self.pos)
 
-    def align(self, boids, radius=0.5, angle=1):
+    def align(self, boids, radius, angle):
         """Toward the mean velocity of the neighbors we can see."""
         neighbors = self.neighbors(boids, radius, angle)
         return toward_mean([b.vel for b in neighbors], self.vel)
@@ -134,14 +150,13 @@ class Boid:
         """Toward the carrot."""
         return (carrot.pos - self.pos).limit(1)
 
-    def set_goal(self, boids, carrot, weights):
+    def set_goal(self, boids, carrot, p):
         """The goal is a linear combination of the four rules."""
-        w_center, w_avoid, w_align, w_love = weights
         self.goal = (
-            w_center * self.center(boids)
-            + w_avoid * self.avoid(boids + [carrot])
-            + w_align * self.align(boids)
-            + w_love * self.love(carrot)
+            p["w_center"] * self.center(boids, p["center_radius"], p["view_angle"])
+            + p["w_avoid"] * self.avoid(boids + [carrot], p["avoid_radius"])
+            + p["w_align"] * self.align(boids, p["align_radius"], p["view_angle"])
+            + p["w_love"] * self.love(carrot)
         ).hat()
 
     def move(self, mu=0.1, dt=0.1):
@@ -150,32 +165,40 @@ class Boid:
         self.pos = self.pos + dt * self.vel
 ```
 
-The carrot is not a Boid, but it has a position, so Boids can steer toward it and avoid it.
-It follows a loop in 3D.
+The carrot moves like a Boid: at each step it turns a little to the left (toward a goal that is a linear combination of its velocity and a perpendicular vector) and takes a step.
+It moves at about a fifth of the Boids' speed, so they can overtake it and circle back.
 
 ```python
-class Carrot:
-    def __init__(self):
-        self.pos = Vector(2, 0, 0)
+def perpendicular(v):
+    """Rotate 90 degrees counterclockwise in the x-y plane."""
+    return Vector(-v.y, v.x, 0)
 
-    def move(self, t, period=150):
-        theta = 2 * np.pi * t / period
-        self.pos = Vector(2 * np.cos(theta), 2 * np.sin(theta), 0.5 * np.sin(2 * theta))
+
+class Carrot:
+    def __init__(self, weight=0.1, mu=0.1, dt=0.021):
+        self.pos = Vector(2, 0, 0)
+        self.vel = Vector(0, 1, 0)
+        self.weight, self.mu, self.dt = weight, mu, dt
+
+    def move(self, t):
+        goal = (self.vel + self.weight * perpendicular(self.vel)).hat()
+        self.vel = ((1 - self.mu) * self.vel + self.mu * goal).hat()
+        self.pos = self.pos + self.dt * self.vel
 ```
 
 ```python
 class World:
-    def __init__(self, n=20, weights=(3, 10, 1, 10)):
+    def __init__(self, params, n=20):
         self.boids = [Boid() for _ in range(n)]
         self.carrot = Carrot()
-        self.weights = weights
+        self.params = params
         self.t = 0
 
     def step(self):
         self.t += 1
         self.carrot.move(self.t)
         for boid in self.boids:
-            boid.set_goal(self.boids, self.carrot, self.weights)
+            boid.set_goal(self.boids, self.carrot, self.params)
         for boid in self.boids:
             boid.move()
 
@@ -186,53 +209,84 @@ class World:
 
 ## Simulation
 
-We run the simulation and record positions and velocities at each step.
+The following function runs a simulation and records positions and velocities at each step.
 `np.array` converts a list of `Vector` objects to an array with one row per vector, which is the form Matplotlib wants.
+Each run starts from the same random state, so runs with different parameters start from the same positions and velocities.
 
 ```python
-world = World(n=20)
-num_steps = 150
+def simulate(params, num_steps=300, n=20, seed=17):
+    global rng
+    rng = np.random.default_rng(seed)
+    world = World(params, n=n)
 
-history = []
-polarizations = []
-for _ in range(num_steps):
-    world.step()
-    positions = np.array([boid.pos for boid in world.boids])
-    velocities = np.array([boid.vel for boid in world.boids])
-    history.append((positions, velocities, world.carrot.pos))
-    polarizations.append(world.polarization())
+    history = []
+    polarizations = []
+    for _ in range(num_steps):
+        world.step()
+        positions = np.array([boid.pos for boid in world.boids])
+        velocities = np.array([boid.vel for boid in world.boids])
+        history.append((positions, velocities, world.carrot.pos))
+        polarizations.append(world.polarization())
+    return history, polarizations
+```
+
+```python
+num_steps = 300
+history_original, polar_original = simulate(original, num_steps)
+history_flock, polar_flock = simulate(flock, num_steps)
 ```
 
 Polarization is near 1 when the Boids are flying in the same direction.
 
 ```python
-plt.plot(polarizations)
+plt.plot(polar_original, label="original")
+plt.plot(polar_flock, label="flock")
 decorate(xlabel="Step", ylabel="Polarization", ylim=[0, 1.05])
+```
+
+Choose which run to animate.
+
+```python
+history = history_flock
 ```
 
 ## Animation
 
-Each Boid is drawn as an arrow pointing in the direction it's flying.
-The camera circles slowly so it's easier to see the flock in 3D.
+Each Boid is drawn as an arrow pointing in the direction it's flying, with a short trail showing where it has been.
+The animation shows every other step of the simulation.
+The camera sways a little from side to side, which makes it easier to see the flock in 3D.
 
 ```python
 from matplotlib import animation
 from IPython.display import HTML
 
-fig = plt.figure(figsize=(5, 5), dpi=72)
+plt.rcParams["animation.embed_limit"] = 50  # MB
+
+fig = plt.figure(figsize=(7, 7), dpi=100)
 ax = fig.add_subplot(projection="3d")
+
+step = 2
+trail_length = 8
+frames = range(trail_length, num_steps, step)
 
 
 def draw_frame(i):
     ax.clear()
     positions, velocities, carrot = history[i]
+
+    # trails: each Boid's recent positions
+    trail = np.array([p for p, v, c in history[i - trail_length : i + 1]])
+    for k in range(trail.shape[1]):
+        ax.plot(*trail[:, k].T, color="C0", alpha=0.3, lw=1)
+
     ax.quiver(*positions.T, *velocities.T, length=0.3, normalize=True, color="C0")
     ax.scatter(*carrot, color="C3", s=60)
-    ax.set(xlim=(-2.5, 2.5), ylim=(-2.5, 2.5), zlim=(-1.5, 1.5))
-    ax.view_init(elev=25, azim=-60 + 0.6 * i)
+    ax.set(xlim=(-3.5, 3.5), ylim=(-3.5, 3.5), zlim=(-2, 2),
+           xticks=[], yticks=[], zticks=[])
+    ax.view_init(elev=25, azim=-60 + 20 * np.sin(2 * np.pi * i / num_steps))
 
 
-anim = animation.FuncAnimation(fig, draw_frame, frames=num_steps, interval=67)
+anim = animation.FuncAnimation(fig, draw_frame, frames=frames, interval=67)
 plt.close(fig)
 ```
 

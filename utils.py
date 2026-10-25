@@ -218,6 +218,23 @@ def gram_schmidt(vectors):
     return np.array(basis)
 
 
+def show_code(obj):
+    """Display the source code of a function, class, or method.
+
+    Args:
+        obj: function, class, or method
+
+    Returns: IPython Code object, which displays with syntax highlighting
+    """
+    from inspect import getsource
+    from textwrap import dedent
+    from IPython.display import Code
+
+    if isinstance(obj, property):
+        obj = obj.fget
+    return Code(dedent(getsource(obj)), language="python")
+
+
 ## Vector class
 
 class FrameError(ValueError):

@@ -101,6 +101,10 @@ New terms are **bolded** at first use and defined in plain words. Conventional n
 
 The voice is first person, informal, sometimes funny, and often anecdotal: the 1987 graphics assignment, the undergraduate truss question, "In my defense, the route I ran has sharper turns than a standard track", "Oops." Each chapter's introduction says what we'll do and why it's worth doing.
 
+### G11. Chapters stand on their own
+
+(Allen, 2026-10-25.) A chapter should make sense without the others. It's fine if material appears in more than one chapter, and cross-references ("as we saw in Chapter 2", "we'll see in Chapter 4") should be few. Explain each element clearly the first time it appears; when it appears again, explain it more briefly, but don't replace the explanation with a pointer. For example, the Boids chapter introduces unit vectors and the swap-and-negate rule for perpendicular vectors, and the Projection chapter keeps its own (perhaps shorter) explanations of both.
+
 ## 3. Chapter pattern
 
 Inferred from the existing chapters (`.cursor/rules/add-chapter.md` covers the mechanics):
