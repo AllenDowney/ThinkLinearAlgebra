@@ -22,6 +22,9 @@ import sympy as sp
 plt.rcParams["figure.dpi"] = 75
 plt.rcParams["figure.figsize"] = [6, 3.5]
 
+# Print NumPy scalars the old way, like 3.0 rather than np.float64(3.0)
+np.set_printoptions(legacy="1.25")
+
 def set_precision(precision=3, legacy='1.25'):
     from IPython import get_ipython
 
@@ -401,7 +404,7 @@ class Vector:
     @property
     def mag(self):
         """Magnitude (length) of the vector."""
-        return self.dot(self) ** 0.5
+        return np.sqrt(self.dot(self))
 
     def hat(self):
         """Unit vector in the same direction (the zero vector stays zero).

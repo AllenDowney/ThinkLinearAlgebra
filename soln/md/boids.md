@@ -203,7 +203,6 @@ That's what the `mag` property does.
 show_code(Vector.mag)
 ```
 
-Raising a number to the power 0.5 computes its square root.
 Here's the magnitude of `v`.
 
 ```python
