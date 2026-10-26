@@ -538,11 +538,13 @@ def sph2cart(azimuth, elevation, r):
         is x, y, z coordinates; the second dimension (if present) is
         the number of points.
     """
-    x = np.cos(elevation) * np.cos(azimuth)
-    y = np.cos(elevation) * np.sin(azimuth)
-    z = np.sin(elevation)
-    
-    return r * np.array([x, y, z])
+    # multiply by r before stacking, so r can be an array even when the
+    # angles are scalars
+    x = r * np.cos(elevation) * np.cos(azimuth)
+    y = r * np.cos(elevation) * np.sin(azimuth)
+    z = r * np.sin(elevation)
+
+    return np.array([x, y, z])
 
 
 def cart2pol(v):

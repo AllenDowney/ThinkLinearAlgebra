@@ -167,8 +167,7 @@ More problems found by the first Colab-like run (2026-10-24), now fixed:
 - `decorate_plane` (2D) and `decorate_3D` (3D) now parallel each other, but the regression chapter's 3D figures set limits and views by hand instead of using `decorate_3D`.
 - `setup_3D` hides pane fills, and `decorate_3D` hides axis lines; maybe one function should do both.
 - `soln/thinkla.py` and `soln/system.py` may duplicate parts of `utils.py`.
-- `test_sph2cart` fails (the function and the test disagree about array shapes).
 
 - [ ] List every function in `utils.py`, which chapters use it, and overlaps
 - [ ] Combine or remove redundant helpers; keep chapter code working (run `make colab-test`)
-- [ ] Fix `sph2cart` or its test
+- [x] Fix `sph2cart` (2026-10-26): scalar angles with an array of radii failed to broadcast; it now multiplies by r before stacking. All 18 tests pass
