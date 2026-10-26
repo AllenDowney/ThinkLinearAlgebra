@@ -300,11 +300,19 @@ class FrameError(ValueError):
     """Raised when vectors in different frames of reference are combined."""
 
 
+def _scalar(x):
+    """Convert a number to a Python float; leave symbolic expressions alone."""
+    try:
+        return float(x)
+    except TypeError:
+        return x
+
+
 class Vector:
-    """A 2D or 3D vector that supports only vector operations.
+    """A 2D or 3D vector that provides common vector operations.
 
     Supported: v + w, v - w, -v, k * v, v * k, v / k, v.dot(w) or v @ w,
-    v.cross(w), v.mag, v.hat(), v.angle(w). Multiplying two vectors with *
+    v.cross(w), v.mag(), v.hat(), v.angle(w). Multiplying two vectors with *
     is an error; use dot (or @) or cross.
 
     A vector can have a frame of reference; combining vectors in different
@@ -320,7 +328,11 @@ class Vector:
         """
         if len(coords) == 1:
             coords = coords[0]
-        self.coords = np.array(coords, dtype=float)
+        try:
+            self.coords = np.array(coords, dtype=float)
+        except TypeError:
+            # symbolic coordinates, like SymPy symbols
+            self.coords = np.array(coords, dtype=object)
         if self.coords.shape not in [(2,), (3,)]:
             raise ValueError("A Vector has 2 or 3 coordinates.")
         self.frame = frame
@@ -383,7 +395,7 @@ class Vector:
         Returns: float
         """
         self._check(other)
-        return float(np.dot(self.coords, other.coords))
+        return _scalar(np.dot(self.coords, other.coords))
 
     def __matmul__(self, other):
         # v @ w is the dot product, as it is for NumPy arrays
@@ -398,10 +410,9 @@ class Vector:
         """
         self._check(other)
         if len(self) == 2:
-            return float(cross2d(self.coords, other.coords))
+            return _scalar(cross2d(self.coords, other.coords))
         return Vector(np.cross(self.coords, other.coords), frame=self.frame)
 
-    @property
     def mag(self):
         """Magnitude (length) of the vector."""
         return np.sqrt(self.dot(self))
@@ -411,7 +422,7 @@ class Vector:
 
         Returns: Vector
         """
-        mag = self.mag
+        mag = self.mag()
         return self / mag if mag > 0 else self
 
     def limit(self, max_mag=1):
@@ -419,7 +430,7 @@ class Vector:
 
         Returns: Vector
         """
-        mag = self.mag
+        mag = self.mag()
         return self * (max_mag / mag) if mag > max_mag else self
 
     def angle(self, other):
@@ -427,20 +438,20 @@ class Vector:
 
         Returns: float
         """
-        cos = self.dot(other) / (self.mag * other.mag)
+        cos = self.dot(other) / (self.mag() * other.mag())
         return float(np.arccos(np.clip(cos, -1, 1)))
 
     @property
     def x(self):
-        return float(self.coords[0])
+        return _scalar(self.coords[0])
 
     @property
     def y(self):
-        return float(self.coords[1])
+        return _scalar(self.coords[1])
 
     @property
     def z(self):
-        return float(self.coords[2])
+        return _scalar(self.coords[2])
 
     def __len__(self):
         return len(self.coords)
@@ -465,7 +476,7 @@ class Vector:
         return bool(np.allclose(self.coords, other.coords, **options))
 
     def __repr__(self):
-        coords = ", ".join(f"{c:.4g}" for c in self.coords)
+        coords = ", ".join(f"{c:.4g}" if isinstance(c, float) else str(c) for c in self.coords)
         frame = "" if self.frame is None else f", frame={self.frame!r}"
         return f"Vector({coords}{frame})"
 

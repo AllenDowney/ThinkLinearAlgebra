@@ -54,7 +54,7 @@ A `Vector` supports the operations that define a vector -- addition and multipli
 ```python
 v = Vector(1, 2, 2)
 w = Vector(0, 1, 0)
-v + w, 2 * v, v.mag, v.hat()
+v + w, 2 * v, v.mag(), v.hat()
 ```
 
 A linear combination is a sum of vectors, each multiplied by a scalar.
@@ -127,7 +127,7 @@ class Boid:
             if obj is self:
                 continue
             offset = obj.pos - self.pos
-            if offset.mag < radius and self.vel.angle(offset) < angle:
+            if offset.mag() < radius and self.vel.angle(offset) < angle:
                 result.append(obj)
         return result
 
@@ -204,7 +204,7 @@ class World:
 
     def polarization(self):
         """Length of the mean heading: 1 if all Boids point the same way."""
-        return mean([boid.vel for boid in self.boids]).mag
+        return mean([boid.vel for boid in self.boids]).mag()
 ```
 
 ## Simulation

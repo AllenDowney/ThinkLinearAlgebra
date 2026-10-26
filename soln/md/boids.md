@@ -72,8 +72,7 @@ set_precision(3)
 
 ## Boids
 
-In 1987 Craig Reynolds published "Flocks, herds and schools: A distributed behavioral model", which describes an agent-based model of herd behavior.
-You can download his paper from <https://thinkcomplex.com/boid>.
+In 1987 Craig Reynolds published a paper called ["Flocks, herds and schools: A distributed behavioral model"](https://web.archive.org/web/20240602225300/https://graphics.stanford.edu/courses/cs448-01-spring/papers/reynolds.pdf), which describes an agent-based model of herd behavior.
 
 Agents in this model are called "Boids", which is both a contraction of "bird-oid" and an accented pronunciation of "bird" (although Boids are also used to model fish and herding land animals).
 
@@ -89,76 +88,137 @@ Velocity matching:
 :   Align velocity (speed and direction) with neighboring Boids.
 
 Boids make decisions based on local information only; each Boid only sees (or pays attention to) other Boids in its field of vision.
+The interesting think about the model is how these individual level decisions based on local information lead to aggregate behavior that seems organized.
+It also seems familiar -- that is, the way a flock of Boids moves often resembles the way real animals move.
 
-We'll also give the Boids something to fly toward -- a target we'll call the carrot.
+In this chapter, we'll implement a version of the model Reynolds proposed.
+We'll use some of the vector operations we've already seen, like addition and subtraction, and some new operations, like dot product.
 
-Before we implement these behaviors, let's think about how to represent vectors.
+To represent vectors, we'll use a new kind of object specifically designed for the purpose, and we'll move from two to three dimensions.
 
-## Vectors as Objects
+## Arrays are not vectors
 
-One way to represent a vector is a NumPy array that contains its coordinates.
-That works well, but arrays do some things vectors don't.
-For example, if we multiply two arrays, the result is the elementwise product, which is not a vector operation.
+In the previous chapter we used Numpy arrays to represent vectors.
+That's a common choice and it is useful for many applications.
+But arrays are not vectors and vectors are not arrays.
+Some arrays represent vectors, but some don't.
+And some vectors are represented using arrays, but some aren't.
+In this chapter we'll represent arrays using a `Vector` class defined in the `utils.py` module that comes with this book.
 
-In this chapter we'll use a `Vector` class, defined in `utils.py`, that provides only operations that make sense for vectors.
-Here are two `Vector` objects with three coordinates each.
-
-```python
-v = Vector(1, 2, 2)
-w = Vector(0, 1, 0)
-```
-
-We can add and subtract vectors, which adds and subtracts their coordinates.
+Here's how we can use it create a `Vector` objects.
 
 ```python
-v + w
+from utils import Vector
+
+a = Vector(1, 2, 2)
+a
 ```
+
+If `a` represents a position in three-dimensional space, it would usually represent a position 1 unit from the origin in the positive $x$ direction, 2 units in the $y$ direction, and 2 units in the $z$ direction.
+
+Each vector object has a `coords` attribute, which is a NumPy array that contains the coordinates.
 
 ```python
-v - w
+a.coords
 ```
 
-And we can multiply a vector by a number, which multiplies each coordinate.
+Some of the operations we perform with arrays make sense with vectors, but some don't.
+For example, as we saw in the previous chapter, array addition makes sense.
+For example, here's a second vector that represents an offset of 1 unit in the $y$ direction.
 
 ```python
-2 * v
+offset = Vector(0, 1, 0)
+offset
 ```
 
-In the context of linear algebra, a number is often called a **scalar**, and multiplying a vector by a number is called **scalar multiplication**, because the effect is to scale the vector -- make it longer or shorter.
+The sum of `a` and `offset` is a new `Vector` that represents a point offset from `a` by 1 unit in the $y$ direction.
 
-But if we try to multiply two vectors, we get an error.
+```python
+b = a + offset
+b
+```
+
+Subtraction also makes sense.
+If we subtract `a` from `b`, the result is the offset that points from `a` to `b`.
+
+```python
+b - a
+```
+
+We can multiply a vector by a number, it multiplies the coordinates, which scales the vector -- that is, it makes the vector longer or shorter without changing its direction.
+
+```python
+2 * a
+```
+
+In the context of linear algebra, a number is often called a **scalar**, because it scales vectors.
+
+So scalar multiplication is a sensible vector operation, but what about multiplying two vectors?
+We can do it by multiplying the coordinates, but the result is a vector with no clear interpretation, and it is seldom useful to compute it, so this kind of multiplication is not considered a sensible vector operation.
+
+The `Vector` class enforces that conclusion: if we try to multiply two vectors, it raises an error.
 
 ```python
 %%expect TypeError
 
-v * w
+a * b
 ```
 
-But there are ways to multiply vectors that do make sense.
-One of them is the **dot product**, which multiplies the corresponding coordinates of two vectors and adds up the products.
+But if we multiply the coordinates of two vectors element-wise, and then add up the products, that operation turns out to be surprisingly useful -- so much so that it has a name: **dot product**.
+The `Vector` class provides a `dot` method that computes it.
 
 ```python
-v.dot(w)
+a.dot(b)
 ```
 
-For `v = (1, 2, 2)` and `w = (0, 1, 0)`, the products are 0, 2, and 0, so the dot product is 2.
 The result is a scalar, not a vector.
-
-In Python, the `@` operator is used for matrix multiplication, and for NumPy arrays it computes the dot product -- which is the simplest case of matrix multiplication.
-`Vector` uses it the same way.
+The `@` operator also computes the dot product.
 
 ```python
-v @ w
+a @ b
 ```
 
-The dot product of a vector with itself is the sum of the squares of its coordinates.
+One use of dot product is to select a coordinate from a vector.
+For example, here's a vector that represents the `y` axis.
+
+```python
+axis = Vector(0, 1, 0)
+```
+
+And here's the dot product of a vector and an axis.
+
+
+```python
+a @ axis
+```
+
+The result is the selected coordinate of the vector.
+
+Another use of dot product is to compute the length of a vector.
+To show how that works, I'll make a 2D vector with SymPy symbols for the coordinates.
+
+```python
+from sympy import symbols
+x, y = symbols('x y')
+v = Vector(x, y)
+v
+```
+
+Now here's the dot product of `v` with itself.
 
 ```python
 v @ v
 ```
 
-And that turns out to be the square of the length of the vector.
-To see why, consider the following diagram, which shows `v` as an arrow from the origin to the point `(1, 2, 2)`, along with a path that gets to the same point one coordinate at a time.
+The result is the sum of the squares of its coordinates.
+If you remember the Pythagorean theorem, you might recognize that sum as the square of the hypoteneuse, which is the distance from the origin to the point $(x, y)$.
+It works the same way in three (or more) dimensions, so we can compute the length of `a` like this:
+
+```python
+np.sqrt(a @ a)
+```
+
+The following diagram shows how that works.
 
 ```python tags=["hide-input"]
 def decorate_3D(xlim, ylim, zlim, elev=20, azim=-60):
@@ -181,9 +241,9 @@ def plot_segment_3D(start, end, label=None, **options):
         ax.text(*(np.add(start, end) / 2), "  " + label, fontsize=12)
 
 
-x, y, z = v
+x, y, z = a
 setup_3D(figsize=(5, 4))
-plot_vector_3D(v, label="v", color="C1")
+plot_vector_3D(a, label="a", color="C1")
 plot_segment_3D([0, 0, 0], [x, 0, 0], "x", color="gray")
 plot_segment_3D([x, 0, 0], [x, y, 0], "y", color="gray")
 plot_segment_3D([x, y, 0], [x, y, z], "z", color="gray")
@@ -193,20 +253,20 @@ plt.gca().set(xlabel="", ylabel="", zlabel="")
 ```
 
 The sides labeled `x` and `y` are perpendicular, so by the Pythagorean theorem, the dotted diagonal in the bottom plane has length $\sqrt{x^2 + y^2}$.
-That diagonal is perpendicular to the side labeled `z`, so they form another right triangle, and `v` is its hypotenuse.
-By the Pythagorean theorem again, the square of the length of `v` is $x^2 + y^2 + z^2$, which is the dot product of `v` with itself.
+That diagonal is perpendicular to the side labeled `z`, so they form another right triangle, and `a` is its hypotenuse.
+By the Pythagorean theorem again, the square of the length of `a` is $x^2 + y^2 + z^2$, which is the dot product of `a` with itself.
 
-The length of a vector is called its **magnitude**, which we can compute by taking the square root of the dot product of the vector with itself.
-That's what the `mag` property does.
+The `Vector` class provides a method that computes the length of a vector.
+The method is called `mag` because the length of a vector is also called its **magnitude** (or sometimes its **norm**).
 
 ```python
 show_code(Vector.mag)
 ```
 
-Here's the magnitude of `v`.
+Here's the magnitude of `a`.
 
 ```python
-v.mag
+a.mag()
 ```
 
 The sum of the squares is 1 + 4 + 4 = 9, so the magnitude is 3.
@@ -237,7 +297,7 @@ boid = Boid(pos, vel)
 The magnitude of the velocity vector is the speed of the Boid.
 
 ```python
-boid.vel.mag
+boid.vel.mag()
 ```
 
 For this velocity, the sum of the squares is 4 + 1 + 4 = 9, so the speed is 3.
@@ -259,7 +319,7 @@ boid.vel
 ```
 
 ```python
-boid.vel.mag
+boid.vel.mag()
 ```
 
 ## Taking a Step
@@ -317,7 +377,7 @@ toward_carrot
 ```
 
 ```python
-toward_carrot.mag
+toward_carrot.mag()
 ```
 
 ```python tags=["hide-input"]
@@ -418,7 +478,7 @@ def neighbors(boid, others, radius, angle):
         if other is boid:
             continue
         offset = other.pos - boid.pos
-        if offset.mag < radius and boid.vel.angle(offset) < angle:
+        if offset.mag() < radius and boid.vel.angle(offset) < angle:
             result.append(other)
     return result
 ```
@@ -732,7 +792,7 @@ Since each velocity is a unit vector, the magnitude of the mean is 1 if they all
 ```python
 def polarization(boids):
     """Magnitude of the mean velocity: 1 if all Boids point the same way."""
-    return mean([boid.vel for boid in boids]).mag
+    return mean([boid.vel for boid in boids]).mag()
 ```
 
 Now we'll run the simulation and record the positions and velocities of the Boids at each step.

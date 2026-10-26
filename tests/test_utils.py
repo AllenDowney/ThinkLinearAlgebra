@@ -426,13 +426,13 @@ def test_vector_products_and_magnitude():
     w = Vector(0, 1, 0)
     assert v.dot(w) == 2
     assert v @ w == v.dot(w)
-    assert v @ v == v.mag ** 2
+    assert v @ v == v.mag() ** 2
     assert v.cross(w) == Vector(-2, 0, 1)
     assert Vector(1, 0).cross(Vector(0, 1)) == 1
-    assert v.mag == 3
+    assert v.mag() == 3
     assert v.hat().isclose(Vector(1 / 3, 2 / 3, 2 / 3))
     assert Vector.zero().hat() == Vector.zero()
-    assert v.limit(1).mag == pytest.approx(1)
+    assert v.limit(1).mag() == pytest.approx(1)
     assert w.limit(5) == w
     assert Vector(1, 0).angle(Vector(0, 2)) == pytest.approx(np.pi / 2)
 
