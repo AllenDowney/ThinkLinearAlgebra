@@ -236,9 +236,8 @@ plot_segment_3D([0, 0, 0], [x, y, 0], color="gray", ls=":")
 # no axis labels here, so they don't clash with the labels on the sides
 ticks = [0, 1, 2]
 decorate_3D(
-    lim=[0, 2], azim=-50,
+    lim=[0, 2], ticks=ticks, azim=-50,
     xlabel="", ylabel="", zlabel="",
-    xticks=ticks, yticks=ticks, zticks=ticks,
 )
 ```
 
@@ -336,7 +335,7 @@ plot_vector_3D(dt * boid.vel, boid.pos, color="C2")
 plot_point_3D(new_pos, "new pos", drop=True, color="C2")
 
 ticks = [0, 1, 2]
-decorate_3D(lim=[0, 2], xticks=ticks, yticks=ticks, zticks=ticks)
+decorate_3D(lim=[0, 2], ticks=ticks)
 ```
 
 Because `dt` is less than 1, the step is shorter than the velocity vector -- scalar multiplication changed the length of the vector but not its direction.

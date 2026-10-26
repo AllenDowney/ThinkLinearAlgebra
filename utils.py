@@ -1113,7 +1113,7 @@ def plot_segment_3D(start, end, label=None, offset=(0, 0, 0), **options):
         ax.text(*position, "  " + label, fontsize=12)
 
 
-def decorate_3D(lim=None, elev=20, azim=-60, **options):
+def decorate_3D(lim=None, ticks=None, elev=20, azim=-60, **options):
     """Decorate 3D axes: limits, labels, point of view, and no axis lines.
 
     The 3D counterpart of decorate_plane: equal aspect ratio, and the axis
@@ -1121,6 +1121,7 @@ def decorate_3D(lim=None, elev=20, azim=-60, **options):
 
     Args:
         lim: limits for all three axes (or pass xlim, ylim, zlim)
+        ticks: tick locations for all three axes (or pass xticks, yticks, zticks)
         elev: elevation of the point of view, in degrees
         azim: azimuth of the point of view, in degrees
         options: passed to decorate
@@ -1131,6 +1132,8 @@ def decorate_3D(lim=None, elev=20, azim=-60, **options):
     underride(options, xlabel="x", ylabel="y", zlabel="z")
     if lim is not None:
         options.update(xlim=lim, ylim=lim, zlim=lim)
+    if ticks is not None:
+        options.update(xticks=ticks, yticks=ticks, zticks=ticks)
 
     # set the aspect ratio after the limits; set_aspect computes the shape
     # of the box from the limits in effect when it's called
