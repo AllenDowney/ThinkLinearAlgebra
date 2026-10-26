@@ -221,7 +221,7 @@ It works the same way in three (or more) dimensions, so we can compute the lengt
 np.sqrt(a @ a)
 ```
 
-The sum of the squares is `1 + 4 + 4 = 9`, so the magnitude is `3`.
+The sum of the squares is `1 + 4 + 4 = 9`, so the length is `3`.
 The following diagram shows how that works.
 
 ```python tags=["hide-input"]
@@ -236,18 +236,18 @@ plot_segment_3D([0, 0, 0], [x, y, 0], color="gray", ls=":")
 # no axis labels here, so they don't clash with the labels on the sides
 ticks = [0, 1, 2]
 decorate_3D(
-    lim=[0, 2.5], azim=-50,
+    lim=[0, 2], azim=-50,
     xlabel="", ylabel="", zlabel="",
     xticks=ticks, yticks=ticks, zticks=ticks,
 )
 ```
 
-The sides labeled `x` and `y` are perpendicular, so by the Pythagorean theorem, the dotted diagonal in the bottom plane has length $\sqrt{x^2 + y^2}$.
-That diagonal is perpendicular to the side labeled `z`, so they form another right triangle, and `a` is its hypotenuse.
-By the Pythagorean theorem again, the square of the length of `a` is $x^2 + y^2 + z^2$, which is the dot product of `a` with itself.
+The sides labeled `x` and `y` are perpendicular, so they form a right triangle; the dotted diagonal in the bottom plane is its hypotenuse, so the square of its length is $x^2 + y^2$.
+That diagonal is perpendicular to the side labeled `z`, so they form another right triangle; `a` is its hypotenuse, so the square of its length is $x^2 + y^2 + z^2$.
+And that's the dot product of `a` with itself.
 
 The `Vector` class provides a method that computes the length of a vector.
-The method is called `mag` because the length of a vector is also called its **magnitude** (or sometimes its **norm**).
+The method is called `mag` because the length of a vector is also called its **magnitude** (and sometimes called its **norm**).
 
 ```python
 show_code(Vector.mag)
@@ -334,7 +334,9 @@ plot_point_3D(boid.pos, "pos", drop=True)
 plot_vector_3D(boid.vel, boid.pos, label="vel", color="C1")
 plot_vector_3D(dt * boid.vel, boid.pos, color="C2")
 plot_point_3D(new_pos, "new pos", drop=True, color="C2")
-decorate_3D(xlim=[0.5, 2], ylim=[0.5, 2], zlim=[0, 1.8])
+
+ticks = [0, 1, 2]
+decorate_3D(lim=[0, 2], xticks=ticks, yticks=ticks, zticks=ticks)
 ```
 
 Because `dt` is less than 1, the step is shorter than the velocity vector -- scalar multiplication changed the length of the vector but not its direction.
