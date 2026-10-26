@@ -319,6 +319,10 @@ class Vector:
     frames raises FrameError. The default frame is None.
     """
 
+    # Make NumPy defer to Vector's operators, so an array on the left of
+    # an arithmetic operator doesn't turn a Vector into an array
+    __array_ufunc__ = None
+
     def __init__(self, *coords, frame=None):
         """Make a vector from coordinates.
 
@@ -366,6 +370,13 @@ class Vector:
         # Allows sum(vectors), which starts from 0
         if isinstance(other, (int, float)) and other == 0:
             return self
+        if isinstance(other, np.ndarray):
+            raise TypeError("Can't add an array and a Vector.")
+        return NotImplemented
+
+    def __rsub__(self, other):
+        if isinstance(other, np.ndarray):
+            raise TypeError("Can't subtract a Vector from an array.")
         return NotImplemented
 
     def __sub__(self, other):
@@ -378,6 +389,8 @@ class Vector:
     def __mul__(self, k):
         if isinstance(k, Vector):
             raise TypeError("Can't multiply two vectors with *; use dot or cross.")
+        if isinstance(k, np.ndarray):
+            raise TypeError("Can't multiply a Vector and an array.")
         if not np.isscalar(k):
             return NotImplemented
         return Vector(self.coords * k, frame=self.frame)
@@ -385,9 +398,14 @@ class Vector:
     __rmul__ = __mul__
 
     def __truediv__(self, k):
+        if isinstance(k, (Vector, np.ndarray)):
+            raise TypeError("Can't divide by a vector.")
         if not np.isscalar(k):
             return NotImplemented
         return Vector(self.coords / k, frame=self.frame)
+
+    def __rtruediv__(self, k):
+        raise TypeError("Can't divide by a vector.")
 
     def dot(self, other):
         """Dot product: the sum of the products of corresponding coordinates.

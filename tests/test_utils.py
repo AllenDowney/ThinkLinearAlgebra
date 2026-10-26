@@ -421,6 +421,19 @@ def test_vector_disallowed_operations():
         v + Vector(1, 2)
 
 
+def test_vector_division_and_arrays():
+    v = Vector(1, 2, 2)
+    a = np.array([1.0, 2.0, 2.0])
+    assert v / 2 == Vector(0.5, 1, 1)
+    for expr in [lambda: v / v, lambda: 2 / v, lambda: a / v, lambda: v / a,
+                 lambda: a * v, lambda: v * a, lambda: a + v, lambda: a - v]:
+        with pytest.raises(TypeError):
+            expr()
+    # converting to an array still works, for plotting
+    assert np.array_equal(np.asarray(v), a)
+    assert np.array([v, v]).shape == (2, 3)
+
+
 def test_vector_products_and_magnitude():
     v = Vector(1, 2, 2)
     w = Vector(0, 1, 0)
