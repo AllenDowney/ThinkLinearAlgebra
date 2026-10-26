@@ -60,8 +60,9 @@ download("https://github.com/AllenDowney/ThinkLinearAlgebra/raw/main/utils.py")
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils import decorate, plot_vector, show_code, Vector
-from utils import setup_3D, plot_vector_3D, plot_vectors_3D, plot_point_3D, plot_cone_3D
+from utils import decorate, decorate_plane, plot_vector, show_code, Vector
+from utils import setup_3D, decorate_3D, plot_vector_3D, plot_vectors_3D
+from utils import plot_point_3D, plot_cone_3D, plot_segment_3D
 ```
 
 ```python tags=["remove-cell"]
@@ -153,6 +154,8 @@ We can multiply a vector by a number, it multiplies the coordinates, which scale
 
 In the context of linear algebra, a number is often called a **scalar**, because it scales vectors.
 
+## Dot product
+
 So scalar multiplication is a sensible vector operation, but what about multiplying two vectors?
 We can do it by multiplying the coordinates, but the result is a vector with no clear interpretation, and it is seldom useful to compute it, so this kind of multiplication is not considered a sensible vector operation.
 
@@ -211,45 +214,27 @@ v @ v
 ```
 
 The result is the sum of the squares of its coordinates.
-If you remember the Pythagorean theorem, you might recognize that sum as the square of the hypoteneuse, which is the distance from the origin to the point $(x, y)$.
+If you remember the Pythagorean theorem, you might recognize that sum as the square of the hypotenuse, which is the distance from the origin to the point $(x, y)$.
 It works the same way in three (or more) dimensions, so we can compute the length of `a` like this:
 
 ```python
 np.sqrt(a @ a)
 ```
 
+The sum of the squares is `1 + 4 + 4 = 9`, so the magnitude is `3`.
 The following diagram shows how that works.
 
 ```python tags=["hide-input"]
-def decorate_3D(xlim, ylim, zlim, elev=20, azim=-60):
-    """Set the limits, labels, and point of view of a 3D diagram."""
-    plt.gca().view_init(elev=elev, azim=azim, roll=0)
-    decorate(xlim=xlim, ylim=ylim, zlim=zlim, xlabel="x", ylabel="y", zlabel="z", aspect="equal")
-
-
-def decorate_plane(xlim, ylim):
-    """Set the limits and labels of a 2D diagram."""
-    decorate(xlim=xlim, ylim=ylim, aspect="equal", xlabel="x", ylabel="y")
-```
-
-```python tags=["hide-input"]
-def plot_segment_3D(start, end, label=None, **options):
-    """Draw a line segment in 3D, with an optional label at its midpoint."""
-    ax = plt.gca()
-    ax.plot(*np.transpose([start, end]), **options)
-    if label is not None:
-        ax.text(*(np.add(start, end) / 2), "  " + label, fontsize=12)
-
-
 x, y, z = a
 setup_3D(figsize=(5, 4))
 plot_vector_3D(a, label="a", color="C1")
 plot_segment_3D([0, 0, 0], [x, 0, 0], "x", color="gray")
-plot_segment_3D([x, 0, 0], [x, y, 0], "y", color="gray")
+plot_segment_3D([x, 0, 0], [x, y, 0], "y", offset=(0, 0, -0.15), color="gray")
 plot_segment_3D([x, y, 0], [x, y, z], "z", color="gray")
 plot_segment_3D([0, 0, 0], [x, y, 0], color="gray", ls=":")
-decorate_3D(xlim=[0, 2.2], ylim=[0, 2.2], zlim=[0, 2.2], azim=-50)
-plt.gca().set(xlabel="", ylabel="", zlabel="")
+
+# no axis labels here, so they don't clash with the labels on the sides
+decorate_3D(lim=[0, 2.5], azim=-50, xlabel="", ylabel="", zlabel="")
 ```
 
 The sides labeled `x` and `y` are perpendicular, so by the Pythagorean theorem, the dotted diagonal in the bottom plane has length $\sqrt{x^2 + y^2}$.
@@ -269,14 +254,13 @@ Here's the magnitude of `a`.
 a.mag()
 ```
 
-The sum of the squares is 1 + 4 + 4 = 9, so the magnitude is 3.
-
-A `Vector` can have two coordinates or three.
-In this chapter we'll work in three dimensions, but the code we write will work in two dimensions as well.
+In future chapters we'll see more uses for the dot product.
+And we'll see that there is another kind of vector-vector multiplication, called cross product.
+But for now we have enough to get started with Boids.
 
 ## A Boid
 
-A Boid has a position, which is a vector that represents a point in space, and a velocity, which is a vector that represents the direction and speed it's moving.
+A Boid has a position, which is a vector that represents a point in space, and a velocity, which is a vector that represents its speed and direction.
 Here's a class that represents a Boid.
 
 ```python
@@ -300,31 +284,35 @@ The magnitude of the velocity vector is the speed of the Boid.
 boid.vel.mag()
 ```
 
-For this velocity, the sum of the squares is 4 + 1 + 4 = 9, so the speed is 3.
-
-In this simulation, we'll keep the speed of each Boid constant, so its velocity indicates the direction it's moving but not how fast.
-A vector that indicates direction only is often represented by a **unit vector**, which is a vector with magnitude 1.
+In the simulation, the speed of the Boids is constant, so their velocities indicate direction only.
+To represent direction, we'll use **unit vector**, which is a vector with magnitude 1.
 The `hat` method computes a unit vector in the same direction as a given vector.
 
 ```python
 show_code(Vector.hat)
 ```
 
-It divides the vector by its magnitude, which yields a vector with the same direction and magnitude 1 (unless the magnitude is 0, in which case it returns the original vector).
+It divides the vector by its magnitude, which yields a vector with the same direction and magnitude `1`.
 The name `hat` comes from the conventional notation for a unit vector, which puts a "hat" over the name, like $\hat{v}$.
+
+We can use `hat` to replace the `vel` attribute with a unit vector.
 
 ```python
 boid.vel = boid.vel.hat()
 boid.vel
 ```
 
+And confirm that the result has magnitude `1`.
+
 ```python
 boid.vel.mag()
 ```
 
+This process is called **normalization**.
+
 ## Taking a Step
 
-To move the Boid, we multiply its velocity by a time step, `dt`, and add the result to its position.
+To move the Boid, we multiply its velocity by a scalar time step, `dt`, and add the result to its position.
 
 ```python
 dt = 0.5

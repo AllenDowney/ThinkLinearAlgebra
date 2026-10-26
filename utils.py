@@ -1094,6 +1094,47 @@ def plot_cone_3D(apex, axis, angle, length, n=40, **options):
         ax.plot(*np.transpose([apex, edge]), **options)
 
 
+def plot_segment_3D(start, end, label=None, offset=(0, 0, 0), **options):
+    """Draw a line segment in 3D, with an optional label near its midpoint.
+
+    Args:
+        start: array-like (shape: (3,))
+        end: array-like (shape: (3,))
+        label: string
+        offset: array-like (shape: (3,)), moves the label from the midpoint
+        options: passed to ax.plot (e.g., color, ls)
+    """
+    ax = plt.gca()
+    ax.plot(*np.transpose([start, end]), **options)
+    if label is not None:
+        position = np.add(start, end) / 2 + offset
+        ax.text(*position, "  " + label, fontsize=12)
+
+
+def decorate_3D(lim=None, elev=20, azim=-60, **options):
+    """Decorate 3D axes: limits, labels, point of view, and no axis lines.
+
+    The 3D counterpart of decorate_plane: equal aspect ratio, and the axis
+    lines are hidden (the ticks are kept).
+
+    Args:
+        lim: limits for all three axes (or pass xlim, ylim, zlim)
+        elev: elevation of the point of view, in degrees
+        azim: azimuth of the point of view, in degrees
+        options: passed to decorate
+    """
+    ax = plt.gca()
+    ax.view_init(elev=elev, azim=azim, roll=0)
+
+    underride(options, aspect="equal", xlabel="x", ylabel="y", zlabel="z")
+    if lim is not None:
+        options.update(xlim=lim, ylim=lim, zlim=lim)
+    decorate(**options)
+
+    for axis in [ax.xaxis, ax.yaxis, ax.zaxis]:
+        axis.line.set_visible(False)
+
+
 def draw_arc_3D(origin, v1, v2, radius=1, n=50, **kwargs):
     """Draw an arc between two vectors in 3D.
     

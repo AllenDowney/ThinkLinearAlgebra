@@ -146,6 +146,8 @@ Total: 18 notebooks in soln/ (excluding utilities)
 
 ## Next Steps
 
+- Review `utils.py` for redundant helper functions that should be combined (PROJECT_BOARD.md, Task 10).
+
 ### track: "A Day At the Track" ✅ COMPLETE
 
 Published as Chapter 2. Added to jb/_toc.yml, jb/index.md, and both build scripts.

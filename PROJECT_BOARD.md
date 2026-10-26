@@ -153,3 +153,22 @@ More problems found by the first Colab-like run (2026-10-24), now fixed:
 - projection: `%load_ext autoreload` fails on Colab (Python 3.12 + IPython 7.34 imports the removed `imp` module). It now has the same workaround cell as the other chapters.
 - system: `draw_circuit_graph` needed `pygraphviz`, which Colab lacks. It now uses `nx.nx_pydot.graphviz_layout` (Colab has `pydot` and the Graphviz `dot` program), with identical layouts.
 - `requirements.txt` was missing gpxpy, haversine, pint, pydot, scikit-image and shapely.
+
+---
+
+## Task 10: Review utils.py for redundant helpers
+
+**Status:** Pending
+
+**Context:** `utils.py` has grown chapter by chapter, and some helpers overlap. Known examples as of 2026-10-26:
+- `normalize(v)`, `vector_projection`, `vector_rejection`, `angle_between`, and `vector_perp` (for arrays) overlap with `Vector.hat`, `Vector.angle`, and `perpendicular` (in the Boids chapter).
+- `cross2d` and `Vector.cross` (2D case).
+- `plot_vector` / `plot_vectors` (2D) and `plot_vector_3D` / `plot_vectors_3D` (3D) have different label options (clock positions vs. offsets).
+- `decorate_plane` (2D) and `decorate_3D` (3D) now parallel each other, but the regression chapter's 3D figures set limits and views by hand instead of using `decorate_3D`.
+- `setup_3D` hides pane fills, and `decorate_3D` hides axis lines; maybe one function should do both.
+- `soln/thinkla.py` and `soln/system.py` may duplicate parts of `utils.py`.
+- `test_sph2cart` fails (the function and the test disagree about array shapes).
+
+- [ ] List every function in `utils.py`, which chapters use it, and overlaps
+- [ ] Combine or remove redundant helpers; keep chapter code working (run `make colab-test`)
+- [ ] Fix `sph2cart` or its test
