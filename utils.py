@@ -1128,10 +1128,15 @@ def decorate_3D(lim=None, elev=20, azim=-60, **options):
     ax = plt.gca()
     ax.view_init(elev=elev, azim=azim, roll=0)
 
-    underride(options, aspect="equal", xlabel="x", ylabel="y", zlabel="z")
+    underride(options, xlabel="x", ylabel="y", zlabel="z")
     if lim is not None:
         options.update(xlim=lim, ylim=lim, zlim=lim)
+
+    # set the aspect ratio after the limits; set_aspect computes the shape
+    # of the box from the limits in effect when it's called
+    aspect = options.pop("aspect", "equal")
     decorate(**options)
+    ax.set_aspect(aspect)
 
     for axis in [ax.xaxis, ax.yaxis, ax.zaxis]:
         axis.line.set_visible(False)

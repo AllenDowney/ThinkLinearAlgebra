@@ -234,7 +234,12 @@ plot_segment_3D([x, y, 0], [x, y, z], "z", color="gray")
 plot_segment_3D([0, 0, 0], [x, y, 0], color="gray", ls=":")
 
 # no axis labels here, so they don't clash with the labels on the sides
-decorate_3D(lim=[0, 2.5], azim=-50, xlabel="", ylabel="", zlabel="")
+ticks = [0, 1, 2]
+decorate_3D(
+    lim=[0, 2.5], azim=-50,
+    xlabel="", ylabel="", zlabel="",
+    xticks=ticks, yticks=ticks, zticks=ticks,
+)
 ```
 
 The sides labeled `x` and `y` are perpendicular, so by the Pythagorean theorem, the dotted diagonal in the bottom plane has length $\sqrt{x^2 + y^2}$.
