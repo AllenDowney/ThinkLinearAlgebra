@@ -466,4 +466,7 @@ def test_vector_frames():
     with pytest.raises(FrameError):
         a.dot(b)
     assert (2 * a).frame == "A"
+    assert Vector(a) == a
+    assert Vector(a).frame == "A"
+    assert Vector(a, frame="B").frame == "B"
     assert (a + Vector(0, 1, 0, frame="A")).frame == "A"

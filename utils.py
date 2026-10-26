@@ -326,12 +326,19 @@ class Vector:
     def __init__(self, *coords, frame=None):
         """Make a vector from coordinates.
 
+        Vector(1, 2, 3) and Vector([1, 2, 3]) make the same vector; the single
+        argument can be any sequence, like a list, tuple, array, or Vector.
+        Making a Vector from another Vector copies it, including its frame
+        (unless a frame is given).
+
         Args:
             coords: two or three numbers, or one sequence of them
             frame: frame of reference (any object), or None
         """
         if len(coords) == 1:
             coords = coords[0]
+            if isinstance(coords, Vector) and frame is None:
+                frame = coords.frame
         try:
             self.coords = np.array(coords, dtype=float)
         except TypeError:
